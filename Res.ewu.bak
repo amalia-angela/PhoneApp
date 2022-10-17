@@ -1,17 +1,16 @@
 ﻿$version 11.00
 
 // Font anc color.
-
 note group Note
 {
-  attr Bounds = <20,20,440,220>;
+  attr Bounds = <20,20,440,410>;
 }
 
 $rect <30,60,230,100>
 $output false
 resource Resources::Font TitileFont
 {
-  attr fontname FontName = Times New Roman;
+  attr fontname FontName = Roboto;
   attr fontheight Height = 32;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
@@ -45,7 +44,7 @@ $rect <30,100,230,140>
 $output false
 resource Resources::Font ContactFont
 {
-  attr fontname FontName = Times New Roman;
+  attr fontname FontName = Roboto;
   attr fontheight Height = 15;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
@@ -61,7 +60,7 @@ $rect <30,140,230,180>
 $output false
 resource Resources::Font ContactFontBold
 {
-  attr fontname FontName = Times New Roman;
+  attr fontname FontName = Roboto;
   attr fontheight Height = 15;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
@@ -135,9 +134,9 @@ resource Resources::Bitmap UserIcon
 
 $rect <660,60,860,100>
 $output false
-resource Resources::Bitmap ButtonRound
+resource Resources::Bitmap ButtonRoundMedium
 {
-  attr bitmapfile FileName = .\Res\ButtonBlue.png;
+  attr bitmapfile FileName = .\Res\circle.png;
   attr bitmapformat Format = Alpha8;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -153,7 +152,7 @@ resource Resources::Font IconsFont
   attr fontheight Height = 40;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -164,3 +163,67 @@ resource Resources::Font IconsFont
 $rect <240,110,440,150>
 $output false
 const string PhoneIconTxt = "\xe0b0";
+
+$rect <240,150,440,190>
+$output false
+const string MessageIconTxt = "\xe253";
+
+$rect <240,190,440,230>
+$output false
+const string UserIconTxt = "\xe853";
+
+$rect <660,100,860,140>
+$output false
+resource Resources::Bitmap ButtonRoundBig
+{
+  attr bitmapfile FileName = .\Res\circleBig.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <660,140,860,180>
+$output false
+resource Resources::Bitmap ButtonRoundSmall
+{
+  attr bitmapfile FileName = .\Res\circleSmall.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <240,230,440,270>
+$output false
+const string PlusIconTxt = "\xe145";
+
+$rect <240,270,440,310>
+$output false
+const string EditIconTxt = "\xe3c9";
+
+$rect <240,310,440,350>
+$output false
+const string BackIconTxt = "\xe5e0";
+
+$rect <40,200,240,240>
+$output false
+const color Blue = #0635FFD6;
+
+$rect <240,350,440,390>
+$output false
+const string SerachIconTxt = "\xe8b6";
+
+$rect <40,240,240,280>
+$output false
+const color Gery = #E2E2E2FD;
+
+$rect <40,280,240,320>
+$output false
+const color GeryLight = #F0F0F0FD;
+
+$rect <40,320,240,360>
+$output false
+const color Black = #181818FF;

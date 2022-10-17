@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::ComponentExpanded;
+attr active = Application::ContactList;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::ContactList.GetSurename;
-attr codeSelEnd = <25,8>;
-attr codeSelStart = <25,8>;
+attr codeInspector = Application::TextEditor.OnSetWrapText;
+attr codeSelEnd = <0,0>;
+attr codeSelStart = <0,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -40,57 +40,45 @@ view Project
   attr zoom = 1.0;
 }
 
+view unit Res
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-55>;
+  attr zoom = 1.0;
+}
+
 view unit Application
 {
   attr aspectRatio = 1.0;
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-7,-55>;
-  attr zoom = 1.0;
-}
-
-view class Application::ComponentExpanded
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-296,-12>;
-  attr zoom = 0.75;
-}
-
-view unit Res
-{
-  attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
+  attr zoom = 1.5;
+}
+
+view class Application::TextEditor
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = OnSetWrapText;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-81>;
   attr zoom = 1.0;
 }
 
 view class Application::ContactList
 {
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = GetSurename;
-  attr codeSelEnd = <25,8>;
-  attr codeSelStart = <25,8>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::PushButton
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = UpdateViewState;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,-55>;
   attr zoom = 1.0;
 }
 
 view class Application::Contact
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,-103>;
   attr zoom = 1.0;
 }
