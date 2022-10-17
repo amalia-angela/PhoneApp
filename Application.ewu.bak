@@ -1,0 +1,442 @@
+﻿$version 11.00
+
+// This is the root component of the entire GUI application.
+$rect <20,20,220,60>
+$output false
+class Application : Core::Root
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  // To do:
+  // 
+  // - Adjust the visible size of your application (the thick blue border). It should \
+  // correspond to the size of your target display.
+  // 
+  // - The simplest way to compose the appearance of the application is to use the \
+  // 'Views' and 'Widgets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  note legend Note1
+  {
+    attr Bounds = <10,510,790,740>;
+  }
+}
+
+$rect <40,60,220,100>
+$output false
+class ContactList : Core::Group
+{
+  $rect <310,0,510,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,272,480>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::VerticalList VerticalList
+  {
+    preset Bounds = <10,93,260,469>;
+    preset OnLoadItem = OnLoadItem;
+    preset SlideHandler = SlideTouchHandler;
+    preset ItemHeight = 35;
+    preset NoOfItems = 7;
+    preset ItemClass = Application::Contact;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <11,93,260,469>;
+    preset SnapNext = <0,35>;
+    preset SlideHorz = false;
+  }
+
+  // This method is called by 'VerticalList' every time the list loads or updates \
+  // an item.
+  $rect <310,40,510,80>
+  slot OnLoadItem
+  {
+    // Get the number of the item to load.
+    var int32                     itemNo   = VerticalList.Item;
+
+    var Application::Contact itemView = (Application::Contact)VerticalList.View;
+
+    // The implementation of this slot method does not match the item class
+    // specified in the associated list component. Or the slot method is not
+    // called in context of the OnLoadItem list operation. 
+    if ( itemView == null )
+      return;
+
+    // Configure the item view ... Here get some data from an 'imaginary' database
+    // accessed through the both methods GetSongTitle() and GetSongDuration().
+    itemView.Surname    = GetSurename( itemNo );
+    itemView.Firstname = GetFirstname( itemNo );
+
+    // Ensure that the item has correct size. The position of the item will be
+    // managed by the list component.
+    itemView.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text TitleTxt
+  {
+    preset Bounds = <11,27,261,61>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Contacts";
+    preset Font = Res::TitileFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton AddButton
+  {
+    preset Bounds = <229,0,272,34>;
+    preset Icon = Res::AddIcon;
+    preset Label = "";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Search
+  {
+    preset Bounds = <11,69,261,86>;
+    preset String = "Search";
+    preset Font = Resources::DefaultFont;
+  }
+
+  // This is a method.
+  $rect <310,80,510,120>
+  method string GetSurename( arg int32 aIndex )
+  {
+    switch ( aIndex )
+    {
+      case 0 : return "Amota";
+      case 1 : return "Amota";
+      case 2 : return "Anechitei";
+      case 3 : return "Aranyi";
+      case 4 : return "Balint";
+      case 5 : return "Benedek";
+      case 6 : return "Bogdan";
+      default : return "";
+    }
+  }
+
+  // This is a method.
+  $rect <510,80,710,120>
+  method string GetFirstname( arg int32 aIndex )
+  {
+    switch ( aIndex )
+    {
+      case 0 : return "Adel";
+      case 1 : return "Lorant";
+      case 2 : return "Zsolt";
+      case 3 : return "Timea";
+      case 4 : return "Alfred";
+      case 5 : return "Norbert";
+      case 6 : return "Naomi";
+      default : return "";
+    }
+  }
+}
+
+// This is an annotation.
+note group Note
+{
+  attr Bounds = <10,-20,250,240>;
+}
+
+// Resorces
+// 
+
+note group Note1
+{
+  attr Bounds = <450,-30,750,170>;
+}
+
+$rect <470,20,710,60>
+$output false
+autoobject WidgetSet::PushButtonConfig AddButtonConfig
+{
+  preset LabelColorActive = #000000FF;
+  preset IconTintActive = #4262FFFF;
+  preset IconTintFocused = #091CFFFF;
+  preset IconTintDisabled = #091CFFFF;
+  preset IconTintDefault = #091CFFFF;
+  preset IconAlignment = Views::ImageAlignment[AlignHorzCenter, AlignVertCenter];
+  preset FaceLayout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+  preset FaceTintActive = #FFFFFFFF;
+  preset FaceActive = Res::ButtonRound;
+  preset FaceDefault = Res::ButtonRound;
+}
+
+$rect <60,100,219,140>
+$output false
+class Contact : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,32>;
+
+  $rect <20,70,220,110>
+  property string Surname;
+
+  $rect <20,110,220,150>
+  onset Surname
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Surname == value )
+      return;
+
+    // Remember the property's new value.
+    pure Surname = value;
+
+    SurnameTxt.String = value;
+  }
+
+  $rect <220,70,420,110>
+  property string Firstname;
+
+  $rect <220,110,420,150>
+  onset Firstname
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Firstname == value )
+      return;
+
+    // Remember the property's new value.
+    pure Firstname = value;
+
+    FirstnameTxt.String = value;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,268,35>;
+    preset ColorBL = #FDFDFDC8;
+    preset ColorBR = #FDFDFDC8;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text SurnameTxt
+  {
+    preset Bounds = <55,2,146,32>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Name";
+    preset Font = Res::ContactFontBold;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text FirstnameTxt
+  {
+    preset StackingPriority = 0;
+    preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
+    preset Bounds = <146,2,268,32>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Firstname";
+    preset Font = Res::ContactFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <420,70,620,110>
+  property ^Views::Image ProfilPhoto;
+
+  $rect <420,110,620,150>
+  onset ProfilPhoto
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ProfilPhoto == value )
+      return;
+
+    // Remember the property's new value.
+    pure ProfilPhoto = value;
+
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <268,32>;
+    preset Point1 = <0,32>;
+    preset Width = 1;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <4,0,46,35>;
+    preset Icon = Res::UserIcon;
+    preset Label = "Caption";
+    preset Appearance = Application::AddButtonConfig;
+  }
+}
+
+$rect <60,140,220,180>
+$output false
+class ComponentExpanded : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,272,480>;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton EditButton
+  {
+    preset Bounds = <203,0,272,46>;
+    preset Label = "Edit";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton BackButton
+  {
+    preset Bounds = <0,0,129,46>;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text NameTxt
+  {
+    preset Bounds = <7,131,265,161>;
+    preset String = "Name FirstName";
+    preset Font = Res::TitileFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton MessageButton
+  {
+    preset Bounds = <159,161,200,199>;
+    preset Icon = Res::MessageIcon;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PhoneButton
+  {
+    preset Bounds = <64,161,104,199>;
+    preset Icon = Res::PhoneIcon;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MobileTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <10,222,268,255>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = " mobile";
+    preset Font = Res::ContactFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text NumberTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <10,255,268,284>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "+0749320298";
+    preset Font = Res::ContactFont;
+    preset Color = #1B0BFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line LineAbove
+  {
+    preset Point2 = <268,222>;
+    preset Point1 = <10,222>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line LineBelow
+  {
+    preset Point2 = <272,284>;
+    preset Point1 = <14,284>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CallTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <69,199,104,222>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "call";
+    preset Font = Res::ContactFont;
+    preset Color = #1B0BFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MessageTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <159,199,228,222>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "message";
+    preset Font = Res::ContactFont;
+    preset Color = #1B0BFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton UserPhotoButton
+  {
+    preset Bounds = <84,46,170,122>;
+    preset Icon = Res::UserIcon;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <66,362,166,392>;
+    preset String = Res::PhoneIconTxt;
+    preset Font = Res::IconsFont;
+    preset Color = #303030FF;
+  }
+}
+
+$rect <470,60,710,100>
+$output false
+autoobject WidgetSet::PushButtonConfig AddButtonConfig1
+{
+  preset LabelColorActive = #000000FF;
+  preset IconTintActive = #4262FFFF;
+  preset IconTintFocused = #091CFFFF;
+  preset IconTintDisabled = #091CFFFF;
+  preset IconTintDefault = #091CFFFF;
+  preset IconAlignment = Views::ImageAlignment[AlignHorzCenter, AlignVertCenter];
+  preset FaceLayout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+  preset FaceTintActive = #1B0BFFFF;
+  preset FaceTintDefault = #1B0BFFFF;
+  preset FaceActive = WidgetSet::MiniHorizontalScrollbarThumbSmall;
+  preset FaceDefault = WidgetSet::MiniHorizontalScrollbarThumbSmall;
+}

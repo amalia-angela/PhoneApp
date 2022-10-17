@@ -1,0 +1,782 @@
+﻿$version 11.00
+
+// This is the root component of the entire GUI application.
+$rect <20,20,220,60>
+$output false
+class Application : Core::Root
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  // To do:
+  // 
+  // - Adjust the visible size of your application (the thick blue border). It should \
+  // correspond to the size of your target display.
+  // 
+  // - The simplest way to compose the appearance of the application is to use the \
+  // 'Views' and 'Widgets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  note legend Note1
+  {
+    attr Bounds = <10,510,790,740>;
+  }
+}
+
+$rect <40,60,220,100>
+$output false
+class ContactList : Core::Group
+{
+  $rect <310,0,510,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,272,480>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::VerticalList VerticalList
+  {
+    preset Bounds = <10,93,260,469>;
+    preset OnLoadItem = OnLoadItem;
+    preset SlideHandler = SlideTouchHandler;
+    preset ItemHeight = 35;
+    preset NoOfItems = 7;
+    preset ItemClass = Application::Contact;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <11,93,260,469>;
+    preset SnapNext = <0,35>;
+    preset SlideHorz = false;
+  }
+
+  // This method is called by 'VerticalList' every time the list loads or updates \
+  // an item.
+  $rect <310,40,510,80>
+  slot OnLoadItem
+  {
+    // Get the number of the item to load.
+    var int32                     itemNo   = VerticalList.Item;
+
+    var Application::Contact itemView = (Application::Contact)VerticalList.View;
+
+    // The implementation of this slot method does not match the item class
+    // specified in the associated list component. Or the slot method is not
+    // called in context of the OnLoadItem list operation. 
+    if ( itemView == null )
+      return;
+
+    // Configure the item view ... Here get some data from an 'imaginary' database
+    // accessed through the both methods GetSongTitle() and GetSongDuration().
+    itemView.Surname    = GetSurename( itemNo );
+    itemView.Firstname = GetFirstname( itemNo );
+
+    // Ensure that the item has correct size. The position of the item will be
+    // managed by the list component.
+    itemView.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text TitleTxt
+  {
+    preset Bounds = <11,27,261,61>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Contacts";
+    preset Font = Res::TitileFont;
+    preset Color = #181818FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton AddButton
+  {
+    preset Bounds = <229,0,272,34>;
+    preset Icon = Res::AddIcon;
+    preset Label = "";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Search
+  {
+    preset Bounds = <11,69,261,86>;
+    preset String = "Search";
+    preset Font = Resources::DefaultFont;
+  }
+
+  // This is a method.
+  $rect <310,80,510,120>
+  method string GetSurename( arg int32 aIndex )
+  {
+    switch ( aIndex )
+    {
+      case 0 : return "Amota";
+      case 1 : return "Amota";
+      case 2 : return "Anechitei";
+      case 3 : return "Aranyi";
+      case 4 : return "Balint";
+      case 5 : return "Benedek";
+      case 6 : return "Bogdan";
+      default : return "";
+    }
+  }
+
+  // This is a method.
+  $rect <510,80,710,120>
+  method string GetFirstname( arg int32 aIndex )
+  {
+    switch ( aIndex )
+    {
+      case 0 : return "Adel";
+      case 1 : return "Lorant";
+      case 2 : return "Zsolt";
+      case 3 : return "Timea";
+      case 4 : return "Alfred";
+      case 5 : return "Norbert";
+      case 6 : return "Naomi";
+      default : return "";
+    }
+  }
+}
+
+// This is an annotation.
+note group Note
+{
+  attr Bounds = <10,-20,250,240>;
+}
+
+// Resorces
+// 
+
+note group Note1
+{
+  attr Bounds = <450,-30,750,170>;
+}
+
+$rect <470,20,710,60>
+$output false
+autoobject WidgetSet::PushButtonConfig AddButtonConfig
+{
+  preset LabelColorActive = #000000FF;
+  preset IconTintActive = #4262FFFF;
+  preset IconTintFocused = #091CFFFF;
+  preset IconTintDisabled = #091CFFFF;
+  preset IconTintDefault = #091CFFFF;
+  preset IconAlignment = Views::ImageAlignment[AlignHorzCenter, AlignVertCenter];
+  preset FaceLayout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+  preset FaceTintActive = #FFFFFFFF;
+  preset FaceActive = Res::ButtonRound;
+  preset FaceDefault = Res::ButtonRound;
+}
+
+$rect <60,100,219,140>
+$output false
+class Contact : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,32>;
+
+  $rect <20,70,220,110>
+  property string Surname;
+
+  $rect <20,110,220,150>
+  onset Surname
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Surname == value )
+      return;
+
+    // Remember the property's new value.
+    pure Surname = value;
+
+    SurnameTxt.String = value;
+  }
+
+  $rect <220,70,420,110>
+  property string Firstname;
+
+  $rect <220,110,420,150>
+  onset Firstname
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Firstname == value )
+      return;
+
+    // Remember the property's new value.
+    pure Firstname = value;
+
+    FirstnameTxt.String = value;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,268,35>;
+    preset ColorBL = #FDFDFDC8;
+    preset ColorBR = #FDFDFDC8;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text SurnameTxt
+  {
+    preset Bounds = <55,2,146,32>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Name";
+    preset Font = Res::ContactFontBold;
+    preset Color = #181818FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text FirstnameTxt
+  {
+    preset StackingPriority = 0;
+    preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
+    preset Bounds = <146,2,268,32>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Firstname";
+    preset Font = Res::ContactFont;
+    preset Color = #181818FF;
+  }
+
+  $rect <420,70,620,110>
+  property ^Views::Image ProfilPhoto;
+
+  $rect <420,110,620,150>
+  onset ProfilPhoto
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ProfilPhoto == value )
+      return;
+
+    // Remember the property's new value.
+    pure ProfilPhoto = value;
+
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <268,32>;
+    preset Point1 = <0,32>;
+    preset Width = 1;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <4,0,46,35>;
+    preset Icon = Res::UserIcon;
+    preset Label = "Caption";
+    preset Appearance = Application::AddButtonConfig;
+  }
+}
+
+$rect <60,140,220,180>
+$output false
+class ComponentExpanded : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,272,480>;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton EditButton
+  {
+    preset Bounds = <203,0,272,46>;
+    preset Label = "Edit";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton BackButton
+  {
+    preset Bounds = <0,0,129,46>;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text NameTxt
+  {
+    preset Bounds = <7,131,265,161>;
+    preset String = "Name FirstName";
+    preset Font = Res::TitileFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton MessageButton
+  {
+    preset Bounds = <159,161,200,199>;
+    preset Icon = Res::MessageIcon;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PhoneButton
+  {
+    preset Bounds = <64,161,104,199>;
+    preset Icon = Res::PhoneIcon;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MobileTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <10,222,268,255>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = " mobile";
+    preset Font = Res::ContactFont;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text NumberTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <10,255,268,284>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "+0749320298";
+    preset Font = Res::ContactFont;
+    preset Color = #1B0BFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line LineAbove
+  {
+    preset Point2 = <268,222>;
+    preset Point1 = <10,222>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line LineBelow
+  {
+    preset Point2 = <272,284>;
+    preset Point1 = <14,284>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CallTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <69,199,104,222>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "call";
+    preset Font = Res::ContactFont;
+    preset Color = #1B0BFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MessageTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <159,199,228,222>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "message";
+    preset Font = Res::ContactFont;
+    preset Color = #1B0BFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton UserPhotoButton
+  {
+    preset Bounds = <84,46,170,122>;
+    preset Icon = Res::UserIcon;
+    preset Label = "Contacts";
+    preset Appearance = Application::AddButtonConfig1;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <66,362,166,392>;
+    preset String = Res::PhoneIconTxt;
+    preset Font = Res::IconsFont;
+    preset Color = #303030FF;
+  }
+}
+
+$rect <470,60,710,100>
+$output false
+autoobject WidgetSet::PushButtonConfig AddButtonConfig1
+{
+  preset LabelColorActive = #000000FF;
+  preset IconTintActive = #4262FFFF;
+  preset IconTintFocused = #091CFFFF;
+  preset IconTintDisabled = #091CFFFF;
+  preset IconTintDefault = #091CFFFF;
+  preset IconAlignment = Views::ImageAlignment[AlignHorzCenter, AlignVertCenter];
+  preset FaceLayout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+  preset FaceTintActive = #1B0BFFFF;
+  preset FaceTintDefault = #1B0BFFFF;
+  preset FaceActive = WidgetSet::MiniHorizontalScrollbarThumbSmall;
+  preset FaceDefault = WidgetSet::MiniHorizontalScrollbarThumbSmall;
+}
+
+// This class implements a 'push button' widget. When the user presses the button, \
+// a signal is sent to the slot method stored in its @OnActivate property.
+$rect <500,110,700,150>
+$output false
+class PushButton : Templates::PushButton
+{
+  $rect <480,310,680,350>
+  inherited property Bounds = <0,0,150,50>;
+
+  $rect <710,190,910,230>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the push button.
+    //
+    // isEnabled  --> the button can react to user inputs.
+    // isSelected --> the button can receive keyboard events.
+    // isPressed  --> the button should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    /*
+
+      TO DO:
+
+      Depending on your button design, you have surely added some new views
+      to your button. In the below code you should update the properties of
+      these views. For example, when your button has two images to appear
+      exclusively for released and pressed button state, following can be
+      done:
+
+        imagePressed.Visible  =  isPressed;
+        imageReleased.Visible = !isPressed;
+
+      Depending on the state of the button, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the button
+      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
+
+      Assuming you have already added to your button component a new effect
+      member, named it 'pressedEffect' and configured it to animate e.g. the
+      opacity of an image within the button. Then following is sufficient to
+      trigger the animation:
+
+        if ( isPressed && !pressed )
+        {
+          pressedEffect.Reversed = false;
+          pressedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          pressedEffect.Reversed = true;
+          pressedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color = #AAAAAAFF;
+      Border.Color     = #CCCCCCFF;
+      Border.Width     = 1;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color = #FF0000FF;
+      Border.Color     = #000000FF;
+      Border.Width     = 3;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color = #FFFFFFFF;
+      Border.Color     = #444444FF;
+      Border.Width     = 3;
+    }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color = #FFFFFFFF;
+      Border.Color     = #444444FF;
+      Border.Width     = 1;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your button (the thick blue border). This will \
+  // be the button's default size.
+  // - Resize the member 'TouchHandler' so it still fills the button's new area.
+  // - Remove the 'Background' and 'Border' members if you want other views to be \
+  // shown instead these in your button.
+  // - According to your desired button design add and configure new views (e.g. \
+  // an image view to show the icon or a text view to show the button caption, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the button's current state.
+  // - You can also add and configure animation effects to your button. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your button.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the button itself is resized.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // button to be activated with key other than the 'Enter' key.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard handling.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your button. One property \
+  // for every button specific setting (e.g. 'Caption', 'Icon', 'Color', 'Font', \
+  // ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your button where \
+  // the icon is shown).
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  note legend Note5
+  {
+    attr Bounds = <10,370,990,750>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,150,920,360>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,150,690,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,150,460,280>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,150,230,320>;
+  }
+
+  // This variable stores the current state of the button.
+  $rect <710,310,910,350>
+  var bool pressed;
+
+  // This variable stores the current state of the button.
+  $rect <710,270,910,310>
+  var bool selected;
+
+  // This variable stores the current state of the button.
+  $rect <710,230,910,270>
+  var bool enabled;
+
+  // This timer object is used to flash the button when the user has tapped it very \
+  // quickly or the button has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,190,680,230>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,190,450,230>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,230,680,270>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the button to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the button is activated.
+    postsignal OnActivate;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,230,450,270>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the button via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
+    if ( KeyHandler.Repetition )
+      return;
+
+    // Pressing the key flashes the button for a short period. This is a kind of 
+    // feedback effect. Request the button to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The button is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the button or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the button. This only updates the button to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the button or drags the finger inside/outside
+    // the button's area request the button update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the button's area. This activates the button.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the button's area? In such case
+    // the button is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The user interaction has been passed over to the another touch handler
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the button for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The button can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnActivate;
+
+    // The user has tapped the button very quickly. Defer the button activation
+    // to give the user first a short visual feedback that the button has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the button's area.
+  $rect <20,190,220,230>
+  slot onPressTouch
+  {
+    // The button is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the button in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,150,50>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,150,50>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,50>;
+    preset Point3 = <150,50>;
+    preset Point2 = <150,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated the button. Thereupon the method's logic will \
+  // be executed.
+  $rect <250,10,450,50>
+  property slot OnActivate = null;
+}

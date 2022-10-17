@@ -1,0 +1,166 @@
+﻿$version 11.00
+
+// Font anc color.
+
+note group Note
+{
+  attr Bounds = <20,20,440,220>;
+}
+
+$rect <30,60,230,100>
+$output false
+resource Resources::Font TitileFont
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 32;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+// Bitmap recorces.
+note group Note1
+{
+  attr Bounds = <450,20,870,310>;
+}
+
+$rect <460,60,660,100>
+$output false
+resource Resources::Bitmap AddIcon
+{
+  attr bitmapfile FileName = .\Res\AddIcon.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <30,100,230,140>
+$output false
+resource Resources::Font ContactFont
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 15;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <30,140,230,180>
+$output false
+resource Resources::Font ContactFontBold
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 15;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = true;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <460,100,660,140>
+$output false
+resource Resources::Bitmap SearchIcon
+{
+  attr bitmapfile FileName = .\Res\SearchIcon.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <460,140,660,180>
+$output false
+resource Resources::Bitmap BackIcon
+{
+  attr bitmapfile FileName = .\Res\BackIcon.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <460,180,660,220>
+$output false
+resource Resources::Bitmap PhoneIcon
+{
+  attr bitmapfile FileName = .\Res\PhonIcon.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <460,220,660,260>
+$output false
+resource Resources::Bitmap MessageIcon
+{
+  attr bitmapfile FileName = .\Res\MessageIcon.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <460,260,660,300>
+$output false
+resource Resources::Bitmap UserIcon
+{
+  attr bitmapfile FileName = .\Res\UserIcon.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <660,60,860,100>
+$output false
+resource Resources::Bitmap ButtonRound
+{
+  attr bitmapfile FileName = .\Res\ButtonBlue.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <240,60,440,100>
+$output false
+resource Resources::Font IconsFont
+{
+  attr fontname FontName = Material Icons;
+  attr fontheight Height = 40;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0xe0b0;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <240,110,440,150>
+$output false
+const string PhoneIconTxt = "\xe0b0";
