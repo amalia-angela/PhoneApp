@@ -3,7 +3,7 @@
 // Font anc color.
 note group Note
 {
-  attr Bounds = <20,20,440,410>;
+  attr Bounds = <20,20,440,620>;
 }
 
 $rect <30,60,230,100>
@@ -152,7 +152,7 @@ resource Resources::Font IconsFont
   attr fontheight Height = 40;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -227,3 +227,23 @@ const color GeryLight = #F0F0F0FD;
 $rect <40,320,240,360>
 $output false
 const color Black = #181818FF;
+
+$rect <660,180,860,220>
+$output false
+resource Resources::Bitmap Search
+{
+  attr bitmapfile FileName = .\Res\PushButton.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <240,390,440,430>
+$output false
+const string CkeckIconTxt = "\xe876";
+
+$rect <240,430,440,470>
+$output false
+const string CloseIconTxt = "\xe5cd";

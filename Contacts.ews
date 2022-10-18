@@ -1,10 +1,10 @@
 $version 1.0
 
-attr active = Application::ContactList;
+attr active = Application::AddContactPage;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::TextEditor.OnSetWrapText;
+attr codeInspector = Application::AddContactPage.onClose;
 attr codeSelEnd = <0,0>;
 attr codeSelStart = <0,0>;
 attr connectInspectors = false;
@@ -40,45 +40,33 @@ view Project
   attr zoom = 1.0;
 }
 
-view unit Res
+view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-55>;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view unit Application
-{
-  attr aspectRatio = 1.0;
-  attr enableGrid = true;
-  attr enableWireMode = false;
-  attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.5;
-}
-
-view class Application::TextEditor
+view class Application::AddContactPage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = OnSetWrapText;
+  attr codeInspector = onClose;
   attr codeSelEnd = <0,0>;
   attr codeSelStart = <0,0>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-81>;
-  attr zoom = 1.0;
+  attr scrollTo = <-7,2>;
+  attr zoom = 0.75;
 }
 
-view class Application::ContactList
+view class Application::ContactsPage
 {
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onAddPress;
+  attr codeSelEnd = <28,3>;
+  attr codeSelStart = <28,3>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-55>;
-  attr zoom = 1.0;
-}
-
-view class Application::Contact
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-103>;
+  attr scrollTo = <-7,9>;
   attr zoom = 1.0;
 }
