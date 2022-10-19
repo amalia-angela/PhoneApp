@@ -46,16 +46,139 @@ $rect <30,80,210,120>
 $output false
 class ContactsPage : Core::Group
 {
-  $rect <290,40,490,80>
+  $rect <760,20,960,60>
   inherited method Init()
   {
     VerticalList.NoOfItems = Application::MyContacts.NrOfItems(); 
-    contact                = Application::MyContacts.head;
 
   }
 
-  $rect <290,0,490,40>
+  $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
+
+  $rect <520,160,720,200>
+  var Application::Contact contact = Application::MyContacts.head;
+
+  $rect <420,280,600,320>
+  slot onAddPress
+  {
+    add = new Application::AddPage;
+
+    add.OnSave  = onSaveAdd;
+    add.OnClose = onCancelAdd;
+
+    SwitchToDialog( add, Effects::SlideUpCentered, null, null, null, null, null,
+                               null, null, null, false );
+  }
+
+  $rect <300,280,420,320>
+  var Application::AddPage add;
+
+  $rect <440,320,590,360>
+  slot onSaveAdd
+  {
+    NoOfItems += 1;
+    AddContact();
+
+    DismissDialog( add, Effects::SlideDownCentered, null, null, null, null, false);
+  }
+
+  $rect <440,360,590,400>
+  slot onCancelAdd
+  {
+    DismissDialog( add, Effects::SlideDownCentered, null, null, null, null, false);
+  }
+
+  $rect <590,320,740,360>
+  method void AddContact()
+  {
+    var Application::Contact newContact = new Application::Contact;
+    newContact.FirstName   = add.FirstName;
+    newContact.LastName    = add.LastName;
+    newContact.PhoneNumber = add.PhoneNumber;
+
+    Application::MyContacts.Add( newContact );
+  }
+
+  $rect <300,80,500,120>
+  slot onSearch
+  {
+    var Application::Contact it = contact;
+    var string filter                = SearchExt.String;
+    var int32  i;
+    var int32  j = 0;
+
+
+    while ( it != null )
+    {
+      if (( it.FirstName.find( filter, 0 ) >= 0 ) ||
+          ( it.LastName.find( filter, 0 ) >= 0 ))
+          ///////////////////////// 
+        Filtered_Array[j++] = Original_Array[i];
+      
+      contact = contact.next;
+      j++;
+    }
+
+    // Inform the list about its changed size
+    VerticalList.NoOfItems = j;
+    VerticalList.InvalidateItems( 0, j );
+  }
+
+  $rect <420,410,590,450>
+  slot onTapContact
+  {
+    details = new Application::DetailsPage;
+
+    details.OnBack  = onClose;
+
+
+    // Ignore the case, when the user interaction has been passed over to 
+    // the slide touch handler
+    if ( SimpleTouchHandler.AutoDeflected )
+      return;
+
+    // Get the index of the item at the tapped position
+    var int32 itemNo = VerticalList.GetItemAtPosition( SimpleTouchHandler.CurrentPos );
+
+    // If the item is valid ...
+    if ( itemNo >= 0 )
+    {
+      // Select the item in the Vertical List. Thereupon the item appears
+      // highlighted
+      VerticalList.SelectedItem = itemNo;
+      SwitchToDialog( details, Effects::SlideUpCentered, null, null, null, null, null,
+                               null, null, null, false );
+     
+    }
+
+
+  }
+
+  $rect <300,410,420,450>
+  var Application::DetailsPage details;
+
+  $rect <440,450,580,490>
+  slot onClose
+  {
+    DismissDialog( details, Effects::SlideRightCentered, null, null, null, null, false);
+  }
+
+  $rect <300,160,500,200>
+  var Application::Contact selectedItem;
+
+  // Touch screen events
+  note group Note
+  {
+    attr Bounds = <290,220,750,500>;
+  }
+
+  // Vertical list
+
+  note group Note1
+  {
+    attr Bounds = <290,0,750,210>;
+  }
 
   $rect <20,20,160,60>
   object Views::Rectangle Background
@@ -85,11 +208,11 @@ class ContactsPage : Core::Group
 
   // This method is called by 'VerticalList' every time the list loads or updates \
   // an item.
-  $rect <490,90,690,130>
+  $rect <300,40,500,80>
   slot OnLoadItem
   {
     // Get the number of the item to load.
-
+    //var int32                     itemNo   = VerticalList.Item;
     var Application::ContactItem itemView = (Application::ContactItem)VerticalList.View;
                                                   
     if ( itemView == null )
@@ -126,47 +249,23 @@ class ContactsPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Application::TextEditor TextEditor
+  object Application::TextEditor SearchExt
   {
     preset Bounds = <2,68,268,100>;
-    preset OnChange = Slot;
+    preset OnChange = onSearch;
   }
 
-  $rect <300,810,500,850>
-  slot Slot
+  $rect <530,80,710,120>
+  onset NoOfItems
   {
-    sender; /* the method is called from the sender object */
+    NoOfItems = Application::MyContacts.NrOfItems();
   }
 
-  $rect <290,90,490,130>
-  var Application::Contact contact;
-
-  $rect <289,169,489,209>
-  slot onAddPress
-  {
-    add = new Application::AddContactPage;
-
-    add.OnSave  = onAddClosed;
-    add.OnClose = onAddClosed;
-
-    SwitchToDialog( add, Effects::SlideUpCentered, null, null, null, null, null,
-                               null, null, null, false );
-  }
-
-  $rect <490,170,690,210>
-  var Application::AddContactPage add;
-
-  $rect <690,170,890,210>
-  slot onAddClosed
-  {
-    DismissDialog( add, Effects::SlideDownCentered, null, null, null, null, false);
-  }
-
-  $rect <690,170,890,210>
-  slot onAddClosed1
-  {
-    DismissDialog( add, Effects::SlideDownCentered, null, null, null, null, false);
-  }
+  // The property 'NoOfItems' stores how many items are currently managed within \
+  // the list. This value should correspond to the number of e.g. records in the \
+  // associated data source.
+  $rect <530,40,710,80>
+  property int32 NoOfItems = 0;
 }
 
 // UI Pages
@@ -223,7 +322,7 @@ class ContactItem : Core::Group
     // Remember the property's new value.
     pure LastName = value;
 
-    SurnameTxt.String = value;
+    LastNameTxt.String = value;
   }
 
   $rect <220,70,420,110>
@@ -252,13 +351,13 @@ class ContactItem : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Text SurnameTxt
+  object Views::Text LastNameTxt
   {
     preset Bounds = <55,2,146,32>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Name";
+    preset String = "LastName";
     preset Font = Res::ContactFontBold;
-    preset Color = #181818FF;
+    preset Color = #000000DC;
   }
 
   $rect <20,20,160,60>
@@ -268,9 +367,9 @@ class ContactItem : Core::Group
     preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
     preset Bounds = <146,2,268,32>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Firstname";
+    preset String = "FirstName";
     preset Font = Res::ContactFont;
-    preset Color = #181818FF;
+    preset Color = #000000DC;
   }
 
   $rect <420,70,620,110>
@@ -308,7 +407,7 @@ class ContactItem : Core::Group
 
 $rect <30,160,210,200>
 $output false
-class ContactDetailsPage : Core::Group
+class DetailsPage : Core::Group
 {
   $rect <280,0,480,40>
   inherited property Bounds = <0,0,272,480>;
@@ -337,7 +436,7 @@ class ContactDetailsPage : Core::Group
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = " mobile";
     preset Font = Res::ContactFont;
-    preset Color = #000000FF;
+    preset Color = #B9B9B9FD;
   }
 
   $rect <20,20,160,60>
@@ -415,6 +514,7 @@ class ContactDetailsPage : Core::Group
   object Application::PushButton PushButton
   {
     preset Bounds = <240,4,265,29>;
+    preset OnActivate = onTapEdit;
     preset Label = Res::EditIconTxt;
   }
 
@@ -423,6 +523,68 @@ class ContactDetailsPage : Core::Group
   {
     preset Bounds = <7,4,32,29>;
     preset Label = Res::BackIconTxt;
+  }
+
+  $rect <450,130,630,170>
+  slot onTapEdit
+  {
+    edit = new Application::EditPage;
+
+    edit.OnSave  = onSaveEdit;
+    edit.OnClose = onCancelEdit;
+
+    SwitchToDialog( edit, Effects::SlideUpCentered, null, null, null, null, null,
+                               null, null, null, false );
+     
+
+
+
+  }
+
+  $rect <300,130,450,170>
+  var Application::EditPage edit;
+
+  $rect <470,170,620,210>
+  slot onSaveEdit
+  {
+    EditContact();
+
+    DismissDialog( edit, Effects::SlideDownCentered, null, null, null, null, false);
+  }
+
+  $rect <460,210,610,250>
+  slot onCancelEdit
+  {
+    DismissDialog( edit, Effects::SlideDownCentered, null, null, null, null, false);
+  }
+
+  $rect <620,170,760,210>
+  method void EditContact()
+  {
+    var Application::Contact editContact = new Application::Contact;
+
+    editContact.FirstName   = edit.FirstName;
+    editContact.LastName    = edit.LastName;
+    editContact.PhoneNumber = edit.PhoneNumber;
+
+    Application::MyContacts.FindContact( currentContact, editContact );
+    //Application::MyContacts.TraceContacts();
+  }
+
+  // Touch screen events
+
+  note group Note
+  {
+    attr Bounds = <290,50,760,330>;
+  }
+
+  $rect <460,270,620,310>
+  property slot OnBack;
+
+  $rect <300,270,460,310>
+  slot onBack
+  {
+    signal OnBack;
   }
 }
 
@@ -2797,10 +2959,122 @@ class TextEditor : Templates::TextEditor
 
 $rect <30,200,210,240>
 $output false
-class AddContactPage : Core::Group
+class AddPage : Core::Group
 {
   $rect <280,0,480,40>
   inherited property Bounds = <0,0,272,480>;
+
+  $rect <920,50,1120,90>
+  property Views::Image Photo;
+
+  $rect <290,50,490,90>
+  property string FirstName;
+
+  $rect <290,90,490,130>
+  onset FirstName
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure FirstName == value )
+      return;
+
+    // Remember the property's new value.
+    pure FirstName = value;
+  }
+
+  $rect <290,130,490,170>
+  onget FirstName
+  {
+    return pure FirstName;
+  }
+
+  $rect <500,50,700,90>
+  property string LastName;
+
+  $rect <500,90,700,130>
+  onset LastName
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure LastName == value )
+      return;
+
+    // Remember the property's new value.
+    pure LastName = value;
+  }
+
+  $rect <320,239,520,279>
+  slot onSave
+  {
+    FirstName = FirstNameTxt.String;
+    LastName  = LastNameTxt.String;
+    PhoneNumber = PhoneNumberTxt.String;
+
+    signal OnSave;
+  }
+
+  $rect <530,239,730,279>
+  property slot OnSave;
+
+  $rect <500,130,700,170>
+  onget LastName
+  {
+    return pure LastName;
+  }
+
+  $rect <320,280,520,320>
+  slot onClose
+  {
+    signal OnClose;
+  }
+
+  $rect <530,280,730,320>
+  property slot OnClose;
+
+  $rect <710,50,910,90>
+  property string PhoneNumber;
+
+  $rect <710,90,910,130>
+  onset PhoneNumber
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure PhoneNumber == value )
+      return;
+
+    // Remember the property's new value.
+    pure PhoneNumber = value;
+  }
+
+  $rect <710,130,910,170>
+  onget PhoneNumber
+  {
+    return pure PhoneNumber;
+  }
+
+  $rect <920,90,1120,130>
+  onset Photo
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Photo == value )
+      return;
+
+    // Remember the property's new value.
+    pure Photo = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <920,130,1120,170>
+  onget Photo
+  {
+    return pure Photo;
+  }
+
+  // Touch screen events
+  note group Note
+  {
+    attr Bounds = <300,189,749,329>;
+  }
 
   $rect <20,20,160,60>
   object Views::Rectangle Background
@@ -2809,7 +3083,15 @@ class AddContactPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Line LineAbove
+  object Views::Line Line4
+  {
+    preset Point2 = <265,289>;
+    preset Point1 = <7,289>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line3
   {
     preset Point2 = <264,256>;
     preset Point1 = <6,256>;
@@ -2817,10 +3099,18 @@ class AddContactPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Line LineBelow
+  object Views::Line Line2
   {
-    preset Point2 = <265,289>;
-    preset Point1 = <7,289>;
+    preset Point2 = <264,223>;
+    preset Point1 = <6,223>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line1
+  {
+    preset Point2 = <264,190>;
+    preset Point1 = <6,190>;
     preset Color = #E2E2E2FD;
   }
 
@@ -2848,22 +3138,6 @@ class AddContactPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Line LineAbove1
-  {
-    preset Point2 = <264,223>;
-    preset Point1 = <6,223>;
-    preset Color = #E2E2E2FD;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line LineAbove2
-  {
-    preset Point2 = <264,190>;
-    preset Point1 = <6,190>;
-    preset Color = #E2E2E2FD;
-  }
-
-  $rect <20,20,160,60>
   object Views::Text AddPhotoTxt
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
@@ -2874,253 +3148,86 @@ class AddContactPage : Core::Group
     preset Color = #1B0BFFFF;
   }
 
-  $rect <290,50,490,90>
-  property string FirstName;
-
-  $rect <290,90,490,130>
-  onset FirstName
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure FirstName == value )
-      return;
-
-    // Remember the property's new value.
-    pure FirstName = value;
-
-    FirstNameTxt.String = value;
-  }
-
-  $rect <290,130,490,170>
-  onget FirstName
-  {
-    return pure FirstName;
-  }
-
-  $rect <500,50,700,90>
-  property string LastName;
-
-  $rect <500,90,700,130>
-  onset LastName
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure LastName == value )
-      return;
-
-    // Remember the property's new value.
-    pure LastName = value;
-
-    LastNameTxt.String = value;
-  }
-
-  $rect <500,130,700,170>
-  onget LastName
-  {
-    return pure LastName;
-  }
-
-  $rect <710,50,910,90>
-  property string MobileNumber;
-
-  $rect <710,90,910,130>
-  onset MobileNumber
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure MobileNumber == value )
-      return;
-
-    // Remember the property's new value.
-    pure MobileNumber = value;
-
-    MobileTxt.String = value;
-  }
-
-  $rect <710,130,910,170>
-  onget MobileNumber
-  {
-    return pure MobileNumber;
-  }
-
-  $rect <920,50,1120,90>
-  property Views::Image Photo;
-
-  $rect <920,90,1120,130>
-  onset Photo
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Photo == value )
-      return;
-
-    // Remember the property's new value.
-    pure Photo = value;
-
-    // TO DO:
-    // 
-    // Now you can handle the alternation of the property.
-  }
-
-  $rect <920,130,1120,170>
-  onget Photo
-  {
-    return pure Photo;
-  }
-
   $rect <20,20,160,60>
-  object Application::TextEditor1 TextEditor1
+  object Application::TextEditor1 PhoneNumberTxt
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,257,269,289>;
     preset String = "mobile";
+    preset Color = #B9B9B9FD;
   }
 
   $rect <20,20,160,60>
-  object Application::TextEditor1 TextEditor2
+  object Application::TextEditor1 LastNameTxt
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,191,269,223>;
+    preset OnChange = null;
     preset String = "Last name";
+    preset Color = #B9B9B9FD;
   }
 
   $rect <20,20,160,60>
-  object Application::TextEditor1 TextEditor3
+  object Application::TextEditor1 FirstNameTxt
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,224,269,256>;
     preset String = "First name";
+    preset Color = #B9B9B9FD;
   }
+}
 
-  $rect <320,239,520,279>
+$rect <30,240,210,280>
+$output false
+class EditPage : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  $rect <300,80,470,120>
+  property string FirstName;
+
+  $rect <300,120,470,160>
+  property string LastName;
+
+  $rect <300,160,470,200>
+  property string PhoneNumber;
+
+  $rect <300,200,470,240>
+  property ^Views::Image Photo;
+
+  $rect <520,90,720,130>
   slot onSave
   {
+    FirstName = FirstNameTxt.String;
+    LastName  = LastNameTxt.String;
+    PhoneNumber = NumberTxt.String;
+
     signal OnSave;
   }
 
-  $rect <530,239,730,279>
+  $rect <730,90,930,130>
   property slot OnSave;
 
-  // Touch screen events
-  note group Note
-  {
-    attr Bounds = <300,189,749,329>;
-  }
-
-  $rect <320,280,520,320>
+  $rect <520,131,720,171>
   slot onClose
   {
     signal OnClose;
   }
 
-  $rect <530,280,730,320>
+  $rect <730,131,930,171>
   property slot OnClose;
-}
 
-$rect <30,240,210,280>
-$output false
-class EditContactPage : Core::Group
-{
-  $rect <280,0,480,40>
-  inherited property Bounds = <0,0,272,480>;
-
-  $rect <290,50,490,90>
-  property string FirstName;
-
-  $rect <290,90,490,130>
-  onset FirstName
+  // Touch screen events
+  note group Note
   {
-    // The value doesn't change - nothing to do.
-    if ( pure FirstName == value )
-      return;
-
-    // Remember the property's new value.
-    pure FirstName = value;
-
-    FirstNameTxt.String = value;
-  }
-
-  $rect <290,130,490,170>
-  onget FirstName
-  {
-    return pure FirstName;
-  }
-
-  $rect <500,50,700,90>
-  property string LastName;
-
-  $rect <500,90,700,130>
-  onset LastName
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure LastName == value )
-      return;
-
-    // Remember the property's new value.
-    pure LastName = value;
-
-    LastNameTxt.String = value;
-  }
-
-  $rect <500,130,700,170>
-  onget LastName
-  {
-    return pure LastName;
-  }
-
-  $rect <710,50,910,90>
-  property string MobileNumber;
-
-  $rect <710,90,910,130>
-  onset MobileNumber
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure MobileNumber == value )
-      return;
-
-    // Remember the property's new value.
-    pure MobileNumber = value;
-
-    MobileTxt.String = value;
-  }
-
-  $rect <710,130,910,170>
-  onget MobileNumber
-  {
-    return pure MobileNumber;
-  }
-
-  $rect <920,50,1120,90>
-  property ^Views::Image Photo;
-
-  $rect <920,90,1120,130>
-  onset Photo
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Photo == value )
-      return;
-
-    // Remember the property's new value.
-    pure Photo = value;
-
-
-
-  }
-
-  $rect <920,130,1120,170>
-  onget Photo
-  {
-    return pure Photo;
+    attr Bounds = <500,40,950,230>;
   }
 
   $rect <20,20,160,60>
   object Views::Rectangle Background
   {
-    preset Bounds = <-1,0,271,480>;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line LineAbove
-  {
-    preset Point2 = <264,200>;
-    preset Point1 = <6,200>;
-    preset Color = #E2E2E2FD;
+    preset Bounds = <0,0,272,480>;
   }
 
   $rect <20,20,160,60>
@@ -3134,6 +3241,7 @@ class EditContactPage : Core::Group
   object Application::PushButton PushButton
   {
     preset Bounds = <240,4,265,29>;
+    preset OnActivate;
     preset Label = Res::CkeckIconTxt;
   }
 
@@ -3142,44 +3250,6 @@ class EditContactPage : Core::Group
   {
     preset Bounds = <7,4,32,29>;
     preset Label = Res::CloseIconTxt;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text LastNameTxt
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <6,167,264,200>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Last name";
-    preset Font = Res::ContactFont;
-    preset Color = #000000FF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line LineAbove1
-  {
-    preset Point2 = <264,158>;
-    preset Point1 = <6,158>;
-    preset Color = #E2E2E2FD;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text FirstNameTxt
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <6,125,264,158>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "First name";
-    preset Font = Res::ContactFont;
-    preset Color = #000000FF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line LineAbove2
-  {
-    preset Point2 = <264,125>;
-    preset Point1 = <6,125>;
-    preset Color = #E2E2E2FD;
   }
 
   $rect <20,20,160,60>
@@ -3194,62 +3264,102 @@ class EditContactPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Text MobileTxt
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <7,208,265,241>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = " mobile";
-    preset Font = Res::ContactFont;
-    preset Color = #000000FF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text NumberTxt
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <7,244,265,273>;
-    preset ColorBR = #FFFFFF00;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "+0749320298";
-    preset Font = Res::ContactFont;
-    preset Color = #1B0BFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text Delete
+  object Application::PushButton2 Delete
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <6,436,264,469>;
+    preset OnActivate = onDeleteContact;
+    preset Label = "Delete ";
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line4
+  {
+    preset Point2 = <264,239>;
+    preset Point1 = <6,239>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line3
+  {
+    preset Point2 = <263,206>;
+    preset Point1 = <5,206>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line2
+  {
+    preset Point2 = <263,173>;
+    preset Point1 = <5,173>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line1
+  {
+    preset Point2 = <263,140>;
+    preset Point1 = <5,140>;
+    preset Color = #E2E2E2FD;
+  }
+
+  $rect <20,20,160,60>
+  object Application::TextEditor1 NumberTxt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <7,244,265,273>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Delete Contact";
+    preset String = "+0749320298";
+    preset Color = #1B0BFFFF;
     preset Font = Res::ContactFont;
-    preset Color = #FF171EE7;
   }
 
   $rect <20,20,160,60>
-  object Views::Line LineAbove3
+  object Application::TextEditor1 LastNameTxt
   {
-    preset Point2 = <264,436>;
-    preset Point1 = <6,436>;
-    preset Color = #E2E2E2FD;
+    preset Layout = Core::Layout[AlignToLeft];
+    preset Bounds = <2,141,268,173>;
+    preset OnChange = null;
+    preset String = "Last name";
+    preset Color = #000000DC;
   }
 
   $rect <20,20,160,60>
-  object Views::Line LineAbove4
+  object Application::TextEditor1 FirstNameTxt
   {
-    preset Point2 = <264,469>;
-    preset Point1 = <6,469>;
-    preset Color = #E2E2E2FD;
+    preset Layout = Core::Layout[AlignToLeft];
+    preset Bounds = <2,174,268,206>;
+    preset String = "First name";
+    preset Color = #000000DC;
   }
 
   $rect <20,20,160,60>
-  object Views::Line LineAbove5
+  object Views::Text MobileTxt
   {
-    preset Point2 = <264,273>;
-    preset Point1 = <6,273>;
-    preset Color = #E2E2E2FD;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <6,207,264,240>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = " mobile";
+    preset Font = Res::ContactFont;
+    preset Color = #B9B9B9FD;
   }
+
+  // Properties
+
+  note group Note1
+  {
+    attr Bounds = <290,40,480,300>;
+  }
+
+  $rect <520,180,720,220>
+  slot onDeleteContact
+  {
+    Application::MyContacts.Remove( contact );
+  }
+
+  $rect <300,250,470,290>
+  var Application::Contact contact = Application::MyContacts.head;
 }
 
 $rect <40,410,210,450>
@@ -3262,39 +3372,17 @@ class Contact
   $rect <0,10,200,50>
   var Application::Contact next;
 
-  $rect <200,60,400,100>
-  onset FirstName
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure FirstName == value )
-      return;
-
-    // Remember the property's new value.
-    pure FirstName = value;
-
-
-
-  }
-
   $rect <0,100,200,140>
   property string LastName;
 
-  $rect <200,100,400,140>
-  onset LastName
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure LastName == value )
-      return;
-
-    // Remember the property's new value.
-    pure LastName = value;
-  }
-
-  $rect <10,160,210,200>
+  $rect <20,290,220,330>
   method void TraceContact()
   {
     trace FirstName + " " + LastName;
   }
+
+  $rect <0,140,200,180>
+  property string PhoneNumber;
 }
 
 $rect <10,370,210,410>
@@ -3313,13 +3401,26 @@ class Contacts
   }
 
   $rect <0,90,200,130>
-  method int32 Remove( arg int32 aArg1 )
+  method void Remove( arg Application::Contact aContact )
   {
-    /* The template just returns the given argument... */
-    return aArg1;
+    var Application::Contact it   = head;
+    var Application::Contact prev = head;;
+
+    while ( it != null )
+    {
+      if ( it == aContact )
+      {
+       prev.next = it.next;
+       it = null;
+      }
+      prev = it;
+      it   = it.next;
+    }
+
+
   }
 
-  $rect <0,130,200,170>
+  $rect <0,210,200,250>
   method void TraceContacts()
   {
     var Application::Contact contact = head;
@@ -3332,7 +3433,7 @@ class Contacts
 
   }
 
-  $rect <0,170,200,210>
+  $rect <0,250,200,290>
   method int32 NrOfItems()
   {
     var Application::Contact contact = head;
@@ -3345,6 +3446,42 @@ class Contacts
 
     return nrOfItems;
 
+  }
+
+  $rect <0,130,200,170>
+  method Application::Contact Edit( arg Application::Contact aContact, arg Application::Contact aEditContact )
+  {
+    if ( aContact.FirstName != aEditContact )
+    {
+      aContact.FirstName = aEditContact;
+    }
+
+    if ( aContact.LastName != aEditContact )
+    {
+      aContact.LastName = aEditContact;
+    }
+
+    if ( aContact.PhoneNumber != aEditContact )
+    {
+      aContact.PhoneNumber = aEditContact;
+    }
+
+    return aContact;
+  }
+
+  $rect <0,170,200,210>
+  method void FindContact( arg Application::Contact aContact, arg Application::Contact aEditedContact )
+  {
+    var Application::Contact it = head;
+
+    while ( it != null )
+    {
+      if ( it == aContact )
+      {
+       it = Edit( it, aEditContact );
+       }
+      it = it.next;
+    }
   }
 }
 
@@ -3389,13 +3526,14 @@ vclass VariantContacts : Application::Contacts
   }
 
   $rect <10,90,210,130>
-  method void CreateContact( arg string aLastName, arg string aFirstName )
+  method void CreateContact( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
     var Application::Contact MyContact = new Application::Contact;
 
 
     MyContact.FirstName = aFirstName;
     MyContact.LastName = aLastName;
+    MyContact.PhoneNumber = aPhoneNumber;
     Add( MyContact );
 
   }
@@ -3403,10 +3541,10 @@ vclass VariantContacts : Application::Contacts
   $rect <10,50,210,90>
   method void CreateContactData()
   {
-    CreateContact( "Amota", "Adel");
-    CreateContact( "Buna", "Zsolt");
-    CreateContact( "Benedek", "Norbert");
-    CreateContact( "Bacso", "Amalia");
+    CreateContact( "Amota", "Adel", "zf");
+    CreateContact( "Buna", "Zsolt", "sfdg");
+    CreateContact( "Benedek", "Norbert", "sfg");
+    CreateContact( "Bacso", "Amalia", "sfd");
 
 
   }
@@ -4295,5 +4433,353 @@ class TextEditor1 : Templates::TextEditor
     preset Width1 = 2;
     preset Color = #000000FF;
     preset Visible = false;
+  }
+}
+
+$rect <560,260,760,300>
+$output false
+autoobject WidgetSet::PushButton PushButton1
+{
+  preset Label = "Caption";
+  preset Appearance = WidgetSet::PushButton_Medium;
+}
+
+// This class implements a 'push button' widget. When the user presses the button, \
+// a signal is sent to the slot method stored in its @OnActivate property.
+$rect <680,270,880,310>
+$output false
+class PushButton2 : Templates::PushButton
+{
+  $rect <480,310,680,350>
+  inherited property Bounds = <6,436,264,469>;
+
+  $rect <710,190,910,230>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the push button.
+    //
+    // isEnabled  --> the button can react to user inputs.
+    // isSelected --> the button can receive keyboard events.
+    // isPressed  --> the button should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    /*
+
+      TO DO:
+
+      Depending on your button design, you have surely added some new views
+      to your button. In the below code you should update the properties of
+      these views. For example, when your button has two images to appear
+      exclusively for released and pressed button state, following can be
+      done:
+
+        imagePressed.Visible  =  isPressed;
+        imageReleased.Visible = !isPressed;
+
+      Depending on the state of the button, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the button
+      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
+
+      Assuming you have already added to your button component a new effect
+      member, named it 'pressedEffect' and configured it to animate e.g. the
+      opacity of an image within the button. Then following is sufficient to
+      trigger the animation:
+
+        if ( isPressed && !pressed )
+        {
+          pressedEffect.Reversed = false;
+          pressedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          pressedEffect.Reversed = true;
+          pressedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color = #FFFFFF00 ;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color = #FFFFFF00;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color = #FFFFFF00;
+      }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color = #FFFFFF00;
+    }
+
+
+    // Update the parameters of the text view (label)
+    if ( Text != null )
+    {
+      var color clr = #FF295BFF; 
+      Text.Font      = Res::ContactFont;
+      Text.String = Label;
+      Text.Color     = clr;
+      }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.  
+
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+
+
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,150,920,400>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,150,690,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,150,460,280>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,150,230,320>;
+  }
+
+  // This variable stores the current state of the button.
+  $rect <710,310,910,350>
+  var bool pressed;
+
+  // This variable stores the current state of the button.
+  $rect <710,270,910,310>
+  var bool selected;
+
+  // This variable stores the current state of the button.
+  $rect <710,230,910,270>
+  var bool enabled;
+
+  // This timer object is used to flash the button when the user has tapped it very \
+  // quickly or the button has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,190,680,230>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,190,450,230>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,230,680,270>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the button to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the button is activated.
+    postsignal OnActivate;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,230,450,270>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the button via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
+    if ( KeyHandler.Repetition )
+      return;
+
+    // Pressing the key flashes the button for a short period. This is a kind of 
+    // feedback effect. Request the button to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The button is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the button or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the button. This only updates the button to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the button or drags the finger inside/outside
+    // the button's area request the button update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the button's area. This activates the button.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the button's area? In such case
+    // the button is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The user interaction has been passed over to the another touch handler
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the button for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The button can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnActivate;
+
+    // The user has tapped the button very quickly. Defer the button activation
+    // to give the user first a short visual feedback that the button has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the button's area.
+  $rect <20,190,220,230>
+  slot onPressTouch
+  {
+    // The button is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the button in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,25,25>;
+    preset Color = #FFFFFFFF;
+    preset Bitmap = Res::ButtonRoundMedium;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,33>;
+    preset Point3 = <258,33>;
+    preset Point2 = <258,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated the button. Thereupon the method's logic will \
+  // be executed.
+  $rect <250,10,450,50>
+  property slot OnActivate = null;
+
+  $rect <450,50,650,90>
+  onset Label
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Label == value )
+      return;
+
+    // Remember the property's new value.
+    pure Label = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  // The property 'Label' specifies the text to display as label in this push button \
+  // widget. The desired font as well as the colors for all individual button states \
+  // have to be specified in the configuration object assigned to the property @Appearance. \
+  // If there is no configuration object associated to this push button widget (the \
+  // property @Appearance is 'null'), no label is displayed.
+  // Per default, the label is displayed centered within the push button area. You \
+  // can modify the alignment of the label as well as its margins by specifying them \
+  // in the configuration object.
+  $rect <450,10,650,50>
+  property string Label = "";
+
+  $rect <710,350,910,390>
+  var Views::Text textView;
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <12,0,258,33>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Delete contact";
+    preset Font = Resources::FontSmall;
+    preset Color = #FF295BFF;
   }
 }

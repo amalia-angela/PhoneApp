@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::AddContactPage;
+attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::AddContactPage.onClose;
-attr codeSelEnd = <0,0>;
-attr codeSelStart = <0,0>;
+attr codeInspector = Application::ContactsPage.OnSetNoOfItems;
+attr codeSelEnd = <45,0>;
+attr codeSelStart = <36,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -43,30 +43,6 @@ view Project
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::AddContactPage
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onClose;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,2>;
-  attr zoom = 0.75;
-}
-
-view class Application::ContactsPage
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onAddPress;
-  attr codeSelEnd = <28,3>;
-  attr codeSelStart = <28,3>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,9>;
+  attr scrollTo = <-150,41>;
   attr zoom = 1.0;
 }
