@@ -149,7 +149,7 @@ $output false
 resource Resources::Font IconsFont
 {
   attr fontname FontName = Material Icons;
-  attr fontheight Height = 40;
+  attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
   attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
@@ -218,7 +218,7 @@ const string SerachIconTxt = "\xe8b6";
 
 $rect <40,240,240,280>
 $output false
-const color Gery = #E2E2E2FD;
+const color Gery = #BCBCBCFD;
 
 $rect <40,280,240,320>
 $output false
