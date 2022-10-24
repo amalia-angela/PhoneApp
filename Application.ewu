@@ -60,21 +60,22 @@ class ContactsPage : Core::Group
   slot onAddPress
   {
     addContact = new Application::ContactAddPage;
-
+     
     addContact.OnSave  = onSaveAdd;
-    addContact.OnClose = onCancelAdd;
+    addContact.OnClose = onCancelAdd; 
 
     SwitchToDialog( addContact, Effects::SlideUpCentered, null, null, null, null, null,
                                null, null, null, false );
   }
 
   $rect <300,470,450,510>
-  var Application::ContactAddPage addContact;
+  var Application::ContactAddPage addContact = null;
 
   $rect <470,510,620,550>
   slot onSaveAdd
   {
     Application::MyContacts.Add( addContact.Contact );
+    trace addContact.Contact;
 
     DismissDialog( addContact, Effects::SlideDownCentered, null, null, null, null, false);
 
@@ -85,18 +86,6 @@ class ContactsPage : Core::Group
   slot onCancelAdd
   {
     DismissDialog( addContact, Effects::SlideDownCentered, null, null, null, null, false);
-  }
-
-  $rect <620,510,770,550>
-  method void AddContact()
-  {
-    var Application::Contact newContact = new Application::Contact;
-    newContact.FirstName   = addContact.FirstName;
-    newContact.LastName    = addContact.LastName;
-    newContact.PhoneNumber = addContact.PhoneNumber;
-
-    Application::MyContacts.Add( newContact );
-
   }
 
   $rect <300,310,540,350>
@@ -145,7 +134,7 @@ class ContactsPage : Core::Group
       // Select the item in the Vertical List. Thereupon the item appears
       // highlighted
       VerticalList.SelectedItem = itemNo;
-      //SelectedContact           =  itemNo;
+      SelectedContact           =  itemNo;
       detailsPage.Contact = Application::MyContacts.GetContact( itemNo );
 
       SwitchToDialog( detailsPage, Effects::SlideLeftCentered, null, null, null, null, null,
@@ -292,6 +281,12 @@ class ContactsPage : Core::Group
 
     notifyobservers ^SelectedContact;
   }
+
+  $rect <620,640,760,680>
+  slot onDelete
+  {
+    Application::MyContacts.Remove1( SelectedContact );
+  }
 }
 
 // UI Pages
@@ -425,6 +420,11 @@ $rect <30,160,210,200>
 $output false
 class ContactDetailsPage : Core::Group
 {
+  $rect <640,90,840,130>
+  inherited method Init()
+  {
+  }
+
   $rect <-10,510,190,550>
   inherited property Bounds = <0,0,272,480>;
 
@@ -436,6 +436,7 @@ class ContactDetailsPage : Core::Group
     edit.OnSave  = onSaveEdit;
     edit.OnClose = onCancelEdit;
     edit.Contact = Contact;
+    edit.OnDelete = onDelete;
 
     SwitchToDialog( edit, Effects::FadeInOutCentered, null, null, null, null, null,
                                null, null, null, false );
@@ -451,8 +452,7 @@ class ContactDetailsPage : Core::Group
   $rect <470,90,620,130>
   slot onSaveEdit
   {
-    postsignal onContactUpdated;
-
+    //Contact = Application::MyContact;
     DismissDialog( edit, Effects::FadeInOutCentered, null, null, null, null, false);
   }
 
@@ -468,10 +468,10 @@ class ContactDetailsPage : Core::Group
     attr Bounds = <290,0,760,270>;
   }
 
-  $rect <300,190,460,230>
+  $rect <300,220,460,260>
   property slot OnBack;
 
-  $rect <460,190,620,230>
+  $rect <460,220,620,260>
   slot onBack
   {
     signal OnBack;
@@ -505,7 +505,8 @@ class ContactDetailsPage : Core::Group
   {
     if ( pure Contact != null )
     {
-      NameTxt.String = pure Contact.LastName +" " + pure Contact.FirstName ;
+      LastName.String = pure Contact.LastName ;
+      FirstName.String = pure Contact.FirstName;
       NumberTxt.String = pure Contact.PhoneNumber;
     }
 
@@ -521,12 +522,12 @@ class ContactDetailsPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Text NameTxt
+  object Views::Text LastName
   {
-    preset Bounds = <7,123,265,153>;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-    preset String = "Name FirstName";
-    preset Font = Res::TitileFont;
+    preset Bounds = <2,126,132,156>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "LastName";
+    preset Font = Res::TitileFont29;
     preset Color = #000000FF;
   }
 
@@ -629,11 +630,26 @@ class ContactDetailsPage : Core::Group
   }
 
   // Contains displayed contact info
-  // 
-
   note group Note1
   {
     attr Bounds = <290,280,760,480>;
+  }
+
+  $rect <460,170,610,210>
+  slot onDelete
+  {
+    signal OnBack;
+    DismissDialog( edit, Effects::FadeInOutCentered, null, null, null, null, false);
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text FirstName
+  {
+    preset Bounds = <135,126,264,156>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "FirstName";
+    preset Font = Res::TitileFont29;
+    preset Color = #000000FF;
   }
 }
 
@@ -3016,14 +3032,7 @@ class ContactAddPage : Core::Group
   $rect <311,100,511,140>
   slot onSave
   {
-    if ( pure Contact != null )
-    {
-      FirstNameTxt.String = pure Contact.FirstName;
-      LastNameTxt.String = pure Contact.LastName;
-      PhoneNumberTxt.String = pure Contact.PhoneNumber;
-    }
-
-
+    notifyobservers pure Contact;
     signal OnSave;
   }
 
@@ -3122,6 +3131,7 @@ class ContactAddPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,257,269,289>;
+    preset OnChange = onContactUpdated;
     preset String = "";
     preset Color = #1E1E1EFD;
     preset Placeholder = "Mobile number";
@@ -3132,7 +3142,7 @@ class ContactAddPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,191,269,223>;
-    preset OnChange = null;
+    preset OnChange = onContactUpdated;
     preset String = "";
     preset Color = #1E1E1EFD;
     preset Placeholder = "Last Name";
@@ -3143,15 +3153,16 @@ class ContactAddPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,224,269,256>;
+    preset OnChange = onContactUpdated;
     preset String = "";
     preset Color = #1E1E1EFD;
-    preset Placeholder = "Last Name";
+    preset Placeholder = "First Name";
   }
 
-  $rect <300,210,500,250>
-  property Application::Contact Contact = null;
+  $rect <290,200,490,240>
+  property Application::Contact Contact;
 
-  $rect <300,250,500,290>
+  $rect <290,240,490,280>
   onset Contact
   {
     // The value doesn't change - nothing to do.
@@ -3160,7 +3171,7 @@ class ContactAddPage : Core::Group
 
     if ( pure Contact != null )
     {
-       detachobserver onSave, pure Contact;
+       detachobserver onContactUpdated, pure Contact;
     }
 
     // Remember the property's new value.
@@ -3168,9 +3179,23 @@ class ContactAddPage : Core::Group
 
     if ( pure Contact != null )
     {
-      attachobserver onSave, pure Contact;
-      postsignal onSave;
+      attachobserver onContactUpdated, pure Contact;
+      postsignal onContactUpdated;
     }
+  }
+
+  $rect <290,280,490,320>
+  slot onContactUpdated
+  {
+
+      Contact.FirstName = FirstNameTxt.String;
+      Contact.LastName = LastNameTxt.String;
+      Contact.PhoneNumber = PhoneNumberTxt.String;
+
+           
+
+
+
   }
 }
 
@@ -3178,7 +3203,7 @@ $rect <30,240,210,280>
 $output false
 class ContactEditPage : Core::Group
 {
-  $rect <739,38,919,78>
+  $rect <740,60,920,100>
   inherited method Init()
   {
   }
@@ -3189,6 +3214,7 @@ class ContactEditPage : Core::Group
   $rect <310,100,510,140>
   slot onSave
   {
+    notifyobservers ^Contact;
     signal OnSave;
   }
 
@@ -3296,6 +3322,7 @@ class ContactEditPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <7,244,265,273>;
+    preset OnChange = null;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "+0749320298";
     preset Color = #1B0BFFFF;
@@ -3317,6 +3344,7 @@ class ContactEditPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <2,174,268,206>;
+    preset OnChange = null;
     preset String = "First name";
     preset Color = #000000DC;
   }
@@ -3336,6 +3364,7 @@ class ContactEditPage : Core::Group
   slot onDeleteContact
   {
     Application::MyContacts.Remove( Contact );
+    signal OnDelete;
   }
 
   $rect <300,300,500,340>
@@ -3375,6 +3404,9 @@ class ContactEditPage : Core::Group
 
   $rect <300,260,500,300>
   property Application::Contact Contact;
+
+  $rect <520,190,720,230>
+  property slot OnDelete;
 }
 
 $rect <40,410,210,450>
@@ -3449,8 +3481,18 @@ class Contacts
   $rect <0,50,200,90>
   method void Add( arg Application::Contact aContact )
   {
-    aContact.next = head;
-    head = aContact;
+    if ( head ==  null )
+      head = aContact;
+
+    else
+    {
+     var Application::Contact lastNode   = head;
+     while ( lastNode.next != null )
+     {
+      lastNode = lastNode.next;
+      }
+      lastNode.next = aContact;
+    }
 
     NoOfItems +=1;
 
@@ -3459,22 +3501,25 @@ class Contacts
   $rect <0,90,200,130>
   method void Remove( arg Application::Contact aContact )
   {
-    var Application::Contact it   = head;
-    var Application::Contact prev = head;;
+    var Application::Contact contact = head;
+    var Application::Contact prev = null;
 
-    while ( it != null )
+    if (( contact != null) && ( contact == aContact ))
     {
-      if ( it == aContact )
-      {
-       prev.next = it.next;
-       it = null;
-       NoOfItems -= 1;
-      }
-      prev = it;
-      it   = it.next;
+      head = contact.next;
+      NoOfItems -= 1;
     }
-
-
+     
+    else
+    {
+      while ((contact != null) && (contact != aContact))
+      {
+        prev = contact;
+        contact = contact.next;
+       }
+       prev.next = contact.next;
+       NoOfItems -= 1;
+    }
   }
 
   $rect <0,170,200,210>
@@ -3586,6 +3631,7 @@ class Contacts
     {
       contact = contact.next;
       it +=1;
+        
     }
 
     return contact;

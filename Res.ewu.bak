@@ -146,7 +146,7 @@ resource Resources::Bitmap ButtonRoundMedium
 
 $rect <240,60,440,100>
 $output false
-resource Resources::Font IconsFont
+resource Resources::Font IconsFont25
 {
   attr fontname FontName = Material Icons;
   attr fontheight Height = 25;

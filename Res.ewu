@@ -208,7 +208,7 @@ $rect <240,310,440,350>
 $output false
 const string BackIconTxt = "\xe5e0";
 
-$rect <40,200,240,240>
+$rect <40,300,240,340>
 $output false
 const color Blue = #0635FFD6;
 
@@ -216,15 +216,15 @@ $rect <240,350,440,390>
 $output false
 const string SerachIconTxt = "\xe8b6";
 
-$rect <40,240,240,280>
+$rect <40,340,240,380>
 $output false
 const color Gery = #BCBCBCFD;
 
-$rect <40,280,240,320>
+$rect <40,380,240,420>
 $output false
 const color GeryLight = #F0F0F0FD;
 
-$rect <40,320,240,360>
+$rect <40,420,240,460>
 $output false
 const color Black = #181818FF;
 
@@ -247,3 +247,19 @@ const string CkeckIconTxt = "\xe876";
 $rect <240,430,440,470>
 $output false
 const string CloseIconTxt = "\xe5cd";
+
+$rect <30,180,230,220>
+$output false
+resource Resources::Font TitileFont29
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 29;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
