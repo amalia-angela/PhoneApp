@@ -1,14 +1,15 @@
 ﻿$version 11.00
 
-// Font anc color.
+// Font and color.
+
 note group Note
 {
-  attr Bounds = <20,20,440,620>;
+  attr Bounds = <0,0,430,350>;
 }
 
-$rect <30,60,230,100>
+$rect <10,40,210,80>
 $output false
-resource Resources::Font TitileFont
+resource Resources::Font TitileFont32
 {
   attr fontname FontName = Roboto;
   attr fontheight Height = 32;
@@ -25,10 +26,10 @@ resource Resources::Font TitileFont
 // Bitmap recorces.
 note group Note1
 {
-  attr Bounds = <450,20,870,310>;
+  attr Bounds = <870,0,1290,350>;
 }
 
-$rect <460,60,660,100>
+$rect <880,40,1080,90>
 $output false
 resource Resources::Bitmap AddIcon
 {
@@ -40,7 +41,7 @@ resource Resources::Bitmap AddIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <30,100,230,140>
+$rect <30,210,230,250>
 $output false
 resource Resources::Font ContactFont
 {
@@ -56,7 +57,7 @@ resource Resources::Font ContactFont
   attr fontrowdistance RowDistance;
 }
 
-$rect <30,140,230,180>
+$rect <30,250,230,290>
 $output false
 resource Resources::Font ContactFontBold
 {
@@ -72,7 +73,7 @@ resource Resources::Font ContactFontBold
   attr fontrowdistance RowDistance;
 }
 
-$rect <460,100,660,140>
+$rect <880,80,1080,130>
 $output false
 resource Resources::Bitmap SearchIcon
 {
@@ -84,7 +85,7 @@ resource Resources::Bitmap SearchIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <460,140,660,180>
+$rect <880,120,1080,170>
 $output false
 resource Resources::Bitmap BackIcon
 {
@@ -96,7 +97,7 @@ resource Resources::Bitmap BackIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <460,180,660,220>
+$rect <880,160,1080,210>
 $output false
 resource Resources::Bitmap PhoneIcon
 {
@@ -108,7 +109,7 @@ resource Resources::Bitmap PhoneIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <460,220,660,260>
+$rect <880,200,1080,250>
 $output false
 resource Resources::Bitmap MessageIcon
 {
@@ -120,7 +121,7 @@ resource Resources::Bitmap MessageIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <460,260,660,300>
+$rect <880,240,1080,290>
 $output false
 resource Resources::Bitmap UserIcon
 {
@@ -132,11 +133,11 @@ resource Resources::Bitmap UserIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <660,60,860,100>
+$rect <1080,40,1280,90>
 $output false
 resource Resources::Bitmap ButtonRoundMedium
 {
-  attr bitmapfile FileName = .\Res\circle.png;
+  attr bitmapfile FileName = .\Res\circleMedium.png;
   attr bitmapformat Format = Alpha8;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -144,7 +145,7 @@ resource Resources::Bitmap ButtonRoundMedium
   attr bitmapmode Mode = Default;
 }
 
-$rect <240,60,440,100>
+$rect <450,90,650,130>
 $output false
 resource Resources::Font IconsFont25
 {
@@ -152,7 +153,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -160,19 +161,19 @@ resource Resources::Font IconsFont25
   attr fontrowdistance RowDistance;
 }
 
-$rect <240,110,440,150>
+$rect <480,130,650,170>
 $output false
 const string PhoneIconTxt = "\xe0b0";
 
-$rect <240,150,440,190>
+$rect <480,170,650,210>
 $output false
 const string MessageIconTxt = "\xe253";
 
-$rect <240,190,440,230>
+$rect <480,210,650,250>
 $output false
 const string UserIconTxt = "\xe853";
 
-$rect <660,100,860,140>
+$rect <1080,80,1280,130>
 $output false
 resource Resources::Bitmap ButtonRoundBig
 {
@@ -184,7 +185,7 @@ resource Resources::Bitmap ButtonRoundBig
   attr bitmapmode Mode = Default;
 }
 
-$rect <660,140,860,180>
+$rect <1080,120,1280,170>
 $output false
 resource Resources::Bitmap ButtonRoundSmall
 {
@@ -196,41 +197,41 @@ resource Resources::Bitmap ButtonRoundSmall
   attr bitmapmode Mode = Default;
 }
 
-$rect <240,230,440,270>
+$rect <480,250,650,290>
 $output false
 const string PlusIconTxt = "\xe145";
 
-$rect <240,270,440,310>
+$rect <480,290,650,330>
 $output false
 const string EditIconTxt = "\xe3c9";
 
-$rect <240,310,440,350>
+$rect <480,340,650,380>
 $output false
 const string BackIconTxt = "\xe5e0";
 
-$rect <40,200,240,240>
+$rect <220,40,420,80>
 $output false
 const color Blue = #0635FFD6;
 
-$rect <240,350,440,390>
+$rect <480,380,650,420>
 $output false
 const string SerachIconTxt = "\xe8b6";
 
-$rect <40,240,240,280>
+$rect <220,80,420,120>
 $output false
 const color Gery = #BCBCBCFD;
 
-$rect <40,280,240,320>
+$rect <220,120,420,160>
 $output false
 const color GeryLight = #F0F0F0FD;
 
-$rect <40,320,240,360>
+$rect <220,160,420,200>
 $output false
 const color Black = #181818FF;
 
-$rect <660,180,860,220>
+$rect <1080,160,1280,210>
 $output false
-resource Resources::Bitmap Search
+resource Resources::Bitmap SearchButton
 {
   attr bitmapfile FileName = .\Res\PushButton.png;
   attr bitmapformat Format = Alpha8;
@@ -240,10 +241,236 @@ resource Resources::Bitmap Search
   attr bitmapmode Mode = Default;
 }
 
-$rect <240,390,440,430>
+$rect <480,420,650,460>
 $output false
 const string CkeckIconTxt = "\xe876";
 
-$rect <240,430,440,470>
+$rect <480,460,650,500>
 $output false
 const string CloseIconTxt = "\xe5cd";
+
+$rect <10,80,210,120>
+$output false
+resource Resources::Font TitileFont29
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 29;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <450,50,650,90>
+$output false
+resource Resources::Font IconsFont30
+{
+  attr fontname FontName = Material Icons;
+  attr fontheight Height = 40;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+// Icon fonts
+
+note group Note2
+{
+  attr Bounds = <440,0,860,500>;
+}
+
+// The global autoobject Res::FadeInOutCentered represents the fade-in/out operation \
+// affecting the opacity of a given GUI component. When using the transition for \
+// the fade-in operation, the GUI component is automatically arranged to appear centered \
+// within the area of its owner component. This transition is thus ideal wherever \
+// one GUI component should smoothly appear or disappear in context of another component. \
+// The duration of the transition is configured per default to take 500 ms.
+// This object exists for your convenience permitting you to simply refer the transition \
+// wherever it is required in your implementation without having to take care of \
+// the creation and configuration of the object. If you require the transition to \
+// run with other configuration (e.g. other timing parameters), create a copy of \
+// this object and adapt its properties accordingly.
+$rect <10,410,260,450>
+$output false
+autoobject Effects::FadeInOutTransition FadeInOutCentered
+{
+  preset Duration = 200;
+}
+
+// Effects
+
+note group Note3
+{
+  attr Bounds = <0,360,430,710>;
+}
+
+// The global autoobject Res::SlideLeftCentered represents the fade-in/out operation \
+// affecting the position and the opacity of the given GUI component. When using \
+// the transition for the fade-in operation, the GUI component slides from the right \
+// edge of its owner component and continues moving horizontally until it reaches \
+// the owner's center position. When using the transition for the fade-out operation, \
+// the component slides to the left until it leaves the visible area of its owner \
+// component. Additionally, while the transitions are performed, the opacity of the \
+// GUI component fades-in or fades-out accordingly. This transition is thus ideal \
+// wherever one GUI component should smoothly slide-in/out in context of another \
+// component. The duration of the transition is configured per default to take 500 \
+// ms and the timing is configured to start fast and then slow down the animation \
+// (FastIn_EaseOut).
+// This object exists for your convenience permitting you to simply refer the transition \
+// wherever it is required in your implementation without having to take care of \
+// the creation and configuration of the object. If you require the transition to \
+// run with other configuration (e.g. other timing parameters), create a copy of \
+// this object and adapt its properties accordingly.
+$rect <10,450,260,490>
+$output false
+autoobject Effects::SlideTransition SlideLeftCentered
+{
+  preset Duration = 200;
+  preset Direction = Core::Direction.Left;
+}
+
+// The global autoobject Res::SlideUpCentered represents the fade-in/out operation \
+// affecting the position and the opacity of the given GUI component. When using \
+// the transition for the fade-in operation, the GUI component slides from the bottom \
+// edge of its owner component and continues moving vertically until it reaches the \
+// owner's center position. When using the transition for the fade-out operation, \
+// the component slides up until it leaves the visible area of its owner component. \
+// Additionally, while the transitions are performed, the opacity of the GUI component \
+// fades-in or fades-out accordingly. This transition is thus ideal wherever one \
+// GUI component should smoothly slide-in/out in context of another component. The \
+// duration of the transition is configured per default to take 500 ms and the timing \
+// is configured to start fast and then slow down the animation (FastIn_EaseOut).
+// This object exists for your convenience permitting you to simply refer the transition \
+// wherever it is required in your implementation without having to take care of \
+// the creation and configuration of the object. If you require the transition to \
+// run with other configuration (e.g. other timing parameters), create a copy of \
+// this object and adapt its properties accordingly.
+$rect <10,530,260,570>
+$output false
+autoobject Effects::SlideTransition SlideUpCentered
+{
+  preset Duration = 200;
+  preset Direction = Core::Direction.Top;
+}
+
+// The global autoobject Res::SlideDownCentered represents the fade-in/out operation \
+// affecting the position and the opacity of the given GUI component. When using \
+// the transition for the fade-in operation, the GUI component slides from the top \
+// edge of its owner component and continues moving vertically until it reaches the \
+// owner's center position. When using the transition for the fade-out operation, \
+// the component slides down until it leaves the visible area of its owner component. \
+// Additionally, while the transitions are performed, the opacity of the GUI component \
+// fades-in or fades-out accordingly. This transition is thus ideal wherever one \
+// GUI component should smoothly slide-in/out in context of another component. The \
+// duration of the transition is configured per default to take 500 ms and the timing \
+// is configured to start fast and then slow down the animation (FastIn_EaseOut).
+// This object exists for your convenience permitting you to simply refer the transition \
+// wherever it is required in your implementation without having to take care of \
+// the creation and configuration of the object. If you require the transition to \
+// run with other configuration (e.g. other timing parameters), create a copy of \
+// this object and adapt its properties accordingly.
+$rect <10,570,260,610>
+$output false
+autoobject Effects::SlideTransition SlideDownCentered
+{
+  preset Duration = 200;
+  preset Direction = Core::Direction.Bottom;
+}
+
+// The global autoobject Res::SlideRightCentered represents the fade-in/out operation \
+// affecting the position and the opacity of the given GUI component. When using \
+// the transition for the fade-in operation, the GUI component slides from the left \
+// edge of its owner component and continues moving horizontally until it reaches \
+// the owner's center position. When using the transition for the fade-out operation, \
+// the component slides to the right until it leaves the visible area of its owner \
+// component. Additionally, while the transitions are performed, the opacity of the \
+// GUI component fades-in or fades-out accordingly. This transition is thus ideal \
+// wherever one GUI component should smoothly slide-in/out in context of another \
+// component. The duration of the transition is configured per default to take 500 \
+// ms and the timing is configured to start fast and then slow down the animation \
+// (FastIn_EaseOut).
+// This object exists for your convenience permitting you to simply refer the transition \
+// wherever it is required in your implementation without having to take care of \
+// the creation and configuration of the object. If you require the transition to \
+// run with other configuration (e.g. other timing parameters), create a copy of \
+// this object and adapt its properties accordingly.
+$rect <10,490,260,530>
+$output false
+autoobject Effects::SlideTransition SlideRightCentered
+{
+  preset Duration = 200;
+  preset Direction = Core::Direction.Right;
+}
+
+$rect <650,50,850,90>
+$output false
+resource Resources::Font IconsFont20
+{
+  attr fontname FontName = Material Icons;
+  attr fontheight Height = 20;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <10,120,210,160>
+$output false
+resource Resources::Font TitileFont25
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 25;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <220,200,420,240>
+$output false
+const color TransparentWhite = #F5F5F598;
+
+$rect <660,130,830,170>
+$output false
+const string MicTxt = "\xe029";
+
+$rect <660,170,830,210>
+$output false
+const string MicOffTxt = "\xe8b6";
+
+$rect <660,210,830,250>
+$output false
+const string KeypadTxt = "\xe31a";
+
+$rect <660,250,830,290>
+$output false
+const string SpeakerTxt = "\xe050";
+
+$rect <660,290,830,330>
+$output false
+const string VideoCallTxt = "\xe04b";
+
+$rect <660,330,830,370>
+$output false
+const string EndCallTxt = "\xe0b1";
+
+$rect <220,240,420,280>
+$output false
+const color Red = #B5280FFF;

@@ -126,7 +126,7 @@ profile Profile : Tara.Win32.RGBA8888
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
 
   $rect <10,60,170,100>
-  macro SimulateData = false;
+  macro SimulateData = true;
 }
 
 $rect <40,270,240,310>

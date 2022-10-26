@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::Contacts;
+attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::Contacts.GetContact;
-attr codeSelEnd = <0,8>;
-attr codeSelStart = <0,8>;
+attr codeInspector = Application::CallPage.onContactUpdated;
+attr codeSelEnd = <77,2>;
+attr codeSelStart = <77,2>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -24,7 +24,7 @@ attr language = Default;
 attr profile = Profile;
 attr profilerMonitor_Show = false;
 attr search_CaseSensitive = false;
-attr search_History = SelectedContact,CurrentPos,rc, pos ,Caret,ObtainFocus,cursor,OnChange,Text.String;
+attr search_History = Application::PushButton2,PushButton1,PushButton,PushButtonSmall,AddButtonConfig,Application::PushButtonSmall,SelectedContact,CurrentPos,rc, pos ,Caret,ObtainFocus,cursor,OnChange,Text.String;
 attr search_IgnoreDescription = true;
 attr search_IgnoreMosaic = false;
 attr search_LimitToComposer = true;
@@ -33,18 +33,8 @@ attr search_WildCards = false;
 
 view Project
 {
-  attr aspectRatio = 1.0;
-  attr enableGrid = true;
   attr enableWireMode = false;
-  attr grid = 10;
   attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view unit Application
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,54>;
   attr zoom = 1.0;
 }
 
@@ -52,54 +42,50 @@ view class Application::ContactDetailsPage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onDelete;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,55>;
-  attr zoom = 1.0;
-}
-
-view class Application::ContactEditPage
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onDeleteContact;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,9>;
-  attr zoom = 1.0;
-}
-
-view class Application::Contacts
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = GetContact;
-  attr codeSelEnd = <0,8>;
-  attr codeSelStart = <0,8>;
+  attr codeInspector = onTapCall;
+  attr codeSelEnd = <15,2>;
+  attr codeSelStart = <15,2>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view class Application::ContactsPage
+view unit Application
 {
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onDelete;
-  attr codeSelEnd = <31,0>;
-  attr codeSelStart = <31,0>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,345>;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-breakpoints
+view class Application::CallPage
 {
-  Application::ContactAddPage.onContactUpdated 2;
-  Application::ContactDetailsPage.onSaveEdit 1;
-  Application::Contacts.Remove 6;
-  Application::Contacts.Remove 17;
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onContactUpdated;
+  attr codeSelEnd = <77,2>;
+  attr codeSelStart = <77,2>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-13>;
+  attr zoom = 1.25;
+}
+
+view class Application::ContactEditPage
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view unit Res
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::PushButtonMediumTrans
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-55>;
+  attr zoom = 4.0;
 }
