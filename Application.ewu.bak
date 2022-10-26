@@ -153,7 +153,6 @@ class ContactsPage : Core::Group
   $rect <470,640,640,680>
   slot onCloseContact
   {
-
     DismissDialog( detailsPage, Res::SlideRightCentered, null, null, null, null, false);
   }
 
@@ -330,7 +329,7 @@ class ContactItem : Core::Group
     preset Bounds = <55,2,146,32>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "LastName";
-    preset Font = Res::ContactFontBold;
+    preset Font = Res::ContactFontBold15;
     preset Color = #000000DC;
   }
 
@@ -342,7 +341,7 @@ class ContactItem : Core::Group
     preset Bounds = <146,2,268,32>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "FirstName";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #000000DC;
   }
 
@@ -360,7 +359,6 @@ class ContactItem : Core::Group
   object Application::PushButtonSmall PushButtonSmall
   {
     preset Bounds = <6,4,31,29>;
-    preset Label = Res::UserIconTxt;
   }
 
   $rect <-10,50,190,90>
@@ -396,6 +394,7 @@ class ContactItem : Core::Group
     {
       FirstnameTxt.String = pure Contact.FirstName;
       LastNameTxt.String = pure Contact.LastName;
+      PushButtonSmall.Label = Application::MyContacts.GetInitials( Contact.LastName, Contact.FirstName );
     }
 
   }
@@ -486,7 +485,9 @@ class ContactDetailsPage : Core::Group
     if ( pure Contact != null )
     {
       ContactName.String =       pure Contact.LastName + " "  + pure Contact.FirstName;
-      NumberTxt.String = pure Contact.PhoneNumber;
+      NumberTxt.String = pure Contact.PhoneNumber; 
+      
+      PushButtonBig.Label =  Application::MyContacts.GetInitials( pure Contact.LastName, pure Contact.FirstName );
       
     }
 
@@ -508,7 +509,7 @@ class ContactDetailsPage : Core::Group
     preset Bounds = <7,255,265,288>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = " mobile";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #B9B9B9FD;
   }
 
@@ -520,7 +521,7 @@ class ContactDetailsPage : Core::Group
     preset ColorBR = #FFFFFF00;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = " +0749320298";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #1B0BFFFF;
   }
 
@@ -547,7 +548,7 @@ class ContactDetailsPage : Core::Group
     preset Bounds = <67,210,117,233>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "call";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #1B0BFFFF;
   }
 
@@ -558,7 +559,7 @@ class ContactDetailsPage : Core::Group
     preset Bounds = <149,210,218,233>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "message";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #1B0BFFFF;
   }
 
@@ -581,7 +582,6 @@ class ContactDetailsPage : Core::Group
   object Application::PushButtonBig PushButtonBig
   {
     preset Bounds = <101,28,171,98>;
-    preset Label = Res::UserIconTxt;
   }
 
   $rect <20,20,160,60>
@@ -725,17 +725,17 @@ class PushButtonMediumBlue : Templates::PushButton
 
     if ( !isEnabled )
     {
-      Background.Color = #1B0BFFFF ;
+      Background.Color = Res::Blue;
     }
 
     else if ( isPressed )
     {
-      Background.Color = #1B0BFFD1;
+      Background.Color = Res::Blue;
     }
 
     else if ( isSelected )
     {
-      Background.Color = #1B0BFFFF;
+      Background.Color = Res::BlueLight;
       }
 
     // Enabled but not pressed nor selected.
@@ -1094,7 +1094,7 @@ class PushButtonBig : Templates::PushButton
     if ( Text != null )
     {
        var color clr = #FFFFFFFF; 
-      Text.Font      = Res::IconsFont30;
+      Text.Font      = Res::TitileFont25;
       Text.String = Label;
       Text.Color     = clr;
       }
@@ -1369,7 +1369,7 @@ class PushButtonSmall : Templates::PushButton
     if ( Text != null )
     {
       var color clr = #FFFFFFFF; 
-      Text.Font      = Res::IconsFont25;
+      Text.Font      = Res::ContactFont12;
       Text.String = Label;
       Text.Color     = clr;
       }
@@ -3096,7 +3096,6 @@ class ContactAddPage : Core::Group
   object Application::PushButtonBig PushButtonBig
   {
     preset Bounds = <101,75,171,145>;
-    preset Label = Res::UserIconTxt;
   }
 
   $rect <20,20,160,60>
@@ -3122,7 +3121,7 @@ class ContactAddPage : Core::Group
     preset Bounds = <92,167,180,190>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "Add Photo";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #1B0BFFFF;
   }
 
@@ -3187,10 +3186,11 @@ class ContactAddPage : Core::Group
   $rect <310,320,510,360>
   slot onContactUpdated
   {
-
       Contact.FirstName = FirstNameTxt.String;
       Contact.LastName = LastNameTxt.String;
       Contact.PhoneNumber = PhoneNumberTxt.String;
+      Contact.NameInitials = Application::MyContacts.GetInitials( LastNameTxt.String, FirstNameTxt.String);
+      PushButtonBig.Label=  Contact.NameInitials;
 
            
 
@@ -3215,9 +3215,10 @@ class ContactEditPage : Core::Group
   $rect <310,50,510,90>
   slot onSave
   {
-    Contact.FirstName = FirstNameTxt.String; 
-    Contact.LastName = LastNameTxt.String;
-    Contact.PhoneNumber =  NumberTxt.String;
+    Contact.FirstName    = FirstNameTxt.String; 
+    Contact.LastName     = LastNameTxt.String;
+    Contact.PhoneNumber  =  NumberTxt.String;
+    Contact.NameInitials = Application::MyContacts.GetInitials( pure Contact.LastName, pure Contact.FirstName);
     signal OnSave;
   }
 
@@ -3249,7 +3250,6 @@ class ContactEditPage : Core::Group
   object Application::PushButtonBig UserProfil
   {
     preset Bounds = <101,28,171,98>;
-    preset Label = Res::UserIconTxt;
   }
 
   $rect <20,20,160,60>
@@ -3275,17 +3275,8 @@ class ContactEditPage : Core::Group
     preset Bounds = <92,102,180,125>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "Add Photo";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #1B0BFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonDelete Delete
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <6,436,264,469>;
-    preset OnActivate = onDeleteContact;
-    preset Label = "Delete contact";
   }
 
   $rect <20,20,160,60>
@@ -3327,9 +3318,10 @@ class ContactEditPage : Core::Group
     preset Bounds = <7,244,265,273>;
     preset OnChange = null;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "+0749320298";
+    preset String = "0749320267";
     preset Color = #1B0BFFFF;
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
+    preset Placeholder = "0749320267";
   }
 
   $rect <20,20,160,60>
@@ -3340,6 +3332,7 @@ class ContactEditPage : Core::Group
     preset OnChange = null;
     preset String = "Last name";
     preset Color = #000000DC;
+    preset Placeholder = "Last name";
   }
 
   $rect <20,20,160,60>
@@ -3350,6 +3343,7 @@ class ContactEditPage : Core::Group
     preset OnChange = null;
     preset String = "First name";
     preset Color = #000000DC;
+    preset Placeholder = "First name";
   }
 
   $rect <20,20,160,60>
@@ -3359,7 +3353,7 @@ class ContactEditPage : Core::Group
     preset Bounds = <6,207,264,240>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = " mobile";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont15;
     preset Color = #B9B9B9FD;
   }
 
@@ -3400,7 +3394,8 @@ class ContactEditPage : Core::Group
     {
       FirstNameTxt.String = Contact.FirstName;
       LastNameTxt.String  = Contact.LastName;
-      NumberTxt.String    = Contact.PhoneNumber;
+      NumberTxt.String    = Contact.PhoneNumber;  
+      UserProfil.Label    =  Application::MyContacts.GetInitials( pure Contact.LastName, pure Contact.FirstName);
     }
 
   }
@@ -3412,10 +3407,18 @@ class ContactEditPage : Core::Group
   property slot OnDelete;
 
   // Displayed contact info
-
   note group Note1
   {
     attr Bounds = <290,200,740,390>;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonDelete PushButtonDelete
+  {
+    preset Bounds = <5,431,263,464>;
+    preset Enabled = true;
+    preset OnActivate = onDeleteContact;
+    preset Label = "Delete contact";
   }
 }
 
@@ -3479,6 +3482,22 @@ class Contact
 
     notifyobservers this;
   }
+
+  $rect <0,180,200,220>
+  property string NameInitials;
+
+  $rect <200,180,400,220>
+  onset NameInitials
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NameInitials == value )
+      return;
+
+    // Remember the property's new value.
+    pure NameInitials = value;
+
+    notifyobservers this;
+  }
 }
 
 $rect <10,370,210,410>
@@ -3532,7 +3551,7 @@ class Contacts
     }
   }
 
-  $rect <0,170,200,210>
+  $rect <0,210,200,250>
   method void TraceContacts()
   {
     var Application::Contact contact = head;
@@ -3545,46 +3564,10 @@ class Contacts
 
   }
 
-  $rect <520,350,720,390>
-  method Application::Contact Edit( arg Application::Contact aContact, arg Application::Contact aEditContact )
-  {
-    if ( aContact.FirstName != aEditContact )
-    {
-      aContact.FirstName = aEditContact;
-    }
-
-    if ( aContact.LastName != aEditContact )
-    {
-      aContact.LastName = aEditContact;
-    }
-
-    if ( aContact.PhoneNumber != aEditContact )
-    {
-      aContact.PhoneNumber = aEditContact;
-    }
-
-    return aContact;
-  }
-
-  $rect <0,130,200,170>
-  method void FindContact( arg Application::Contact aContact, arg Application::Contact aEditedContact )
-  {
-    var Application::Contact it = head;
-
-    while ( it != null )
-    {
-      if ( it == aContact )
-      {
-       it = Edit( it, aEditContact );
-       }
-      it = it.next;
-    }
-  }
-
-  $rect <220,40,420,80>
+  $rect <430,0,630,40>
   property int32 NoOfItems = 0;
 
-  $rect <220,80,420,120>
+  $rect <430,40,630,80>
   onset NoOfItems
   {
     // The value doesn't change - nothing to do.
@@ -3632,7 +3615,7 @@ class Contacts
   $rect <790,200,990,240>
   var Application::Contacts filteredContacts = null;
 
-  $rect <0,210,200,250>
+  $rect <0,130,200,170>
   method Application::Contact GetContact( arg int32 aNo )
   {
     var Application::Contact contact = head;
@@ -3653,6 +3636,61 @@ class Contacts
   {
     attr Bounds = <730,0,1030,300>;
   }
+
+  $rect <0,170,200,210>
+  method string GetInitials( arg string aLastName, arg string aFirstName )
+  {
+
+     return aLastName[0] + "" + aFirstName[0];
+  }
+
+  $rect <220,80,420,120>
+  method void InsertionSort()
+  {
+    var Application::Contact current = head;
+
+    while ( current != null )
+    {
+      //store the currents next for next iteration 
+      var Application::Contact next = current.next;
+      //insert cuurent in sorted liked list
+      sortedInsert ( current );
+
+      //update current 
+      current = next;
+    }
+
+    head = sorted;
+  }
+
+  $rect <220,40,420,80>
+  method void sortedInsert( arg Application::Contact aContact )
+  {
+    if ((sorted == null) || 
+        (sorted.LastName >= aContact.LastName))
+    {
+      aContact.next = sorted;
+      sorted = aContact;
+    }
+
+    else
+    {
+      var Application::Contact current = sorted;
+
+      while (( current.next != null) ||
+              (current.next.LastName < aContact.LastName))
+      {
+        current = current.next;
+       }
+      aContact.next = current.next;
+      current.next  = aContact;
+    }
+
+
+  }
+
+  $rect <220,0,420,40>
+  var Application::Contact sorted;
 }
 
 // Data
@@ -3711,10 +3749,11 @@ vclass VariantContacts : Application::Contacts
   $rect <10,50,210,90>
   method void CreateContactData()
   {
-    CreateContact( "Amota", "Adel", "zf");
     CreateContact( "Buna", "Zsolt", "sfdg");
     CreateContact( "Benedek", "Norbert", "sfg");
-    CreateContact( "Bacso", "Amalia", "sfd");
+    CreateContact( "Amota", "Adel", "zf");
+    //CreateContact( "Bacso", "Amalia", "sfd");
+     InsertionSort();
 
     //var int32 i =0;
 
@@ -3945,8 +3984,6 @@ class InputEtxt : Templates::TextEditor
     // Get the pixel position of the sign right to the caret
     var point rowCol = Text.StringIndex2RowCol( caretIndex );
     var point pos    = Text.RowCol2Position( rowCol );
-
-    trace rowCol, pos;
 
     // Arrange the caret at the just determined position. The height of 
     // the caret corresponds to the height of a text row drawn with the
@@ -4574,7 +4611,11 @@ class InputEtxt : Templates::TextEditor
   $rect <890,160,1090,200>
   slot updatePlaceholder
   {
-    TextPlaceholder.Visible = ( String == "Text\n" );
+    //TextPlaceholder.Visible = ( String == "Text\n" );
+    if( String == "Text\n" )
+      TextPlaceholder.Visible = true;
+    else
+      TextPlaceholder.Visible = false;
   }
 
   // This key handler reacts to user inputs if the user has pressed the 'enter' key. \
@@ -4732,17 +4773,17 @@ class PushButtonDelete : Templates::PushButton
 
     if ( !isEnabled )
     {
-      Background.Color = #FFFFFF00 ;
+      Background.Color = Res::TransparentWhite;  
     }
 
     else if ( isPressed )
     {
-      Background.Color = #FFFFFF00;
+      Background.Color = Res::TransparentWhite;
     }
 
     else if ( isSelected )
     {
-      Background.Color = #FFFFFF00;
+      Background.Color = Res::TransparentWhite;
       }
 
     // Enabled but not pressed nor selected.
@@ -4755,10 +4796,16 @@ class PushButtonDelete : Templates::PushButton
     // Update the parameters of the text view (label)
     if ( Text != null )
     {
-      var color clr = #FF295BFF; 
-      Text.Font      = Res::ContactFont;
+      var color clr = Res::Red; 
+      Text.Font      = Res::ContactFont15;
       Text.String = Label;
       Text.Color     = clr;
+      if ( !isEnabled )
+      {
+        var color cl = Res::Gery;
+        Text.Color =cl;
+        }
+
       }
 
     // Remember the current state. Next time when the UpdateViewState() is called
@@ -4930,12 +4977,11 @@ class PushButtonDelete : Templates::PushButton
   }
 
   $rect <20,20,160,60>
-  object Views::Image Background
+  object Views::Rectangle Background
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,25,25>;
+    preset Bounds = <0,0,258,33>;
     preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium;
   }
 
   $rect <20,20,160,60>
@@ -4957,7 +5003,7 @@ class PushButtonDelete : Templates::PushButton
   // The property 'OnActivate' can refer to a slot method, which will receive a signal \
   // as soon as the user has activated the button. Thereupon the method's logic will \
   // be executed.
-  $rect <250,10,450,50>
+  $rect <260,10,450,50>
   property slot OnActivate = null;
 
   $rect <450,50,650,90>
@@ -5001,7 +5047,6 @@ class PushButtonDelete : Templates::PushButton
 }
 
 // Effects
-
 note group Effects
 {
   attr Bounds = <440,320,860,620>;
@@ -5018,9 +5063,9 @@ class CallPage : Core::Group
   object Views::Rectangle Background
   {
     preset Bounds = <0,0,272,480>;
-    preset ColorBL = #606060FA;
+    preset ColorBL = #838383FA;
     preset ColorBR = #4F4F4FFF;
-    preset ColorTR = #525252FF;
+    preset ColorTR = #717171FF;
     preset ColorTL = #898989FF;
     preset Color = #3C3C3CFF;
   }
@@ -5037,51 +5082,50 @@ class CallPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Application::PushButtonBig PushButtonBig
+  object Application::PushButtonBig User
   {
     preset Bounds = <191,14,261,84>;
-    preset Label = Res::UserIconTxt;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonMediumTrans PushButtonMediumTrans
   {
-    preset Bounds = <191,178,241,228>;
+    preset Bounds = <174,162,239,227>;
     preset Label = Res::SpeakerTxt;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonMediumTrans PushButtonMediumTrans1
   {
-    preset Bounds = <31,178,81,228>;
+    preset Bounds = <24,162,89,227>;
     preset Label = Res::MicTxt;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonMediumTrans PushButtonMediumTrans2
   {
-    preset Bounds = <114,178,164,228>;
+    preset Bounds = <96,162,161,227>;
     preset Label = Res::KeypadTxt;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonMediumTrans PushButtonMediumTrans3
   {
-    preset Bounds = <191,240,241,290>;
+    preset Bounds = <175,249,240,314>;
     preset Label = Res::UserIconTxt;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonMediumTrans PushButtonMediumTrans4
   {
-    preset Bounds = <31,240,81,290>;
+    preset Bounds = <24,249,89,314>;
     preset Label = Res::PlusIconTxt;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonMediumTrans PushButtonMediumTrans5
   {
-    preset Bounds = <114,240,164,290>;
+    preset Bounds = <100,249,165,314>;
     preset Label = Res::VideoCallTxt;
   }
 
@@ -5089,19 +5133,11 @@ class CallPage : Core::Group
   object Views::Text TimeTxt
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <20,57,93,87>;
+    preset Bounds = <8,57,81,87>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "calling...";
-    preset Font = Res::ContactFont;
+    preset Font = Res::ContactFont12;
     preset Color = #FAFAFAFF;
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonMediumRed PushButtonMediumTrans8
-  {
-    preset Bounds = <114,346,164,396>;
-    preset OnActivate = onEndCall;
-    preset Label = Res::EndCallTxt;
   }
 
   $rect <310,90,500,130>
@@ -5132,7 +5168,8 @@ class CallPage : Core::Group
   {
     if ( pure Contact != null )
     {
-      ContactName.String = pure Contact.LastName + " "  + pure Contact.FirstName;
+      ContactName.String  = pure Contact.LastName + " "  + pure Contact.FirstName;
+      User.Label = Application::MyContacts.GetInitials( pure Contact.LastName, pure Contact.FirstName);
       
     }
 
@@ -5150,16 +5187,78 @@ class CallPage : Core::Group
   $rect <530,240,730,280>
   property slot OnEndCall;
 
+  $rect <20,20,160,60>
+  object Application::PushButtonMediumRed PushButtonMediumRed
+  {
+    preset Bounds = <96,340,161,408>;
+    preset OnActivate = onEndCall;
+    preset Label = Res::EndCallTxt;
+  }
+
   $rect <317,239,517,279>
   slot onEndCall
   {
     signal OnEndCall;
   }
 
-  $rect <20,20,160,60>
-  object Application::PushButtonMediumTrans PushButtonMediumTrans6
+  $rect <530,50,730,90>
+  slot Slot
   {
-    preset Bounds = <132,314,197,379>;
+    sender; /* the method is called from the sender object */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text muteTxt
+  {
+    preset Bounds = <24,227,89,251>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "mute";
+    preset Font = Res::ContactFont12;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text speakerTxt
+  {
+    preset Bounds = <174,227,239,251>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "speaker";
+    preset Font = Res::ContactFont12;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text keypadTxt
+  {
+    preset Bounds = <96,227,161,251>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "keypad";
+    preset Font = Res::ContactFont12;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text addCallTxt
+  {
+    preset Bounds = <24,314,89,338>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "add call";
+    preset Font = Res::ContactFont12;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text contactsTxt
+  {
+    preset Bounds = <175,314,240,338>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "contacts";
+    preset Font = Res::ContactFont12;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text VideoCallTxt
+  {
+    preset Bounds = <100,314,165,338>;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "VideoCall";
+    preset Font = Res::ContactFont12;
   }
 }
 
@@ -5240,7 +5339,7 @@ class PushButtonMediumTrans : Templates::PushButton
 
     else if ( isPressed )
     {
-      Background.Color = Res::TransparentWhite;
+      Background.Color = Res::SemiTransparentWhite;
     }
 
     else if ( isSelected )
@@ -5466,7 +5565,7 @@ class PushButtonMediumTrans : Templates::PushButton
   $rect <20,20,160,60>
   object Views::Text Text
   {
-    preset Bounds = <0,0,55,55>;
+    preset Bounds = <0,0,65,65>;
     preset String = "";
     preset Font = Res::IconsFont20;
     preset Color = #FFFFFFFF;
@@ -5508,7 +5607,7 @@ $output false
 class PushButtonMediumRed : Templates::PushButton
 {
   $rect <480,310,680,350>
-  inherited property Bounds = <0,0,50,50>;
+  inherited property Bounds = <0,0,65,65>;
 
   $rect <710,190,910,230>
   inherited method UpdateViewState()
@@ -5578,18 +5677,18 @@ class PushButtonMediumRed : Templates::PushButton
 
     else if ( isPressed )
     {
-      Background.Color = Res::Red;
+      Background.Color = Res::RedLight;
     }
 
     else if ( isSelected )
     {
-      Background.Color =Res::Red;
+      Background.Color = Res::Red;
       }
 
     // Enabled but not pressed nor selected.
     else
     {
-      Background.Color = Res::Red;
+       Background.Color = Res::Red;
     }
 
 
@@ -5774,18 +5873,18 @@ class PushButtonMediumRed : Templates::PushButton
   object Views::Image Background
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,50,50>;
+    preset Bounds = <0,0,65,65>;
     preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium;
+    preset Bitmap = Res::ButtonRoundMedium1;
   }
 
   $rect <20,20,160,60>
   object Core::SimpleTouchHandler TouchHandler
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,50>;
-    preset Point3 = <50,50>;
-    preset Point2 = <50,0>;
+    preset Point4 = <0,65>;
+    preset Point3 = <65,65>;
+    preset Point2 = <65,0>;
     preset Point1 = <0,0>;
     preset OnLeave = onEnterLeaveTouch;
     preset OnEnter = onEnterLeaveTouch;
@@ -5804,7 +5903,7 @@ class PushButtonMediumRed : Templates::PushButton
   $rect <20,20,160,60>
   object Views::Text Text
   {
-    preset Bounds = <1,0,50,50>;
+    preset Bounds = <0,0,65,65>;
     preset String = "";
     preset Font = Res::IconsFont20;
     preset Color = #FFFFFFFF;

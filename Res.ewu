@@ -1,7 +1,6 @@
 ﻿$version 11.00
 
 // Font and color.
-
 note group Note
 {
   attr Bounds = <0,0,430,350>;
@@ -43,7 +42,7 @@ resource Resources::Bitmap AddIcon
 
 $rect <30,210,230,250>
 $output false
-resource Resources::Font ContactFont
+resource Resources::Font ContactFont15
 {
   attr fontname FontName = Roboto;
   attr fontheight Height = 15;
@@ -59,7 +58,7 @@ resource Resources::Font ContactFont
 
 $rect <30,250,230,290>
 $output false
-resource Resources::Font ContactFontBold
+resource Resources::Font ContactFontBold15
 {
   attr fontname FontName = Roboto;
   attr fontheight Height = 15;
@@ -153,7 +152,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -209,23 +208,23 @@ $rect <480,340,650,380>
 $output false
 const string BackIconTxt = "\xe5e0";
 
-$rect <220,40,420,80>
+$rect <1320,40,1520,80>
 $output false
-const color Blue = #0635FFD6;
+const color Blue = #1B0BFFD1;
 
 $rect <480,380,650,420>
 $output false
 const string SerachIconTxt = "\xe8b6";
 
-$rect <220,80,420,120>
+$rect <1320,80,1520,120>
 $output false
 const color Gery = #BCBCBCFD;
 
-$rect <220,120,420,160>
+$rect <1520,80,1720,120>
 $output false
 const color GeryLight = #F0F0F0FD;
 
-$rect <220,160,420,200>
+$rect <1320,160,1520,200>
 $output false
 const color Black = #181818FF;
 
@@ -282,7 +281,6 @@ resource Resources::Font IconsFont30
 }
 
 // Icon fonts
-
 note group Note2
 {
   attr Bounds = <440,0,860,500>;
@@ -307,7 +305,6 @@ autoobject Effects::FadeInOutTransition FadeInOutCentered
 }
 
 // Effects
-
 note group Note3
 {
   attr Bounds = <0,360,430,710>;
@@ -443,9 +440,9 @@ resource Resources::Font TitileFont25
   attr fontrowdistance RowDistance;
 }
 
-$rect <220,200,420,240>
+$rect <1320,200,1520,240>
 $output false
-const color TransparentWhite = #F5F5F598;
+const color TransparentWhite = #FFFFFF26;
 
 $rect <660,130,830,170>
 $output false
@@ -471,7 +468,7 @@ $rect <660,330,830,370>
 $output false
 const string EndCallTxt = "\xe0b1";
 
-$rect <220,240,420,280>
+$rect <1320,120,1520,160>
 $output false
 const color Red = #B5280FFF;
 
@@ -486,3 +483,46 @@ resource Resources::Bitmap ButtonRoundMedium1
   attr bitmapdithering Dithering = Auto;
   attr bitmapmode Mode = Default;
 }
+
+$rect <1520,40,1720,80>
+$output false
+const color BlueLight = #1B0BFFFF;
+
+// Colors
+
+note group Note4
+{
+  attr Bounds = <1300,0,1720,350>;
+}
+
+$rect <1520,120,1720,160>
+$output false
+const color RedLight = #E83C32EE;
+
+$rect <230,210,430,250>
+$output false
+resource Resources::Font ContactFont12
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 12;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <1520,200,1720,240>
+$output false
+const color SemiTransparentWhite = #FFFFFF45;
+
+$rect <660,370,830,410>
+$output false
+const string Uptxt = "\xe5ce";
+
+$rect <660,410,830,450>
+$output false
+const string DownTxt = "\xe5cf";
