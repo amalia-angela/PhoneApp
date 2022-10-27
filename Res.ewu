@@ -152,7 +152,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -416,7 +416,7 @@ resource Resources::Font IconsFont20
   attr fontheight Height = 20;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -450,7 +450,7 @@ const string MicTxt = "\xe029";
 
 $rect <660,170,830,210>
 $output false
-const string MicOffTxt = "\xe8b6";
+const string MicOffTxt = "\xe02b";
 
 $rect <660,210,830,250>
 $output false
@@ -489,7 +489,6 @@ $output false
 const color BlueLight = #1B0BFFFF;
 
 // Colors
-
 note group Note4
 {
   attr Bounds = <1300,0,1720,350>;
@@ -517,7 +516,7 @@ resource Resources::Font ContactFont12
 
 $rect <1520,200,1720,240>
 $output false
-const color SemiTransparentWhite = #FFFFFF45;
+const color SemiTransparentWhite = #FFFFFF73;
 
 $rect <660,370,830,410>
 $output false
@@ -526,3 +525,11 @@ const string Uptxt = "\xe5ce";
 $rect <660,410,830,450>
 $output false
 const string DownTxt = "\xe5cf";
+
+$rect <660,450,830,490>
+$output false
+const string SpeakeroffTxt = "\xe04e";
+
+$rect <1520,240,1720,280>
+$output false
+const color White = #FFFFFFF9;
