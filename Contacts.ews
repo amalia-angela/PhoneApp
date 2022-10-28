@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::ContactsCall;
-attr callStackMonitor_Show = false;
+attr active = Application::Application;
+attr callStackMonitor_Show = true;
 attr codeColSelect = false;
-attr codeFirstPos = <0,0>;
-attr codeInspector = Application::ContactsCall.onCancel;
-attr codeSelEnd = <16,0>;
-attr codeSelStart = <16,0>;
+attr codeFirstPos = <0,6>;
+attr codeInspector = Application::NavBarButtons.UpdateViewState;
+attr codeSelEnd = <37,18>;
+attr codeSelStart = <37,18>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -45,54 +45,42 @@ view unit Application
   attr zoom = 1.0;
 }
 
+view class Application::NavBar
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-61>;
+  attr zoom = 1.5;
+}
+
+view class Application::NavBarButtons
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,6>;
+  attr codeInspector = UpdateViewState;
+  attr codeSelEnd = <37,18>;
+  attr codeSelStart = <37,18>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view unit Res
+{
+  attr enableWireMode = false;
+  attr scrollTo = <1036,-103>;
+  attr zoom = 1.0;
+}
+
 view class Application::ContactsPage
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,233>;
   attr zoom = 1.0;
 }
 
-view class Application::ContactAddPage
+view class Application::Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,185>;
   attr zoom = 1.0;
-}
-
-view class Application::ContactDetailsPage
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::ContactEditPage
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-103>;
-  attr zoom = 1.0;
-}
-
-view class Application::CallPage
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onContactsPress;
-  attr codeSelEnd = <53,5>;
-  attr codeSelStart = <53,5>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,137>;
-  attr zoom = 1.0;
-}
-
-view class Application::ContactsCall
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onCancel;
-  attr codeSelEnd = <16,0>;
-  attr codeSelStart = <16,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-151>;
-  attr zoom = 1.25;
 }

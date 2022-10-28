@@ -92,7 +92,7 @@ profile Profile : Tara.Win32.RGBA8888
 }
 
 $rect <40,270,240,310>
-unit WidgetSet
+unit Templates
 {
   attr Directory = $Mosaic\;
 }
@@ -101,10 +101,4 @@ $rect <290,230,490,270>
 unit Res
 {
   attr Directory = .\;
-}
-
-$rect <40,310,240,350>
-unit Templates
-{
-  attr Directory = $Mosaic\;
 }
