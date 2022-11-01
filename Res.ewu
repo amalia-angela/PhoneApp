@@ -1,45 +1,45 @@
 ﻿$version 11.00
 
-$rect <1501,17,1671,57>
+$rect <940,138,1110,178>
 $output false
 const string CallTxt = "\xe0b0";
 
-$rect <1501,57,1671,97>
+$rect <940,178,1110,218>
 $output false
 const string MessageIconTxt = "\xe253";
 
-$rect <1501,227,1671,267>
+$rect <940,348,1110,388>
 $output false
 const string BackIconTxt = "\xe5e0";
 
-$rect <1501,177,1671,217>
+$rect <940,298,1110,338>
 $output false
 const string EditIconTxt = "\xe3c9";
 
-$rect <1501,97,1671,137>
+$rect <940,218,1110,258>
 $output false
 const string UserIconTxt = "\xe853";
 
-$rect <1501,137,1671,177>
+$rect <940,258,1110,298>
 $output false
 const string PlusIconTxt = "\xe145";
 
-$rect <1501,267,1671,307>
+$rect <940,388,1110,428>
 $output false
 const string SerachIconTxt = "\xe8b6";
 
-$rect <1501,307,1671,347>
+$rect <940,428,1110,468>
 $output false
 const string CkeckIconTxt = "\xe876";
 
-$rect <1501,347,1671,387>
+$rect <940,468,1110,508>
 $output false
 const string CloseIconTxt = "\xe5cd";
 
 // Font and color.
 note group Note4
 {
-  attr Bounds = <1021,-113,1451,237>;
+  attr Bounds = <440,10,870,360>;
 }
 
 // The global autoobject Res::SlideDownCentered represents the fade-in/out operation \
@@ -58,7 +58,7 @@ note group Note4
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <1031,457,1281,497>
+$rect <450,580,700,620>
 $output false
 autoobject Effects::SlideTransition SlideDownCentered
 {
@@ -82,7 +82,7 @@ autoobject Effects::SlideTransition SlideDownCentered
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <1031,417,1281,457>
+$rect <450,540,700,580>
 $output false
 autoobject Effects::SlideTransition SlideUpCentered
 {
@@ -107,7 +107,7 @@ autoobject Effects::SlideTransition SlideUpCentered
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <1031,377,1281,417>
+$rect <450,500,700,540>
 $output false
 autoobject Effects::SlideTransition SlideRightCentered
 {
@@ -115,7 +115,7 @@ autoobject Effects::SlideTransition SlideRightCentered
   preset Direction = Core::Direction.Right;
 }
 
-$rect <1031,-73,1231,-33>
+$rect <450,50,650,90>
 $output false
 resource Resources::Font TitileFont32
 {
@@ -131,7 +131,7 @@ resource Resources::Font TitileFont32
   attr fontrowdistance RowDistance;
 }
 
-$rect <1051,97,1251,137>
+$rect <470,220,670,260>
 $output false
 resource Resources::Font ContactFont15
 {
@@ -147,7 +147,7 @@ resource Resources::Font ContactFont15
   attr fontrowdistance RowDistance;
 }
 
-$rect <1051,137,1251,177>
+$rect <470,260,670,300>
 $output false
 resource Resources::Font ContactFontBold15
 {
@@ -163,7 +163,7 @@ resource Resources::Font ContactFontBold15
   attr fontrowdistance RowDistance;
 }
 
-$rect <1471,-23,1671,17>
+$rect <910,98,1110,138>
 $output false
 resource Resources::Font IconsFont25
 {
@@ -171,7 +171,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -179,43 +179,43 @@ resource Resources::Font IconsFont25
   attr fontrowdistance RowDistance;
 }
 
-$rect <2110,-70,2310,-30>
+$rect <219,413,419,453>
 $output false
 const color BlueLight = #7C8FFFF4;
 
-$rect <1911,-33,2111,7>
+$rect <20,450,220,490>
 $output false
-const color Gery = #BCBCBCFD;
+const color Grey = #BCBCBCFD;
 
-$rect <1681,17,1851,57>
+$rect <1120,138,1290,178>
 $output false
 const string MicTxt = "\xe029";
 
-$rect <1681,57,1851,97>
+$rect <1120,178,1290,218>
 $output false
 const string MicOffTxt = "\xe02b";
 
-$rect <1681,97,1851,137>
+$rect <1120,218,1290,258>
 $output false
 const string KeypadTxt = "\xe31a";
 
-$rect <2111,-33,2311,7>
+$rect <220,450,420,490>
 $output false
 const color GeryLight = #F0F0F0FD;
 
-$rect <1681,137,1851,177>
+$rect <1120,258,1290,298>
 $output false
 const string SpeakerTxt = "\xe050";
 
-$rect <1911,167,2111,207>
+$rect <20,650,220,690>
 $output false
 const color Black = #181818FF;
 
-$rect <1681,217,1851,257>
+$rect <1120,338,1290,378>
 $output false
 const string EndCallTxt = "\xe0b1";
 
-$rect <1031,-33,1231,7>
+$rect <450,90,650,130>
 $output false
 resource Resources::Font TitileFont29
 {
@@ -231,11 +231,11 @@ resource Resources::Font TitileFont29
   attr fontrowdistance RowDistance;
 }
 
-$rect <1681,177,1851,217>
+$rect <1120,298,1290,338>
 $output false
 const string VideoCallTxt = "\xe04b";
 
-$rect <1471,-63,1671,-23>
+$rect <910,58,1110,98>
 $output false
 resource Resources::Font IconsFont30
 {
@@ -243,7 +243,7 @@ resource Resources::Font IconsFont30
   attr fontheight Height = 40;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -254,16 +254,16 @@ resource Resources::Font IconsFont30
 // Icon fonts
 note group Note6
 {
-  attr Bounds = <1461,-113,1880,470>;
+  attr Bounds = <900,8,1319,591>;
 }
 
 // Effects
 note group Note7
 {
-  attr Bounds = <1021,247,1451,597>;
+  attr Bounds = <440,370,870,720>;
 }
 
-$rect <1671,-63,1871,-23>
+$rect <1110,58,1310,98>
 $output false
 resource Resources::Font IconsFont20
 {
@@ -271,7 +271,7 @@ resource Resources::Font IconsFont20
   attr fontheight Height = 20;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -279,7 +279,7 @@ resource Resources::Font IconsFont20
   attr fontrowdistance RowDistance;
 }
 
-$rect <1031,7,1231,47>
+$rect <450,130,650,170>
 $output false
 resource Resources::Font TitileFont25
 {
@@ -295,41 +295,41 @@ resource Resources::Font TitileFont25
   attr fontrowdistance RowDistance;
 }
 
-$rect <2111,127,2311,167>
+$rect <220,610,420,650>
 $output false
 const color WhiteTransparent = #FFFFFF26;
 
-$rect <1911,7,2111,47>
+$rect <20,490,220,530>
 $output false
 const color Red = #B5280FFF;
 
-$rect <1910,-70,2110,-30>
+$rect <19,413,219,453>
 $output false
 const color Blue = #1B0BFFFF;
 
-$rect <1681,297,1851,337>
+$rect <1120,418,1290,458>
 $output false
 const string DownTxt = "\xe5cf";
 
-$rect <1681,257,1851,297>
+$rect <1120,378,1290,418>
 $output false
 const string Uptxt = "\xe5ce";
 
-$rect <1681,337,1851,377>
+$rect <1120,458,1290,498>
 $output false
 const string SpeakeroffTxt = "\xe04e";
 
 // Colors
 note group Note8
 {
-  attr Bounds = <1891,-113,2311,237>;
+  attr Bounds = <0,370,420,720>;
 }
 
-$rect <2111,7,2311,47>
+$rect <220,490,420,530>
 $output false
 const color RedLight = #E83C32EE;
 
-$rect <1251,97,1451,137>
+$rect <670,220,870,260>
 $output false
 resource Resources::Font ContactFont12
 {
@@ -345,33 +345,33 @@ resource Resources::Font ContactFont12
   attr fontrowdistance RowDistance;
 }
 
-$rect <2111,87,2311,127>
+$rect <220,570,420,610>
 $output false
 const color WhiteSemiTransparent = #FFFFFF73;
 
-$rect <1911,87,2111,127>
+$rect <20,570,220,610>
 $output false
 const color White = #FFFFFFF9;
 
-$rect <1911,47,2111,87>
+$rect <20,530,220,570>
 $output false
 const color Green = #129915FF;
 
-$rect <2111,47,2311,87>
+$rect <220,530,420,570>
 $output false
 const color GreenDark = #0C6B0EFF;
 
-$rect <1911,127,2111,167>
+$rect <20,610,220,650>
 $output false
 const color Transparent = #FFFFFF00;
 
 // Bitmap recorces.
 note group Note5
 {
-  attr Bounds = <340,110,760,460>;
+  attr Bounds = <0,3,420,353>;
 }
 
-$rect <350,150,550,190>
+$rect <10,43,210,83>
 $output false
 resource Resources::Bitmap AddIcon
 {
@@ -383,7 +383,7 @@ resource Resources::Bitmap AddIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <350,190,550,230>
+$rect <10,83,210,123>
 $output false
 resource Resources::Bitmap SearchIcon
 {
@@ -395,7 +395,7 @@ resource Resources::Bitmap SearchIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <350,230,550,270>
+$rect <10,123,210,163>
 $output false
 resource Resources::Bitmap BackIcon
 {
@@ -407,7 +407,7 @@ resource Resources::Bitmap BackIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <350,270,550,310>
+$rect <10,163,210,203>
 $output false
 resource Resources::Bitmap PhoneIcon
 {
@@ -419,7 +419,7 @@ resource Resources::Bitmap PhoneIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <350,310,550,350>
+$rect <10,203,210,243>
 $output false
 resource Resources::Bitmap MessageIcon
 {
@@ -431,7 +431,7 @@ resource Resources::Bitmap MessageIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <350,350,550,390>
+$rect <10,243,210,283>
 $output false
 resource Resources::Bitmap UserIcon
 {
@@ -443,7 +443,7 @@ resource Resources::Bitmap UserIcon
   attr bitmapmode Mode = Default;
 }
 
-$rect <550,150,750,190>
+$rect <210,43,410,83>
 $output false
 resource Resources::Bitmap ButtonRoundMedium
 {
@@ -455,7 +455,7 @@ resource Resources::Bitmap ButtonRoundMedium
   attr bitmapmode Mode = Default;
 }
 
-$rect <550,190,750,230>
+$rect <210,83,410,123>
 $output false
 resource Resources::Bitmap ButtonRoundBig
 {
@@ -467,7 +467,7 @@ resource Resources::Bitmap ButtonRoundBig
   attr bitmapmode Mode = Default;
 }
 
-$rect <550,230,750,270>
+$rect <210,123,410,163>
 $output false
 resource Resources::Bitmap ButtonRoundSmall
 {
@@ -479,7 +479,7 @@ resource Resources::Bitmap ButtonRoundSmall
   attr bitmapmode Mode = Default;
 }
 
-$rect <550,270,750,310>
+$rect <210,163,410,203>
 $output false
 resource Resources::Bitmap SearchButton
 {
@@ -491,7 +491,7 @@ resource Resources::Bitmap SearchButton
   attr bitmapmode Mode = Default;
 }
 
-$rect <560,310,760,350>
+$rect <220,203,420,243>
 $output false
 resource Resources::Bitmap ButtonRoundMedium1
 {
@@ -514,7 +514,7 @@ resource Resources::Bitmap ButtonRoundMedium1
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <501,407,751,447>
+$rect <450,420,700,460>
 $output false
 autoobject Effects::FadeInOutTransition FadeInOutCentered
 {
@@ -538,7 +538,7 @@ autoobject Effects::FadeInOutTransition FadeInOutCentered
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <501,447,751,487>
+$rect <450,460,700,500>
 $output false
 autoobject Effects::SlideTransition SlideLeftCentered
 {
@@ -546,6 +546,14 @@ autoobject Effects::SlideTransition SlideLeftCentered
   preset Direction = Core::Direction.Left;
 }
 
-$rect <1680,380,1850,420>
+$rect <1119,501,1289,541>
 $output false
 const string HeartTxt = "\xe87d";
+
+$rect <1254,344,1454,384>
+$output false
+const string Backspace = "\xe14a";
+
+$rect <220,650,420,690>
+$output false
+const color PressColor = #F8F8F8D5;

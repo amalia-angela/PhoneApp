@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::Application;
-attr callStackMonitor_Show = true;
+attr active = Application::InComingCall;
+attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,6>;
-attr codeInspector = Application::NavBarButtons.UpdateViewState;
-attr codeSelEnd = <37,18>;
-attr codeSelStart = <37,18>;
+attr codeFirstPos = <0,0>;
+attr codeInspector = Application::InComingCall.onCallState;
+attr codeSelEnd = <68,13>;
+attr codeSelStart = <68,13>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -21,7 +21,7 @@ attr extractDoc_Variants = false;
 attr generateClut_ReservedColors = 0;
 attr heapMonitor_Show = false;
 attr language = Default;
-attr profile = Profile;
+attr profile = Simulation;
 attr profilerMonitor_Show = false;
 attr search_CaseSensitive = false;
 attr search_History = FindContact,Application::PushButton2,PushButton1,PushButton,PushButtonSmall,AddButtonConfig,Application::PushButtonSmall,SelectedContact,CurrentPos,rc, pos ,Caret,ObtainFocus,cursor,OnChange,Text.String;
@@ -41,46 +41,47 @@ view Project
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,-55>;
   attr zoom = 1.0;
 }
 
-view class Application::NavBar
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-61>;
-  attr zoom = 1.5;
-}
-
-view class Application::NavBarButtons
+view class Application::CallPage
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,6>;
-  attr codeInspector = UpdateViewState;
-  attr codeSelEnd = <37,18>;
-  attr codeSelStart = <37,18>;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onEndCallPress;
+  attr codeSelEnd = <0,2>;
+  attr codeSelStart = <0,2>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view unit Res
-{
-  attr enableWireMode = false;
-  attr scrollTo = <1036,-103>;
-  attr zoom = 1.0;
-}
-
-view class Application::ContactsPage
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,233>;
+  attr scrollTo = <-7,-18>;
   attr zoom = 1.0;
 }
 
 view class Application::Application
 {
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onCallState;
+  attr codeSelEnd = <0,13>;
+  attr codeSelStart = <0,13>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,185>;
+  attr scrollTo = <-7,-55>;
   attr zoom = 1.0;
+}
+
+view class Application::InComingCall
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onCallState;
+  attr codeSelEnd = <68,13>;
+  attr codeSelStart = <68,13>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+breakpoints
+{
+  Application::CallPage.onEndCallPress 3;
 }

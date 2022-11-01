@@ -1,35 +1,35 @@
 ﻿$version 11.00
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <40,70,240,110>
+$rect <30,300,230,340>
 unit Core
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <40,110,240,150>
+$rect <30,340,230,380>
 unit Resources
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <40,150,240,190>
+$rect <30,380,230,420>
 unit Graphics
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <40,190,240,230>
+$rect <30,420,230,460>
 unit Effects
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <40,230,240,270>
+$rect <30,460,230,500>
 unit Views
 {
   attr Directory = $Mosaic;
@@ -37,11 +37,11 @@ unit Views
 
 // The 'default' Language. Each project has to contain at least one language brick \
 // called 'Default'
-$rect <540,70,740,110>
+$rect <530,60,730,100>
 language Default;
 
 // This unit is intended to contain the application class and other GUI components.
-$rect <290,190,490,230>
+$rect <30,60,230,100>
 unit Application
 {
   attr Directory = .\;
@@ -50,30 +50,30 @@ unit Application
 // Mosaic Framework
 note group Note1
 {
-  attr Bounds = <20,20,260,360>;
+  attr Bounds = <10,250,250,590>;
 }
 
 // Profile Configuration
 note group Note2
 {
-  attr Bounds = <270,20,510,130>;
+  attr Bounds = <260,10,500,240>;
 }
 
 // Languages
 note group Note3
 {
-  attr Bounds = <520,20,760,130>;
+  attr Bounds = <510,10,750,120>;
 }
 
 // Project Units
 note group Note5
 {
-  attr Bounds = <270,140,760,290>;
+  attr Bounds = <10,10,250,240>;
 }
 
 // This is a profile member for the project. This profile controls the code generation \
 // for the target system.
-$rect <290,70,490,110>
+$rect <280,60,480,100>
 profile Profile : Tara.Win32.RGBA8888
 {
   attr Verbose = false;
@@ -87,18 +87,44 @@ profile Profile : Tara.Win32.RGBA8888
   $rect <10,10,170,50>
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
 
-  $rect <10,60,170,100>
+  $rect <10,50,170,90>
   macro SimulateData = true;
 }
 
-$rect <40,270,240,310>
+$rect <30,500,230,540>
 unit Templates
 {
   attr Directory = $Mosaic\;
 }
 
-$rect <290,230,490,270>
+$rect <30,100,230,140>
 unit Res
 {
   attr Directory = .\;
+}
+
+// This is a profile member for the project. This profile controls the code generation \
+// for the target system.
+$rect <280,100,480,140>
+profile Simulation : Tara.Win32.RGBA8888
+{
+  attr Verbose = false;
+  attr ScreenSize = <800,480>;
+  attr Optimization = High;
+  attr ApplicationClass = Application::Application;
+  attr CleanOutputDirectories = false;
+  attr FontConversion = Windows;
+  attr OutputFileNameExtension = c;
+
+  $rect <10,10,170,50>
+  macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
+
+  $rect <10,50,170,90>
+  macro SimulateData = true;
+}
+
+$rect <30,540,230,580>
+unit WidgetSet
+{
+  attr Directory = $Mosaic\;
 }
