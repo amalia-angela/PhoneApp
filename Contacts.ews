@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::FavContactItem;
+attr active = Application::InComingCall;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::FavContactItem.onDelete;
-attr codeSelEnd = <0,0>;
-attr codeSelStart = <0,0>;
+attr codeInspector = Application::InComingCall.getContact;
+attr codeSelEnd = <28,6>;
+attr codeSelStart = <28,6>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -21,7 +21,7 @@ attr extractDoc_Variants = false;
 attr generateClut_ReservedColors = 0;
 attr heapMonitor_Show = false;
 attr language = Default;
-attr profile = Profile;
+attr profile = Simulation;
 attr profilerMonitor_Show = false;
 attr search_CaseSensitive = false;
 attr search_History = invalidHead,FindContact,Application::PushButton2,PushButton1,PushButton,PushButtonSmall,AddButtonConfig,Application::PushButtonSmall,SelectedContact,CurrentPos,rc, pos ,Caret,ObtainFocus,cursor,OnChange,Text.String;
@@ -34,7 +34,7 @@ attr search_WildCards = false;
 view Project
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,89>;
   attr zoom = 1.0;
 }
 
@@ -45,70 +45,59 @@ view unit Application
   attr zoom = 1.0;
 }
 
-view class Application::FavoritesPage
+view class Application::Contact
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onContactActivated;
-  attr codeSelEnd = <0,1>;
-  attr codeSelStart = <0,1>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-55>;
-  attr zoom = 1.0;
-}
-
-view class Application::FavContactItem
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onDelete;
+  attr codeInspector = OnSetFirstName;
   attr codeSelEnd = <0,0>;
   attr codeSelStart = <0,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-108,-7>;
-  attr zoom = 1.25;
-}
-
-view class Application::ContactsPage
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onCloseContact;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <84,0>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,41>;
-  attr zoom = 1.0;
-}
-
-view class Application::ContactDetailsPage
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onTapEdit;
-  attr codeSelEnd = <9,5>;
-  attr codeSelStart = <9,5>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view class Application::ContactEditPage
+view class Application::Application
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onDeleteContact;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
+  attr codeInspector = onCallState;
+  attr codeSelEnd = <57,17>;
+  attr codeSelStart = <57,17>;
   attr enableWireMode = false;
-  attr scrollTo = <-7,41>;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::CallPage
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::InComingCall
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = getContact;
+  attr codeSelEnd = <28,6>;
+  attr codeSelStart = <28,6>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view unit Core
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,233>;
   attr zoom = 1.0;
 }
 
 breakpoints
 {
   Application::FavContactItem.onCloseWindow 1;
-  Application::FavContactItem.onDelete 2;
   Application::FavoritesPage.onCloseWindow 1;
   Application::FavoritesPage.onContactActivated 2;
   Application::FavoritesPage.onContactActivated 4;
@@ -116,4 +105,8 @@ breakpoints
   Application::FavoritesPage.onContactActivated 8;
   Application::FavoritesPage.onDeleteContacts 1;
   Application::FavoritesPage.onOpenDetailsPage 3;
+  Application::RecentPage.onContactActivated 2;
+  Application::RecentPage.onContactActivated 4;
+  Application::RecentPage.onContactActivated 5;
+  Application::RecentPage.onContactActivated 8;
 }
