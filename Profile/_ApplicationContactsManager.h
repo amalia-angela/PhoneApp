@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationVariantContacts_H
-#define _ApplicationVariantContacts_H
+#ifndef _ApplicationContactsManager_H
+#define _ApplicationContactsManager_H
 
 #ifdef __cplusplus
   extern "C"
@@ -44,39 +44,34 @@
 
 #include "_ApplicationContacts.h"
 
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
+/* Forward declaration of the class Application::ContactsManager */
+#ifndef _ApplicationContactsManager_
+  EW_DECLARE_CLASS( ApplicationContactsManager )
+#define _ApplicationContactsManager_
 #endif
 
 
-/* Deklaration of class variant : 'Application::VariantContacts' */
-EW_DEFINE_VFIELDS( ApplicationVariantContacts, XObject, ApplicationContacts )
-EW_END_OF_VFIELDS( ApplicationVariantContacts )
+/* Deklaration of class : 'Application::ContactsManager' */
+EW_DEFINE_FIELDS( ApplicationContactsManager, XObject )
+  EW_VTHISPTR()
+  EW_OBJECT  ( Contacts,        ApplicationContacts )
+  EW_OBJECT  ( History,         ApplicationContacts )
+  EW_OBJECT  ( Favorites,       ApplicationContacts )
+  EW_OBJECT  ( Search,          ApplicationContacts )
+EW_END_OF_FIELDS( ApplicationContactsManager )
 
-/* Virtual Method Table (VMT) for the class variant : 'Application::VariantContacts' */
-EW_DEFINE_VMETHODS( ApplicationVariantContacts, XObject, ApplicationContacts )
-EW_END_OF_VMETHODS( ApplicationVariantContacts )
+/* Virtual Method Table (VMT) for the class : 'Application::ContactsManager' */
+EW_DEFINE_METHODS( ApplicationContactsManager, XObject )
+EW_END_OF_METHODS( ApplicationContactsManager )
 
-/* 'C' function for method : 'Application::VariantContacts.Init()' */
-void ApplicationVariantContacts_Init( ApplicationContacts _this, XHandle aArg );
-
-/* 'C' function for method : 'Application::VariantContacts.CreateContact()' */
-void ApplicationVariantContacts_CreateContact( ApplicationContacts _this, XString 
-  aLastName, XString aFirstName, XString aPhoneNumber );
-
-/* 'C' function for method : 'Application::VariantContacts.CreateContactData()' */
-void ApplicationVariantContacts_CreateContactData( ApplicationContacts _this );
-
-/* 'C' function for method : 'Application::VariantContacts.CreateContact1()' */
-void ApplicationVariantContacts_CreateContact1( ApplicationContacts _this, XString 
-  aLastName, XString aFirstName, XString aPhoneNumber );
+/* Variant Dispatch Method Table for the class : 'Application::ContactsManager' */
+EW_DEFINE_DISPATCHER( ApplicationContactsManager, XObject )
+EW_END_OF_DISPATCHER( ApplicationContactsManager )
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationVariantContacts_H */
+#endif /* _ApplicationContactsManager_H */
 
 /* Embedded Wizard */

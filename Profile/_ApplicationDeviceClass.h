@@ -53,6 +53,8 @@
 
 /* Deklaration of class : 'Application::DeviceClass' */
 EW_DEFINE_FIELDS( ApplicationDeviceClass, TemplatesDeviceClass )
+  EW_PROPERTY( CallingNumber,   XString )
+  EW_PROPERTY( CallState,       XEnum )
   EW_PROPERTY( Speaker,         XBool )
   EW_PROPERTY( Microphone,      XBool )
 EW_END_OF_FIELDS( ApplicationDeviceClass )
@@ -100,6 +102,42 @@ void ApplicationDeviceClass__UpdateSpeaker( void* _this, XBool aNewValue );
 
 /* The following define announces the presence of the method Application::DeviceClass.UpdateSpeaker(). */
 #define _ApplicationDeviceClass__UpdateSpeaker_
+
+/* 'C' function for method : 'Application::DeviceClass.OnGetCallState()' */
+XEnum ApplicationDeviceClass_OnGetCallState( ApplicationDeviceClass _this );
+
+/* 'C' function for method : 'Application::DeviceClass.OnSetCallState()' */
+void ApplicationDeviceClass_OnSetCallState( ApplicationDeviceClass _this, XEnum 
+  value );
+
+/* This method is intended to be called by the device to notify the GUI application 
+   about an alternation of its setting or state value. */
+void ApplicationDeviceClass_UpdateCallState( ApplicationDeviceClass _this, XInt32 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateCallState()' */
+void ApplicationDeviceClass__UpdateCallState( void* _this, XInt32 aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateCallState(). */
+#define _ApplicationDeviceClass__UpdateCallState_
+
+/* 'C' function for method : 'Application::DeviceClass.OnGetCallingNumber()' */
+XString ApplicationDeviceClass_OnGetCallingNumber( ApplicationDeviceClass _this );
+
+/* 'C' function for method : 'Application::DeviceClass.OnSetCallingNumber()' */
+void ApplicationDeviceClass_OnSetCallingNumber( ApplicationDeviceClass _this, XString 
+  value );
+
+/* This method is intended to be called by the device to notify the GUI application 
+   about an alternation of its setting or state value. */
+void ApplicationDeviceClass_UpdateCallingNumber( ApplicationDeviceClass _this, XString 
+  aNewValue );
+
+/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateCallingNumber()' */
+void ApplicationDeviceClass__UpdateCallingNumber( void* _this, XString aNewValue );
+
+/* The following define announces the presence of the method Application::DeviceClass.UpdateCallingNumber(). */
+#define _ApplicationDeviceClass__UpdateCallingNumber_
 
 #ifdef __cplusplus
   }

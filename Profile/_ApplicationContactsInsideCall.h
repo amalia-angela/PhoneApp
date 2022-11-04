@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationPushButtonBig_H
-#define _ApplicationPushButtonBig_H
+#ifndef _ApplicationContactsInsideCall_H
+#define _ApplicationContactsInsideCall_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,17 +42,31 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_CoreKeyPressHandler.h"
-#include "_CoreSimpleTouchHandler.h"
-#include "_CoreTimer.h"
-#include "_TemplatesPushButton.h"
-#include "_ViewsImage.h"
+#include "_ApplicationContactsPage.h"
+#include "_ApplicationPushButtonNoBackground.h"
+#include "_ApplicationSearchEtxt.h"
+#include "_ApplicationTextButton.h"
+#include "_CoreSlideTouchHandler.h"
+#include "_CoreVerticalList.h"
+#include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::PushButtonBig */
-#ifndef _ApplicationPushButtonBig_
-  EW_DECLARE_CLASS( ApplicationPushButtonBig )
-#define _ApplicationPushButtonBig_
+/* Forward declaration of the class Application::ContactAddPage */
+#ifndef _ApplicationContactAddPage_
+  EW_DECLARE_CLASS( ApplicationContactAddPage )
+#define _ApplicationContactAddPage_
+#endif
+
+/* Forward declaration of the class Application::ContactDetailsPage */
+#ifndef _ApplicationContactDetailsPage_
+  EW_DECLARE_CLASS( ApplicationContactDetailsPage )
+#define _ApplicationContactDetailsPage_
+#endif
+
+/* Forward declaration of the class Application::ContactsInsideCall */
+#ifndef _ApplicationContactsInsideCall_
+  EW_DECLARE_CLASS( ApplicationContactsInsideCall )
+#define _ApplicationContactsInsideCall_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -65,6 +79,12 @@
 #ifndef _CoreGroup_
   EW_DECLARE_CLASS( CoreGroup )
 #define _CoreGroup_
+#endif
+
+/* Forward declaration of the class Core::KeyPressHandler */
+#ifndef _CoreKeyPressHandler_
+  EW_DECLARE_CLASS( CoreKeyPressHandler )
+#define _CoreKeyPressHandler_
 #endif
 
 /* Forward declaration of the class Core::LayoutContext */
@@ -98,26 +118,14 @@
 #endif
 
 
-/* This class implements a 'push button' widget. When the user presses the button, 
-   a signal is sent to the slot method stored in its @OnActivate property. */
-EW_DEFINE_FIELDS( ApplicationPushButtonBig, TemplatesPushButton )
-  EW_OBJECT  ( FlashTimer,      CoreTimer )
-  EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
-  EW_OBJECT  ( Background,      ViewsImage )
-  EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
-  EW_OBJECT  ( Text,            ViewsText )
-  EW_OBJECT  ( DescripTxt,      ViewsText )
-  EW_PROPERTY( Initials,        XString )
-  EW_PROPERTY( Descript,        XString )
-  EW_PROPERTY( DescriptColor,   XColor )
-  EW_PROPERTY( InitialsColor,   XColor )
-  EW_VARIABLE( enabled,         XBool )
-  EW_VARIABLE( selected,        XBool )
-  EW_VARIABLE( pressed,         XBool )
-EW_END_OF_FIELDS( ApplicationPushButtonBig )
+/* Deklaration of class : 'Application::ContactsInsideCall' */
+EW_DEFINE_FIELDS( ApplicationContactsInsideCall, ApplicationContactsPage )
+  EW_PROPERTY( OnCancel,        XSlot )
+  EW_OBJECT  ( TextButton,      ApplicationTextButton )
+EW_END_OF_FIELDS( ApplicationContactsInsideCall )
 
-/* Virtual Method Table (VMT) for the class : 'Application::PushButtonBig' */
-EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
+/* Virtual Method Table (VMT) for the class : 'Application::ContactsInsideCall' */
+EW_DEFINE_METHODS( ApplicationContactsInsideCall, ApplicationContactsPage )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -139,7 +147,7 @@ EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateViewState,   void )( ApplicationPushButtonBig _this, XSet aState )
+  EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
@@ -149,61 +157,22 @@ EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-EW_END_OF_METHODS( ApplicationPushButtonBig )
+  EW_METHOD( onContactActivated, void )( ApplicationContactsInsideCall _this, XObject 
+    sender )
+EW_END_OF_METHODS( ApplicationContactsInsideCall )
 
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationPushButtonBig_UpdateViewState( ApplicationPushButtonBig _this, XSet 
-  aState );
-
-/* This internal slot method is called when the '@FlashTimer' is expired. It ends 
-   the short flash feedback effect. */
-void ApplicationPushButtonBig_onFlashTimer( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* This internal slot method is called when the '@KeyHandler' is activated (when 
-   the user has pressed the key specified in the property 'Filter' of the key handler). */
-void ApplicationPushButtonBig_onPressKey( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* This internal slot method is called when the user drags the finger while pressing 
-   the button. This only updates the button to appear pressed or released. */
-void ApplicationPushButtonBig_onEnterLeaveTouch( ApplicationPushButtonBig _this, 
+/* 'C' function for method : 'Application::ContactsInsideCall.onContactActivated()' */
+void ApplicationContactsInsideCall_onContactActivated( ApplicationContactsInsideCall _this, 
   XObject sender );
 
-/* This internal slot method is called when the user releases the touch screen after 
-   touching the button's area. This activates the button. */
-void ApplicationPushButtonBig_onReleaseTouch( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* This internal slot method is called when the user touches the button's area. */
-void ApplicationPushButtonBig_onPressTouch( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::PushButtonBig.OnSetInitials()' */
-void ApplicationPushButtonBig_OnSetInitials( ApplicationPushButtonBig _this, XString 
-  value );
-
-/* 'C' function for method : 'Application::PushButtonBig.OnSetDescript()' */
-void ApplicationPushButtonBig_OnSetDescript( ApplicationPushButtonBig _this, XString 
-  value );
+/* 'C' function for method : 'Application::ContactsInsideCall.onCancel()' */
+void ApplicationContactsInsideCall_onCancel( ApplicationContactsInsideCall _this, 
+  XObject sender );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationPushButtonBig_H */
+#endif /* _ApplicationContactsInsideCall_H */
 
 /* Embedded Wizard */

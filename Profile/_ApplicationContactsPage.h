@@ -45,7 +45,6 @@
 #include "_ApplicationPushButtonNoBackground.h"
 #include "_ApplicationSearchEtxt.h"
 #include "_CoreGroup.h"
-#include "_CoreSimpleTouchHandler.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
 #include "_ViewsRectangle.h"
@@ -119,13 +118,11 @@ EW_DEFINE_FIELDS( ApplicationContactsPage, CoreGroup )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
-  EW_OBJECT  ( SimpleTouchHandler, CoreSimpleTouchHandler )
   EW_OBJECT  ( UpButton,        ApplicationPushButtonNoBackground )
   EW_OBJECT  ( DownButton,      ApplicationPushButtonNoBackground )
   EW_OBJECT  ( SearchExt,       ApplicationSearchEtxt )
   EW_OBJECT  ( TitleTxt,        ViewsText )
   EW_OBJECT  ( PlusButton,      ApplicationPushButtonNoBackground )
-  EW_PROPERTY( SelectedContact, XInt32 )
 EW_END_OF_FIELDS( ApplicationContactsPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsPage' */
@@ -161,6 +158,8 @@ EW_DEFINE_METHODS( ApplicationContactsPage, CoreGroup )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
+  EW_METHOD( onContactActivated, void )( ApplicationContactsPage _this, XObject 
+    sender )
 EW_END_OF_METHODS( ApplicationContactsPage )
 
 /* The method Init() is invoked automatically after the component has been created. 
@@ -179,20 +178,12 @@ void ApplicationContactsPage_onSaveAdd( ApplicationContactsPage _this, XObject s
 void ApplicationContactsPage_onCancelAdd( ApplicationContactsPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::ContactsPage.OnSetSelectedContact()' */
-void ApplicationContactsPage_OnSetSelectedContact( ApplicationContactsPage _this, 
-  XInt32 value );
-
 /* 'C' function for method : 'Application::ContactsPage.onDeleteContact()' */
 void ApplicationContactsPage_onDeleteContact( ApplicationContactsPage _this, XObject 
   sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onSearch()' */
 void ApplicationContactsPage_onSearch( ApplicationContactsPage _this, XObject sender );
-
-/* 'C' function for method : 'Application::ContactsPage.onTapContact()' */
-void ApplicationContactsPage_onTapContact( ApplicationContactsPage _this, XObject 
-  sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onCloseContact()' */
 void ApplicationContactsPage_onCloseContact( ApplicationContactsPage _this, XObject 
@@ -218,8 +209,12 @@ void ApplicationContactsPage_onNoOfContactsChanged( ApplicationContactsPage _thi
 void ApplicationContactsPage_onContactsSortingChanged( ApplicationContactsPage _this, 
   XObject sender );
 
-/* Default onget method for the property 'SelectedContact' */
-XInt32 ApplicationContactsPage_OnGetSelectedContact( ApplicationContactsPage _this );
+/* 'C' function for method : 'Application::ContactsPage.onContactActivated()' */
+void ApplicationContactsPage_onContactActivated( ApplicationContactsPage _this, 
+  XObject sender );
+
+/* Wrapper function for the virtual method : 'Application::ContactsPage.onContactActivated()' */
+void ApplicationContactsPage__onContactActivated( void* _this, XObject sender );
 
 #ifdef __cplusplus
   }

@@ -192,6 +192,10 @@ void EffectsEffect_Animate( EffectsEffect _this, XFloat aProgress );
 /* Wrapper function for the virtual method : 'Effects::Effect.Animate()' */
 void EffectsEffect__Animate( void* _this, XFloat aProgress );
 
+/* The slot method 'StartEffect' re-starts the effect if a signal is sent to this 
+   slot method. The effect will start from the beginning. */
+void EffectsEffect_StartEffect( EffectsEffect _this, XObject sender );
+
 #ifdef __cplusplus
   }
 #endif

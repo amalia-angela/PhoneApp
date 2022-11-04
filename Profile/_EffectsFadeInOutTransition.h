@@ -72,6 +72,7 @@
    the transition should additionally enable the buffering mode for the affected 
    GUI component while it perform the animation. */
 EW_DEFINE_FIELDS( EffectsFadeInOutTransition, EffectsTransition )
+  EW_PROPERTY( Alignment,       XSet )
   EW_PROPERTY( Duration,        XInt32 )
 EW_END_OF_FIELDS( EffectsFadeInOutTransition )
 

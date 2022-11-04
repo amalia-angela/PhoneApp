@@ -46,6 +46,7 @@
 #include "_CoreSimpleTouchHandler.h"
 #include "_CoreTimer.h"
 #include "_TemplatesPushButton.h"
+#include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
 /* Forward declaration of the class Application::TextButton */
@@ -104,9 +105,15 @@ EW_DEFINE_FIELDS( ApplicationTextButton, TemplatesPushButton )
   EW_OBJECT  ( FlashTimer,      CoreTimer )
   EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
   EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
+  EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( TextTxt,         ViewsText )
   EW_PROPERTY( Text,            XString )
   EW_PROPERTY( TextColor,       XColor )
+  EW_PROPERTY( TextColorPress,  XColor )
+  EW_PROPERTY( BackgoundColor,  XColor )
+  EW_VARIABLE( enabled,         XBool )
+  EW_VARIABLE( selected,        XBool )
+  EW_VARIABLE( pressed,         XBool )
 EW_END_OF_FIELDS( ApplicationTextButton )
 
 /* Virtual Method Table (VMT) for the class : 'Application::TextButton' */
@@ -186,6 +193,14 @@ void ApplicationTextButton_OnSetText( ApplicationTextButton _this, XString value
 
 /* 'C' function for method : 'Application::TextButton.OnSetTextColor()' */
 void ApplicationTextButton_OnSetTextColor( ApplicationTextButton _this, XColor value );
+
+/* 'C' function for method : 'Application::TextButton.OnSetTextColorPress()' */
+void ApplicationTextButton_OnSetTextColorPress( ApplicationTextButton _this, XColor 
+  value );
+
+/* 'C' function for method : 'Application::TextButton.OnSetBackgoundColor()' */
+void ApplicationTextButton_OnSetBackgoundColor( ApplicationTextButton _this, XColor 
+  value );
 
 #ifdef __cplusplus
   }

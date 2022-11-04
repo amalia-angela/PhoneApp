@@ -101,6 +101,7 @@
 /* This class implements a 'push button' widget. When the user presses the button, 
    a signal is sent to the slot method stored in its @OnActivate property. */
 EW_DEFINE_FIELDS( ApplicationKeyPadButtons, TemplatesPushButton )
+  EW_PROPERTY( OnActivate,      XSlot )
   EW_OBJECT  ( FlashTimer,      CoreTimer )
   EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
   EW_OBJECT  ( Background,      ViewsImage )
@@ -112,6 +113,9 @@ EW_DEFINE_FIELDS( ApplicationKeyPadButtons, TemplatesPushButton )
   EW_PROPERTY( ButtonColor,     XColor )
   EW_PROPERTY( IconColor,       XColor )
   EW_PROPERTY( TextColor,       XColor )
+  EW_PROPERTY( ButtonColorPressed, XColor )
+  EW_PROPERTY( IconColorPressed, XColor )
+  EW_PROPERTY( TextColorPressed, XColor )
   EW_VARIABLE( enabled,         XBool )
   EW_VARIABLE( selected,        XBool )
   EW_VARIABLE( pressed,         XBool )
@@ -177,6 +181,10 @@ void ApplicationKeyPadButtons_OnSetText( ApplicationKeyPadButtons _this, XString
 void ApplicationKeyPadButtons_OnSetButtonColor( ApplicationKeyPadButtons _this, 
   XColor value );
 
+/* 'C' function for method : 'Application::KeyPadButtons.OnSetIconColor()' */
+void ApplicationKeyPadButtons_OnSetIconColor( ApplicationKeyPadButtons _this, XColor 
+  value );
+
 /* This internal slot method is called when the '@FlashTimer' is expired. It ends 
    the short flash feedback effect. */
 void ApplicationKeyPadButtons_onFlashTimer( ApplicationKeyPadButtons _this, XObject 
@@ -204,6 +212,22 @@ void ApplicationKeyPadButtons_onReleaseTouch( ApplicationKeyPadButtons _this, XO
 /* This internal slot method is called when the user touches the button's area. */
 void ApplicationKeyPadButtons_onPressTouch( ApplicationKeyPadButtons _this, XObject 
   sender );
+
+/* 'C' function for method : 'Application::KeyPadButtons.OnSetTextColor()' */
+void ApplicationKeyPadButtons_OnSetTextColor( ApplicationKeyPadButtons _this, XColor 
+  value );
+
+/* 'C' function for method : 'Application::KeyPadButtons.OnSetButtonColorPressed()' */
+void ApplicationKeyPadButtons_OnSetButtonColorPressed( ApplicationKeyPadButtons _this, 
+  XColor value );
+
+/* 'C' function for method : 'Application::KeyPadButtons.OnSetIconColorPressed()' */
+void ApplicationKeyPadButtons_OnSetIconColorPressed( ApplicationKeyPadButtons _this, 
+  XColor value );
+
+/* 'C' function for method : 'Application::KeyPadButtons.OnSetTextColorPressed()' */
+void ApplicationKeyPadButtons_OnSetTextColorPressed( ApplicationKeyPadButtons _this, 
+  XColor value );
 
 #ifdef __cplusplus
   }

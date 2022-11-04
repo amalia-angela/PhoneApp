@@ -118,10 +118,9 @@ EW_DEFINE_FIELDS( ApplicationContactAddPage, CoreGroup )
   EW_OBJECT  ( Line2,           ViewsLine )
   EW_OBJECT  ( LastNameTxt,     ApplicationInputEtxt )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( AddPhotoTxt,     ViewsText )
   EW_OBJECT  ( UserInitials,    ApplicationPushButtonBig )
   EW_OBJECT  ( TitleTxt,        ViewsText )
-  EW_OBJECT  ( PushButton,      ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( SaveBtn,         ApplicationPushButtonNoBackground )
   EW_OBJECT  ( CloseButton,     ApplicationPushButtonNoBackground )
 EW_END_OF_FIELDS( ApplicationContactAddPage )
 
@@ -148,7 +147,7 @@ EW_DEFINE_METHODS( ApplicationContactAddPage, CoreGroup )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
+  EW_METHOD( UpdateViewState,   void )( ApplicationContactAddPage _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
@@ -159,6 +158,23 @@ EW_DEFINE_METHODS( ApplicationContactAddPage, CoreGroup )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
 EW_END_OF_METHODS( ApplicationContactAddPage )
+
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationContactAddPage_UpdateViewState( ApplicationContactAddPage _this, 
+  XSet aState );
 
 /* 'C' function for method : 'Application::ContactAddPage.onSave()' */
 void ApplicationContactAddPage_onSave( ApplicationContactAddPage _this, XObject 
@@ -175,6 +191,10 @@ void ApplicationContactAddPage_onContactUpdated( ApplicationContactAddPage _this
 /* 'C' function for method : 'Application::ContactAddPage.onClose()' */
 void ApplicationContactAddPage_onClose( ApplicationContactAddPage _this, XObject 
   sender );
+
+/* 'C' function for method : 'Application::ContactAddPage.onFieldChanged()' */
+void ApplicationContactAddPage_onFieldChanged( ApplicationContactAddPage _this, 
+  XObject sender );
 
 #ifdef __cplusplus
   }

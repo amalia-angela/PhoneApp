@@ -994,6 +994,19 @@ __declspec( naked ) void EffectsEffect__Animate( void* _this, XFloat aProgress )
   }
 }
 
+/* The slot method 'StartEffect' re-starts the effect if a signal is sent to this 
+   slot method. The effect will start from the beginning. */
+void EffectsEffect_StartEffect( EffectsEffect _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Enabled )
+    EffectsEffect_OnSetEnabled( _this, 0 );
+
+  EffectsEffect_OnSetEnabled( _this, 1 );
+}
+
 /* Variants derived from the class : 'Effects::Effect' */
 EW_DEFINE_CLASS_VARIANTS( EffectsEffect )
 EW_END_OF_CLASS_VARIANTS( EffectsEffect )
@@ -2302,6 +2315,7 @@ void EffectsFadeInOutTransition__Init( EffectsFadeInOutTransition _this, XObject
   _this->_.VMT = EW_CLASS( EffectsFadeInOutTransition );
 
   /* ... and initialize objects, variables, properties, etc. */
+  _this->Alignment = EffectsDialogAlignmentAlignHorzCenter | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 500;
 }
 
@@ -2405,20 +2419,24 @@ EffectsFader EffectsFadeInOutTransition_CreateOverlayFader( EffectsFadeInOutTran
 void EffectsFadeInOutTransition_onInitializeIn( EffectsFadeInOutTransition _this, 
   XObject sender )
 {
-  EffectsPositionFader fader;
-  XRect bounds;
-  XPoint size;
-  XPoint pos;
+  EffectsPositionFader fader = EwCastObject( sender, EffectsPositionFader );
+  XSet align = _this->Alignment;
+  XRect bounds = EwGetRectORect( fader->Super1.Owner->Super1.Bounds );
+  XPoint size = EwGetRectSize( fader->Super1.Group->Super1.Bounds );
+  XPoint pos = bounds.Point1;
 
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
+  if ((( align & EffectsDialogAlignmentAlignHorzRight ) == EffectsDialogAlignmentAlignHorzRight ))
+    pos.X = ( bounds.Point2.X - size.X );
+  else
+    if ((( align & EffectsDialogAlignmentAlignHorzCenter ) == EffectsDialogAlignmentAlignHorzCenter ))
+      pos.X = (( bounds.Point1.X + ( EwGetRectW( bounds ) / 2 )) - ( size.X / 2 ));
 
-  fader = EwCastObject( sender, EffectsPositionFader );
-  bounds = EwGetRectORect( fader->Super1.Owner->Super1.Bounds );
-  size = EwGetRectSize( fader->Super1.Group->Super1.Bounds );
-  pos = bounds.Point1;
-  pos.X = (( bounds.Point1.X + ( EwGetRectW( bounds ) / 2 )) - ( size.X / 2 ));
-  pos.Y = (( bounds.Point1.Y + ( EwGetRectH( bounds ) / 2 )) - ( size.Y / 2 ));
+  if ((( align & EffectsDialogAlignmentAlignVertBottom ) == EffectsDialogAlignmentAlignVertBottom ))
+    pos.Y = ( bounds.Point2.Y - size.Y );
+  else
+    if ((( align & EffectsDialogAlignmentAlignVertCenter ) == EffectsDialogAlignmentAlignVertCenter ))
+      pos.Y = (( bounds.Point1.Y + ( EwGetRectH( bounds ) / 2 )) - ( size.Y / 2 ));
+
   fader->PositionEffect.Value2 = pos;
 
   if (((( fader->Super1.Group->Super2.Owner == 0 ) || !CoreGroup_OnGetVisible( fader->Super1.Group )) 
@@ -2580,8 +2598,10 @@ void EffectsSlideTransition_onInitializeIn( EffectsSlideTransition _this, XObjec
   EffectsPositionFader fader = EwCastObject( sender, EffectsPositionFader );
   XRect bounds = EwGetRectORect( fader->Super1.Owner->Super1.Bounds );
   XPoint size = EwGetRectSize( fader->Super1.Group->Super1.Bounds );
-  XPoint pos = bounds.Point1;
+  XPoint pos;
 
+  bounds.Point1.Y = ( bounds.Point1.Y + _this->MarginTop );
+  pos = bounds.Point1;
   pos.X = (( bounds.Point1.X + ( EwGetRectW( bounds ) / 2 )) - ( size.X / 2 ));
   pos.Y = (( bounds.Point1.Y + ( EwGetRectH( bounds ) / 2 )) - ( size.Y / 2 ));
   fader->PositionEffect.Value2 = pos;

@@ -6415,7 +6415,6 @@ void CoreVerticalList__Init( CoreVerticalList _this, XObject aLink, XHandle aArg
   _this->invalidTail = -1;
   _this->validTail = -1;
   _this->Item = -1;
-  _this->SelectedItem = -1;
   _this->ItemHeight = 24;
   _this->ItemClass = EW_CLASS( ViewsText );
 }
@@ -6450,45 +6449,9 @@ void CoreVerticalList__Done( CoreVerticalList _this )
    method returns 'null'. */
 XObject CoreVerticalList_DispatchEvent( CoreVerticalList _this, CoreEvent aEvent )
 {
-  XObject result = 0;
+  XObject result;
 
-  if ((( _this->SelectedItem >= 0 ) && ( _this->SelectedItem < _this->NoOfItems )) 
-      && ( _this->Super1.Focus == 0 ))
-  {
-    CoreGroup grp;
-    _this->Item = _this->SelectedItem;
-    _this->View = EwCastObject( EwNewObjectIndirect( _this->ItemClass, 0 ), CoreView );
-
-    if ( _this->Super1.last != 0 )
-      _this->Super1.last->next = _this->View;
-    else
-      _this->Super1.first = _this->View;
-
-    _this->View->prev = _this->Super1.last;
-    _this->Super1.last = _this->View;
-    _this->View->Owner = ((CoreGroup)_this );
-    EwSignal( _this->OnLoadItem, ((XObject)_this ));
-    grp = EwCastObject( _this->View, CoreGroup );
-
-    if ( grp != 0 )
-      result = CoreGroup__DispatchEvent( grp, aEvent );
-    else
-      result = CoreView__HandleEvent( _this->View, aEvent );
-
-    if ( _this->View->prev != 0 )
-      _this->View->prev->next = 0;
-    else
-      _this->Super1.first = 0;
-
-    _this->Super1.last = _this->View->prev;
-    _this->View->prev = 0;
-    _this->View->Owner = 0;
-    _this->View = 0;
-  }
-
-  if ( result == 0 )
-    result = CoreGroup_DispatchEvent((CoreGroup)_this, aEvent );
-
+  result = CoreGroup_DispatchEvent((CoreGroup)_this, aEvent );
   return result;
 }
 
@@ -6676,7 +6639,7 @@ void CoreVerticalList_UpdateViewState( CoreVerticalList _this, XSet aState )
       EwSignal( _this->OnLoadItem, ((XObject)_this ));
     }
 
-    if ( inxN == _this->SelectedItem )
+    if ( inxN == -1 )
       fi = item;
 
     item = item->next;
@@ -6876,7 +6839,7 @@ CoreView CoreVerticalList_confirmTailItem( CoreVerticalList _this )
   if ( _this->Super1.first == 0 )
     _this->Super1.first = item;
 
-  if ( validTailN == _this->SelectedItem )
+  if ( validTailN == -1 )
     CoreGroup__OnSetFocus( _this, item );
 
   return item;
@@ -6960,7 +6923,7 @@ CoreView CoreVerticalList_confirmHeadItem( CoreVerticalList _this )
   if ( _this->Super1.last == 0 )
     _this->Super1.last = item;
 
-  if ( validHeadN == _this->SelectedItem )
+  if ( validHeadN == -1 )
     CoreGroup__OnSetFocus( _this, item );
 
   return item;
@@ -7049,19 +7012,6 @@ void CoreVerticalList_OnSetScrollOffset( CoreVerticalList _this, XInt32 value )
   CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
 }
 
-/* 'C' function for method : 'Core::VerticalList.OnSetSelectedItem()' */
-void CoreVerticalList_OnSetSelectedItem( CoreVerticalList _this, XInt32 value )
-{
-  if ( value < 0 )
-    value = -1;
-
-  if ( value == _this->SelectedItem )
-    return;
-
-  _this->SelectedItem = value;
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-}
-
 /* 'C' function for method : 'Core::VerticalList.OnSetItemHeight()' */
 void CoreVerticalList_OnSetItemHeight( CoreVerticalList _this, XInt32 value )
 {
@@ -7123,31 +7073,6 @@ void CoreVerticalList_OnSetItemClass( CoreVerticalList _this, XClass value )
   CoreVerticalList_clearPool( _this );
   CoreGroup_InvalidateViewState((CoreGroup)_this );
   CoreGroup__InvalidateArea( _this, EwGetRectORect( _this->Super2.Bounds ));
-}
-
-/* The method GetItemAtPosition() tries to determine an item at the given position 
-   aPosition. This position is valid in the coordinate space of the view's @Owner. 
-   If an item could be found, the method returns its index. The first item has the 
-   index 0, the second 1, and so far. If no item is found, the method returns -1. */
-XInt32 CoreVerticalList_GetItemAtPosition( CoreVerticalList _this, XPoint aPos )
-{
-  if ((( _this->NoOfItems <= 0 ) || ( aPos.X < _this->Super2.Bounds.Point1.X )) 
-      || ( aPos.X >= _this->Super2.Bounds.Point2.X ))
-    return -1;
-
-  aPos = EwMovePointNeg( aPos, _this->Super2.Bounds.Point1 );
-
-  {
-    XInt32 item = aPos.Y - _this->ScrollOffset;
-
-    if ( item > 0 )
-      item = item / _this->ItemHeight;
-
-    if (( item < 0 ) || ( item >= _this->NoOfItems ))
-      return -1;
-
-    return item;
-  }
 }
 
 /* The method GetItemsArea() determines a rectangular area within the list view 

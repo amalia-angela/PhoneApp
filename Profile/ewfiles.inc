@@ -8,4 +8,5 @@ EMWIFILES := \
 	Views.c \
 	Application.c \
 	Templates.c \
-	Res.c
+	Res.c \
+	WidgetSet.c

@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationContactDetailsPage_H
-#define _ApplicationContactDetailsPage_H
+#ifndef _ApplicationFavoritesPage_H
+#define _ApplicationFavoritesPage_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,11 +42,11 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumBlue.h"
 #include "_ApplicationPushButtonNoBackground.h"
+#include "_ApplicationTextButton.h"
 #include "_CoreGroup.h"
-#include "_ViewsLine.h"
+#include "_CoreSlideTouchHandler.h"
+#include "_CoreVerticalList.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -56,16 +56,16 @@
 #define _ApplicationContact_
 #endif
 
-/* Forward declaration of the class Application::ContactDetailsPage */
-#ifndef _ApplicationContactDetailsPage_
-  EW_DECLARE_CLASS( ApplicationContactDetailsPage )
-#define _ApplicationContactDetailsPage_
+/* Forward declaration of the class Application::ContactsList */
+#ifndef _ApplicationContactsList_
+  EW_DECLARE_CLASS( ApplicationContactsList )
+#define _ApplicationContactsList_
 #endif
 
-/* Forward declaration of the class Application::ContactEditPage */
-#ifndef _ApplicationContactEditPage_
-  EW_DECLARE_CLASS( ApplicationContactEditPage )
-#define _ApplicationContactEditPage_
+/* Forward declaration of the class Application::FavoritesPage */
+#ifndef _ApplicationFavoritesPage_
+  EW_DECLARE_CLASS( ApplicationFavoritesPage )
+#define _ApplicationFavoritesPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -111,28 +111,21 @@
 #endif
 
 
-/* Deklaration of class : 'Application::ContactDetailsPage' */
-EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
-  EW_VARIABLE( edit,            ApplicationContactEditPage )
-  EW_PROPERTY( Contact,         ApplicationContact )
-  EW_PROPERTY( OnDelete,        XSlot )
-  EW_PROPERTY( OnBack,          XSlot )
+/* Deklaration of class : 'Application::FavoritesPage' */
+EW_DEFINE_FIELDS( ApplicationFavoritesPage, CoreGroup )
+  EW_VARIABLE( addFav,          ApplicationContactsList )
+  EW_PROPERTY( SelectedContact, ApplicationContact )
   EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( Line2,           ViewsLine )
-  EW_OBJECT  ( NumberTxt,       ViewsText )
-  EW_OBJECT  ( MobileTxt,       ViewsText )
-  EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( CallBtn,         ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( VideoCallBtn,    ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( PushButtonMediumBlue2, ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( ContactName,     ViewsText )
-  EW_OBJECT  ( UserInitialsBtn, ApplicationPushButtonBig )
-  EW_OBJECT  ( EditBtn,         ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( BackBtn,         ApplicationPushButtonNoBackground )
-EW_END_OF_FIELDS( ApplicationContactDetailsPage )
+  EW_OBJECT  ( VerticalList,    CoreVerticalList )
+  EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
+  EW_OBJECT  ( TitleTxt1,       ViewsText )
+  EW_OBJECT  ( PlusButton,      ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( TextButton,      ApplicationTextButton )
+  EW_PROPERTY( EditMode,        XBool )
+EW_END_OF_FIELDS( ApplicationFavoritesPage )
 
-/* Virtual Method Table (VMT) for the class : 'Application::ContactDetailsPage' */
-EW_DEFINE_METHODS( ApplicationContactDetailsPage, CoreGroup )
+/* Virtual Method Table (VMT) for the class : 'Application::FavoritesPage' */
+EW_DEFINE_METHODS( ApplicationFavoritesPage, CoreGroup )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -164,49 +157,40 @@ EW_DEFINE_METHODS( ApplicationContactDetailsPage, CoreGroup )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-  EW_METHOD( onTapEdit,         void )( ApplicationContactDetailsPage _this, XObject 
-    sender )
-EW_END_OF_METHODS( ApplicationContactDetailsPage )
+EW_END_OF_METHODS( ApplicationFavoritesPage )
 
-/* 'C' function for method : 'Application::ContactDetailsPage.onTapEdit()' */
-void ApplicationContactDetailsPage_onTapEdit( ApplicationContactDetailsPage _this, 
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationFavoritesPage_Init( ApplicationFavoritesPage _this, XHandle aArg );
+
+/* 'C' function for method : 'Application::FavoritesPage.onAddPress()' */
+void ApplicationFavoritesPage_onAddPress( ApplicationFavoritesPage _this, XObject 
+  sender );
+
+/* This method is called by 'VerticalList' every time the list loads or updates 
+   an item. */
+void ApplicationFavoritesPage_OnLoadItem( ApplicationFavoritesPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::FavoritesPage.onContactActivated()' */
+void ApplicationFavoritesPage_onContactActivated( ApplicationFavoritesPage _this, 
   XObject sender );
 
-/* Wrapper function for the virtual method : 'Application::ContactDetailsPage.onTapEdit()' */
-void ApplicationContactDetailsPage__onTapEdit( void* _this, XObject sender );
+/* 'C' function for method : 'Application::FavoritesPage.onClose()' */
+void ApplicationFavoritesPage_onClose( ApplicationFavoritesPage _this, XObject sender );
 
-/* 'C' function for method : 'Application::ContactDetailsPage.onDelete()' */
-void ApplicationContactDetailsPage_onDelete( ApplicationContactDetailsPage _this, 
+/* 'C' function for method : 'Application::FavoritesPage.onNoOfContactsChanged()' */
+void ApplicationFavoritesPage_onNoOfContactsChanged( ApplicationFavoritesPage _this, 
   XObject sender );
 
-/* 'C' function for method : 'Application::ContactDetailsPage.onTapCall()' */
-void ApplicationContactDetailsPage_onTapCall( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onSaveEdit()' */
-void ApplicationContactDetailsPage_onSaveEdit( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onCancelEdit()' */
-void ApplicationContactDetailsPage_onCancelEdit( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onBack()' */
-void ApplicationContactDetailsPage_onBack( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.OnSetContact()' */
-void ApplicationContactDetailsPage_OnSetContact( ApplicationContactDetailsPage _this, 
-  ApplicationContact value );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onContactUpdated()' */
-void ApplicationContactDetailsPage_onContactUpdated( ApplicationContactDetailsPage _this, 
-  XObject sender );
+/* 'C' function for method : 'Application::FavoritesPage.onEdit()' */
+void ApplicationFavoritesPage_onEdit( ApplicationFavoritesPage _this, XObject sender );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationContactDetailsPage_H */
+#endif /* _ApplicationFavoritesPage_H */
 
 /* Embedded Wizard */

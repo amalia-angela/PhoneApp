@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationContactDetailsPage_H
-#define _ApplicationContactDetailsPage_H
+#ifndef _ApplicationRecentPage_H
+#define _ApplicationRecentPage_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,30 +42,15 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumBlue.h"
-#include "_ApplicationPushButtonNoBackground.h"
+#include "_ApplicationTextButton.h"
 #include "_CoreGroup.h"
-#include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
-
-/* Forward declaration of the class Application::ContactDetailsPage */
-#ifndef _ApplicationContactDetailsPage_
-  EW_DECLARE_CLASS( ApplicationContactDetailsPage )
-#define _ApplicationContactDetailsPage_
-#endif
-
-/* Forward declaration of the class Application::ContactEditPage */
-#ifndef _ApplicationContactEditPage_
-  EW_DECLARE_CLASS( ApplicationContactEditPage )
-#define _ApplicationContactEditPage_
+/* Forward declaration of the class Application::RecentPage */
+#ifndef _ApplicationRecentPage_
+  EW_DECLARE_CLASS( ApplicationRecentPage )
+#define _ApplicationRecentPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -111,28 +96,15 @@
 #endif
 
 
-/* Deklaration of class : 'Application::ContactDetailsPage' */
-EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
-  EW_VARIABLE( edit,            ApplicationContactEditPage )
-  EW_PROPERTY( Contact,         ApplicationContact )
-  EW_PROPERTY( OnDelete,        XSlot )
-  EW_PROPERTY( OnBack,          XSlot )
+/* Deklaration of class : 'Application::RecentPage' */
+EW_DEFINE_FIELDS( ApplicationRecentPage, CoreGroup )
   EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( Line2,           ViewsLine )
-  EW_OBJECT  ( NumberTxt,       ViewsText )
-  EW_OBJECT  ( MobileTxt,       ViewsText )
-  EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( CallBtn,         ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( VideoCallBtn,    ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( PushButtonMediumBlue2, ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( ContactName,     ViewsText )
-  EW_OBJECT  ( UserInitialsBtn, ApplicationPushButtonBig )
-  EW_OBJECT  ( EditBtn,         ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( BackBtn,         ApplicationPushButtonNoBackground )
-EW_END_OF_FIELDS( ApplicationContactDetailsPage )
+  EW_OBJECT  ( TitleTxt1,       ViewsText )
+  EW_OBJECT  ( TextButton,      ApplicationTextButton )
+EW_END_OF_FIELDS( ApplicationRecentPage )
 
-/* Virtual Method Table (VMT) for the class : 'Application::ContactDetailsPage' */
-EW_DEFINE_METHODS( ApplicationContactDetailsPage, CoreGroup )
+/* Virtual Method Table (VMT) for the class : 'Application::RecentPage' */
+EW_DEFINE_METHODS( ApplicationRecentPage, CoreGroup )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -164,49 +136,12 @@ EW_DEFINE_METHODS( ApplicationContactDetailsPage, CoreGroup )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-  EW_METHOD( onTapEdit,         void )( ApplicationContactDetailsPage _this, XObject 
-    sender )
-EW_END_OF_METHODS( ApplicationContactDetailsPage )
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onTapEdit()' */
-void ApplicationContactDetailsPage_onTapEdit( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* Wrapper function for the virtual method : 'Application::ContactDetailsPage.onTapEdit()' */
-void ApplicationContactDetailsPage__onTapEdit( void* _this, XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onDelete()' */
-void ApplicationContactDetailsPage_onDelete( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onTapCall()' */
-void ApplicationContactDetailsPage_onTapCall( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onSaveEdit()' */
-void ApplicationContactDetailsPage_onSaveEdit( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onCancelEdit()' */
-void ApplicationContactDetailsPage_onCancelEdit( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onBack()' */
-void ApplicationContactDetailsPage_onBack( ApplicationContactDetailsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.OnSetContact()' */
-void ApplicationContactDetailsPage_OnSetContact( ApplicationContactDetailsPage _this, 
-  ApplicationContact value );
-
-/* 'C' function for method : 'Application::ContactDetailsPage.onContactUpdated()' */
-void ApplicationContactDetailsPage_onContactUpdated( ApplicationContactDetailsPage _this, 
-  XObject sender );
+EW_END_OF_METHODS( ApplicationRecentPage )
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationContactDetailsPage_H */
+#endif /* _ApplicationRecentPage_H */
 
 /* Embedded Wizard */

@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationPushButtonBig_H
-#define _ApplicationPushButtonBig_H
+#ifndef _ApplicationKeypadPage_H
+#define _ApplicationKeypadPage_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,17 +42,16 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_CoreKeyPressHandler.h"
-#include "_CoreSimpleTouchHandler.h"
-#include "_CoreTimer.h"
-#include "_TemplatesPushButton.h"
-#include "_ViewsImage.h"
-#include "_ViewsText.h"
+#include "_ApplicationInputEtxt.h"
+#include "_ApplicationKeyPadButtons.h"
+#include "_ApplicationTextButton.h"
+#include "_CoreGroup.h"
+#include "_ViewsRectangle.h"
 
-/* Forward declaration of the class Application::PushButtonBig */
-#ifndef _ApplicationPushButtonBig_
-  EW_DECLARE_CLASS( ApplicationPushButtonBig )
-#define _ApplicationPushButtonBig_
+/* Forward declaration of the class Application::KeypadPage */
+#ifndef _ApplicationKeypadPage_
+  EW_DECLARE_CLASS( ApplicationKeypadPage )
+#define _ApplicationKeypadPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -61,10 +60,10 @@
 #define _CoreDialogContext_
 #endif
 
-/* Forward declaration of the class Core::Group */
-#ifndef _CoreGroup_
-  EW_DECLARE_CLASS( CoreGroup )
-#define _CoreGroup_
+/* Forward declaration of the class Core::KeyPressHandler */
+#ifndef _CoreKeyPressHandler_
+  EW_DECLARE_CLASS( CoreKeyPressHandler )
+#define _CoreKeyPressHandler_
 #endif
 
 /* Forward declaration of the class Core::LayoutContext */
@@ -98,26 +97,34 @@
 #endif
 
 
-/* This class implements a 'push button' widget. When the user presses the button, 
-   a signal is sent to the slot method stored in its @OnActivate property. */
-EW_DEFINE_FIELDS( ApplicationPushButtonBig, TemplatesPushButton )
-  EW_OBJECT  ( FlashTimer,      CoreTimer )
-  EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
-  EW_OBJECT  ( Background,      ViewsImage )
-  EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
-  EW_OBJECT  ( Text,            ViewsText )
-  EW_OBJECT  ( DescripTxt,      ViewsText )
-  EW_PROPERTY( Initials,        XString )
-  EW_PROPERTY( Descript,        XString )
-  EW_PROPERTY( DescriptColor,   XColor )
-  EW_PROPERTY( InitialsColor,   XColor )
-  EW_VARIABLE( enabled,         XBool )
-  EW_VARIABLE( selected,        XBool )
-  EW_VARIABLE( pressed,         XBool )
-EW_END_OF_FIELDS( ApplicationPushButtonBig )
+/* Deklaration of class : 'Application::KeypadPage' */
+EW_DEFINE_FIELDS( ApplicationKeypadPage, CoreGroup )
+  EW_PROPERTY( OnHide,          XSlot )
+  EW_PROPERTY( OnEditTextChanged, XSlot )
+  EW_OBJECT  ( Background,      ViewsRectangle )
+  EW_OBJECT  ( callbtn,         ApplicationKeyPadButtons )
+  EW_OBJECT  ( BtnErase,        ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn1,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn3,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn2,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn4,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn6,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn5,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn7,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn9,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn8,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( btnstar,         ApplicationKeyPadButtons )
+  EW_OBJECT  ( btnDiez,         ApplicationKeyPadButtons )
+  EW_OBJECT  ( btn0,            ApplicationKeyPadButtons )
+  EW_OBJECT  ( InputEtxt,       ApplicationInputEtxt )
+  EW_OBJECT  ( HideBtn,         ApplicationTextButton )
+  EW_PROPERTY( BackgoundColor,  XColor )
+  EW_PROPERTY( HideCall,        XBool )
+  EW_PROPERTY( HideFunction,    XBool )
+EW_END_OF_FIELDS( ApplicationKeypadPage )
 
-/* Virtual Method Table (VMT) for the class : 'Application::PushButtonBig' */
-EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
+/* Virtual Method Table (VMT) for the class : 'Application::KeypadPage' */
+EW_DEFINE_METHODS( ApplicationKeypadPage, CoreGroup )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -139,7 +146,7 @@ EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateViewState,   void )( ApplicationPushButtonBig _this, XSet aState )
+  EW_METHOD( UpdateViewState,   void )( ApplicationKeypadPage _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
@@ -149,7 +156,7 @@ EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-EW_END_OF_METHODS( ApplicationPushButtonBig )
+EW_END_OF_METHODS( ApplicationKeypadPage )
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 
@@ -165,45 +172,29 @@ EW_END_OF_METHODS( ApplicationPushButtonBig )
    state 'on' or 'off' and change accordingly the location of the slider, etc.
    Usually, this method will be invoked automatically by the framework. Optionally 
    you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationPushButtonBig_UpdateViewState( ApplicationPushButtonBig _this, XSet 
-  aState );
+void ApplicationKeypadPage_UpdateViewState( ApplicationKeypadPage _this, XSet aState );
 
-/* This internal slot method is called when the '@FlashTimer' is expired. It ends 
-   the short flash feedback effect. */
-void ApplicationPushButtonBig_onFlashTimer( ApplicationPushButtonBig _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::KeypadPage.onHide()' */
+void ApplicationKeypadPage_onHide( ApplicationKeypadPage _this, XObject sender );
 
-/* This internal slot method is called when the '@KeyHandler' is activated (when 
-   the user has pressed the key specified in the property 'Filter' of the key handler). */
-void ApplicationPushButtonBig_onPressKey( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* This internal slot method is called when the user drags the finger while pressing 
-   the button. This only updates the button to appear pressed or released. */
-void ApplicationPushButtonBig_onEnterLeaveTouch( ApplicationPushButtonBig _this, 
-  XObject sender );
-
-/* This internal slot method is called when the user releases the touch screen after 
-   touching the button's area. This activates the button. */
-void ApplicationPushButtonBig_onReleaseTouch( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* This internal slot method is called when the user touches the button's area. */
-void ApplicationPushButtonBig_onPressTouch( ApplicationPushButtonBig _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::PushButtonBig.OnSetInitials()' */
-void ApplicationPushButtonBig_OnSetInitials( ApplicationPushButtonBig _this, XString 
+/* 'C' function for method : 'Application::KeypadPage.OnSetHideFunction()' */
+void ApplicationKeypadPage_OnSetHideFunction( ApplicationKeypadPage _this, XBool 
   value );
 
-/* 'C' function for method : 'Application::PushButtonBig.OnSetDescript()' */
-void ApplicationPushButtonBig_OnSetDescript( ApplicationPushButtonBig _this, XString 
-  value );
+/* 'C' function for method : 'Application::KeypadPage.onButtonsPress()' */
+void ApplicationKeypadPage_onButtonsPress( ApplicationKeypadPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::KeypadPage.OnSetHideCall()' */
+void ApplicationKeypadPage_OnSetHideCall( ApplicationKeypadPage _this, XBool value );
+
+/* 'C' function for method : 'Application::KeypadPage.onCallPress()' */
+void ApplicationKeypadPage_onCallPress( ApplicationKeypadPage _this, XObject sender );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationPushButtonBig_H */
+#endif /* _ApplicationKeypadPage_H */
 
 /* Embedded Wizard */

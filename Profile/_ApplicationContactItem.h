@@ -44,6 +44,9 @@
 
 #include "_ApplicationPushButtonSmall.h"
 #include "_CoreGroup.h"
+#include "_CoreKeyPressHandler.h"
+#include "_CoreSimpleTouchHandler.h"
+#include "_CoreTimer.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
@@ -64,12 +67,6 @@
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )
 #define _CoreDialogContext_
-#endif
-
-/* Forward declaration of the class Core::KeyPressHandler */
-#ifndef _CoreKeyPressHandler_
-  EW_DECLARE_CLASS( CoreKeyPressHandler )
-#define _CoreKeyPressHandler_
 #endif
 
 /* Forward declaration of the class Core::LayoutContext */
@@ -106,11 +103,21 @@
 /* Deklaration of class : 'Application::ContactItem' */
 EW_DEFINE_FIELDS( ApplicationContactItem, CoreGroup )
   EW_PROPERTY( Contact,         ApplicationContact )
-  EW_OBJECT  ( Rectangle,       ViewsRectangle )
+  EW_PROPERTY( OnActivate,      XSlot )
+  EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( LastNameTxt,     ViewsText )
   EW_OBJECT  ( FirstnameTxt,    ViewsText )
   EW_OBJECT  ( Line,            ViewsLine )
   EW_OBJECT  ( PushButtonSmall, ApplicationPushButtonSmall )
+  EW_OBJECT  ( FlashTimer,      CoreTimer )
+  EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
+  EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
+  EW_PROPERTY( ButtonColor,     XColor )
+  EW_PROPERTY( IconColor,       XColor )
+  EW_PROPERTY( TextColor,       XColor )
+  EW_VARIABLE( enabled,         XBool )
+  EW_VARIABLE( selected,        XBool )
+  EW_VARIABLE( pressed,         XBool )
 EW_END_OF_FIELDS( ApplicationContactItem )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactItem' */
@@ -136,7 +143,7 @@ EW_DEFINE_METHODS( ApplicationContactItem, CoreGroup )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
+  EW_METHOD( UpdateViewState,   void )( ApplicationContactItem _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
@@ -148,12 +155,52 @@ EW_DEFINE_METHODS( ApplicationContactItem, CoreGroup )
     aOrder )
 EW_END_OF_METHODS( ApplicationContactItem )
 
+/* The method UpdateViewState() is invoked automatically after the state of the 
+   component has been changed. This method can be overridden and filled with logic 
+   to ensure the visual aspect of the component does reflect its current state. 
+   For example, the 'enabled' state of the component can affect its colors (disabled 
+   components may appear pale). In this case the logic of the method should modify 
+   the respective color properties accordingly to the current 'enabled' state. 
+   The current state of the component is passed as a set in the parameter aState. 
+   It reflects the very basic component state like its visibility or the ability 
+   to react to user inputs. Beside this common state, the method can also involve 
+   any other variables used in the component as long as they reflect its current 
+   state. For example, the toggle switch component can take in account its toggle 
+   state 'on' or 'off' and change accordingly the location of the slider, etc.
+   Usually, this method will be invoked automatically by the framework. Optionally 
+   you can request its invocation by using the method @InvalidateViewState(). */
+void ApplicationContactItem_UpdateViewState( ApplicationContactItem _this, XSet 
+  aState );
+
 /* 'C' function for method : 'Application::ContactItem.OnSetContact()' */
 void ApplicationContactItem_OnSetContact( ApplicationContactItem _this, ApplicationContact 
   value );
 
 /* 'C' function for method : 'Application::ContactItem.onContactUpdated()' */
 void ApplicationContactItem_onContactUpdated( ApplicationContactItem _this, XObject 
+  sender );
+
+/* This internal slot method is called when the '@FlashTimer' is expired. It ends 
+   the short flash feedback effect. */
+void ApplicationContactItem_onFlashTimer( ApplicationContactItem _this, XObject 
+  sender );
+
+/* This internal slot method is called when the '@KeyHandler' is activated (when 
+   the user has pressed the key specified in the property 'Filter' of the key handler). */
+void ApplicationContactItem_onPressKey( ApplicationContactItem _this, XObject sender );
+
+/* This internal slot method is called when the user drags the finger while pressing 
+   the button. This only updates the button to appear pressed or released. */
+void ApplicationContactItem_onEnterLeaveTouch( ApplicationContactItem _this, XObject 
+  sender );
+
+/* This internal slot method is called when the user releases the touch screen after 
+   touching the button's area. This activates the button. */
+void ApplicationContactItem_onReleaseTouch( ApplicationContactItem _this, XObject 
+  sender );
+
+/* This internal slot method is called when the user touches the button's area. */
+void ApplicationContactItem_onPressTouch( ApplicationContactItem _this, XObject 
   sender );
 
 #ifdef __cplusplus

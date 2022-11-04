@@ -178,20 +178,20 @@ EW_DECLARE_AUTOOBJECT( ResSlideUpCentered, EffectsSlideTransition )
    this object and adapt its properties accordingly. */
 EW_DECLARE_AUTOOBJECT( ResSlideRightCentered, EffectsSlideTransition )
 
-/* User defined constant: 'Res::Blue' */
-extern const XColor ResBlue;
+/* User defined constant: 'Res::BlueLight' */
+extern const XColor ResBlueLight;
 
-/* User defined constant: 'Res::Gery' */
-extern const XColor ResGery;
+/* User defined constant: 'Res::Grey' */
+extern const XColor ResGrey;
 
-/* User defined constant: 'Res::MicTxt' */
-extern const XStringRes ResMicTxt;
+/* User defined constant: 'Res::MicOffTxt' */
+extern const XStringRes ResMicOffTxt;
 
 /* User defined constant: 'Res::KeypadTxt' */
 extern const XStringRes ResKeypadTxt;
 
-/* User defined constant: 'Res::GeryLight' */
-extern const XColor ResGeryLight;
+/* User defined constant: 'Res::GreyLight' */
+extern const XColor ResGreyLight;
 
 /* User defined constant: 'Res::SpeakerTxt' */
 extern const XStringRes ResSpeakerTxt;
@@ -211,8 +211,8 @@ extern const XColor ResWhiteTransparent;
 /* User defined constant: 'Res::Red' */
 extern const XColor ResRed;
 
-/* User defined constant: 'Res::BlueLight' */
-extern const XColor ResBlueLight;
+/* User defined constant: 'Res::Blue' */
+extern const XColor ResBlue;
 
 /* User defined constant: 'Res::DownTxt' */
 extern const XStringRes ResDownTxt;
@@ -231,6 +231,12 @@ extern const XColor ResWhite;
 
 /* User defined constant: 'Res::Green' */
 extern const XColor ResGreen;
+
+/* User defined constant: 'Res::GreenDark' */
+extern const XColor ResGreenDark;
+
+/* User defined constant: 'Res::Transparent' */
+extern const XColor ResTransparent;
 
 /* The global autoobject Res::FadeInOutCentered represents the fade-in/out operation 
    affecting the opacity of a given GUI component. When using the transition for 
@@ -264,6 +270,18 @@ EW_DECLARE_AUTOOBJECT( ResFadeInOutCentered, EffectsFadeInOutTransition )
    run with other configuration (e.g. other timing parameters), create a copy of 
    this object and adapt its properties accordingly. */
 EW_DECLARE_AUTOOBJECT( ResSlideLeftCentered, EffectsSlideTransition )
+
+/* User defined constant: 'Res::HeartTxt' */
+extern const XStringRes ResHeartTxt;
+
+/* User defined constant: 'Res::BackspaceTxt' */
+extern const XStringRes ResBackspaceTxt;
+
+/* User defined constant: 'Res::PressColor' */
+extern const XColor ResPressColor;
+
+/* User defined constant: 'Res::RemoveTxt' */
+extern const XStringRes ResRemoveTxt;
 
 #ifdef __cplusplus
   }

@@ -161,7 +161,6 @@ EW_DEFINE_FIELDS( CoreVerticalList, CoreGroup )
   EW_VARIABLE( itemsPoolSize,   XInt32 )
   EW_VARIABLE( Item,            XInt32 )
   EW_PROPERTY( ScrollOffset,    XInt32 )
-  EW_PROPERTY( SelectedItem,    XInt32 )
   EW_PROPERTY( ItemHeight,      XInt32 )
   EW_PROPERTY( NoOfItems,       XInt32 )
   EW_PROPERTY( ItemClass,       XClass )
@@ -326,9 +325,6 @@ void CoreVerticalList_OnSetSlideHandler( CoreVerticalList _this, CoreSlideTouchH
 /* 'C' function for method : 'Core::VerticalList.OnSetScrollOffset()' */
 void CoreVerticalList_OnSetScrollOffset( CoreVerticalList _this, XInt32 value );
 
-/* 'C' function for method : 'Core::VerticalList.OnSetSelectedItem()' */
-void CoreVerticalList_OnSetSelectedItem( CoreVerticalList _this, XInt32 value );
-
 /* 'C' function for method : 'Core::VerticalList.OnSetItemHeight()' */
 void CoreVerticalList_OnSetItemHeight( CoreVerticalList _this, XInt32 value );
 
@@ -337,12 +333,6 @@ void CoreVerticalList_OnSetNoOfItems( CoreVerticalList _this, XInt32 value );
 
 /* 'C' function for method : 'Core::VerticalList.OnSetItemClass()' */
 void CoreVerticalList_OnSetItemClass( CoreVerticalList _this, XClass value );
-
-/* The method GetItemAtPosition() tries to determine an item at the given position 
-   aPosition. This position is valid in the coordinate space of the view's @Owner. 
-   If an item could be found, the method returns its index. The first item has the 
-   index 0, the second 1, and so far. If no item is found, the method returns -1. */
-XInt32 CoreVerticalList_GetItemAtPosition( CoreVerticalList _this, XPoint aPos );
 
 /* The method GetItemsArea() determines a rectangular area within the list view 
    occupied by one or more items. The index of the item to start the calculation 

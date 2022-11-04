@@ -57,7 +57,6 @@
 
 /* Deklaration of class : 'Application::Contacts' */
 EW_DEFINE_FIELDS( ApplicationContacts, XObject )
-  EW_VTHISPTR()
   EW_VARIABLE( head,            ApplicationContact )
   EW_VARIABLE( sorted,          ApplicationContact )
   EW_PROPERTY( NoOfItems,       XInt32 )
@@ -67,10 +66,6 @@ EW_END_OF_FIELDS( ApplicationContacts )
 /* Virtual Method Table (VMT) for the class : 'Application::Contacts' */
 EW_DEFINE_METHODS( ApplicationContacts, XObject )
 EW_END_OF_METHODS( ApplicationContacts )
-
-/* Variant Dispatch Method Table for the class : 'Application::Contacts' */
-EW_DEFINE_DISPATCHER( ApplicationContacts, XObject )
-EW_END_OF_DISPATCHER( ApplicationContacts )
 
 /* 'C' function for method : 'Application::Contacts.Add()' */
 void ApplicationContacts_Add( ApplicationContacts _this, ApplicationContact aContact );
@@ -98,6 +93,10 @@ void ApplicationContacts_sortedInsert( ApplicationContacts _this, ApplicationCon
 
 /* 'C' function for method : 'Application::Contacts.OnSetSorting()' */
 void ApplicationContacts_OnSetSorting( ApplicationContacts _this, XEnum value );
+
+/* 'C' function for method : 'Application::Contacts.FindByNumber()' */
+ApplicationContact ApplicationContacts_FindByNumber( ApplicationContacts _this, 
+  XString aNumber );
 
 /* Default onget method for the property 'NoOfItems' */
 XInt32 ApplicationContacts_OnGetNoOfItems( ApplicationContacts _this );

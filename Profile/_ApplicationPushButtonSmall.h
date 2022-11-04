@@ -101,12 +101,18 @@
 /* This class implements a 'push button' widget. When the user presses the button, 
    a signal is sent to the slot method stored in its @OnActivate property. */
 EW_DEFINE_FIELDS( ApplicationPushButtonSmall, TemplatesPushButton )
+  EW_PROPERTY( OnActivate,      XSlot )
   EW_OBJECT  ( FlashTimer,      CoreTimer )
   EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
   EW_OBJECT  ( Background,      ViewsImage )
   EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
-  EW_OBJECT  ( Text,            ViewsText )
-  EW_PROPERTY( Label,           XString )
+  EW_OBJECT  ( IconTxt,         ViewsText )
+  EW_OBJECT  ( TextText,        ViewsText )
+  EW_PROPERTY( Text,            XString )
+  EW_PROPERTY( Icon,            XString )
+  EW_PROPERTY( ButtonColor,     XColor )
+  EW_PROPERTY( TextColor,       XColor )
+  EW_PROPERTY( IconColor,       XColor )
   EW_VARIABLE( enabled,         XBool )
   EW_VARIABLE( selected,        XBool )
   EW_VARIABLE( pressed,         XBool )
@@ -188,9 +194,21 @@ void ApplicationPushButtonSmall_onReleaseTouch( ApplicationPushButtonSmall _this
 void ApplicationPushButtonSmall_onPressTouch( ApplicationPushButtonSmall _this, 
   XObject sender );
 
-/* 'C' function for method : 'Application::PushButtonSmall.OnSetLabel()' */
-void ApplicationPushButtonSmall_OnSetLabel( ApplicationPushButtonSmall _this, XString 
+/* 'C' function for method : 'Application::PushButtonSmall.OnSetText()' */
+void ApplicationPushButtonSmall_OnSetText( ApplicationPushButtonSmall _this, XString 
   value );
+
+/* 'C' function for method : 'Application::PushButtonSmall.OnSetButtonColor()' */
+void ApplicationPushButtonSmall_OnSetButtonColor( ApplicationPushButtonSmall _this, 
+  XColor value );
+
+/* 'C' function for method : 'Application::PushButtonSmall.OnSetIcon()' */
+void ApplicationPushButtonSmall_OnSetIcon( ApplicationPushButtonSmall _this, XString 
+  value );
+
+/* 'C' function for method : 'Application::PushButtonSmall.OnSetIconColor()' */
+void ApplicationPushButtonSmall_OnSetIconColor( ApplicationPushButtonSmall _this, 
+  XColor value );
 
 #ifdef __cplusplus
   }

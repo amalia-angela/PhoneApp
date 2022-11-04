@@ -42,6 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationKeypadInsideCall.h"
 #include "_ApplicationPushButtonBig.h"
 #include "_ApplicationPushButtonMediumRed.h"
 #include "_ApplicationPushButtonMediumTrans.h"
@@ -61,16 +62,10 @@
 #define _ApplicationContact_
 #endif
 
-/* Forward declaration of the class Application::ContactsCall */
-#ifndef _ApplicationContactsCall_
-  EW_DECLARE_CLASS( ApplicationContactsCall )
-#define _ApplicationContactsCall_
-#endif
-
-/* Forward declaration of the class Application::Keypad */
-#ifndef _ApplicationKeypad_
-  EW_DECLARE_CLASS( ApplicationKeypad )
-#define _ApplicationKeypad_
+/* Forward declaration of the class Application::ContactsInsideCall */
+#ifndef _ApplicationContactsInsideCall_
+  EW_DECLARE_CLASS( ApplicationContactsInsideCall )
+#define _ApplicationContactsInsideCall_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -119,9 +114,7 @@
 /* Deklaration of class : 'Application::CallPage' */
 EW_DEFINE_FIELDS( ApplicationCallPage, CoreGroup )
   EW_PROPERTY( Contact,         ApplicationContact )
-  EW_VARIABLE( contactsPage,    ApplicationContactsCall )
-  EW_VARIABLE( keypadPage,      ApplicationKeypad )
-  EW_PROPERTY( OnEndCall,       XSlot )
+  EW_VARIABLE( contactsPage,    ApplicationContactsInsideCall )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( EndCallBtn,      ApplicationPushButtonMediumRed )
   EW_OBJECT  ( ContactsBtn,     ApplicationPushButtonMediumTrans )
@@ -133,6 +126,7 @@ EW_DEFINE_FIELDS( ApplicationCallPage, CoreGroup )
   EW_OBJECT  ( TimeTxt,         ViewsText )
   EW_OBJECT  ( UserInitials,    ApplicationPushButtonBig )
   EW_OBJECT  ( ContactNameTxt,  ViewsText )
+  EW_OBJECT  ( Keypad1,         ApplicationKeypadInsideCall )
 EW_END_OF_FIELDS( ApplicationCallPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::CallPage' */
@@ -170,6 +164,11 @@ EW_DEFINE_METHODS( ApplicationCallPage, CoreGroup )
     aOrder )
 EW_END_OF_METHODS( ApplicationCallPage )
 
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationCallPage_Init( ApplicationCallPage _this, XHandle aArg );
+
 /* 'C' function for method : 'Application::CallPage.OnSetContact()' */
 void ApplicationCallPage_OnSetContact( ApplicationCallPage _this, ApplicationContact 
   value );
@@ -203,6 +202,15 @@ void ApplicationCallPage_onCancel( ApplicationCallPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::CallPage.onHide()' */
 void ApplicationCallPage_onHide( ApplicationCallPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::CallPage.onKeypadEdit()' */
+void ApplicationCallPage_onKeypadEdit( ApplicationCallPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::CallPage.onCallState()' */
+void ApplicationCallPage_onCallState( ApplicationCallPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::CallPage.getContact()' */
+void ApplicationCallPage_getContact( ApplicationCallPage _this );
 
 #ifdef __cplusplus
   }

@@ -157,6 +157,9 @@ void ViewsRectangle_OnSetColorTL( ViewsRectangle _this, XColor value );
 /* 'C' function for method : 'Views::Rectangle.OnSetColor()' */
 void ViewsRectangle_OnSetColor( ViewsRectangle _this, XColor value );
 
+/* 'C' function for method : 'Views::Rectangle.OnSetVisible()' */
+void ViewsRectangle_OnSetVisible( ViewsRectangle _this, XBool value );
+
 #ifdef __cplusplus
   }
 #endif

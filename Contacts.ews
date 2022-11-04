@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::InComingCall;
+attr active = Application::FavContactItem;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::InComingCall.onCallState;
-attr codeSelEnd = <68,13>;
-attr codeSelStart = <68,13>;
+attr codeInspector = Application::FavContactItem.onDelete;
+attr codeSelEnd = <0,0>;
+attr codeSelStart = <0,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -21,10 +21,10 @@ attr extractDoc_Variants = false;
 attr generateClut_ReservedColors = 0;
 attr heapMonitor_Show = false;
 attr language = Default;
-attr profile = Simulation;
+attr profile = Profile;
 attr profilerMonitor_Show = false;
 attr search_CaseSensitive = false;
-attr search_History = FindContact,Application::PushButton2,PushButton1,PushButton,PushButtonSmall,AddButtonConfig,Application::PushButtonSmall,SelectedContact,CurrentPos,rc, pos ,Caret,ObtainFocus,cursor,OnChange,Text.String;
+attr search_History = invalidHead,FindContact,Application::PushButton2,PushButton1,PushButton,PushButtonSmall,AddButtonConfig,Application::PushButtonSmall,SelectedContact,CurrentPos,rc, pos ,Caret,ObtainFocus,cursor,OnChange,Text.String;
 attr search_IgnoreDescription = true;
 attr search_IgnoreMosaic = false;
 attr search_LimitToComposer = true;
@@ -41,47 +41,79 @@ view Project
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-55>;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view class Application::CallPage
+view class Application::FavoritesPage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onEndCallPress;
-  attr codeSelEnd = <0,2>;
-  attr codeSelStart = <0,2>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-18>;
-  attr zoom = 1.0;
-}
-
-view class Application::Application
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = onCallState;
-  attr codeSelEnd = <0,13>;
-  attr codeSelStart = <0,13>;
+  attr codeInspector = onContactActivated;
+  attr codeSelEnd = <0,1>;
+  attr codeSelStart = <0,1>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-55>;
   attr zoom = 1.0;
 }
 
-view class Application::InComingCall
+view class Application::FavContactItem
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onCallState;
-  attr codeSelEnd = <68,13>;
-  attr codeSelStart = <68,13>;
+  attr codeInspector = onDelete;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-108,-7>;
+  attr zoom = 1.25;
+}
+
+view class Application::ContactsPage
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onCloseContact;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <84,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,41>;
+  attr zoom = 1.0;
+}
+
+view class Application::ContactDetailsPage
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onTapEdit;
+  attr codeSelEnd = <9,5>;
+  attr codeSelStart = <9,5>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
+view class Application::ContactEditPage
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onDeleteContact;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,41>;
+  attr zoom = 1.0;
+}
+
 breakpoints
 {
-  Application::CallPage.onEndCallPress 3;
+  Application::FavContactItem.onCloseWindow 1;
+  Application::FavContactItem.onDelete 2;
+  Application::FavoritesPage.onCloseWindow 1;
+  Application::FavoritesPage.onContactActivated 2;
+  Application::FavoritesPage.onContactActivated 4;
+  Application::FavoritesPage.onContactActivated 5;
+  Application::FavoritesPage.onContactActivated 8;
+  Application::FavoritesPage.onDeleteContacts 1;
+  Application::FavoritesPage.onOpenDetailsPage 3;
 }

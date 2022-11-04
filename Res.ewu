@@ -8,7 +8,7 @@ $rect <940,178,1110,218>
 $output false
 const string MessageIconTxt = "\xe253";
 
-$rect <940,348,1110,388>
+$rect <940,338,1110,378>
 $output false
 const string BackIconTxt = "\xe5e0";
 
@@ -24,15 +24,15 @@ $rect <940,258,1110,298>
 $output false
 const string PlusIconTxt = "\xe145";
 
-$rect <940,388,1110,428>
+$rect <940,378,1110,418>
 $output false
 const string SerachIconTxt = "\xe8b6";
 
-$rect <940,428,1110,468>
+$rect <940,418,1110,458>
 $output false
 const string CkeckIconTxt = "\xe876";
 
-$rect <940,468,1110,508>
+$rect <940,458,1110,498>
 $output false
 const string CloseIconTxt = "\xe5cd";
 
@@ -171,7 +171,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a, 0xe649, 0xe61c, 0xe15b,0xe88e;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -201,7 +201,7 @@ const string KeypadTxt = "\xe31a";
 
 $rect <220,450,420,490>
 $output false
-const color GeryLight = #F0F0F0FD;
+const color GreyLight = #F0F0F0FD;
 
 $rect <1120,258,1290,298>
 $output false
@@ -243,7 +243,7 @@ resource Resources::Font IconsFont30
   attr fontheight Height = 40;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -254,7 +254,7 @@ resource Resources::Font IconsFont30
 // Icon fonts
 note group Note6
 {
-  attr Bounds = <900,8,1319,591>;
+  attr Bounds = <900,8,1320,720>;
 }
 
 // Effects
@@ -271,7 +271,7 @@ resource Resources::Font IconsFont20
   attr fontheight Height = 20;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -518,6 +518,7 @@ $rect <450,420,700,460>
 $output false
 autoobject Effects::FadeInOutTransition FadeInOutCentered
 {
+  preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
 }
 
@@ -550,10 +551,26 @@ $rect <1119,501,1289,541>
 $output false
 const string HeartTxt = "\xe87d";
 
-$rect <1254,344,1454,384>
+$rect <940,500,1110,540>
 $output false
-const string Backspace = "\xe14a";
+const string BackspaceTxt = "\xe14a";
 
 $rect <220,650,420,690>
 $output false
 const color PressColor = #F8F8F8D5;
+
+$rect <1120,540,1290,580>
+$output false
+const string IncomingCalltxt = "\xe649";
+
+$rect <940,540,1110,580>
+$output false
+const string OutgoingCallTxt = "\xe61c";
+
+$rect <940,580,1110,620>
+$output false
+const string RemoveTxt = "\xe15b";
+
+$rect <1120,580,1290,620>
+$output false
+const string InfoTxt = "\xe88e";

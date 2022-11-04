@@ -42,7 +42,6 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationContactsPage.h"
 #include "_CoreRoot.h"
 #include "_CoreTimer.h"
 
@@ -52,10 +51,16 @@
 #define _ApplicationApplication_
 #endif
 
-/* Forward declaration of the class Application::Contacts */
-#ifndef _ApplicationContacts_
-  EW_DECLARE_CLASS( ApplicationContacts )
-#define _ApplicationContacts_
+/* Forward declaration of the class Application::ContactsManager */
+#ifndef _ApplicationContactsManager_
+  EW_DECLARE_CLASS( ApplicationContactsManager )
+#define _ApplicationContactsManager_
+#endif
+
+/* Forward declaration of the class Application::DeviceClass */
+#ifndef _ApplicationDeviceClass_
+  EW_DECLARE_CLASS( ApplicationDeviceClass )
+#define _ApplicationDeviceClass_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -107,10 +112,10 @@
 #endif
 
 
-/* This is the root component of the entire GUI application. */
+/* Deklaration of class : 'Application::Application' */
 EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
-  EW_VARIABLE( MyContacts,      ApplicationContacts )
-  EW_OBJECT  ( ContactList,     ApplicationContactsPage )
+  EW_VARIABLE( deviceInstance,  ApplicationDeviceClass )
+  EW_VARIABLE( myContactInstance, ApplicationContactsManager )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */
@@ -147,6 +152,14 @@ EW_DEFINE_METHODS( ApplicationApplication, CoreRoot )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
 EW_END_OF_METHODS( ApplicationApplication )
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationApplication_Init( ApplicationApplication _this, XHandle aArg );
+
+/* 'C' function for method : 'Application::Application.onCallState()' */
+void ApplicationApplication_onCallState( ApplicationApplication _this, XObject sender );
 
 #ifdef __cplusplus
   }

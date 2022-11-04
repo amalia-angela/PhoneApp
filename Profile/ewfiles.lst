@@ -6,3 +6,4 @@ module Views                    file "Views.c";
 module Application              file "Application.c";
 module Templates                file "Templates.c";
 module Res                      file "Res.c";
+module WidgetSet                file "WidgetSet.c";

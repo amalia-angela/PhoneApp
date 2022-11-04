@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationPushButtonBig_H
-#define _ApplicationPushButtonBig_H
+#ifndef _ApplicationNavBarButtons_H
+#define _ApplicationNavBarButtons_H
 
 #ifdef __cplusplus
   extern "C"
@@ -46,13 +46,12 @@
 #include "_CoreSimpleTouchHandler.h"
 #include "_CoreTimer.h"
 #include "_TemplatesPushButton.h"
-#include "_ViewsImage.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::PushButtonBig */
-#ifndef _ApplicationPushButtonBig_
-  EW_DECLARE_CLASS( ApplicationPushButtonBig )
-#define _ApplicationPushButtonBig_
+/* Forward declaration of the class Application::NavBarButtons */
+#ifndef _ApplicationNavBarButtons_
+  EW_DECLARE_CLASS( ApplicationNavBarButtons )
+#define _ApplicationNavBarButtons_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -100,24 +99,25 @@
 
 /* This class implements a 'push button' widget. When the user presses the button, 
    a signal is sent to the slot method stored in its @OnActivate property. */
-EW_DEFINE_FIELDS( ApplicationPushButtonBig, TemplatesPushButton )
+EW_DEFINE_FIELDS( ApplicationNavBarButtons, TemplatesPushButton )
+  EW_PROPERTY( Outlet,          XRef )
   EW_OBJECT  ( FlashTimer,      CoreTimer )
   EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
-  EW_OBJECT  ( Background,      ViewsImage )
   EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
-  EW_OBJECT  ( Text,            ViewsText )
+  EW_OBJECT  ( IconTxt,         ViewsText )
   EW_OBJECT  ( DescripTxt,      ViewsText )
-  EW_PROPERTY( Initials,        XString )
+  EW_PROPERTY( Icon,            XString )
   EW_PROPERTY( Descript,        XString )
-  EW_PROPERTY( DescriptColor,   XColor )
-  EW_PROPERTY( InitialsColor,   XColor )
+  EW_PROPERTY( IconColor,       XColor )
+  EW_PROPERTY( DescrpitColor,   XColor )
+  EW_PROPERTY( OutletSelector,  XInt32 )
   EW_VARIABLE( enabled,         XBool )
   EW_VARIABLE( selected,        XBool )
   EW_VARIABLE( pressed,         XBool )
-EW_END_OF_FIELDS( ApplicationPushButtonBig )
+EW_END_OF_FIELDS( ApplicationNavBarButtons )
 
-/* Virtual Method Table (VMT) for the class : 'Application::PushButtonBig' */
-EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
+/* Virtual Method Table (VMT) for the class : 'Application::NavBarButtons' */
+EW_DEFINE_METHODS( ApplicationNavBarButtons, TemplatesPushButton )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -139,7 +139,7 @@ EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
-  EW_METHOD( UpdateViewState,   void )( ApplicationPushButtonBig _this, XSet aState )
+  EW_METHOD( UpdateViewState,   void )( ApplicationNavBarButtons _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
@@ -149,7 +149,7 @@ EW_DEFINE_METHODS( ApplicationPushButtonBig, TemplatesPushButton )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-EW_END_OF_METHODS( ApplicationPushButtonBig )
+EW_END_OF_METHODS( ApplicationNavBarButtons )
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 
@@ -165,45 +165,62 @@ EW_END_OF_METHODS( ApplicationPushButtonBig )
    state 'on' or 'off' and change accordingly the location of the slider, etc.
    Usually, this method will be invoked automatically by the framework. Optionally 
    you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationPushButtonBig_UpdateViewState( ApplicationPushButtonBig _this, XSet 
+void ApplicationNavBarButtons_UpdateViewState( ApplicationNavBarButtons _this, XSet 
   aState );
 
 /* This internal slot method is called when the '@FlashTimer' is expired. It ends 
    the short flash feedback effect. */
-void ApplicationPushButtonBig_onFlashTimer( ApplicationPushButtonBig _this, XObject 
+void ApplicationNavBarButtons_onFlashTimer( ApplicationNavBarButtons _this, XObject 
   sender );
 
 /* This internal slot method is called when the '@KeyHandler' is activated (when 
    the user has pressed the key specified in the property 'Filter' of the key handler). */
-void ApplicationPushButtonBig_onPressKey( ApplicationPushButtonBig _this, XObject 
+void ApplicationNavBarButtons_onPressKey( ApplicationNavBarButtons _this, XObject 
   sender );
 
 /* This internal slot method is called when the user drags the finger while pressing 
    the button. This only updates the button to appear pressed or released. */
-void ApplicationPushButtonBig_onEnterLeaveTouch( ApplicationPushButtonBig _this, 
+void ApplicationNavBarButtons_onEnterLeaveTouch( ApplicationNavBarButtons _this, 
   XObject sender );
 
 /* This internal slot method is called when the user releases the touch screen after 
    touching the button's area. This activates the button. */
-void ApplicationPushButtonBig_onReleaseTouch( ApplicationPushButtonBig _this, XObject 
+void ApplicationNavBarButtons_onReleaseTouch( ApplicationNavBarButtons _this, XObject 
   sender );
 
 /* This internal slot method is called when the user touches the button's area. */
-void ApplicationPushButtonBig_onPressTouch( ApplicationPushButtonBig _this, XObject 
+void ApplicationNavBarButtons_onPressTouch( ApplicationNavBarButtons _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::PushButtonBig.OnSetInitials()' */
-void ApplicationPushButtonBig_OnSetInitials( ApplicationPushButtonBig _this, XString 
+/* 'C' function for method : 'Application::NavBarButtons.OnSetIcon()' */
+void ApplicationNavBarButtons_OnSetIcon( ApplicationNavBarButtons _this, XString 
   value );
 
-/* 'C' function for method : 'Application::PushButtonBig.OnSetDescript()' */
-void ApplicationPushButtonBig_OnSetDescript( ApplicationPushButtonBig _this, XString 
+/* 'C' function for method : 'Application::NavBarButtons.OnSetDescript()' */
+void ApplicationNavBarButtons_OnSetDescript( ApplicationNavBarButtons _this, XString 
   value );
+
+/* 'C' function for method : 'Application::NavBarButtons.OnSetOutletSelector()' */
+void ApplicationNavBarButtons_OnSetOutletSelector( ApplicationNavBarButtons _this, 
+  XInt32 value );
+
+/* 'C' function for method : 'Application::NavBarButtons.OnSetOutlet()' */
+void ApplicationNavBarButtons_OnSetOutlet( ApplicationNavBarButtons _this, XRef 
+  value );
+
+/* This slot method will receive a signal, if the value of the property assigned 
+   to @Outlet has been changed by another widget or by the application logic. In 
+   response to this notification, the widget will update itself. */
+void ApplicationNavBarButtons_onOutlet( ApplicationNavBarButtons _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::NavBarButtons.isSelected()' */
+XBool ApplicationNavBarButtons_isSelected( ApplicationNavBarButtons _this );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationPushButtonBig_H */
+#endif /* _ApplicationNavBarButtons_H */
 
 /* Embedded Wizard */

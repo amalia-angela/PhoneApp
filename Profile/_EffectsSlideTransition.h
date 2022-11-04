@@ -87,6 +87,7 @@
    additionally enable the buffering mode for the affected GUI component while it 
    performs the animation. */
 EW_DEFINE_FIELDS( EffectsSlideTransition, EffectsTransition )
+  EW_PROPERTY( MarginTop,       XInt32 )
   EW_PROPERTY( Duration,        XInt32 )
   EW_PROPERTY( Direction,       XEnum )
 EW_END_OF_FIELDS( EffectsSlideTransition )

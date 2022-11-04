@@ -28,15 +28,17 @@
 #include "_EffectsFadeInOutTransition.h"
 #include "_EffectsSlideTransition.h"
 #include "Core.h"
+#include "Effects.h"
 #include "Res.h"
 
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x00000084, /* ratio 60.61 % */
+  0x0000009C, /* ratio 58.97 % */
   0xB8000900, 0x38160452, 0x12040000, 0xA10E229C, 0xCAE022C2, 0x24581C39, 0x0B89B8D9,
-  0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xA6092289, 0x88B29838, 0xA12D8B86,
-  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x844A19D0, 0x00020308, 0x00000000
+  0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xAE092289, 0x88B29838, 0xA12D8B86,
+  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0x96E5B1E2, 0x061108A2,
+  0x00000004, 0x00000000
 };
 
 /* User defined constant: 'Res::CallTxt' */
@@ -178,20 +180,20 @@ EW_RES_WITHOUT_VARIANTS( ResContactFontBold15 )
 /* Table with links to derived variants of the font resource : 'Res::IconsFont25' */
 EW_RES_WITHOUT_VARIANTS( ResIconsFont25 )
 
-/* User defined constant: 'Res::Blue' */
-const XColor ResBlue = { 0x1B, 0x0B, 0xFF, 0xD1 };
+/* User defined constant: 'Res::BlueLight' */
+const XColor ResBlueLight = { 0x7C, 0x8F, 0xFF, 0xF4 };
 
-/* User defined constant: 'Res::Gery' */
-const XColor ResGery = { 0xBC, 0xBC, 0xBC, 0xFD };
+/* User defined constant: 'Res::Grey' */
+const XColor ResGrey = { 0xBC, 0xBC, 0xBC, 0xFD };
 
-/* User defined constant: 'Res::MicTxt' */
-const XStringRes ResMicTxt = { _StringsDefault0, 0x0026 };
+/* User defined constant: 'Res::MicOffTxt' */
+const XStringRes ResMicOffTxt = { _StringsDefault0, 0x0026 };
 
 /* User defined constant: 'Res::KeypadTxt' */
 const XStringRes ResKeypadTxt = { _StringsDefault0, 0x002A };
 
-/* User defined constant: 'Res::GeryLight' */
-const XColor ResGeryLight = { 0xF0, 0xF0, 0xF0, 0xFD };
+/* User defined constant: 'Res::GreyLight' */
+const XColor ResGreyLight = { 0xF0, 0xF0, 0xF0, 0xFD };
 
 /* User defined constant: 'Res::SpeakerTxt' */
 const XStringRes ResSpeakerTxt = { _StringsDefault0, 0x002E };
@@ -235,8 +237,8 @@ const XColor ResWhiteTransparent = { 0xFF, 0xFF, 0xFF, 0x26 };
 /* User defined constant: 'Res::Red' */
 const XColor ResRed = { 0xB5, 0x28, 0x0F, 0xFF };
 
-/* User defined constant: 'Res::BlueLight' */
-const XColor ResBlueLight = { 0x1B, 0x0B, 0xFF, 0xFF };
+/* User defined constant: 'Res::Blue' */
+const XColor ResBlue = { 0x1B, 0x0B, 0xFF, 0xFF };
 
 /* User defined constant: 'Res::DownTxt' */
 const XStringRes ResDownTxt = { _StringsDefault0, 0x003A };
@@ -261,6 +263,12 @@ const XColor ResWhite = { 0xFF, 0xFF, 0xFF, 0xF9 };
 
 /* User defined constant: 'Res::Green' */
 const XColor ResGreen = { 0x12, 0x99, 0x15, 0xFF };
+
+/* User defined constant: 'Res::GreenDark' */
+const XColor ResGreenDark = { 0x0C, 0x6B, 0x0E, 0xFF };
+
+/* User defined constant: 'Res::Transparent' */
+const XColor ResTransparent = { 0xFF, 0xFF, 0xFF, 0x00 };
 
 /* Include a file containing the bitmap resource : 'Res::ButtonRoundMedium' */
 #include "_ResButtonRoundMedium.h"
@@ -309,6 +317,7 @@ EW_DEFINE_AUTOOBJECT( ResFadeInOutCentered, EffectsFadeInOutTransition )
 /* Initializer for the auto object 'Res::FadeInOutCentered' */
 void ResFadeInOutCentered__Init( EffectsFadeInOutTransition _this )
 {
+  _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
 }
 
@@ -345,5 +354,17 @@ void ResSlideLeftCentered__Init( EffectsSlideTransition _this )
 /* Table with links to derived variants of the auto object : 'Res::SlideLeftCentered' */
 EW_DEFINE_AUTOOBJECT_VARIANTS( ResSlideLeftCentered )
 EW_END_OF_AUTOOBJECT_VARIANTS( ResSlideLeftCentered )
+
+/* User defined constant: 'Res::HeartTxt' */
+const XStringRes ResHeartTxt = { _StringsDefault0, 0x0042 };
+
+/* User defined constant: 'Res::BackspaceTxt' */
+const XStringRes ResBackspaceTxt = { _StringsDefault0, 0x0046 };
+
+/* User defined constant: 'Res::PressColor' */
+const XColor ResPressColor = { 0xF8, 0xF8, 0xF8, 0xD5 };
+
+/* User defined constant: 'Res::RemoveTxt' */
+const XStringRes ResRemoveTxt = { _StringsDefault0, 0x004A };
 
 /* Embedded Wizard */
