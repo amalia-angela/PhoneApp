@@ -197,7 +197,7 @@ class ContactsPage : Core::Group
     preset Bounds = <10,141,260,440>;
     preset OnLoadItem = OnLoadItem;
     preset SlideHandler = SlideTouchHandler;
-    preset ItemHeight = 35;
+    preset ItemHeight = 32;
     preset ItemClass = Application::ContactItem;
   }
 
@@ -387,7 +387,7 @@ class ContactItem : Core::Group
   {
     if ( Contact != null )
     {
-      FirstnameTxt.String = pure Contact.FirstName;
+      FirstNameTxt.String = pure Contact.FirstName;
       LastNameTxt.String = pure Contact.LastName;
       PrfofilButton.Text = pure Contact.NameInitials;
     }
@@ -681,7 +681,7 @@ class ContactItem : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Text FirstnameTxt
+  object Views::Text FirstNameTxt
   {
     preset StackingPriority = 0;
     preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
@@ -696,16 +696,26 @@ class ContactItem : Core::Group
   object Views::Line Line
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Point2 = <268,32>;
+    preset Point2 = <272,32>;
     preset Point1 = <0,32>;
-    preset Width = 1;
-    preset Color = #E2E2E2FD;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
   }
 
   $rect <20,20,160,60>
   object Application::PushButtonSmall PrfofilButton
   {
     preset Bounds = <6,4,31,29>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line1
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <267,0>;
+    preset Point1 = <0,0>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
   }
 }
 
@@ -4171,7 +4181,7 @@ class Contacts
   var Application::Contact sorted = null;
 
   $rect <640,0,840,40>
-  property Application::Sorting Sorting = Application::Sorting.Ascending;
+  property Application::Sorting Sorting = Application::Sorting.None;
 
   $rect <640,40,840,80>
   onset Sorting
@@ -5501,7 +5511,7 @@ $rect <210,130,400,170>
 $output false
 class CallPage : Core::Group
 {
-  $rect <770,20,970,60>
+  $rect <770,40,970,80>
   inherited method Init()
   {
     attachobserver onCallState, ^Application::Device.CallState;
@@ -5563,8 +5573,9 @@ class CallPage : Core::Group
     {
        ContactNameTxt.String = Application::Device.CallingNumber;
        UserInitials.Visible = false;
-
     }
+
+    postsignal onContactRistoryUpdate;
 
   }
 
@@ -5574,7 +5585,7 @@ class CallPage : Core::Group
   // Displayed contact info
   note group Note1
   {
-    attr Bounds = <290,0,760,200>;
+    attr Bounds = <290,0,750,200>;
   }
 
   $rect <310,250,510,290>
@@ -5588,7 +5599,7 @@ class CallPage : Core::Group
     postsignal onCallState;
   }
 
-  $rect <530,530,730,570>
+  $rect <540,570,740,610>
   slot onSpeakerPress
   {
     //if button is pressed it changes sate from start/stop and icon PlayIcon/StopIcon
@@ -5599,7 +5610,7 @@ class CallPage : Core::Group
     SpeakerBtn.IconColor   = Application::Device.Speaker ? Res::Black : Res::White ;
   }
 
-  $rect <530,490,730,530>
+  $rect <540,530,740,570>
   slot onMicPress
   {
     //if button is pressed it changes sate from start/stop and icon PlayIcon/StopIcon
@@ -5614,7 +5625,7 @@ class CallPage : Core::Group
   // Touch screen events
   note group Note
   {
-    attr Bounds = <290,210,760,640>;
+    attr Bounds = <290,210,750,640>;
   }
 
   $rect <520,390,720,430>
@@ -5634,13 +5645,13 @@ class CallPage : Core::Group
 
   }
 
-  $rect <310,490,510,530>
+  $rect <310,530,510,570>
   slot onAddCallPress
   {
     sender; /* the method is called from the sender object */
   }
 
-  $rect <310,530,510,570>
+  $rect <310,570,510,610>
   slot onVideoCallPress
   {
     sender; /* the method is called from the sender object */
@@ -5762,7 +5773,7 @@ class CallPage : Core::Group
   $rect <320,390,520,430>
   var Application::KeypadPage keypadPage;
 
-  $rect <540,430,710,470>
+  $rect <550,470,720,510>
   slot onHide
   {
     //DismissDialog( keypadPage, Res::FadeInOutCentered, null, null, null, null, null );
@@ -5785,7 +5796,7 @@ class CallPage : Core::Group
     preset OnEditTextChanged = onKeypadEdit;
   }
 
-  $rect <720,390,920,430>
+  $rect <520,430,720,470>
   slot onKeypadEdit
   {
     ContactNameTxt.Visible = Keypad1.InputEtxt.String == "";
@@ -5793,27 +5804,26 @@ class CallPage : Core::Group
     UserInitials.Visible = Keypad1.InputEtxt.String == "";
   }
 
-  $rect <760,60,960,100>
+  $rect <770,80,970,120>
   slot onCallState
   {
-    trace Application::Device.CallState, Application::Device.CallingNumber;
 
     if ( Application::Device.CallState == Application::CallState.RingOutgoing)
     {
-     AddCallBtn.Enabled =  false;
-     VideoCallBtn.Enabled = false;
-
+      AddCallBtn.Enabled =  false;
+      VideoCallBtn.Enabled = false;
+      Application::MyContactsManager.History.Add( ContactHistory);//
     }
     else if ( Application::Device.CallState == Application::CallState.Talk)
     {
-     AddCallBtn.Enabled =  true;
-     VideoCallBtn.Enabled = true;
-     TimeTxt.Visible = false;
-
+      AddCallBtn.Enabled =  true;
+      VideoCallBtn.Enabled = true;
+      TimeTxt.Visible = false;
+      Application::MyContactsManager.History.Add( ContactHistory );//
     } 
-    else
+    else if ( Owner != null )
     {
-     DismissDialog( this, null, null, null, null, null, false);
+      Owner.DismissDialog( this, null, null, null, null, null, false);
     }
 
 
@@ -5822,9 +5832,57 @@ class CallPage : Core::Group
   $rect <770,120,970,160>
   method void getContact()
   {
-    Contact = Application::MyContactsManager.Contacts.FindByNumber( Application::Device.CallingNumber);
+    Contact = Application::MyContactsManager.Contacts.FindByNumber( Application::Device.CallingNumber );
 
     postsignal onContactUpdated;
+
+  }
+
+  // Initialization
+  note group Note2
+  {
+    attr Bounds = <760,0,1230,200>;
+  }
+
+  $rect <550,90,740,130>
+  onset ContactHistory
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ContactHistory == value )
+      return;
+
+    if ( pure ContactHistory != null )
+    {
+       detachobserver onContactRistoryUpdate, pure ContactHistory;
+    }
+
+    // Remember the property's new value.
+    pure ContactHistory = value;
+
+    if ( pure ContactHistory != null )
+    {
+      attachobserver onContactRistoryUpdate, pure ContactHistory;
+      postsignal onContactRistoryUpdate;
+    }
+
+  }
+
+  $rect <550,50,740,90>
+  property Application::ContactHistory ContactHistory = null;
+
+  $rect <550,130,740,170>
+  slot onContactRistoryUpdate
+  {
+    if ( pure ContactHistory != null )
+    {
+      LastNameTxt.String  =  pure ContactHistory.LastName;
+      FirstNameTxt.String = pure ContactHistory.FirstName;
+      CallType.String     = pure ContactHistory.CallType;
+      
+      
+      
+    }
+
   }
 }
 
@@ -9086,29 +9144,21 @@ class Application : Core::Root
   $rect <290,90,490,130>
   slot onCallState
   {
-    var Application::CallPage      outgoingCall = new Application::CallPage;
-    var Application::InComingCall  incomingCall = new Application::InComingCall;
-    var Application::ContactsApp   app          = new Application::ContactsApp;
 
-    trace Application::Device.CallState, Application::Device.CallingNumber;
-
-    if( Application::Device.CallState == Application::CallState.None)
+    //Talk dialog
+    if ( Application::Device.CallState == Application::CallState.Talk)
     {
-      PresentDialog( app, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
+      PresentDialog( new Application::CallPage, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
     }
+    //Outgoing call dialog
     else if ( Application::Device.CallState == Application::CallState.RingOutgoing)
     {
-      //Application::MyContactsManager.History.Add( aContact );
-      PresentDialog( outgoingCall, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
+      PresentDialog( new Application::CallPage, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
     }
+    //Incoming call dialog
     else if ( Application::Device.CallState == Application::CallState.RingIncoming)
     {
-      //Application::MyContactsManager.History.Add( aContact );
-      PresentDialog( incomingCall, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
-    }
-    else
-    {
-      PresentDialog( outgoingCall, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
+      PresentDialog( new Application::InComingCall, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
     }
 
 
@@ -9122,6 +9172,15 @@ class Application : Core::Root
 
   $rect <490,0,690,40>
   var Application::ContactsManager myContactInstance = Application::MyContactsManager;
+
+  $rect <290,130,490,170>
+  var int32 Variable;
+
+  $rect <20,20,160,60>
+  object Application::ContactsApp ContactsApp
+  {
+    preset Bounds = <0,0,272,480>;
+  }
 }
 
 $rect <230,250,400,290>
@@ -9406,8 +9465,8 @@ vclass ApplicationSimulation : Application::Application
   slot onIncomingCall
   {
     Application::Device.UpdateCallState( Application::CallState.RingIncoming );
-    Application::Device.UpdateCallingNumber( "+40723494923" );
-    //Application::Device.UpdateCallingNumber( "zf" );
+    //Application::Device.UpdateCallingNumber( "+40723494923" );
+    Application::Device.UpdateCallingNumber( "zf" );
   }
 }
 
@@ -9471,15 +9530,17 @@ class InComingCall : Core::Group
   $rect <310,130,500,170>
   slot onContactUpdated
   {
+    //if the calling number is in the contact list display info
     if ( pure Contact != null )
     {
       ContactNameTxt.String  = pure Contact.LastName + " "  + pure Contact.FirstName;
       UserInitials.Initials = pure Contact.NameInitials; 
     }
+    //if not display number and hide UserInitials
     else
     {
-         ContactNameTxt.String = Application::Device.CallingNumber;
-         UserInitials.Visible = false;
+       ContactNameTxt.String = Application::Device.CallingNumber;
+       UserInitials.Visible = false;
     }
 
   }
@@ -9514,11 +9575,12 @@ class InComingCall : Core::Group
   $rect <770,80,970,120>
   slot onCallState
   {
-    trace Application::Device.CallState, Application::Device.CallingNumber;
+    //close dialog on call state changed
+    Application::MyContactsManager.History.Add( Contact );
 
-    if ( Application::Device.CallState != Application::CallState.RingIncoming)
+    if ( Application::Device.CallState != Application::CallState.RingIncoming && Owner!= null )
     {
-      DismissDialog( this, null, null, null, null, null, false);
+      Owner.DismissDialog( this, null, null, null, null, null, false);
     } 
 
   }
@@ -9597,12 +9659,10 @@ class InComingCall : Core::Group
     preset Descript = "";
   }
 
-  $rect <990,30,1190,70>
+  $rect <990,40,1190,80>
   method void getContact()
   {
     Contact = Application::MyContactsManager.Contacts.FindByNumber( Application::Device.CallingNumber);
-
-
 
     postsignal onContactUpdated;
   }
@@ -9633,20 +9693,20 @@ class InComingCall : Core::Group
   {
     // Get the current time
     var Core::Time currentTime = Time.CurrentTime;
+    var Application::ContactHistory ContactHistory = new Application::ContactHistory;
 
-    if( Contact != null)
+    if ( pure Contact != null )
     {
-      ContactHistory.FirstName = Contact.FirstName;
-      ContactHistory.LastName  = Contact.LastName;
-      ContactHistory.PhoneNumber = Contact.PhoneNumber;
+      ContactHistory.FirstName = pure Contact.FirstName;
+      ContactHistory.LastName  = pure Contact.LastName;
+      ContactHistory.PhoneNumber = pure Contact.PhoneNumber;
     }
     else
     {
       ContactHistory.FirstName = Application::Device.CallingNumber;
-     }
+    }
 
     ContactHistory.CallType = "incoming";
-    ContactHistory.TimeOfCall = string(currentTime.Day,2);
 
     Application::MyContactsManager.History.Add( ContactHistory );
     //Date.String = currentTime.getDayOfWeekName( currentTime.DayOfWeek, true ) + ", "
@@ -9654,7 +9714,6 @@ class InComingCall : Core::Group
   }
 
   // Initialization
-
   note group Note2
   {
     attr Bounds = <760,0,1230,200>;
@@ -9689,14 +9748,14 @@ $rect <30,390,210,430>
 $output false
 class FavoritesPage : Core::Group
 {
-  $rect <690,40,840,80>
+  $rect <300,20,480,60>
   inherited method Init()
   {
     attachobserver onNoOfContactsChanged, ^Application::MyContactsManager.Favorites.NoOfItems;
     postsignal onNoOfContactsChanged;
   }
 
-  $rect <0,490,200,530>
+  $rect <300,100,490,140>
   inherited property Bounds = <0,0,272,440>;
 
   $rect <0,570,200,610>
@@ -9826,7 +9885,7 @@ class FavoritesPage : Core::Group
     */
   }
 
-  $rect <440,270,640,310>
+  $rect <470,260,660,300>
   slot onAddPress
   {
     addFav = new Application::ContactsList;
@@ -9836,14 +9895,15 @@ class FavoritesPage : Core::Group
 
     SwitchToDialog( addFav, Res::SlideUpCentered, null, null, null, null, null,
                                null, null, null, false );
+
   }
 
-  $rect <290,270,440,310>
+  $rect <290,260,470,300>
   var Application::ContactsList addFav = null;
 
   // This method is called by 'VerticalList' every time the list loads or updates \
   // an item.
-  $rect <460,80,660,120>
+  $rect <690,50,890,90>
   slot OnLoadItem
   {
     // Get the number of the item to load.
@@ -9852,6 +9912,7 @@ class FavoritesPage : Core::Group
     var Application::Contact contact = Application::MyContactsManager.Favorites.GetContact( itemNo );
 
     var Application::FavContactItem itemView = (Application::FavContactItem)VerticalList.View;
+    SelectedContact = itemView.Contact;
                                                   
     if ( itemView == null )
       return;
@@ -9859,7 +9920,9 @@ class FavoritesPage : Core::Group
     if ( contact != null )
     {
       itemView.Contact = contact;
-      itemView.OnActivate = onContactActivated;
+      itemView.OnActivate = onPressedContact;
+      itemView.OnDelete = onDeleteContact;
+      itemView.OnInfo  = onInfoContact;  
       itemView.EditMode = EditMode;
       
     }
@@ -9871,47 +9934,42 @@ class FavoritesPage : Core::Group
 
   }
 
-  $rect <290,360,440,400>
-  var Application::CallPage callPage;
-
-  $rect <440,360,640,400>
-  slot onContactActivated
+  $rect <720,90,890,130>
+  slot onPressedContact
   {
-    var Application::FavContactItem itemView = (Application::FavContactItem)sender;
-    SelectedContact = itemView.Contact;
+    //on contact pressed ->contact will be called
+    //var Application::FavContactItem itemView = (Application::FavContactItem)sender;
 
-    itemView.OnInfo = onOpenDetailsPage;
-    itemView.OnDelete = onDeleteContacts;
+    SelectedContact =  ((Application::FavContactItem)sender).Contact;
 
     Application::Device.UpdateCallState ( Application::CallState.RingOutgoing);
     Application::Device.UpdateCallingNumber ( SelectedContact.PhoneNumber );
 
+    SelectedContact = null;
+
   }
 
-  $rect <470,310,640,350>
+  $rect <490,300,660,340>
   slot onClose
   {
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
     DismissDialog( addFav, Res::SlideDownCentered, null, null, null, null, false);
+
+                               
+    addFav = null;
   }
 
-  $rect <460,40,660,80>
+  $rect <300,60,480,100>
   slot onNoOfContactsChanged
   {
     VerticalList.NoOfItems = Application::MyContactsManager.Favorites.NoOfItems;
 
   }
 
-  // Vertical list
-  note group Note1
-  {
-    attr Bounds = <280,0,670,210>;
-  }
-
-  $rect <290,40,450,80>
+  $rect <490,20,660,60>
   property Application::Contact SelectedContact = null;
 
-  $rect <290,80,450,120>
+  $rect <490,60,660,100>
   onset SelectedContact
   {
     // The value doesn't change - nothing to do.
@@ -9927,7 +9985,7 @@ class FavoritesPage : Core::Group
   // Touch screen events
   note group Note
   {
-    attr Bounds = <280,220,670,450>;
+    attr Bounds = <280,170,670,390>;
   }
 
   $rect <20,20,160,60>
@@ -9982,44 +10040,66 @@ class FavoritesPage : Core::Group
     preset OnActivate = onEdit;
   }
 
-  $rect <690,190,890,230>
+  $rect <900,170,1060,210>
+  var Application::ContactDetailsPage detailsPage;
+
+  $rect <720,170,890,210>
+  slot onInfoContact
+  {
+    detailsPage = new Application::ContactDetailsPage;
+    //var Application::FavContactItem itemView = (Application::FavContactItem)sender;
+    //SelectedContact = itemView.Contact;
+
+    detailsPage.Contact = ((Application::FavContactItem)sender).Contact;
+    detailsPage.OnBack = onCloseDetailsPage;
+
+    SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null, null, null, null, false );
+
+
+  }
+
+  $rect <720,130,890,170>
+  slot onDeleteContact
+  {
+    // delete contact from favorites list
+
+    SelectedContact =  ((Application::FavContactItem)sender).Contact;
+
+    Application::MyContactsManager.Favorites.Remove( SelectedContact );
+    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
+
+    SelectedContact = null;
+  }
+
+  $rect <740,210,890,250>
+  slot onCloseDetailsPage
+  {
+    DismissDialog( detailsPage, Res::SlideRightCentered, null, null, null, null, false);
+
+    SelectedContact = null;
+  }
+
+  // Vertical list
+  note group Note2
+  {
+    attr Bounds = <680,0,1100,390>;
+  }
+
+  // Initialization
+  note group Note3
+  {
+    attr Bounds = <290,-10,670,160>;
+  }
+
+  $rect <290,210,470,250>
   property bool EditMode = false;
 
-  $rect <890,190,1090,230>
+  $rect <470,210,660,250>
   slot onEdit
   {
     EditMode = !EditMode;
 
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
-  }
-
-  $rect <290,440,450,480>
-  var Application::ContactDetailsPage detailsPage;
-
-  $rect <460,440,640,480>
-  slot onOpenDetailsPage
-  {
-    detailsPage = new Application::ContactDetailsPage;
-
-    detailsPage.OnBack = onCloseWindow;
-
-    SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null, null, null, null, false );
-
-  }
-
-  $rect <460,400,640,440>
-  slot onDeleteContacts
-  {
-    Application::MyContactsManager.Favorites.Remove( SelectedContact );
-
-    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
-
-  }
-
-  $rect <480,480,640,520>
-  slot onCloseWindow
-  {
-    DismissDialog( detailsPage, Res::SlideRightCentered, null, null, null, null, false);
   }
 }
 
@@ -10027,14 +10107,14 @@ $rect <220,390,400,430>
 $output false
 class RecentPage : Core::Group
 {
-  $rect <290,0,490,40>
+  $rect <290,40,480,80>
   inherited method Init()
   {
     attachobserver onNoOfContactsChanged, ^Application::MyContactsManager.History.NoOfItems;
     postsignal onNoOfContactsChanged;
   }
 
-  $rect <0,490,200,530>
+  $rect <290,120,480,160>
   inherited property Bounds = <0,0,272,440>;
 
   $rect <0,570,200,610>
@@ -10209,24 +10289,26 @@ class RecentPage : Core::Group
 
   // This method is called by 'VerticalList' every time the list loads or updates \
   // an item.
-  $rect <490,0,690,40>
+  $rect <690,40,890,80>
   slot OnLoadItem
   {
     // Get the number of the item to load.
     var int32 itemNo = VerticalList.Item;
 
-    var Application::Contact contact = Application::MyContactsManager.History.GetContact( itemNo );
+    var Application::ContactHistory contactHistory = (Application::ContactHistory )Application::MyContactsManager.History.GetContact( itemNo );
 
-    var Application::FavContactItem itemView = (Application::FavContactItem)VerticalList.View;
+    var Application::RecentContactItem itemView = (Application::RecentContactItem)VerticalList.View;
                                                   
     if ( itemView == null )
       return;
 
-    if ( contact != null )
+    if ( contactHistory != null )
     {
-      itemView.Contact = contact;  
+      itemView.ContactHistory = contactHistory;  
       itemView.EditMode = EditMode;
-      itemView.OnActivate = onContactActivated;
+      itemView.OnActivate = onPressedContact;
+      itemView.OnDelete = onDeleteContact;
+      itemView.OnInfo = onInfoContact;
       
     }
 
@@ -10237,34 +10319,17 @@ class RecentPage : Core::Group
 
   }
 
-  $rect <480,40,680,80>
+  $rect <290,80,480,120>
   slot onNoOfContactsChanged
   {
     VerticalList.NoOfItems = Application::MyContactsManager.History.NoOfItems;
 
   }
 
-  $rect <290,140,440,180>
-  var Application::CallPage callPage;
+  $rect <490,40,660,80>
+  property Application::Contact SelectedContact = null;
 
-  $rect <440,140,640,180>
-  slot onContactActivated
-  {
-    var Application::RecentContactItem itemView = (Application::RecentContactItem)sender;
-    //SelectedContact = itemView.Contact;
-
-    //itemView.OnInfo = onOpenDetailsPage;
-    //itemView.OnDelete = onDeleteContacts;
-
-    Application::Device.UpdateCallState ( Application::CallState.RingOutgoing);
-    Application::Device.UpdateCallingNumber ( SelectedContact.PhoneNumber );
-
-  }
-
-  $rect <690,90,850,130>
-  property Application::ContactHistory SelectedContact = null;
-
-  $rect <690,130,850,170>
+  $rect <490,80,660,120>
   onset SelectedContact
   {
     // The value doesn't change - nothing to do.
@@ -10277,642 +10342,87 @@ class RecentPage : Core::Group
     notifyobservers ^SelectedContact; 
   }
 
-  $rect <690,190,890,230>
+  $rect <290,230,470,270>
   property bool EditMode = false;
 
-  $rect <890,190,1090,230>
+  $rect <470,230,650,270>
   slot onEdit
   {
     EditMode = !EditMode;
 
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
   }
-}
-
-$rect <240,430,399,470>
-$output false
-class RecentContactItem : Core::Group
-{
-  $rect <-20,540,180,580>
-  inherited property Bounds = <0,0,250,50>;
-
-  $rect <580,110,780,150>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-    if (LastNameTxt != null )
-    {
-      var color clr = NameColor;
-      var Resources::Font font = Res::ContactFontBold15; 
-      LastNameTxt.Font  = font;
-      LastNameTxt.Color     = clr;
-     }
-    if (FirstNameTxt!= null)
-    {
-      var color clr = NameColor;
-      var Resources::Font font = Res::ContactFont15; 
-      FirstNameTxt.Font = font;
-      FirstNameTxt.Color = clr;
-     }
-
-    if (CallType != null)
-    {
-      var color clr = NameColor1; 
-      CallType.Font = Res::ContactFont12;
-      CallType.Color = clr;
-     }
-
-    if (Time != null)
-    {
-      var color clr = NameColor1; 
-      Time.Font = Res::ContactFont12;
-      Time.Color = clr;
-     }
-
-
-
-    if ( !isEnabled )
-    {
-      Background.Color = ButtonColor;
-      PushButtonSmall.IconColor = Res::Grey;
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = Res::PressColor;
-      
-      PushButtonSmall.IconColor = Res::Grey;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color =  Res::GreyLight;
-      
-      PushButtonSmall.IconColor = Res::Grey;
-      }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-      Background.Color = ButtonColor;
-      
-      PushButtonSmall.IconColor = Res::Grey;
-    }
-
-
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  $rect <580,380,780,420>
-  property Application::Contact Contact = null;
-
-  $rect <580,420,780,460>
-  onset Contact
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Contact == value )
-      return;
-
-    if ( pure Contact != null )
-    {
-       detachobserver onContactUpdated, pure Contact;
-    }
-
-    // Remember the property's new value.
-    pure Contact = value;
-
-    if ( pure Contact != null )
-    {
-      attachobserver onContactUpdated, pure Contact;
-      postsignal onContactUpdated;
-    }
-
-  }
-
-  $rect <580,460,780,500>
-  slot onContactUpdated
-  {
-    if ( Contact != null )
-    {
-      FirstNameTxt.String = pure Contact.FirstName;
-      LastNameTxt.String = pure Contact.LastName;
-    }
-
-  }
-
-  // Contact data
-  note group Note4
-  {
-    attr Bounds = <570,330,790,520>;
-  }
-
-  // State management
-  note group Note5
-  {
-    attr Bounds = <570,70,790,320>;
-  }
-
-  $rect <580,270,780,310>
-  var Views::Text textView;
-
-  // This variable stores the current state of the button.
-  $rect <580,230,780,270>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <580,190,780,230>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <580,150,780,190>
-  var bool enabled;
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <10,108,159,148>
-  property string Icon = Res::OutgoingCallTxt;
-
-  $rect <170,110,320,150>
-  property string Text = "";
-
-  $rect <170,150,320,190>
-  onset Text
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Text == value )
-      return;
-
-    // Remember the property's new value.
-    pure Text = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <10,278,159,318>
-  property color ButtonColor = Res::White;
-
-  $rect <10,318,159,358>
-  onset ButtonColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <10,188,159,228>
-  property color IconColor = Res::White;
-
-  $rect <10,228,159,268>
-  onset IconColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <340,390,560,520>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <340,250,560,380>;
-  }
 
   // Touch screen events
-  note group Note1
+  note group Note
   {
-    attr Bounds = <340,70,560,240>;
+    attr Bounds = <280,180,670,400>;
   }
 
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <350,430,550,470>
-  object Core::Timer FlashTimer
+  // Vertical list
+  note group Note2
   {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
+    attr Bounds = <680,0,1100,390>;
   }
 
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <350,290,550,330>
-  object Core::KeyPressHandler KeyHandler
+  // Initialization
+  note group Note3
   {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
+    attr Bounds = <280,0,670,170>;
   }
 
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <350,470,550,510>
-  slot onFlashTimer
+  $rect <720,80,890,120>
+  slot onPressedContact
   {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
+    //on contact pressed ->contact will be called
+    //var Application::FavContactItem itemView = (Application::FavContactItem)sender;
 
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
+    SelectedContact =  ((Application::RecentContactItem1)sender).Contact;
+
+    Application::Device.UpdateCallState ( Application::CallState.RingOutgoing);
+    Application::Device.UpdateCallingNumber ( SelectedContact.PhoneNumber );
+
+    SelectedContact = null;
+
   }
 
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <350,330,550,370>
-  slot onPressKey
+  $rect <900,160,1060,200>
+  var Application::ContactDetailsPage detailsPage;
+
+  $rect <720,160,890,200>
+  slot onInfoContact
   {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
+    detailsPage = new Application::ContactDetailsPage;
+    //var Application::FavContactItem itemView = (Application::FavContactItem)sender;
+    //SelectedContact = itemView.Contact;
 
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
+    detailsPage.Contact = ((Application::RecentContactItem1)sender).Contact;
+    detailsPage.OnBack = onCloseDetailsPage;
 
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  $rect <10,148,159,188>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the property's new value.
-    pure Icon = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <350,190,550,230>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <350,150,550,190>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <10,378,159,418>
-  property slot OnActivate = null;
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <350,110,550,150>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Bounds = <0,0,250,52>;
-    preset ColorBL = #FDFDFDC8;
-    preset ColorBR = #FDFDFDC8;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <25,52>;
-    preset Point3 = <220,52>;
-    preset Point2 = <220,0>;
-    preset Point1 = <25,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line Line
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Point2 = <250,52>;
-    preset Point1 = <0,52>;
-    preset Width = 1;
-    preset Color = #E2E2E2FD;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text LastNameTxt
-  {
-    preset Bounds = <32,4,114,22>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "LastName";
-    preset Font = Res::ContactFontBold15;
-    preset Color = Res::Black;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text FirstNameTxt
-  {
-    preset StackingPriority = 0;
-    preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
-    preset Bounds = <114,4,213,22>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "FirstName";
-    preset Font = Res::ContactFont15;
-    preset Color = Res::Black;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text CallType
-  {
-    preset Bounds = <26,29,63,43>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Call type";
-    preset Font = Resources::DefaultFont;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text Time
-  {
-    preset Bounds = <152,20,176,34>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
-    preset String = "Time ";
-    preset Font = Resources::DefaultFont;
-  }
-
-  $rect <170,190,320,230>
-  property color NameColor = Res::Black;
-
-  $rect <170,230,320,270>
-  onset NameColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure NameColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure NameColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <170,270,320,310>
-  property color NameColor1 = Res::Grey;
-
-  $rect <170,310,320,350>
-  onset NameColor1
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure NameColor1 == value )
-      return;
-
-    // Remember the property's new value.
-    pure NameColor1 = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonSmall InfoButton
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <220,8,245,33>;
-    preset ButtonColor = Res::Transparent;
-    preset Icon = Res::InfoTxt;
-    preset IconColor = Res::Blue;
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonSmall PushButtonSmall
-  {
-    preset Bounds = <0,17,25,42>;
-    preset AlphaBlended = true;
-    preset ButtonColor = Res::Transparent;
-    preset TextColor = Res::Grey;
-    preset Icon = Res::OutgoingCallTxt;
-  }
-
-  // Design
-  note group Note6
-  {
-    attr Bounds = <0,70,330,520>;
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonSmall RemoveButton
-  {
-    preset Bounds = <-25,11,0,36>;
-    preset OnActivate = onShowDelete;
-    preset ButtonColor = Res::Red;
-    preset Icon = Res::RemoveTxt;
-    preset IconColor = Res::White;
-  }
-
-  $rect <20,20,160,60>
-  object Application::TextButton DeleteButton
-  {
-    preset Bounds = <250,1,316,51>;
-    preset Text = "Delete";
-    preset OnActivate = onDelete;
-    preset TextColor = Res::White;
-    preset TextColorPress = Res::WhiteSemiTransparent;
-    preset BackgoundColor = Res::Red;
-  }
-
-  $rect <810,180,1010,220>
-  object Effects::Int32Effect EditEffect
-  {
-    preset OnAnimate = onAnimate;
-    preset NoOfCycles = 1;
-    preset CycleDuration = 250;
-    preset Value2 = 25;
-    preset Value1 = 0;
-  }
-
-  $rect <1010,190,1210,230>
-  slot onAnimate
-  {
-    RemoveButton.Bounds.x    = EditEffect.Value - 25  - DeleteEffect.Value;
-    PushButtonSmall.Bounds.x   = EditEffect.Value + 6   - DeleteEffect.Value;
-    LastNameTxt.Bounds.x     = EditEffect.Value + 55  - DeleteEffect.Value;
-    FirstNameTxt.Bounds.x    = EditEffect.Value + 146 - DeleteEffect.Value;
-    InfoButton.Bounds.x      = EditEffect.Value + 217  - DeleteEffect.Value;
-    TouchHandler.Point1.x    = RemoveButton.Bounds.x2;
-    TouchHandler.Point4.x    = RemoveButton.Bounds.x2;
-    DeleteButton.Bounds.x    = EditEffect.Value + 273 - DeleteEffect.Value;
-  }
-
-  $rect <810,130,1010,170>
-  property bool EditMode = false;
-
-  $rect <1010,130,1210,170>
-  onset EditMode
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure EditMode == value )
-      return;
-
-    // Remember the property's new value.
-    pure EditMode = value;
-
-    EditEffect.Reversed = !EditMode;
-    //DeleteEffect.Reversed = !EditMode;
-
-    if (EditMode)
-    {
-      InfoButton.Visible = false;
-    }
-    else
-    {
-     InfoButton.Visible = true; 
-    }
-    signal EditEffect.StartEffect;
+    SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null, null, null, null, false );
 
 
   }
 
-  $rect <810,220,1010,260>
-  object Effects::Int32Effect DeleteEffect
+  $rect <720,120,890,160>
+  slot onDeleteContact
   {
-    preset OnAnimate = onAnimate;
-    preset NoOfCycles = 1;
-    preset CycleDuration = 250;
-    preset Value2 = 110;
-    preset Value1 = 0;
+    // delete contact from favorites list
+
+    SelectedContact =  ((Application::RecentContactItem1)sender).Contact;
+
+    Application::MyContactsManager.History.Remove( SelectedContact );
+    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
+
+    SelectedContact = null;
   }
 
-  $rect <1010,230,1210,270>
-  slot onShowDelete
+  $rect <740,200,890,240>
+  slot onCloseDetailsPage
   {
-    signal DeleteEffect.StartEffect;
+    DismissDialog( detailsPage, Res::SlideRightCentered, null, null, null, null, false);
 
-  }
-
-  $rect <1010,270,1210,310>
-  slot onDelete
-  {
-    //postsignal OnDelete;
-    Application::MyContactsManager.Favorites.Remove( Contact );
-  }
-
-  // MovingEffect
-
-  note group Note7
-  {
-    attr Bounds = <800,70,1230,520>;
+    SelectedContact = null;
   }
 }
 
@@ -10982,66 +10492,6 @@ class FavContactItem : Application::ContactItem
   $rect <60,260,260,300>
   inherited property Bounds = <0,0,250,32>;
 
-  $rect <20,20,160,60>
-  inherited object TouchHandler
-  {
-    preset StackingPriority = -1;
-    preset Point3 = <217,32>;
-    preset Point2 = <217,0>;
-  }
-
-  $rect <20,20,160,60>
-  inherited object Background
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,250,32>;
-  }
-
-  $rect <20,20,160,60>
-  inherited object FirstnameTxt
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <131,8,201,26>;
-    preset AutoSize = true;
-    preset String = "FirstName";
-  }
-
-  $rect <20,20,160,60>
-  inherited object LastNameTxt
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <44,8,113,26>;
-    preset AutoSize = true;
-  }
-
-  $rect <20,20,160,60>
-  inherited object PrfofilButton
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <6,4,31,29>;
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonSmall RemoveButton
-  {
-    preset Bounds = <-25,5,0,30>;
-    preset OnActivate = onShowDelete;
-    preset ButtonColor = Res::Red;
-    preset Icon = Res::RemoveTxt;
-    preset IconColor = Res::White;
-  }
-
-  $rect <20,20,160,60>
-  object Application::TextButton DeleteButton
-  {
-    preset Bounds = <250,0,316,32>;
-    preset Text = "Delete";
-    preset OnActivate = onDelete;
-    preset TextColor = Res::White;
-    preset TextColorPress = Res::WhiteSemiTransparent;
-    preset BackgoundColor = Res::Red;
-  }
-
   $rect <-20,60,180,100>
   object Effects::Int32Effect EditEffect
   {
@@ -11058,7 +10508,7 @@ class FavContactItem : Application::ContactItem
     RemoveButton.Bounds.x    = EditEffect.Value - 25  - DeleteEffect.Value;
     PrfofilButton.Bounds.x   = EditEffect.Value + 6   - DeleteEffect.Value;
     LastNameTxt.Bounds.x     = EditEffect.Value + 55  - DeleteEffect.Value;
-    FirstnameTxt.Bounds.x    = EditEffect.Value + 146 - DeleteEffect.Value;
+    FirstNameTxt.Bounds.x    = EditEffect.Value + 146 - DeleteEffect.Value;
     InfoButton.Bounds.x      = EditEffect.Value + 217  - DeleteEffect.Value;
     TouchHandler.Point1.x    = RemoveButton.Bounds.x2;
     TouchHandler.Point4.x    = RemoveButton.Bounds.x2;
@@ -11079,9 +10529,8 @@ class FavContactItem : Application::ContactItem
     pure EditMode = value;
 
     EditEffect.Reversed = !EditMode;
-    //DeleteEffect.Reversed = !EditMode;
 
-    if (EditMode)
+    if ( EditMode )
     {
       InfoButton.Icon = Res::MenuTxt;
       InfoButton.IconColor = Res::Grey; 
@@ -11089,9 +10538,17 @@ class FavContactItem : Application::ContactItem
     else
     {
       InfoButton.Icon = Res::InfoTxt;
-      InfoButton.IconColor = Res::Blue; 
+      InfoButton.IconColor = Res::Blue;
+      
+      if ( DeleteEffect.Enabled || DeleteEffect.Value == DeleteEffect.Value2 )
+      {
+        DeleteEffect.Reversed = true;
+        signal DeleteEffect.StartEffect;
+      }
     }
+
     signal EditEffect.StartEffect;
+
 
 
   }
@@ -11109,26 +10566,16 @@ class FavContactItem : Application::ContactItem
   $rect <190,180,390,220>
   slot onDelete
   {
-    //postsignal OnDelete;
-    Application::MyContactsManager.Favorites.Remove( Contact );
+    postsignal OnDelete;
+    //Application::MyContactsManager.Favorites.Remove( Contact );
   }
 
   $rect <180,140,380,180>
   slot onShowDelete
   {
+    DeleteEffect.Reversed = false;
     signal DeleteEffect.StartEffect;
 
-  }
-
-  $rect <20,20,160,60>
-  object Application::PushButtonSmall InfoButton
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <217,5,242,30>;
-    preset OnActivate = onInfo;
-    preset ButtonColor = Res::Transparent;
-    preset Icon = Res::InfoTxt;
-    preset IconColor = Res::Blue;
   }
 
   $rect <-10,180,190,220>
@@ -11158,6 +10605,107 @@ class FavContactItem : Application::ContactItem
     postsignal OnInfo;
   }
 
+  $rect <20,20,160,60>
+  inherited object TouchHandler
+  {
+    preset StackingPriority = -1;
+    preset Point3 = <217,32>;
+    preset Point2 = <217,0>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,250,32>;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall RemoveButton
+  {
+    preset Bounds = <-25,5,0,30>;
+    preset OnActivate = onShowDelete;
+    preset ButtonColor = Res::Red;
+    preset Icon = Res::RemoveTxt;
+    preset IconColor = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Application::TextButton DeleteButton
+  {
+    preset Bounds = <250,0,316,32>;
+    preset Text = "Delete";
+    preset OnActivate = onDelete;
+    preset TextColor = Res::White;
+    preset TextColorPress = Res::WhiteSemiTransparent;
+    preset BackgoundColor = Res::Red;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall InfoButton
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <217,5,242,30>;
+    preset OnActivate = onInfo;
+    preset ButtonColor = Res::Transparent;
+    preset Icon = Res::InfoTxt;
+    preset IconColor = Res::Blue;
+  }
+
+  $rect <20,20,160,60>
+  inherited object FirstNameTxt
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <131,8,201,26>;
+    preset AutoSize = true;
+    preset String = "FirstName";
+  }
+
+  $rect <20,20,160,60>
+  inherited object LastNameTxt
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <44,8,113,26>;
+    preset AutoSize = true;
+  }
+
+  $rect <20,20,160,60>
+  inherited object Line
+  {
+    preset Point2 = <250,32>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  inherited object PrfofilButton
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <6,4,31,29>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object Line1
+  {
+    preset Point2 = <250,0>;
+  }
+
+  $reorder EditEffect 11
+  $reorder onAnimate 11
+  $reorder EditMode 11
+  $reorder OnSetEditMode 11
+  $reorder DeleteEffect 11
+  $reorder onDelete 11
+  $reorder onShowDelete 11
+  $reorder OnDelete 11
+  $reorder onInfo 11
+  $reorder OnInfo 11
+  $reorder detailsPage 11
+  $reorder onCloseWindow 11
+  $reorder Slot 11
+  $reorder RemoveButton 5
+  $reorder DeleteButton 5
+  $reorder InfoButton 5
   $reorder FirstnameTxt 1
 }
 
@@ -11195,6 +10743,7 @@ vclass SimulateDatabase : Application::ContactsManager
     CreateContact( "Bacsr", "Amalia", "sfd");
     CreateContact1( "Amota", "Adel", "zf");
     CreateContact2( "Amota", "Adel", "zf");
+    CreateContact2( "Benedek", "Norbert", "sfg");
 
 
     Contacts.insertionSort();
@@ -11227,12 +10776,13 @@ vclass SimulateDatabase : Application::ContactsManager
   $rect <10,170,210,210>
   method void CreateContact2( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
-    var Application::Contact MyContact = new Application::Contact;
+    var Application::ContactHistory MyContact = new Application::ContactHistory;
 
 
     MyContact.FirstName = aFirstName;
     MyContact.LastName = aLastName;
     MyContact.PhoneNumber = aPhoneNumber;
+    MyContact.CallType = "incoming";
     History.Add( MyContact );
 
 
@@ -11290,22 +10840,6 @@ class ContactHistory : Application::Contact
     pure Duration = value;
 
     notifyobservers this;
-  }
-
-  $rect <10,160,210,200>
-  property Application::Contact Caller;
-
-  $rect <210,160,410,200>
-  onset Caller
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Caller == value )
-      return;
-
-    // Remember the property's new value.
-    pure Caller = value;
-
-    notifyobservers this; 
   }
 }
 
@@ -11876,4 +11410,980 @@ class Time
   // The property 'Year' stores the year including the century.
   $rect <10,10,190,50>
   property int32 Year;
+}
+
+$rect <241,430,400,470>
+$output false
+class RecentContactItem1 : Application::ContactItem
+{
+  $rect <740,290,940,330>
+  inherited method Init()
+  {
+    // TO DO: Write your code here ... 
+  }
+
+  $rect <20,580,220,620>
+  inherited property Bounds = <0,0,250,50>;
+
+  $rect <20,20,160,60>
+  inherited object TouchHandler
+  {
+    preset Point4 = <0,50>;
+    preset Point3 = <220,50>;
+    preset Point2 = <220,0>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Bounds = <0,0,250,50>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object LastNameTxt
+  {
+    preset Layout = Core::Layout[AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <32,2,123,32>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object Line
+  {
+    preset Point2 = <250,50>;
+    preset Point1 = <0,50>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object PrfofilButton
+  {
+    preset Enabled = false;
+    preset Visible = false;
+  }
+
+  $rect <20,20,160,60>
+  inherited object Line1
+  {
+    preset Point2 = <250,0>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object FirstNameTxt
+  {
+    preset Bounds = <123,1,223,32>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CallType
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <32,33,101,47>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Call type";
+    preset Font = Resources::DefaultFont;
+    preset Color = Res::Grey;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Time
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <173,23,220,35>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "Time ";
+    preset Font = Resources::DefaultFont;
+    preset Color = Res::Grey;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall PushButtonSmall
+  {
+    preset Bounds = <0,17,25,42>;
+    preset AlphaBlended = true;
+    preset ButtonColor = Res::Transparent;
+    preset TextColor = Res::Grey;
+    preset Icon = Res::OutgoingCallTxt;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall RemoveButton
+  {
+    preset Bounds = <-25,11,0,36>;
+    preset OnActivate = onShowDelete;
+    preset ButtonColor = Res::Red;
+    preset Icon = Res::RemoveTxt;
+    preset IconColor = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Application::TextButton DeleteButton
+  {
+    preset Bounds = <250,1,316,51>;
+    preset Text = "Delete";
+    preset OnActivate = onDelete;
+    preset TextColor = Res::White;
+    preset TextColorPress = Res::WhiteSemiTransparent;
+    preset BackgoundColor = Res::Red;
+  }
+
+  $rect <10,260,170,300>
+  object Effects::Int32Effect EditEffect
+  {
+    preset OnAnimate = onAnimate;
+    preset NoOfCycles = 1;
+    preset CycleDuration = 250;
+    preset Value2 = 25;
+    preset Value1 = 0;
+  }
+
+  $rect <180,280,340,320>
+  slot onAnimate
+  {
+    RemoveButton.Bounds.x    = EditEffect.Value - 25  - DeleteEffect.Value;
+    PushButtonSmall.Bounds.x = EditEffect.Value + 6   - DeleteEffect.Value;
+    LastNameTxt.Bounds.x     = EditEffect.Value + 55  - DeleteEffect.Value;
+    FirstNameTxt.Bounds.x    = EditEffect.Value + 146 - DeleteEffect.Value;
+    CallType.Bounds.x        = EditEffect.Value + 55 - DeleteEffect.Value;
+    InfoButton.Bounds.x      = EditEffect.Value + 217  - DeleteEffect.Value;
+    Time.Bounds.x            = EditEffect.Value + 192  - DeleteEffect.Value;
+    TouchHandler.Point1.x    = RemoveButton.Bounds.x2;
+    TouchHandler.Point4.x    = RemoveButton.Bounds.x2;
+    DeleteButton.Bounds.x    = EditEffect.Value + 273 - DeleteEffect.Value;
+  }
+
+  $rect <10,120,210,160>
+  property bool EditMode = false;
+
+  $rect <10,160,210,200>
+  onset EditMode
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure EditMode == value )
+      return;
+
+    // Remember the property's new value.
+    pure EditMode = value;
+
+    EditEffect.Reversed = !EditMode;
+
+    if ( EditMode )
+    {
+      InfoButton.Visible = false;
+    }
+    else
+    {
+      InfoButton.Visible = true;
+      
+      if ( DeleteEffect.Enabled || DeleteEffect.Value == DeleteEffect.Value2 )
+      {
+        DeleteEffect.Reversed = true;
+        signal DeleteEffect.StartEffect;
+      }
+    }
+
+    signal EditEffect.StartEffect;
+
+
+
+  }
+
+  $rect <10,300,170,340>
+  object Effects::Int32Effect DeleteEffect
+  {
+    preset OnAnimate = onAnimate;
+    preset NoOfCycles = 1;
+    preset CycleDuration = 250;
+    preset Value2 = 110;
+    preset Value1 = 0;
+  }
+
+  $rect <370,90,540,130>
+  slot onDelete
+  {
+    postsignal OnDelete;
+  }
+
+  $rect <370,50,540,90>
+  slot onShowDelete
+  {
+    DeleteEffect.Reversed = false;
+    signal DeleteEffect.StartEffect;
+
+  }
+
+  $rect <540,90,710,130>
+  property slot OnDelete;
+
+  $rect <370,130,540,170>
+  slot onInfo
+  {
+    postsignal OnInfo;
+  }
+
+  $rect <540,130,710,170>
+  property slot OnInfo;
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall InfoButton
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <225,14,250,39>;
+    preset OnActivate = onInfo;
+    preset ButtonColor = Res::Transparent;
+    preset Icon = Res::InfoTxt;
+    preset IconColor = Res::Blue;
+  }
+
+  // Moving effect
+  // 
+
+  note group Note
+  {
+    attr Bounds = <0,210,350,350>;
+  }
+
+  // Touch screen events
+  // 
+
+  note group Note1
+  {
+    attr Bounds = <360,0,720,350>;
+  }
+
+  // Initialization
+
+  note group Note2
+  {
+    attr Bounds = <0,80,350,210>;
+  }
+
+  $rect <750,100,940,140>
+  onset ContactHistory
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ContactHistory == value )
+      return;
+
+    if ( pure ContactHistory != null )
+    {
+       detachobserver onContactRistoryUpdate, pure ContactHistory;
+    }
+
+    // Remember the property's new value.
+    pure ContactHistory = value;
+
+    if ( pure ContactHistory != null )
+    {
+      attachobserver onContactRistoryUpdate, pure ContactHistory;
+      postsignal onContactRistoryUpdate;
+    }
+
+  }
+
+  $rect <750,140,940,180>
+  slot onContactRistoryUpdate
+  {
+    if ( pure ContactHistory != null )
+    {
+      LastNameTxt.String  =  pure ContactHistory.LastName;
+      FirstNameTxt.String = pure ContactHistory.FirstName;
+      CallType.String     = pure ContactHistory.CallType;
+      
+    }
+    else
+    {
+
+    }
+
+    postsignal onContactHistoryUpdate;
+
+  }
+
+  $rect <750,60,940,100>
+  property Application::ContactHistory ContactHistory = null;
+
+  // Contact data
+  note group Note4
+  {
+    attr Bounds = <730,0,950,210>;
+  }
+
+  $reorder Line 1
+  $reorder PrfofilButton 1
+  $reorder Line1 1
+}
+
+$rect <270,480,429,520>
+$output false
+class RecentContactItem : Core::Group
+{
+  $rect <30,450,230,490>
+  inherited property Bounds = <0,0,250,50>;
+
+  $rect <580,110,780,150>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the push button.
+    //
+    // isEnabled  --> the button can react to user inputs.
+    // isSelected --> the button can receive keyboard events.
+    // isPressed  --> the button should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    if (LastNameTxt != null )
+    {
+      var color clr = NameColor;
+      var Resources::Font font = Res::ContactFontBold15; 
+      LastNameTxt.Font  = font;
+      LastNameTxt.Color     = clr;
+     }
+    if (FirstNameTxt!= null)
+    {
+      var color clr = NameColor;
+      var Resources::Font font = Res::ContactFont15; 
+      FirstNameTxt.Font = font;
+      FirstNameTxt.Color = clr;
+     }
+
+    if (CallType != null)
+    {
+      var color clr = NameColor1; 
+      CallType.Font = Res::ContactFont12;
+      CallType.Color = clr;
+     }
+
+    if (Time != null)
+    {
+      var color clr = NameColor1; 
+      Time.Font = Res::ContactFont12;
+      Time.Color = clr;
+     }
+
+
+
+    if ( !isEnabled )
+    {
+      Background.Color = ButtonColor;
+      PushButtonSmall.IconColor = Res::Grey;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color = Res::PressColor;
+      
+      PushButtonSmall.IconColor = Res::Grey;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color =  Res::GreyLight;
+      
+      PushButtonSmall.IconColor = Res::Grey;
+      }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color = ButtonColor;
+      
+      PushButtonSmall.IconColor = Res::Grey;
+    }
+
+
+
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.  
+
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+
+
+  }
+
+  // Contact data
+  note group Note4
+  {
+    attr Bounds = <570,330,790,520>;
+  }
+
+  // State management
+  note group Note5
+  {
+    attr Bounds = <570,70,790,320>;
+  }
+
+  $rect <580,270,780,310>
+  var Views::Text textView;
+
+  // This variable stores the current state of the button.
+  $rect <580,230,780,270>
+  var bool pressed;
+
+  // This variable stores the current state of the button.
+  $rect <580,190,780,230>
+  var bool selected;
+
+  // This variable stores the current state of the button.
+  $rect <580,150,780,190>
+  var bool enabled;
+
+  // The property 'Label' specifies the text to display as label in this push button \
+  // widget. The desired font as well as the colors for all individual button states \
+  // have to be specified in the configuration object assigned to the property @Appearance. \
+  // If there is no configuration object associated to this push button widget (the \
+  // property @Appearance is 'null'), no label is displayed.
+  // Per default, the label is displayed centered within the push button area. You \
+  // can modify the alignment of the label as well as its margins by specifying them \
+  // in the configuration object.
+  $rect <10,108,159,148>
+  property string Icon = Res::OutgoingCallTxt;
+
+  $rect <170,110,320,150>
+  property string Text = "";
+
+  $rect <170,150,320,190>
+  onset Text
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Text == value )
+      return;
+
+    // Remember the property's new value.
+    pure Text = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <10,278,159,318>
+  property color ButtonColor = Res::White;
+
+  $rect <10,318,159,358>
+  onset ButtonColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ButtonColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure ButtonColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <10,188,159,228>
+  property color IconColor = Res::White;
+
+  $rect <10,228,159,268>
+  onset IconColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure IconColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure IconColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <340,390,560,520>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <340,250,560,380>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <340,70,560,240>;
+  }
+
+  // This timer object is used to flash the button when the user has tapped it very \
+  // quickly or the button has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <350,430,550,470>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <350,290,550,330>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <350,470,550,510>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the button to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the button is activated.
+    postsignal OnActivate;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <350,330,550,370>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the button via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
+    if ( KeyHandler.Repetition )
+      return;
+
+    // Pressing the key flashes the button for a short period. This is a kind of 
+    // feedback effect. Request the button to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The button is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the button or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  $rect <10,148,159,188>
+  onset Icon
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Icon == value )
+      return;
+
+    // Remember the property's new value.
+    pure Icon = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the button. This only updates the button to appear pressed or released.
+  $rect <350,190,550,230>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the button or drags the finger inside/outside
+    // the button's area request the button update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the button's area. This activates the button.
+  $rect <350,150,550,190>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the button's area? In such case
+    // the button is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The user interaction has been passed over to the another touch handler
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the button for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The button can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnActivate;
+
+    // The user has tapped the button very quickly. Defer the button activation
+    // to give the user first a short visual feedback that the button has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated the button. Thereupon the method's logic will \
+  // be executed.
+  $rect <10,378,159,418>
+  property slot OnActivate = null;
+
+  // This internal slot method is called when the user touches the button's area.
+  $rect <350,110,550,150>
+  slot onPressTouch
+  {
+    // The button is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the button in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,250,52>;
+    preset ColorBL = #FDFDFDC8;
+    preset ColorBR = #FDFDFDC8;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <25,52>;
+    preset Point3 = <220,52>;
+    preset Point2 = <220,0>;
+    preset Point1 = <25,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <250,50>;
+    preset Point1 = <0,50>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text LastNameTxt
+  {
+    preset Bounds = <32,4,114,22>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "LastName";
+    preset Font = Res::ContactFontBold15;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text FirstNameTxt
+  {
+    preset StackingPriority = 0;
+    preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
+    preset Bounds = <114,4,220,22>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "FirstName";
+    preset Font = Res::ContactFont15;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CallType
+  {
+    preset Bounds = <32,33,101,47>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Call type";
+    preset Font = Resources::DefaultFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Time
+  {
+    preset Bounds = <162,22,220,36>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "Time ";
+    preset Font = Resources::DefaultFont;
+  }
+
+  $rect <170,190,320,230>
+  property color NameColor = Res::Black;
+
+  $rect <170,230,320,270>
+  onset NameColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NameColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure NameColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <170,270,320,310>
+  property color NameColor1 = Res::Grey;
+
+  $rect <170,310,320,350>
+  onset NameColor1
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NameColor1 == value )
+      return;
+
+    // Remember the property's new value.
+    pure NameColor1 = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall InfoButton
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <225,14,250,39>;
+    preset ButtonColor = Res::Transparent;
+    preset Icon = Res::InfoTxt;
+    preset IconColor = Res::Blue;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall PushButtonSmall
+  {
+    preset Bounds = <0,17,25,42>;
+    preset AlphaBlended = true;
+    preset ButtonColor = Res::Transparent;
+    preset TextColor = Res::Grey;
+    preset Icon = Res::OutgoingCallTxt;
+  }
+
+  // Design
+  note group Note6
+  {
+    attr Bounds = <0,70,330,520>;
+  }
+
+  $rect <20,20,160,60>
+  object Application::PushButtonSmall RemoveButton
+  {
+    preset Bounds = <-25,11,0,36>;
+    preset OnActivate = onShowDelete;
+    preset ButtonColor = Res::Red;
+    preset Icon = Res::RemoveTxt;
+    preset IconColor = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Application::TextButton DeleteButton
+  {
+    preset Bounds = <250,1,316,51>;
+    preset Text = "Delete";
+    preset OnActivate = onDelete;
+    preset TextColor = Res::White;
+    preset TextColorPress = Res::WhiteSemiTransparent;
+    preset BackgoundColor = Res::Red;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line1
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <250,0>;
+    preset Point1 = <0,0>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
+  }
+
+  $rect <10,710,170,750>
+  object Effects::Int32Effect EditEffect
+  {
+    preset OnAnimate = onAnimate;
+    preset NoOfCycles = 1;
+    preset CycleDuration = 250;
+    preset Value2 = 25;
+    preset Value1 = 0;
+  }
+
+  $rect <180,730,340,770>
+  slot onAnimate
+  {
+    RemoveButton.Bounds.x    = EditEffect.Value - 25  - DeleteEffect.Value;
+    PushButtonSmall.Bounds.x = EditEffect.Value + 6   - DeleteEffect.Value;
+    LastNameTxt.Bounds.x     = EditEffect.Value + 55  - DeleteEffect.Value;
+    FirstNameTxt.Bounds.x    = EditEffect.Value + 146 - DeleteEffect.Value;
+    CallType.Bounds.x        = EditEffect.Value + 55 - DeleteEffect.Value;
+    InfoButton.Bounds.x      = EditEffect.Value + 217  - DeleteEffect.Value;
+    Time.Bounds.x            = EditEffect.Value + 192  - DeleteEffect.Value;
+    TouchHandler.Point1.x    = RemoveButton.Bounds.x2;
+    TouchHandler.Point4.x    = RemoveButton.Bounds.x2;
+    DeleteButton.Bounds.x    = EditEffect.Value + 273 - DeleteEffect.Value;
+  }
+
+  $rect <10,570,210,610>
+  property bool EditMode = false;
+
+  $rect <10,610,210,650>
+  onset EditMode
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure EditMode == value )
+      return;
+
+    // Remember the property's new value.
+    pure EditMode = value;
+
+    EditEffect.Reversed = !EditMode;
+
+    if ( EditMode )
+    {
+      InfoButton.Visible = false;
+    }
+    else
+    {
+      InfoButton.Visible = true;
+      
+      if ( DeleteEffect.Enabled || DeleteEffect.Value == DeleteEffect.Value2 )
+      {
+        DeleteEffect.Reversed = true;
+        signal DeleteEffect.StartEffect;
+      }
+    }
+
+    signal EditEffect.StartEffect;
+
+
+
+  }
+
+  $rect <10,750,170,790>
+  object Effects::Int32Effect DeleteEffect
+  {
+    preset OnAnimate = onAnimate;
+    preset NoOfCycles = 1;
+    preset CycleDuration = 250;
+    preset Value2 = 110;
+    preset Value1 = 0;
+  }
+
+  // Moving effect
+
+  note group Note
+  {
+    attr Bounds = <0,660,330,800>;
+  }
+
+  // Initialization
+  note group Note7
+  {
+    attr Bounds = <0,530,330,660>;
+  }
+
+  $rect <350,620,520,660>
+  slot onDelete
+  {
+    postsignal OnDelete;
+  }
+
+  $rect <350,580,520,620>
+  slot onShowDelete
+  {
+    DeleteEffect.Reversed = false;
+    signal DeleteEffect.StartEffect;
+
+  }
+
+  $rect <520,620,690,660>
+  property slot OnDelete;
+
+  $rect <350,660,520,700>
+  slot onInfo
+  {
+    postsignal OnInfo;
+  }
+
+  $rect <520,660,690,700>
+  property slot OnInfo;
+
+  // Touch screen events
+
+  note group Note8
+  {
+    attr Bounds = <340,530,700,790>;
+  }
+
+  $rect <590,410,780,450>
+  onset ContactHistory
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ContactHistory == value )
+      return;
+
+    if ( pure ContactHistory != null )
+    {
+       detachobserver onContactRistoryUpdate, pure ContactHistory;
+    }
+
+    // Remember the property's new value.
+    pure ContactHistory = value;
+
+    if ( pure ContactHistory != null )
+    {
+      attachobserver onContactRistoryUpdate, pure ContactHistory;
+      postsignal onContactRistoryUpdate;
+    }
+
+  }
+
+  $rect <590,450,780,490>
+  slot onContactRistoryUpdate
+  {
+    if ( pure ContactHistory != null )
+    {
+      LastNameTxt.String  =  pure ContactHistory.LastName;
+      FirstNameTxt.String = pure ContactHistory.FirstName;
+      CallType.String     = pure ContactHistory.CallType;
+      
+    }
+
+  }
+
+  $rect <590,370,780,410>
+  property Application::ContactHistory ContactHistory = null;
 }

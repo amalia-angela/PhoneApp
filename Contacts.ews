@@ -4,9 +4,9 @@ attr active = Application::InComingCall;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::InComingCall.getContact;
-attr codeSelEnd = <28,6>;
-attr codeSelStart = <28,6>;
+attr codeInspector = Application::InComingCall.onCallState;
+attr codeSelEnd = <51,1>;
+attr codeSelStart = <44,1>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -34,24 +34,50 @@ attr search_WildCards = false;
 view Project
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,89>;
+  attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
 view unit Application
 {
   attr enableWireMode = false;
+  attr scrollTo = <-7,-55>;
+  attr zoom = 1.0;
+}
+
+view class Application::ContactsManager
+{
+  attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view class Application::Contact
+view class Application::DeviceClass
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-24,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::CallPage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = OnSetFirstName;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
+  attr codeInspector = getContact;
+  attr codeSelEnd = <98,0>;
+  attr codeSelStart = <98,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,41>;
+  attr zoom = 1.0;
+}
+
+view class Application::InComingCall
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onCallState;
+  attr codeSelEnd = <51,1>;
+  attr codeSelStart = <44,1>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
@@ -62,51 +88,9 @@ view class Application::Application
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
   attr codeInspector = onCallState;
-  attr codeSelEnd = <57,17>;
-  attr codeSelStart = <57,17>;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
-}
-
-view class Application::CallPage
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::InComingCall
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = getContact;
-  attr codeSelEnd = <28,6>;
-  attr codeSelStart = <28,6>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
-}
-
-view unit Core
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,233>;
-  attr zoom = 1.0;
-}
-
-breakpoints
-{
-  Application::FavContactItem.onCloseWindow 1;
-  Application::FavoritesPage.onCloseWindow 1;
-  Application::FavoritesPage.onContactActivated 2;
-  Application::FavoritesPage.onContactActivated 4;
-  Application::FavoritesPage.onContactActivated 5;
-  Application::FavoritesPage.onContactActivated 8;
-  Application::FavoritesPage.onDeleteContacts 1;
-  Application::FavoritesPage.onOpenDetailsPage 3;
-  Application::RecentPage.onContactActivated 2;
-  Application::RecentPage.onContactActivated 4;
-  Application::RecentPage.onContactActivated 5;
-  Application::RecentPage.onContactActivated 8;
 }
