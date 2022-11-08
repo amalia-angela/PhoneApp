@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::InComingCall;
+attr active = Application::RecentPage;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::InComingCall.onCallState;
-attr codeSelEnd = <51,1>;
-attr codeSelStart = <44,1>;
+attr codeInspector = Application::RecentPage.onInfoContact;
+attr codeSelEnd = <0,0>;
+attr codeSelStart = <0,0>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -34,60 +34,65 @@ attr search_WildCards = false;
 view Project
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,41>;
   attr zoom = 1.0;
 }
 
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-55>;
-  attr zoom = 1.0;
-}
-
-view class Application::ContactsManager
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-7,-7>;
+  attr scrollTo = <-7,151>;
   attr zoom = 1.0;
 }
 
 view class Application::DeviceClass
 {
-  attr enableWireMode = false;
-  attr scrollTo = <-24,-7>;
-  attr zoom = 1.0;
-}
-
-view class Application::CallPage
-{
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = getContact;
-  attr codeSelEnd = <98,0>;
-  attr codeSelStart = <98,0>;
+  attr codeInspector = CallContact;
+  attr codeSelEnd = <6,0>;
+  attr codeSelStart = <6,0>;
   attr enableWireMode = false;
   attr scrollTo = <-7,41>;
   attr zoom = 1.0;
 }
 
-view class Application::InComingCall
+view class Application::ContactItem
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onCallState;
-  attr codeSelEnd = <51,1>;
-  attr codeSelStart = <44,1>;
+  attr codeInspector = onContactUpdated;
+  attr codeSelEnd = <4,12>;
+  attr codeSelStart = <4,12>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view class Application::Application
+view class Application::FavoritesPage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = onCallState;
+  attr codeInspector = onInfoContact;
+  attr codeSelEnd = <49,0>;
+  attr codeSelStart = <31,0>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::RecentDetailsPage
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+view class Application::RecentPage
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onInfoContact;
   attr codeSelEnd = <0,0>;
   attr codeSelStart = <0,0>;
   attr enableWireMode = false;
