@@ -45,23 +45,24 @@
 #include "_ApplicationApplication.h"
 #include "_ApplicationApplicationSimulation.h"
 #include "_ApplicationCallPage.h"
+#include "_ApplicationCallPageBase.h"
 #include "_ApplicationContact.h"
 #include "_ApplicationContactAddPage.h"
 #include "_ApplicationContactDetailsPage.h"
 #include "_ApplicationContactEditPage.h"
-#include "_ApplicationContactHistory.h"
 #include "_ApplicationContactItem.h"
-#include "_ApplicationContacts.h"
+#include "_ApplicationContactList.h"
+#include "_ApplicationContactListElement.h"
 #include "_ApplicationContactsApp.h"
 #include "_ApplicationContactsInsideCall.h"
 #include "_ApplicationContactsList.h"
-#include "_ApplicationContactsManager.h"
 #include "_ApplicationContactsPage.h"
 #include "_ApplicationDetailsInsideCall.h"
 #include "_ApplicationDeviceClass.h"
 #include "_ApplicationFavContactItem.h"
 #include "_ApplicationFavoritesPage.h"
-#include "_ApplicationInComingCall.h"
+#include "_ApplicationHistoryContact.h"
+#include "_ApplicationIncomingCall.h"
 #include "_ApplicationInputEtxt.h"
 #include "_ApplicationKeyPadButtons.h"
 #include "_ApplicationKeypadInsideCall.h"
@@ -70,14 +71,10 @@
 #include "_ApplicationPushButtonBig.h"
 #include "_ApplicationPushButtonDelete.h"
 #include "_ApplicationPushButtonMediumBlue.h"
-#include "_ApplicationPushButtonMediumRed.h"
 #include "_ApplicationPushButtonMediumTrans.h"
 #include "_ApplicationPushButtonNoBackground.h"
 #include "_ApplicationPushButtonSmall.h"
-#include "_ApplicationRecentContactItem.h"
-#include "_ApplicationRecentPage.h"
 #include "_ApplicationSearchEtxt.h"
-#include "_ApplicationSimulateDatabase.h"
 #include "_ApplicationTextButton.h"
 
 /* Forward declaration of the class Effects::SlideTransition */
@@ -85,9 +82,6 @@
   EW_DECLARE_CLASS( EffectsSlideTransition )
 #define _EffectsSlideTransition_
 #endif
-
-/* User defined auto object: 'Application::MyContactsManager' */
-EW_DECLARE_AUTOOBJECT( ApplicationMyContactsManager, ApplicationContactsManager )
 
 /* User defined enumeration: 'Application::Sorting' */
 typedef enum
@@ -104,9 +98,14 @@ EW_DECLARE_AUTOOBJECT( ApplicationDevice, ApplicationDeviceClass )
 typedef enum
 {
   ApplicationCallStateNone              = 0,
-  ApplicationCallStateRingIncoming      = 1,
-  ApplicationCallStateRingOutgoing      = 2,
-  ApplicationCallStateTalk              = 3
+  ApplicationCallStateMissed            = 1,
+  ApplicationCallStateCancelled         = 2,
+  ApplicationCallStateDialing           = 3,
+  ApplicationCallStateRejected          = 4,
+  ApplicationCallStateHold              = 5,
+  ApplicationCallStateSpeaking          = 6,
+  ApplicationCallStateEndCall           = 7,
+  ApplicationCallStateTimeout           = 8
 } ApplicationCallState;
 
 /* The global autoobject Effects::SlideUpCentered represents the fade-in/out operation 
@@ -126,6 +125,14 @@ typedef enum
    run with other configuration (e.g. other timing parameters), create a copy of 
    this object and adapt its properties accordingly. */
 EW_DECLARE_AUTOOBJECT( ApplicationSlideUpCentered, EffectsSlideTransition )
+
+/* User defined enumeration: 'Application::CallDirection' */
+typedef enum
+{
+  ApplicationCallDirectionNone          = 0,
+  ApplicationCallDirectionIncoming      = 1,
+  ApplicationCallDirectionOutgoing      = 2
+} ApplicationCallDirection;
 
 #ifdef __cplusplus
   }

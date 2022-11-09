@@ -24,8 +24,8 @@
 *
 *******************************************************************************/
 
-#ifndef _ApplicationInComingCall_H
-#define _ApplicationInComingCall_H
+#ifndef _ApplicationIncomingCall_H
+#define _ApplicationIncomingCall_H
 
 #ifdef __cplusplus
   extern "C"
@@ -42,35 +42,34 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationCallPageBase.h"
 #include "_ApplicationPushButtonBig.h"
 #include "_ApplicationPushButtonMediumTrans.h"
-#include "_CoreGroup.h"
-#include "_CoreTime.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
+/* Forward declaration of the class Application::HistoryContact */
+#ifndef _ApplicationHistoryContact_
+  EW_DECLARE_CLASS( ApplicationHistoryContact )
+#define _ApplicationHistoryContact_
 #endif
 
-/* Forward declaration of the class Application::ContactHistory */
-#ifndef _ApplicationContactHistory_
-  EW_DECLARE_CLASS( ApplicationContactHistory )
-#define _ApplicationContactHistory_
-#endif
-
-/* Forward declaration of the class Application::InComingCall */
-#ifndef _ApplicationInComingCall_
-  EW_DECLARE_CLASS( ApplicationInComingCall )
-#define _ApplicationInComingCall_
+/* Forward declaration of the class Application::IncomingCall */
+#ifndef _ApplicationIncomingCall_
+  EW_DECLARE_CLASS( ApplicationIncomingCall )
+#define _ApplicationIncomingCall_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )
 #define _CoreDialogContext_
+#endif
+
+/* Forward declaration of the class Core::Group */
+#ifndef _CoreGroup_
+  EW_DECLARE_CLASS( CoreGroup )
+#define _CoreGroup_
 #endif
 
 /* Forward declaration of the class Core::KeyPressHandler */
@@ -110,21 +109,13 @@
 #endif
 
 
-/* Deklaration of class : 'Application::InComingCall' */
-EW_DEFINE_FIELDS( ApplicationInComingCall, CoreGroup )
-  EW_PROPERTY( Contact,         ApplicationContact )
-  EW_PROPERTY( ContactHistory,  ApplicationContactHistory )
-  EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( PushButtonMediumTrans, ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( PushButtonMediumTrans1, ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( TimeTxt,         ViewsText )
-  EW_OBJECT  ( ContactNameTxt,  ViewsText )
-  EW_OBJECT  ( UserInitials,    ApplicationPushButtonBig )
-  EW_OBJECT  ( Time,            CoreTime )
-EW_END_OF_FIELDS( ApplicationInComingCall )
+/* Deklaration of class : 'Application::IncomingCall' */
+EW_DEFINE_FIELDS( ApplicationIncomingCall, ApplicationCallPageBase )
+  EW_OBJECT  ( AcceptButton,    ApplicationPushButtonMediumTrans )
+EW_END_OF_FIELDS( ApplicationIncomingCall )
 
-/* Virtual Method Table (VMT) for the class : 'Application::InComingCall' */
-EW_DEFINE_METHODS( ApplicationInComingCall, CoreGroup )
+/* Virtual Method Table (VMT) for the class : 'Application::IncomingCall' */
+EW_DEFINE_METHODS( ApplicationIncomingCall, ApplicationCallPageBase )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -156,44 +147,21 @@ EW_DEFINE_METHODS( ApplicationInComingCall, CoreGroup )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-EW_END_OF_METHODS( ApplicationInComingCall )
+EW_END_OF_METHODS( ApplicationIncomingCall )
 
 /* The method Init() is invoked automatically after the component has been created. 
    This method can be overridden and filled with logic containing additional initialization 
    statements. */
-void ApplicationInComingCall_Init( ApplicationInComingCall _this, XHandle aArg );
+void ApplicationIncomingCall_Init( ApplicationIncomingCall _this, XHandle aArg );
 
-/* 'C' function for method : 'Application::InComingCall.OnSetContact()' */
-void ApplicationInComingCall_OnSetContact( ApplicationInComingCall _this, ApplicationContact 
-  value );
-
-/* 'C' function for method : 'Application::InComingCall.onContactUpdated()' */
-void ApplicationInComingCall_onContactUpdated( ApplicationInComingCall _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::InComingCall.onDesclineCall()' */
-void ApplicationInComingCall_onDesclineCall( ApplicationInComingCall _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::InComingCall.onCallState()' */
-void ApplicationInComingCall_onCallState( ApplicationInComingCall _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::InComingCall.onAcceptCall()' */
-void ApplicationInComingCall_onAcceptCall( ApplicationInComingCall _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::InComingCall.getContact()' */
-void ApplicationInComingCall_getContact( ApplicationInComingCall _this );
-
-/* 'C' function for method : 'Application::InComingCall.updateCurrentTime()' */
-void ApplicationInComingCall_updateCurrentTime( ApplicationInComingCall _this, XObject 
+/* 'C' function for method : 'Application::IncomingCall.onAcceptCall()' */
+void ApplicationIncomingCall_onAcceptCall( ApplicationIncomingCall _this, XObject 
   sender );
 
 #ifdef __cplusplus
   }
 #endif
 
-#endif /* _ApplicationInComingCall_H */
+#endif /* _ApplicationIncomingCall_H */
 
 /* Embedded Wizard */

@@ -51,6 +51,12 @@
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
+/* Forward declaration of the class Application::Contact */
+#ifndef _ApplicationContact_
+  EW_DECLARE_CLASS( ApplicationContact )
+#define _ApplicationContact_
+#endif
+
 /* Forward declaration of the class Application::ContactAddPage */
 #ifndef _ApplicationContactAddPage_
   EW_DECLARE_CLASS( ApplicationContactAddPage )
@@ -120,6 +126,7 @@
 
 /* Deklaration of class : 'Application::ContactsList' */
 EW_DEFINE_FIELDS( ApplicationContactsList, ApplicationContactsInsideCall )
+  EW_PROPERTY( ClonedContact,   ApplicationContact )
   EW_PROPERTY( OnAddFav,        XSlot )
   EW_OBJECT  ( Text,            ViewsText )
 EW_END_OF_FIELDS( ApplicationContactsList )
@@ -164,6 +171,13 @@ EW_END_OF_METHODS( ApplicationContactsList )
 /* 'C' function for method : 'Application::ContactsList.onContactActivated()' */
 void ApplicationContactsList_onContactActivated( ApplicationContactsList _this, 
   XObject sender );
+
+/* 'C' function for method : 'Application::ContactsList.OnSetClonedContact()' */
+void ApplicationContactsList_OnSetClonedContact( ApplicationContactsList _this, 
+  ApplicationContact value );
+
+/* Default onget method for the property 'ClonedContact' */
+ApplicationContact ApplicationContactsList_OnGetClonedContact( ApplicationContactsList _this );
 
 #ifdef __cplusplus
   }

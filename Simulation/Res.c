@@ -34,11 +34,11 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x000000B4, /* ratio 55.56 % */
+  0x000000AC, /* ratio 55.81 % */
   0xB8000900, 0x38160452, 0x12040000, 0xA10E229C, 0xCAE022C2, 0x24581C39, 0x0B89B8D9,
   0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xAE092289, 0x88B29838, 0xA12D8B86,
-  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0x0725B1E2, 0x14B71B73,
-  0x2848E87D, 0x11286941, 0x00080C22, 0x00000000
+  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0x96E5B1E2, 0x091D0FA2,
+  0x250D2825, 0x01018442, 0x00000000
 };
 
 /* User defined constant: 'Res::CallTxt' */
@@ -364,16 +364,13 @@ const XStringRes ResBackspaceTxt = { _StringsDefault0, 0x0046 };
 /* User defined constant: 'Res::PressColor' */
 const XColor ResPressColor = { 0xF8, 0xF8, 0xF8, 0xD5 };
 
-/* User defined constant: 'Res::OutgoingCallTxt' */
-const XStringRes ResOutgoingCallTxt = { _StringsDefault0, 0x004A };
-
 /* User defined constant: 'Res::RemoveTxt' */
-const XStringRes ResRemoveTxt = { _StringsDefault0, 0x004E };
+const XStringRes ResRemoveTxt = { _StringsDefault0, 0x004A };
 
 /* User defined constant: 'Res::InfoTxt' */
-const XStringRes ResInfoTxt = { _StringsDefault0, 0x0052 };
+const XStringRes ResInfoTxt = { _StringsDefault0, 0x004E };
 
 /* User defined constant: 'Res::MenuTxt' */
-const XStringRes ResMenuTxt = { _StringsDefault0, 0x0056 };
+const XStringRes ResMenuTxt = { _StringsDefault0, 0x0052 };
 
 /* Embedded Wizard */

@@ -42,6 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationContactsApp.h"
 #include "_CoreRoot.h"
 #include "_CoreTimer.h"
 
@@ -51,10 +52,10 @@
 #define _ApplicationApplication_
 #endif
 
-/* Forward declaration of the class Application::ContactsManager */
-#ifndef _ApplicationContactsManager_
-  EW_DECLARE_CLASS( ApplicationContactsManager )
-#define _ApplicationContactsManager_
+/* Forward declaration of the class Application::CallPageBase */
+#ifndef _ApplicationCallPageBase_
+  EW_DECLARE_CLASS( ApplicationCallPageBase )
+#define _ApplicationCallPageBase_
 #endif
 
 /* Forward declaration of the class Application::DeviceClass */
@@ -116,7 +117,8 @@
 EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
   EW_VTHISPTR()
   EW_VARIABLE( deviceInstance,  ApplicationDeviceClass )
-  EW_VARIABLE( myContactInstance, ApplicationContactsManager )
+  EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
+  EW_OBJECT  ( ContactsApp,     ApplicationContactsApp )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */

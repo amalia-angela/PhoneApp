@@ -129,6 +129,7 @@ EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
   EW_OBJECT  ( UserInitialsBtn, ApplicationPushButtonBig )
   EW_OBJECT  ( EditBtn,         ApplicationPushButtonNoBackground )
   EW_OBJECT  ( BackBtn,         ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( FavoritTxt,      ViewsText )
 EW_END_OF_FIELDS( ApplicationContactDetailsPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactDetailsPage' */

@@ -45,10 +45,6 @@
 #include "_ResourcesBitmap.h"
 #include "_ResourcesFont.h"
 
-/* Font resource used per default by 'Text' and 'Attributed Text' views to ensure 
-   that new views don't remain empty on the screen. */
-EW_DECLARE_FONT_RES( ResourcesDefaultFont )
-
 /* The small version of the default font resource. The resource is using 'Roboto' 
    TrueType font with 18 pixel height. */
 EW_DECLARE_FONT_RES( ResourcesFontSmall )

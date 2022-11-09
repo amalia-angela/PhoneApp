@@ -43,13 +43,14 @@
 #endif
 
 #include "_ApplicationApplication.h"
+#include "_ApplicationContactsApp.h"
 #include "_CoreTimer.h"
 #include "_WidgetSetPushButton.h"
 
-/* Forward declaration of the class Application::ContactsManager */
-#ifndef _ApplicationContactsManager_
-  EW_DECLARE_CLASS( ApplicationContactsManager )
-#define _ApplicationContactsManager_
+/* Forward declaration of the class Application::CallPageBase */
+#ifndef _ApplicationCallPageBase_
+  EW_DECLARE_CLASS( ApplicationCallPageBase )
+#define _ApplicationCallPageBase_
 #endif
 
 /* Forward declaration of the class Application::DeviceClass */

@@ -353,9 +353,6 @@ void CoreGroup_OnSetOpacity( CoreGroup _this, XInt32 value );
 /* Wrapper function for the virtual method : 'Core::Group.OnSetOpacity()' */
 void CoreGroup__OnSetOpacity( void* _this, XInt32 value );
 
-/* 'C' function for method : 'Core::Group.OnSetAlphaBlended()' */
-void CoreGroup_OnSetAlphaBlended( CoreGroup _this, XBool value );
-
 /* 'C' function for method : 'Core::Group.OnGetVisible()' */
 XBool CoreGroup_OnGetVisible( CoreGroup _this );
 

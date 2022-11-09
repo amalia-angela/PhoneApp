@@ -155,9 +155,6 @@ void ApplicationContactsApp_OnSetSelectedPage( ApplicationContactsApp _this, XIn
 /* 'C' function for method : 'Application::ContactsApp.OnGetSelectedPage()' */
 XInt32 ApplicationContactsApp_OnGetSelectedPage( ApplicationContactsApp _this );
 
-/* 'C' function for method : 'Application::ContactsApp.onCallState()' */
-void ApplicationContactsApp_onCallState( ApplicationContactsApp _this, XObject sender );
-
 #ifdef __cplusplus
   }
 #endif

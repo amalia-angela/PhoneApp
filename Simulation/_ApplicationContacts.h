@@ -94,9 +94,13 @@ void ApplicationContacts_sortedInsert( ApplicationContacts _this, ApplicationCon
 /* 'C' function for method : 'Application::Contacts.OnSetSorting()' */
 void ApplicationContacts_OnSetSorting( ApplicationContacts _this, XEnum value );
 
-/* 'C' function for method : 'Application::Contacts.FindByNumber()' */
-ApplicationContact ApplicationContacts_FindByNumber( ApplicationContacts _this, 
-  XString aNumber );
+/* 'C' function for method : 'Application::Contacts.Clone()' */
+ApplicationContact ApplicationContacts_Clone( ApplicationContacts _this, ApplicationContact 
+  aContact );
+
+/* 'C' function for method : 'Application::Contacts.FindByID()' */
+ApplicationContact ApplicationContacts_FindByID( ApplicationContacts _this, ApplicationContact 
+  aContact );
 
 /* Default onget method for the property 'NoOfItems' */
 XInt32 ApplicationContacts_OnGetNoOfItems( ApplicationContacts _this );

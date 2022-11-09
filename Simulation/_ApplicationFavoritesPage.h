@@ -180,8 +180,8 @@ void ApplicationFavoritesPage_onAddPress( ApplicationFavoritesPage _this, XObjec
 void ApplicationFavoritesPage_OnLoadItem( ApplicationFavoritesPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::FavoritesPage.onContactActivated()' */
-void ApplicationFavoritesPage_onContactActivated( ApplicationFavoritesPage _this, 
+/* 'C' function for method : 'Application::FavoritesPage.onPressedContact()' */
+void ApplicationFavoritesPage_onPressedContact( ApplicationFavoritesPage _this, 
   XObject sender );
 
 /* 'C' function for method : 'Application::FavoritesPage.onClose()' */
@@ -195,20 +195,23 @@ void ApplicationFavoritesPage_onNoOfContactsChanged( ApplicationFavoritesPage _t
 void ApplicationFavoritesPage_OnSetSelectedContact( ApplicationFavoritesPage _this, 
   ApplicationContact value );
 
+/* 'C' function for method : 'Application::FavoritesPage.onInfoContact()' */
+void ApplicationFavoritesPage_onInfoContact( ApplicationFavoritesPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::FavoritesPage.onDeleteContact()' */
+void ApplicationFavoritesPage_onDeleteContact( ApplicationFavoritesPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::FavoritesPage.onCloseDetailsPage()' */
+void ApplicationFavoritesPage_onCloseDetailsPage( ApplicationFavoritesPage _this, 
+  XObject sender );
+
 /* 'C' function for method : 'Application::FavoritesPage.onEdit()' */
 void ApplicationFavoritesPage_onEdit( ApplicationFavoritesPage _this, XObject sender );
 
-/* 'C' function for method : 'Application::FavoritesPage.onOpenDetailsPage()' */
-void ApplicationFavoritesPage_onOpenDetailsPage( ApplicationFavoritesPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::FavoritesPage.onDeleteContacts()' */
-void ApplicationFavoritesPage_onDeleteContacts( ApplicationFavoritesPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::FavoritesPage.onCloseWindow()' */
-void ApplicationFavoritesPage_onCloseWindow( ApplicationFavoritesPage _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::FavoritesPage.onAdd()' */
+void ApplicationFavoritesPage_onAdd( ApplicationFavoritesPage _this, XObject sender );
 
 /* Default onget method for the property 'SelectedContact' */
 ApplicationContact ApplicationFavoritesPage_OnGetSelectedContact( ApplicationFavoritesPage _this );

@@ -196,12 +196,6 @@ EW_DEFINE_CLASS( ResourcesBitmap, CoreResource, _.VMT, _.VMT, _.VMT, _.VMT, _.VM
   ResourcesBitmap_Update,
 EW_END_OF_CLASS( ResourcesBitmap )
 
-/* Include a file containing the font resource : 'Resources::DefaultFont' */
-#include "_ResourcesDefaultFont.h"
-
-/* Table with links to derived variants of the font resource : 'Resources::DefaultFont' */
-EW_RES_WITHOUT_VARIANTS( ResourcesDefaultFont )
-
 /* Initializer for the class 'Resources::Font' */
 void ResourcesFont__Init( ResourcesFont _this, XObject aLink, XHandle aArg )
 {

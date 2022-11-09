@@ -50,11 +50,17 @@
 #define _ApplicationContactHistory_
 #endif
 
+/* Forward declaration of the class Core::Time */
+#ifndef _CoreTime_
+  EW_DECLARE_CLASS( CoreTime )
+#define _CoreTime_
+#endif
+
 
 /* Deklaration of class : 'Application::ContactHistory' */
 EW_DEFINE_FIELDS( ApplicationContactHistory, ApplicationContact )
-  EW_PROPERTY( CallType,        XString )
-  EW_PROPERTY( TimeOfCall,      XString )
+  EW_PROPERTY( TimeOfCall,      CoreTime )
+  EW_PROPERTY( CallType,        XEnum )
 EW_END_OF_FIELDS( ApplicationContactHistory )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactHistory' */
@@ -62,12 +68,12 @@ EW_DEFINE_METHODS( ApplicationContactHistory, ApplicationContact )
 EW_END_OF_METHODS( ApplicationContactHistory )
 
 /* 'C' function for method : 'Application::ContactHistory.OnSetCallType()' */
-void ApplicationContactHistory_OnSetCallType( ApplicationContactHistory _this, XString 
+void ApplicationContactHistory_OnSetCallType( ApplicationContactHistory _this, XEnum 
   value );
 
 /* 'C' function for method : 'Application::ContactHistory.OnSetTimeOfCall()' */
 void ApplicationContactHistory_OnSetTimeOfCall( ApplicationContactHistory _this, 
-  XString value );
+  CoreTime value );
 
 #ifdef __cplusplus
   }

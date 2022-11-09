@@ -51,16 +51,19 @@
 
 /* Deklaration of class : 'Application::Contact' */
 EW_DEFINE_FIELDS( ApplicationContact, XObject )
-  EW_VARIABLE( next,            ApplicationContact )
   EW_PROPERTY( FirstName,       XString )
   EW_PROPERTY( LastName,        XString )
   EW_PROPERTY( PhoneNumber,     XString )
   EW_PROPERTY( NameInitials,    XString )
+  EW_PROPERTY( ID,              XInt32 )
 EW_END_OF_FIELDS( ApplicationContact )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Contact' */
 EW_DEFINE_METHODS( ApplicationContact, XObject )
 EW_END_OF_METHODS( ApplicationContact )
+
+/* 'C' function for method : 'Application::Contact.Init()' */
+void ApplicationContact_Init( ApplicationContact _this, XHandle aArg );
 
 /* 'C' function for method : 'Application::Contact.OnSetFirstName()' */
 void ApplicationContact_OnSetFirstName( ApplicationContact _this, XString value );
@@ -73,6 +76,13 @@ void ApplicationContact_OnSetPhoneNumber( ApplicationContact _this, XString valu
 
 /* 'C' function for method : 'Application::Contact.OnSetNameInitials()' */
 void ApplicationContact_OnSetNameInitials( ApplicationContact _this, XString value );
+
+/* 'C' function for method : 'Application::Contact.OnSetFavorite()' */
+void ApplicationContact_OnSetFavorite( ApplicationContact _this, XBool value );
+
+/* 'C' function for method : 'Application::Contact.CopyDataTo()' */
+ApplicationContact ApplicationContact_CopyDataTo( ApplicationContact _this, ApplicationContact 
+  aContact );
 
 #ifdef __cplusplus
   }

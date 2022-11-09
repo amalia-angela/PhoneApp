@@ -28,23 +28,24 @@
 #include "_ApplicationApplication.h"
 #include "_ApplicationApplicationSimulation.h"
 #include "_ApplicationCallPage.h"
+#include "_ApplicationCallPageBase.h"
 #include "_ApplicationContact.h"
 #include "_ApplicationContactAddPage.h"
 #include "_ApplicationContactDetailsPage.h"
 #include "_ApplicationContactEditPage.h"
-#include "_ApplicationContactHistory.h"
 #include "_ApplicationContactItem.h"
-#include "_ApplicationContacts.h"
+#include "_ApplicationContactList.h"
+#include "_ApplicationContactListElement.h"
 #include "_ApplicationContactsApp.h"
 #include "_ApplicationContactsInsideCall.h"
 #include "_ApplicationContactsList.h"
-#include "_ApplicationContactsManager.h"
 #include "_ApplicationContactsPage.h"
 #include "_ApplicationDetailsInsideCall.h"
 #include "_ApplicationDeviceClass.h"
 #include "_ApplicationFavContactItem.h"
 #include "_ApplicationFavoritesPage.h"
-#include "_ApplicationInComingCall.h"
+#include "_ApplicationHistoryContact.h"
+#include "_ApplicationIncomingCall.h"
 #include "_ApplicationInputEtxt.h"
 #include "_ApplicationKeyPadButtons.h"
 #include "_ApplicationKeypadInsideCall.h"
@@ -53,14 +54,10 @@
 #include "_ApplicationPushButtonBig.h"
 #include "_ApplicationPushButtonDelete.h"
 #include "_ApplicationPushButtonMediumBlue.h"
-#include "_ApplicationPushButtonMediumRed.h"
 #include "_ApplicationPushButtonMediumTrans.h"
 #include "_ApplicationPushButtonNoBackground.h"
 #include "_ApplicationPushButtonSmall.h"
-#include "_ApplicationRecentContactItem.h"
-#include "_ApplicationRecentPage.h"
 #include "_ApplicationSearchEtxt.h"
-#include "_ApplicationSimulateDatabase.h"
 #include "_ApplicationTextButton.h"
 #include "_CoreGroup.h"
 #include "_CoreKeyPressHandler.h"
@@ -96,42 +93,38 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x0000041A, /* ratio 52.57 % */
+  0x00000412, /* ratio 53.36 % */
   0xB8001700, 0x80086452, 0x00DC0037, 0x0C2003A0, 0x010B3180, 0xD14001CC, 0x0E22C0C0,
-  0x78AC4227, 0x87C48C91, 0x24080114, 0x47E1A4C8, 0xB64C4E86, 0x24265001, 0x00468B83,
-  0xE72001A4, 0x0E948024, 0xF8A4B657, 0x000822E0, 0x00C0002B, 0x0D000370, 0xCC003900,
-  0x28432000, 0x7000A453, 0x13E05484, 0x62844AC0, 0xC3600264, 0x8B81E432, 0xE5721D10,
-  0x45C1114A, 0xB63D5A3B, 0x2A914844, 0x271F9D41, 0x95D33C3A, 0x088345E7, 0x08743215,
-  0x854FE191, 0x2002EB39, 0xC5EDB550, 0xD61D5D29, 0x00068884, 0x09848A55, 0xB17C1E3E,
-  0x17084844, 0x90041C9B, 0x96D72675, 0xB1D4017F, 0x4D6BB9CA, 0x6A600D8A, 0xEFD139AD,
-  0x5F82954D, 0x1AD93492, 0xA49C4FC0, 0x5D900277, 0x8F000824, 0x01427F1E, 0x432118D0,
-  0x5C1C00B6, 0x8EF2D94C, 0x1378006D, 0x911BE446, 0x448B8462, 0x088E7EBA, 0xE9DE641A,
-  0xBEA21920, 0xD1E8B438, 0x0E9B4BA4, 0x68836A6D, 0x6304D4C8, 0x311D64CE, 0xBCDD6074,
-  0x2FAC664B, 0x8BD7BEFD, 0x47857454, 0x704C0075, 0x4DD21251, 0xAE4D52D4, 0x80D2D805,
-  0xA0B635AE, 0xE4116660, 0x3A100020, 0x45645216, 0x1152364C, 0x57B77D10, 0xC4511F78,
-  0x7569159B, 0x62419085, 0x87D2156D, 0x5CF7010E, 0xA5922E58, 0xC1134121, 0x6B001891,
-  0x02521698, 0x52D8F517, 0x18E8001E, 0x896F7FE3, 0x607BDDC6, 0x56963499, 0x02E5D10A,
-  0x094E5300, 0x6C3145D9, 0x5752D178, 0x9754D412, 0x66051C45, 0xA0D6607B, 0x81454125,
-  0x52981499, 0x99C2A981, 0xE7008C45, 0x457D1450, 0xE2291210, 0x68439AA7, 0x4CD35421,
-  0x1134B50C, 0x24124045, 0xB5105745, 0x178FD7A4, 0x9115D12D, 0xD216FE46, 0x0115044F,
-  0x3E87A1C0, 0x3A002971, 0x4293373C, 0x5338B568, 0xB4B51F70, 0x915D5F5D, 0xDD5D291A,
-  0x49977A11, 0x22EA250A, 0x84119845, 0xAD9BAC60, 0x740029F4, 0x93E344FD, 0xD4141176,
-  0xB53DE551, 0x414679D4, 0x219714D5, 0x00101451, 0x00000000
+  0x78AC4227, 0x87C48C91, 0xB83C0114, 0x0AC00208, 0xDC003000, 0x40034000, 0x0033000E,
+  0xD32940C8, 0x211C0025, 0xD0049015, 0x310020E6, 0x6000D200, 0xC84CA003, 0x3A211703,
+  0x22944A24, 0x82768B82, 0x1468F002, 0x049D4521, 0x389D1A7B, 0xA299E1D1, 0x34124721,
+  0x43215088, 0x96191087, 0x6B50E854, 0xAF3B0248, 0xD6029C5E, 0x68901CA1, 0x08A4E800,
+  0x005EE097, 0x08948B7D, 0x1362E109, 0x1285409F, 0x4016BA35, 0xC13F9E1D, 0xE0D8A5DE,
+  0x77A911A2, 0xE005AA27, 0xA36421A4, 0x645C1914, 0x803359E2, 0x82DB9D92, 0xC8317D0D,
+  0xA125D7D4, 0x908BC800, 0x0E0055A1, 0x7A36762E, 0xB20034E7, 0x8DA22309, 0x45C23148,
+  0x47176022, 0xACB20C64, 0x290C9070, 0xB2B94C5F, 0x3398CBE5, 0xA1B4CE53, 0x82656432,
+  0x8E668597, 0x683558D8, 0x9209A200, 0xB83E48CE, 0x2E1A90F9, 0x39EB3702, 0x0024EFAD,
+  0x3A149790, 0xA35DE4B1, 0x9254790E, 0x71E54473, 0x805445D4, 0x00710785, 0x7E11704C,
+  0xD4644D0A, 0x68259B5D, 0xE59B82D4, 0x006AE135, 0x8590453C, 0xD7A86000, 0x25FD175B,
+  0x39104110, 0x1F741677, 0x159046B1, 0x93E55152, 0x150D4B41, 0xBD1889D2, 0x35482026,
+  0x41223536, 0x1751C113, 0x16486B00, 0x15170252, 0x42819469, 0x56607806, 0x22472D8E,
+  0x594C3141, 0x5D7C4C44, 0x04965334, 0x1165C4B5, 0x83597DDC, 0xF97D2B95, 0x7D3897D2,
+  0x239582A9, 0x45129958, 0x44841148, 0x57A61C8C, 0x450E65C4, 0x425DD085, 0x91D5B431,
+  0x16014917, 0x47D14644, 0x2D049211, 0x9E931601, 0x49514479, 0x80011504, 0x313E82A0,
+  0xF83A0029, 0x51429426, 0x8ED428D5, 0x9468DA12, 0xD8ED467D, 0x315F0024, 0x9E7CA877,
+  0x8DA84429, 0x10461514, 0xB641CD84, 0x29BEAA29, 0x058FA365, 0x0007A45C, 0x904A0066,
+  0x2ABD106B, 0xC4007464, 0x1EA48459, 0xB3D219F5, 0x00000101, 0x00000000
 };
 
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
 {
-  0x00000190, /* ratio 60.00 % */
-  0xB8001300, 0x80082452, 0x94010731, 0x00070001, 0x1710001D, 0x44422C0C, 0x09398021,
-  0x034800D9, 0x88C58DC0, 0x447A3913, 0x9B4006F8, 0x9C011D8D, 0xC0E00881, 0xC80022C4,
-  0x91087CA0, 0x0021C4C1, 0xA8D000C2, 0x00438411, 0x047E1879, 0x15226080, 0xFA172794,
-  0x60902884, 0x171A85C5, 0x11085C3E, 0x68004DC5, 0x892C9400, 0x004E6951, 0x7CA6493E,
-  0x43E113A8, 0xFA4B0F9F, 0x265329D4, 0x0160AD5A, 0x076AF918, 0x72001D6E, 0x08C45A66,
-  0x214125D1, 0xD47AEE00, 0x4128B109, 0x6AE1172D, 0x2272D9A4, 0x55313346, 0x113054B2,
-  0x0B8F42F0, 0x335C2E65, 0xB813A279, 0xCC58C579, 0x6380D8CB, 0x16579000, 0x64F0689E,
-  0xFD2CB249, 0x950C8C16, 0x7A898165, 0x5C34B350, 0xC4D97004, 0x36B29979, 0x472355F9,
-  0x134C00C2, 0x25991C7C, 0x000080CB, 0x00000000
+  0x000000AE, /* ratio 71.26 % */
+  0xB8005100, 0x00086452, 0x24DE0034, 0x40073004, 0x00200019, 0x60088184, 0x003742CC,
+  0x98AC48E8, 0x8546A291, 0x01922711, 0x47E23230, 0xDA36468A, 0x80075859, 0x3A69001C,
+  0x00086C3E, 0x45818240, 0xC0043888, 0x87C6A766, 0x4CE01935, 0x4365F319, 0xB6364E8D,
+  0x017359D9, 0x39339D4E, 0x11898CF6, 0x38068028, 0x39EC4E2D, 0x33C60015, 0x1D845C00,
+  0x802CB35B, 0x00000080, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -155,271 +148,241 @@ static const XPoint _Const0010 = { 0, 0 };
 static const XColor _Const0011 = { 0xFD, 0xFD, 0xFD, 0xC8 };
 static const XColor _Const0012 = { 0xFF, 0xFF, 0xFF, 0xFF };
 static const XRect _Const0013 = {{ 55, 2 }, { 146, 32 }};
-static const XStringRes _Const0014 = { _StringsDefault0, 0x0019 };
-static const XRect _Const0015 = {{ 146, 2 }, { 268, 32 }};
-static const XStringRes _Const0016 = { _StringsDefault0, 0x0024 };
-static const XColor _Const0017 = { 0xE2, 0xE2, 0xE2, 0xFD };
-static const XRect _Const0018 = {{ 6, 4 }, { 31, 29 }};
-static const XPoint _Const0019 = { 265, 310 };
-static const XPoint _Const001A = { 7, 310 };
-static const XRect _Const001B = {{ 19, 281 }, { 263, 310 }};
+static const XRect _Const0014 = {{ 146, 2 }, { 268, 32 }};
+static const XPoint _Const0015 = { 272, 32 };
+static const XRect _Const0016 = {{ 6, 4 }, { 31, 29 }};
+static const XPoint _Const0017 = { 267, 0 };
+static const XPoint _Const0018 = { 266, 287 };
+static const XPoint _Const0019 = { 8, 287 };
+static const XColor _Const001A = { 0xE2, 0xE2, 0xE2, 0xFD };
+static const XRect _Const001B = {{ 20, 258 }, { 264, 287 }};
 static const XColor _Const001C = { 0xFF, 0xFF, 0xFF, 0x00 };
-static const XStringRes _Const001D = { _StringsDefault0, 0x0030 };
-static const XRect _Const001E = {{ 7, 255 }, { 265, 288 }};
-static const XStringRes _Const001F = { _StringsDefault0, 0x003F };
-static const XPoint _Const0020 = { 265, 255 };
-static const XPoint _Const0021 = { 7, 255 };
-static const XRect _Const0022 = {{ 51, 160 }, { 101, 235 }};
-static const XStringRes _Const0023 = { _StringsDefault0, 0x0049 };
-static const XRect _Const0024 = {{ 111, 160 }, { 161, 235 }};
-static const XStringRes _Const0025 = { _StringsDefault0, 0x0050 };
-static const XRect _Const0026 = {{ 171, 160 }, { 221, 235 }};
-static const XStringRes _Const0027 = { _StringsDefault0, 0x0058 };
-static const XRect _Const0028 = {{ 11, 113 }, { 268, 143 }};
-static const XStringRes _Const0029 = { _StringsDefault0, 0x0062 };
+static const XStringRes _Const001D = { _StringsDefault0, 0x0019 };
+static const XRect _Const001E = {{ 8, 232 }, { 266, 265 }};
+static const XStringRes _Const001F = { _StringsDefault0, 0x0028 };
+static const XPoint _Const0020 = { 266, 232 };
+static const XPoint _Const0021 = { 8, 232 };
+static const XRect _Const0022 = {{ 51, 145 }, { 101, 220 }};
+static const XStringRes _Const0023 = { _StringsDefault0, 0x0032 };
+static const XRect _Const0024 = {{ 111, 145 }, { 161, 220 }};
+static const XStringRes _Const0025 = { _StringsDefault0, 0x0039 };
+static const XRect _Const0026 = {{ 171, 145 }, { 221, 220 }};
+static const XStringRes _Const0027 = { _StringsDefault0, 0x0041 };
+static const XRect _Const0028 = {{ 8, 98 }, { 265, 128 }};
+static const XStringRes _Const0029 = { _StringsDefault0, 0x004B };
 static const XRect _Const002A = {{ 101, 22 }, { 171, 113 }};
 static const XRect _Const002B = {{ 240, 4 }, { 265, 29 }};
 static const XRect _Const002C = {{ 7, 4 }, { 32, 29 }};
-static const XStringRes _Const002D = { _StringsDefault0, 0x0071 };
-static const XRect _Const002E = {{ 0, 0 }, { 50, 75 }};
-static const XRect _Const002F = {{ 0, 0 }, { 50, 50 }};
-static const XPoint _Const0030 = { 0, 50 };
-static const XPoint _Const0031 = { 50, 50 };
-static const XPoint _Const0032 = { 50, 0 };
-static const XRect _Const0033 = {{ 1, 0 }, { 50, 50 }};
-static const XRect _Const0034 = {{ 0, 50 }, { 50, 75 }};
-static const XRect _Const0035 = {{ 0, 0 }, { 70, 91 }};
-static const XRect _Const0036 = {{ 0, 0 }, { 70, 70 }};
-static const XPoint _Const0037 = { 0, 91 };
-static const XPoint _Const0038 = { 70, 91 };
-static const XPoint _Const0039 = { 70, 0 };
-static const XRect _Const003A = {{ 0, 70 }, { 70, 91 }};
-static const XRect _Const003B = {{ 0, 0 }, { 25, 25 }};
-static const XPoint _Const003C = { 0, 25 };
-static const XPoint _Const003D = { 25, 25 };
-static const XPoint _Const003E = { 25, 0 };
-static const XRect _Const003F = {{ 0, 0 }, { 266, 32 }};
-static const XColor _Const0040 = { 0x00, 0x00, 0x00, 0xFF };
-static const XRect _Const0041 = {{ 0, 0 }, { 268, 32 }};
-static const XColor _Const0042 = { 0xF0, 0xF0, 0xF0, 0xFD };
-static const XPoint _Const0043 = { 272, 32 };
+static const XRect _Const002D = {{ 60, 233 }, { 84, 263 }};
+static const XStringRes _Const002E = { _StringsDefault0, 0x005A };
+static const XRect _Const002F = {{ 0, 0 }, { 50, 75 }};
+static const XRect _Const0030 = {{ 0, 0 }, { 50, 50 }};
+static const XPoint _Const0031 = { 0, 50 };
+static const XPoint _Const0032 = { 50, 50 };
+static const XPoint _Const0033 = { 50, 0 };
+static const XRect _Const0034 = {{ 1, 0 }, { 50, 50 }};
+static const XRect _Const0035 = {{ 0, 50 }, { 50, 75 }};
+static const XRect _Const0036 = {{ 0, 0 }, { 70, 91 }};
+static const XRect _Const0037 = {{ 0, 0 }, { 70, 70 }};
+static const XPoint _Const0038 = { 0, 91 };
+static const XPoint _Const0039 = { 70, 91 };
+static const XPoint _Const003A = { 70, 0 };
+static const XRect _Const003B = {{ 0, 70 }, { 70, 91 }};
+static const XRect _Const003C = {{ 0, 0 }, { 25, 25 }};
+static const XPoint _Const003D = { 0, 25 };
+static const XPoint _Const003E = { 25, 25 };
+static const XPoint _Const003F = { 25, 0 };
+static const XRect _Const0040 = {{ 0, 0 }, { 266, 32 }};
+static const XColor _Const0041 = { 0x00, 0x00, 0x00, 0xFF };
+static const XRect _Const0042 = {{ 0, 0 }, { 268, 32 }};
+static const XColor _Const0043 = { 0xF0, 0xF0, 0xF0, 0xFD };
 static const XPoint _Const0044 = { 272, 0 };
 static const XRect _Const0045 = {{ 48, 2 }, { 272, 32 }};
-static const XStringRes _Const0046 = { _StringsDefault0, 0x0075 };
+static const XStringRes _Const0046 = { _StringsDefault0, 0x005E };
 static const XColor _Const0047 = { 0xB9, 0xB9, 0xB9, 0xFD };
 static const XPoint _Const0048 = { 50, 70 };
 static const XRect _Const0049 = {{ 11, 2 }, { 41, 27 }};
 static const XPoint _Const004A = { 20, 20 };
 static const XPoint _Const004B = { -10, -10 };
 static const XColor _Const004C = { 0xEE, 0xEE, 0xEE, 0xCC };
-static const XStringRes _Const004D = { _StringsDefault0, 0x007F };
-static const XStringRes _Const004E = { _StringsDefault0, 0x0083 };
+static const XStringRes _Const004D = { _StringsDefault0, 0x0068 };
+static const XStringRes _Const004E = { _StringsDefault0, 0x006C };
 static const XPoint _Const004F = { 265, 289 };
 static const XPoint _Const0050 = { 7, 289 };
 static const XRect _Const0051 = {{ 3, 257 }, { 269, 289 }};
-static const XStringRes _Const0052 = { _StringsDefault0, 0x0087 };
+static const XStringRes _Const0052 = { _StringsDefault0, 0x0070 };
 static const XPoint _Const0053 = { 264, 256 };
 static const XPoint _Const0054 = { 6, 256 };
 static const XRect _Const0055 = {{ 3, 224 }, { 269, 256 }};
-static const XStringRes _Const0056 = { _StringsDefault0, 0x0097 };
+static const XStringRes _Const0056 = { _StringsDefault0, 0x0080 };
 static const XPoint _Const0057 = { 264, 223 };
 static const XPoint _Const0058 = { 6, 223 };
 static const XRect _Const0059 = {{ 3, 191 }, { 269, 223 }};
-static const XStringRes _Const005A = { _StringsDefault0, 0x00A4 };
+static const XStringRes _Const005A = { _StringsDefault0, 0x008D };
 static const XPoint _Const005B = { 264, 190 };
 static const XPoint _Const005C = { 6, 190 };
 static const XRect _Const005D = {{ 100, 78 }, { 170, 169 }};
-static const XStringRes _Const005E = { _StringsDefault0, 0x00B0 };
+static const XStringRes _Const005E = { _StringsDefault0, 0x0099 };
 static const XRect _Const005F = {{ 86, 7 }, { 186, 37 }};
-static const XStringRes _Const0060 = { _StringsDefault0, 0x00BC };
+static const XStringRes _Const0060 = { _StringsDefault0, 0x00A5 };
 static const XRect _Const0061 = {{ 5, 398 }, { 263, 431 }};
-static const XStringRes _Const0062 = { _StringsDefault0, 0x00CA };
+static const XStringRes _Const0062 = { _StringsDefault0, 0x00B3 };
 static const XRect _Const0063 = {{ 7, 244 }, { 265, 273 }};
-static const XStringRes _Const0064 = { _StringsDefault0, 0x00DB };
+static const XStringRes _Const0064 = { _StringsDefault0, 0x00C4 };
 static const XPoint _Const0065 = { 264, 239 };
 static const XPoint _Const0066 = { 6, 239 };
 static const XRect _Const0067 = {{ 6, 207 }, { 264, 240 }};
 static const XPoint _Const0068 = { 263, 206 };
 static const XPoint _Const0069 = { 5, 206 };
 static const XRect _Const006A = {{ 2, 174 }, { 268, 206 }};
-static const XStringRes _Const006B = { _StringsDefault0, 0x00E8 };
+static const XStringRes _Const006B = { _StringsDefault0, 0x00D1 };
 static const XPoint _Const006C = { 263, 173 };
 static const XPoint _Const006D = { 5, 173 };
 static const XRect _Const006E = {{ 2, 141 }, { 268, 173 }};
-static const XStringRes _Const006F = { _StringsDefault0, 0x00F5 };
+static const XStringRes _Const006F = { _StringsDefault0, 0x00DE };
 static const XPoint _Const0070 = { 263, 140 };
 static const XPoint _Const0071 = { 5, 140 };
 static const XRect _Const0072 = {{ 99, 29 }, { 169, 120 }};
-static const XStringRes _Const0073 = { _StringsDefault0, 0x0101 };
-static const XStringRes _Const0074 = { _StringsDefault0, 0x0108 };
-static const XRect _Const0075 = {{ 13, 2 }, { 272, 32 }};
-static const XStringRes _Const0076 = { _StringsDefault0, 0x011B };
-static const XColor _Const0077 = { 0x1E, 0x1E, 0x1E, 0xFD };
-static const XRect _Const0078 = {{ 14, 2 }, { 272, 32 }};
-static const XPoint _Const0079 = { 0, 29 };
-static const XPoint _Const007A = { 0, 5 };
-static const XStringRes _Const007B = { _StringsDefault0, 0x0123 };
-static const XRect _Const007C = {{ 6, 436 }, { 264, 469 }};
-static const XRect _Const007D = {{ 0, 0 }, { 258, 33 }};
-static const XPoint _Const007E = { 0, 33 };
-static const XPoint _Const007F = { 258, 33 };
-static const XPoint _Const0080 = { 258, 0 };
-static const XRect _Const0081 = {{ 12, 0 }, { 258, 33 }};
-static const XColor _Const0082 = { 0xFF, 0x29, 0x5B, 0xFF };
-static const XRect _Const0083 = {{ 0, 0 }, { 272, 480 }};
-static const XRect _Const0084 = {{ 104, 378 }, { 169, 446 }};
-static const XRect _Const0085 = {{ 182, 240 }, { 247, 332 }};
-static const XStringRes _Const0086 = { _StringsDefault0, 0x0127 };
-static const XRect _Const0087 = {{ 104, 241 }, { 169, 333 }};
-static const XStringRes _Const0088 = { _StringsDefault0, 0x0132 };
-static const XRect _Const0089 = {{ 26, 242 }, { 91, 334 }};
-static const XStringRes _Const008A = { _StringsDefault0, 0x013E };
-static const XRect _Const008B = {{ 182, 147 }, { 247, 239 }};
-static const XStringRes _Const008C = { _StringsDefault0, 0x0149 };
-static const XRect _Const008D = {{ 104, 148 }, { 169, 240 }};
-static const XStringRes _Const008E = { _StringsDefault0, 0x0153 };
-static const XRect _Const008F = {{ 26, 149 }, { 91, 241 }};
-static const XStringRes _Const0090 = { _StringsDefault0, 0x015C };
-static const XRect _Const0091 = {{ 16, 73 }, { 89, 103 }};
-static const XStringRes _Const0092 = { _StringsDefault0, 0x0163 };
-static const XColor _Const0093 = { 0xFA, 0xFA, 0xFA, 0xFF };
-static const XRect _Const0094 = {{ 179, 28 }, { 249, 119 }};
-static const XRect _Const0095 = {{ 16, 42 }, { 179, 72 }};
-static const XRect _Const0096 = {{ 0, 518 }, { 272, 958 }};
-static const XPoint _Const0097 = { 0, 30 };
-static const XRect _Const0098 = {{ 0, 0 }, { 65, 92 }};
-static const XRect _Const0099 = {{ 0, 0 }, { 65, 65 }};
-static const XPoint _Const009A = { 0, 65 };
-static const XPoint _Const009B = { 65, 65 };
-static const XPoint _Const009C = { 65, 0 };
-static const XRect _Const009D = {{ 0, 65 }, { 65, 92 }};
-static const XPoint _Const009E = { 264, 311 };
-static const XPoint _Const009F = { 6, 311 };
-static const XRect _Const00A0 = {{ 18, 282 }, { 262, 311 }};
-static const XRect _Const00A1 = {{ 6, 256 }, { 264, 289 }};
-static const XRect _Const00A2 = {{ 50, 161 }, { 100, 236 }};
-static const XRect _Const00A3 = {{ 110, 161 }, { 160, 236 }};
-static const XRect _Const00A4 = {{ 170, 161 }, { 220, 236 }};
-static const XRect _Const00A5 = {{ 10, 114 }, { 267, 144 }};
-static const XRect _Const00A6 = {{ 100, 30 }, { 170, 121 }};
-static const XRect _Const00A7 = {{ 239, 5 }, { 264, 30 }};
-static const XRect _Const00A8 = {{ 6, 5 }, { 31, 30 }};
-static const XRect _Const00A9 = {{ 0, 0 }, { 66, 25 }};
-static const XPoint _Const00AA = { 66, 25 };
-static const XPoint _Const00AB = { 66, 0 };
-static const XRect _Const00AC = {{ 0, -4 }, { 66, 28 }};
-static const XRect _Const00AD = {{ 0, 0 }, { 68, 40 }};
-static const XPoint _Const00AE = { 0, 40 };
-static const XPoint _Const00AF = { 65, 40 };
-static const XRect _Const00B0 = {{ 0, 0 }, { 68, 25 }};
-static const XRect _Const00B1 = {{ 0, 25 }, { 68, 40 }};
-static const XRect _Const00B2 = {{ 104, 340 }, { 169, 405 }};
-static const XRect _Const00B3 = {{ 169, 340 }, { 234, 405 }};
-static const XRect _Const00B4 = {{ 39, 80 }, { 104, 145 }};
-static const XStringRes _Const00B5 = { _StringsDefault0, 0x0170 };
-static const XRect _Const00B6 = {{ 169, 80 }, { 234, 145 }};
-static const XStringRes _Const00B7 = { _StringsDefault0, 0x0174 };
-static const XRect _Const00B8 = {{ 104, 80 }, { 169, 145 }};
-static const XStringRes _Const00B9 = { _StringsDefault0, 0x0178 };
-static const XRect _Const00BA = {{ 39, 145 }, { 104, 210 }};
-static const XStringRes _Const00BB = { _StringsDefault0, 0x017C };
-static const XRect _Const00BC = {{ 169, 145 }, { 234, 210 }};
-static const XStringRes _Const00BD = { _StringsDefault0, 0x0180 };
-static const XRect _Const00BE = {{ 104, 145 }, { 169, 210 }};
-static const XStringRes _Const00BF = { _StringsDefault0, 0x0184 };
-static const XRect _Const00C0 = {{ 39, 210 }, { 104, 275 }};
-static const XStringRes _Const00C1 = { _StringsDefault0, 0x0188 };
-static const XRect _Const00C2 = {{ 169, 210 }, { 234, 275 }};
-static const XStringRes _Const00C3 = { _StringsDefault0, 0x018C };
-static const XRect _Const00C4 = {{ 104, 210 }, { 169, 275 }};
-static const XStringRes _Const00C5 = { _StringsDefault0, 0x0190 };
-static const XRect _Const00C6 = {{ 39, 275 }, { 104, 340 }};
-static const XStringRes _Const00C7 = { _StringsDefault0, 0x0194 };
-static const XRect _Const00C8 = {{ 169, 275 }, { 234, 340 }};
-static const XStringRes _Const00C9 = { _StringsDefault0, 0x0198 };
-static const XRect _Const00CA = {{ 104, 275 }, { 169, 340 }};
-static const XStringRes _Const00CB = { _StringsDefault0, 0x019C };
-static const XRect _Const00CC = {{ 39, 48 }, { 234, 80 }};
-static const XRect _Const00CD = {{ 39, 360 }, { 101, 385 }};
-static const XStringRes _Const00CE = { _StringsDefault0, 0x01A0 };
-static const XRect _Const00CF = {{ 0, 440 }, { 272, 480 }};
-static const XRect _Const00D0 = {{ 0, 440 }, { 68, 480 }};
-static const XStringRes _Const00D1 = { _StringsDefault0, 0x01A7 };
-static const XRect _Const00D2 = {{ 68, 440 }, { 136, 480 }};
-static const XStringRes _Const00D3 = { _StringsDefault0, 0x01B3 };
-static const XRect _Const00D4 = {{ 136, 440 }, { 204, 480 }};
-static const XRect _Const00D5 = {{ 204, 440 }, { 272, 480 }};
-static const XStringRes _Const00D6 = { _StringsDefault0, 0x01BC };
-static const XPoint _Const00D7 = { 270, 440 };
-static const XPoint _Const00D8 = { 0, 440 };
-static const XStringRes _Const00D9 = { _StringsDefault0, 0x01C5 };
-static const XRect _Const00DA = {{ 0, 80 }, { 272, 340 }};
+static const XStringRes _Const0073 = { _StringsDefault0, 0x00EA };
+static const XStringRes _Const0074 = { _StringsDefault0, 0x0104 };
+static const XStringRes _Const0075 = { _StringsDefault0, 0x010B };
+static const XRect _Const0076 = {{ 13, 2 }, { 272, 32 }};
+static const XStringRes _Const0077 = { _StringsDefault0, 0x011E };
+static const XColor _Const0078 = { 0x1E, 0x1E, 0x1E, 0xFD };
+static const XRect _Const0079 = {{ 14, 2 }, { 272, 32 }};
+static const XPoint _Const007A = { 0, 29 };
+static const XPoint _Const007B = { 0, 5 };
+static const XStringRes _Const007C = { _StringsDefault0, 0x0126 };
+static const XRect _Const007D = {{ 6, 436 }, { 264, 469 }};
+static const XRect _Const007E = {{ 0, 0 }, { 258, 33 }};
+static const XPoint _Const007F = { 0, 33 };
+static const XPoint _Const0080 = { 258, 33 };
+static const XPoint _Const0081 = { 258, 0 };
+static const XRect _Const0082 = {{ 12, 0 }, { 258, 33 }};
+static const XColor _Const0083 = { 0xFF, 0x29, 0x5B, 0xFF };
+static const XRect _Const0084 = {{ 0, 0 }, { 272, 480 }};
+static const XRect _Const0085 = {{ 104, 374 }, { 169, 466 }};
+static const XRect _Const0086 = {{ 182, 240 }, { 247, 332 }};
+static const XStringRes _Const0087 = { _StringsDefault0, 0x012A };
+static const XRect _Const0088 = {{ 104, 241 }, { 169, 333 }};
+static const XStringRes _Const0089 = { _StringsDefault0, 0x0135 };
+static const XRect _Const008A = {{ 26, 242 }, { 91, 334 }};
+static const XStringRes _Const008B = { _StringsDefault0, 0x0141 };
+static const XRect _Const008C = {{ 182, 147 }, { 247, 239 }};
+static const XStringRes _Const008D = { _StringsDefault0, 0x014C };
+static const XRect _Const008E = {{ 104, 148 }, { 169, 240 }};
+static const XStringRes _Const008F = { _StringsDefault0, 0x0156 };
+static const XRect _Const0090 = {{ 26, 149 }, { 91, 241 }};
+static const XStringRes _Const0091 = { _StringsDefault0, 0x015F };
+static const XRect _Const0092 = {{ 0, 518 }, { 272, 958 }};
+static const XPoint _Const0093 = { 0, 30 };
+static const XRect _Const0094 = {{ 0, 0 }, { 65, 92 }};
+static const XRect _Const0095 = {{ 0, 0 }, { 65, 65 }};
+static const XPoint _Const0096 = { 0, 65 };
+static const XPoint _Const0097 = { 65, 65 };
+static const XPoint _Const0098 = { 65, 0 };
+static const XRect _Const0099 = {{ 0, 65 }, { 65, 92 }};
+static const XPoint _Const009A = { 264, 311 };
+static const XPoint _Const009B = { 6, 311 };
+static const XRect _Const009C = {{ 18, 282 }, { 262, 311 }};
+static const XRect _Const009D = {{ 6, 256 }, { 264, 289 }};
+static const XRect _Const009E = {{ 50, 161 }, { 100, 236 }};
+static const XRect _Const009F = {{ 110, 161 }, { 160, 236 }};
+static const XRect _Const00A0 = {{ 170, 161 }, { 220, 236 }};
+static const XRect _Const00A1 = {{ 10, 114 }, { 267, 144 }};
+static const XRect _Const00A2 = {{ 100, 30 }, { 170, 121 }};
+static const XRect _Const00A3 = {{ 239, 5 }, { 264, 30 }};
+static const XRect _Const00A4 = {{ 6, 5 }, { 31, 30 }};
+static const XRect _Const00A5 = {{ 0, 0 }, { 66, 25 }};
+static const XPoint _Const00A6 = { 66, 25 };
+static const XPoint _Const00A7 = { 66, 0 };
+static const XRect _Const00A8 = {{ 0, -4 }, { 66, 28 }};
+static const XRect _Const00A9 = {{ 0, 0 }, { 68, 40 }};
+static const XPoint _Const00AA = { 0, 40 };
+static const XPoint _Const00AB = { 65, 40 };
+static const XRect _Const00AC = {{ 0, 0 }, { 68, 25 }};
+static const XRect _Const00AD = {{ 0, 25 }, { 68, 40 }};
+static const XRect _Const00AE = {{ 104, 340 }, { 169, 405 }};
+static const XRect _Const00AF = {{ 169, 340 }, { 234, 405 }};
+static const XRect _Const00B0 = {{ 39, 80 }, { 104, 145 }};
+static const XStringRes _Const00B1 = { _StringsDefault0, 0x0166 };
+static const XRect _Const00B2 = {{ 169, 80 }, { 234, 145 }};
+static const XStringRes _Const00B3 = { _StringsDefault0, 0x016A };
+static const XRect _Const00B4 = {{ 104, 80 }, { 169, 145 }};
+static const XStringRes _Const00B5 = { _StringsDefault0, 0x016E };
+static const XRect _Const00B6 = {{ 39, 145 }, { 104, 210 }};
+static const XStringRes _Const00B7 = { _StringsDefault0, 0x0172 };
+static const XRect _Const00B8 = {{ 169, 145 }, { 234, 210 }};
+static const XStringRes _Const00B9 = { _StringsDefault0, 0x0176 };
+static const XRect _Const00BA = {{ 104, 145 }, { 169, 210 }};
+static const XStringRes _Const00BB = { _StringsDefault0, 0x017A };
+static const XRect _Const00BC = {{ 39, 210 }, { 104, 275 }};
+static const XStringRes _Const00BD = { _StringsDefault0, 0x017E };
+static const XRect _Const00BE = {{ 169, 210 }, { 234, 275 }};
+static const XStringRes _Const00BF = { _StringsDefault0, 0x0182 };
+static const XRect _Const00C0 = {{ 104, 210 }, { 169, 275 }};
+static const XStringRes _Const00C1 = { _StringsDefault0, 0x0186 };
+static const XRect _Const00C2 = {{ 39, 275 }, { 104, 340 }};
+static const XStringRes _Const00C3 = { _StringsDefault0, 0x018A };
+static const XRect _Const00C4 = {{ 169, 275 }, { 234, 340 }};
+static const XStringRes _Const00C5 = { _StringsDefault0, 0x018E };
+static const XRect _Const00C6 = {{ 104, 275 }, { 169, 340 }};
+static const XStringRes _Const00C7 = { _StringsDefault0, 0x0192 };
+static const XRect _Const00C8 = {{ 39, 48 }, { 234, 80 }};
+static const XRect _Const00C9 = {{ 39, 360 }, { 101, 385 }};
+static const XStringRes _Const00CA = { _StringsDefault0, 0x0196 };
+static const XRect _Const00CB = {{ 0, 440 }, { 272, 480 }};
+static const XRect _Const00CC = {{ 0, 440 }, { 68, 480 }};
+static const XStringRes _Const00CD = { _StringsDefault0, 0x019D };
+static const XRect _Const00CE = {{ 68, 440 }, { 136, 480 }};
+static const XStringRes _Const00CF = { _StringsDefault0, 0x01A9 };
+static const XRect _Const00D0 = {{ 136, 440 }, { 204, 480 }};
+static const XRect _Const00D1 = {{ 204, 440 }, { 272, 480 }};
+static const XStringRes _Const00D2 = { _StringsDefault0, 0x01B2 };
+static const XPoint _Const00D3 = { 270, 440 };
+static const XPoint _Const00D4 = { 0, 440 };
+static const XStringRes _Const00D5 = { _StringsDefault0, 0x01BB };
+static const XRect _Const00D6 = {{ 0, 80 }, { 272, 340 }};
+static const XColor _Const00D7 = { 0x83, 0x83, 0x83, 0xFA };
+static const XColor _Const00D8 = { 0x4F, 0x4F, 0x4F, 0xFF };
+static const XColor _Const00D9 = { 0x89, 0x89, 0x89, 0xFF };
+static const XColor _Const00DA = { 0x3C, 0x3C, 0x3C, 0xFF };
 static const XRect _Const00DB = {{ 39, 32 }, { 234, 64 }};
 static const XRect _Const00DC = {{ 11, 12 }, { 261, 61 }};
 static const XRect _Const00DD = {{ 166, 12 }, { 196, 42 }};
 static const XRect _Const00DE = {{ 196, 15 }, { 262, 40 }};
-static const XStringRes _Const00DF = { _StringsDefault0, 0x01E5 };
+static const XStringRes _Const00DF = { _StringsDefault0, 0x01DB };
 static const XRect _Const00E0 = {{ 0, 0 }, { 800, 480 }};
 static const XRect _Const00E1 = {{ 421, 155 }, { 571, 205 }};
-static const XStringRes _Const00E2 = { _StringsDefault0, 0x01EE };
-static const XStringRes _Const00E3 = { _StringsDefault0, 0x01FE };
-static const XColor _Const00E4 = { 0x83, 0x83, 0x83, 0xFA };
-static const XColor _Const00E5 = { 0x4F, 0x4F, 0x4F, 0xFF };
-static const XColor _Const00E6 = { 0x89, 0x89, 0x89, 0xFF };
-static const XColor _Const00E7 = { 0x3C, 0x3C, 0x3C, 0xFF };
-static const XRect _Const00E8 = {{ 171, 340 }, { 236, 432 }};
-static const XStringRes _Const00E9 = { _StringsDefault1, 0x0002 };
-static const XRect _Const00EA = {{ 36, 340 }, { 101, 432 }};
-static const XStringRes _Const00EB = { _StringsDefault1, 0x000B };
-static const XRect _Const00EC = {{ 18, 73 }, { 91, 103 }};
-static const XRect _Const00ED = {{ 18, 42 }, { 171, 72 }};
-static const XRect _Const00EE = {{ 184, 28 }, { 254, 119 }};
-static const XStringRes _Const00EF = { _StringsDefault1, 0x0016 };
-static const XRect _Const00F0 = {{ 11, 95 }, { 261, 408 }};
-static const XRect _Const00F1 = {{ 11, 12 }, { 41, 42 }};
-static const XRect _Const00F2 = {{ 213, 12 }, { 263, 37 }};
-static const XStringRes _Const00F3 = { _StringsDefault1, 0x0021 };
-static const XRect _Const00F4 = {{ 0, 0 }, { 250, 50 }};
-static const XRect _Const00F5 = {{ 0, 0 }, { 250, 52 }};
-static const XPoint _Const00F6 = { 25, 52 };
-static const XPoint _Const00F7 = { 220, 52 };
-static const XPoint _Const00F8 = { 220, 0 };
-static const XPoint _Const00F9 = { 250, 52 };
-static const XPoint _Const00FA = { 0, 52 };
-static const XRect _Const00FB = {{ 32, 4 }, { 114, 22 }};
-static const XRect _Const00FC = {{ 114, 4 }, { 213, 22 }};
-static const XRect _Const00FD = {{ 26, 29 }, { 63, 43 }};
-static const XStringRes _Const00FE = { _StringsDefault1, 0x0028 };
-static const XRect _Const00FF = {{ 152, 20 }, { 176, 34 }};
-static const XStringRes _Const0100 = { _StringsDefault1, 0x0034 };
-static const XRect _Const0101 = {{ 220, 8 }, { 245, 33 }};
-static const XRect _Const0102 = {{ 0, 17 }, { 25, 42 }};
-static const XRect _Const0103 = {{ -25, 11 }, { 0, 36 }};
-static const XRect _Const0104 = {{ 250, 1 }, { 316, 51 }};
-static const XStringRes _Const0105 = { _StringsDefault1, 0x003C };
-static const XRect _Const0106 = {{ 202, 24 }, { 268, 49 }};
-static const XRect _Const0107 = {{ 12, 0 }, { 261, 30 }};
-static const XStringRes _Const0108 = { _StringsDefault1, 0x0045 };
-static const XRect _Const0109 = {{ 0, 0 }, { 250, 32 }};
-static const XPoint _Const010A = { 217, 32 };
-static const XPoint _Const010B = { 217, 0 };
-static const XRect _Const010C = {{ 131, 8 }, { 201, 26 }};
-static const XRect _Const010D = {{ 44, 8 }, { 113, 26 }};
-static const XRect _Const010E = {{ -25, 5 }, { 0, 30 }};
-static const XRect _Const010F = {{ 250, 0 }, { 316, 32 }};
-static const XRect _Const0110 = {{ 217, 5 }, { 242, 30 }};
-static const XStringRes _Const0111 = { _StringsDefault1, 0x006D };
-static const XStringRes _Const0112 = { _StringsDefault1, 0x0074 };
-static const XStringRes _Const0113 = { _StringsDefault1, 0x007C };
-static const XStringRes _Const0114 = { _StringsDefault1, 0x0083 };
-static const XStringRes _Const0115 = { _StringsDefault1, 0x008D };
-static const XStringRes _Const0116 = { _StringsDefault1, 0x0097 };
-static const XStringRes _Const0117 = { _StringsDefault1, 0x009D };
-static const XStringRes _Const0118 = { _StringsDefault1, 0x00A5 };
-static const XStringRes _Const0119 = { _StringsDefault1, 0x00AC };
-static const XStringRes _Const011A = { _StringsDefault1, 0x00B1 };
-static const XStringRes _Const011B = { _StringsDefault1, 0x00B9 };
-static const XStringRes _Const011C = { _StringsDefault1, 0x00C2 };
+static const XStringRes _Const00E2 = { _StringsDefault0, 0x01E4 };
+static const XStringRes _Const00E3 = { _StringsDefault0, 0x01F4 };
+static const XRect _Const00E4 = {{ 171, 340 }, { 236, 432 }};
+static const XStringRes _Const00E5 = { _StringsDefault0, 0x01F9 };
+static const XRect _Const00E6 = {{ 11, 95 }, { 261, 408 }};
+static const XRect _Const00E7 = {{ 11, 12 }, { 41, 42 }};
+static const XRect _Const00E8 = {{ 213, 12 }, { 263, 37 }};
+static const XStringRes _Const00E9 = { _StringsDefault0, 0x0202 };
+static const XRect _Const00EA = {{ 202, 24 }, { 268, 49 }};
+static const XRect _Const00EB = {{ 12, 0 }, { 261, 30 }};
+static const XStringRes _Const00EC = { _StringsDefault1, 0x0002 };
+static const XRect _Const00ED = {{ 0, 0 }, { 250, 32 }};
+static const XPoint _Const00EE = { 217, 32 };
+static const XPoint _Const00EF = { 217, 0 };
+static const XRect _Const00F0 = {{ -25, 5 }, { 0, 30 }};
+static const XRect _Const00F1 = {{ 250, 0 }, { 316, 32 }};
+static const XStringRes _Const00F2 = { _StringsDefault1, 0x002A };
+static const XRect _Const00F3 = {{ 217, 5 }, { 242, 30 }};
+static const XRect _Const00F4 = {{ 44, 8 }, { 113, 26 }};
+static const XRect _Const00F5 = {{ 131, 8 }, { 201, 26 }};
+static const XStringRes _Const00F6 = { _StringsDefault1, 0x0033 };
+static const XPoint _Const00F7 = { 250, 32 };
+static const XPoint _Const00F8 = { 250, 0 };
+static const XRect _Const00F9 = {{ 36, 340 }, { 101, 432 }};
+static const XStringRes _Const00FA = { _StringsDefault1, 0x003F };
+static const XRect _Const00FB = {{ 18, 73 }, { 91, 103 }};
+static const XStringRes _Const00FC = { _StringsDefault1, 0x004A };
+static const XRect _Const00FD = {{ 18, 42 }, { 171, 72 }};
+static const XRect _Const00FE = {{ 184, 28 }, { 254, 119 }};
 
 /* Initializer for the class 'Application::ContactsPage' */
 void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink, XHandle aArg )
@@ -450,7 +413,7 @@ void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
   CoreView_OnSetLayout((CoreView)&_this->VerticalList, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
   CoreRectView__OnSetBounds( &_this->VerticalList, _Const0001 );
-  CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 35 );
+  CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 32 );
   CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationContactItem ));
   CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -1 );
   CoreView_OnSetLayout((CoreView)&_this->SlideTouchHandler, CoreLayoutAlignToLeft 
@@ -546,13 +509,15 @@ void ApplicationContactsPage_Init( ApplicationContactsPage _this, XHandle aArg )
   EW_UNUSED_ARG( aArg );
 
   EwAttachRefObserver( EwNewSlot( _this, ApplicationContactsPage_onNoOfContactsChanged ), 
-    EwNewRef( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-    ApplicationContacts_OnGetNoOfItems, ApplicationContacts_OnSetNoOfItems ), 0 );
+    EwNewRef( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, 
+    ApplicationContactList_OnGetNoOfItems, ApplicationContactList_OnSetNoOfItems ), 
+    0 );
   EwPostSignal( EwNewSlot( _this, ApplicationContactsPage_onNoOfContactsChanged ), 
     ((XObject)_this ));
   EwAttachRefObserver( EwNewSlot( _this, ApplicationContactsPage_onContactsSortingChanged ), 
-    EwNewRef( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-    ApplicationContacts_OnGetSorting, ApplicationContacts_OnSetSorting ), 0 );
+    EwNewRef( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, 
+    ApplicationContactList_OnGetSorting, ApplicationContactList_OnSetSorting ), 
+    0 );
   EwPostSignal( EwNewSlot( _this, ApplicationContactsPage_onContactsSortingChanged ), 
     ((XObject)_this ));
 }
@@ -580,7 +545,7 @@ void ApplicationContactsPage_onSaveAdd( ApplicationContactsPage _this, XObject s
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ApplicationContacts_Add( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
+  ApplicationContactList_Add( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, 
   _this->addContact->Contact );
   CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->addContact ), ((EffectsTransition)EwGetAutoObject( 
   &ResSlideDownCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
@@ -641,8 +606,8 @@ void ApplicationContactsPage_onUpPress( ApplicationContactsPage _this, XObject s
   EW_UNUSED_ARG( _this );
   EW_UNUSED_ARG( sender );
 
-  ApplicationContacts_OnSetSorting( &EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->Contacts, ApplicationSortingAscending );
+  ApplicationContactList_OnSetSorting( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, 
+  ApplicationSortingAscending );
   EwTrace( "%s", EwLoadString( &_Const000A ));
 }
 
@@ -654,8 +619,8 @@ void ApplicationContactsPage_onDownPress( ApplicationContactsPage _this, XObject
   EW_UNUSED_ARG( _this );
   EW_UNUSED_ARG( sender );
 
-  ApplicationContacts_OnSetSorting( &EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->Contacts, ApplicationSortingDescending );
+  ApplicationContactList_OnSetSorting( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, 
+  ApplicationSortingDescending );
   EwTrace( "%s", EwLoadString( &_Const000B ));
 }
 
@@ -672,19 +637,15 @@ void ApplicationContactsPage_OnLoadItem( ApplicationContactsPage _this, XObject
   EW_UNUSED_ARG( sender );
 
   itemNo = _this->VerticalList.Item;
-  contact = ApplicationContacts_GetContact( &EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->Contacts, itemNo );
+  contact = ApplicationContactList_GetContact( &EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass )->Contacts, itemNo );
   itemView = EwCastObject( _this->VerticalList.View, ApplicationContactItem );
 
   if ( itemView == 0 )
     return;
 
-  if ( contact != 0 )
-  {
-    ApplicationContactItem_OnSetContact( itemView, contact );
-    itemView->OnActivate = EwNewSlot( _this, ApplicationContactsPage__onContactActivated );
-  }
-
+  ApplicationContactItem_OnSetContact( itemView, contact );
+  itemView->OnActivate = EwNewSlot( _this, ApplicationContactsPage__onContactActivated );
   CoreRectView__OnSetBounds( itemView, EwSetRectSize( itemView->Super2.Bounds, EwNewPoint( 
   EwGetRectW( _this->VerticalList.Super2.Bounds ), _this->VerticalList.ItemHeight )));
 }
@@ -696,8 +657,8 @@ void ApplicationContactsPage_onNoOfContactsChanged( ApplicationContactsPage _thi
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->Contacts.NoOfItems );
+  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass )->Contacts.NoOfItems );
 }
 
 /* 'C' function for method : 'Application::ContactsPage.onContactsSortingChanged()' */
@@ -792,9 +753,10 @@ void ApplicationContactItem__Init( ApplicationContactItem _this, XObject aLink, 
   CoreSimpleTouchHandler__Init( &_this->TouchHandler, &_this->_.XObject, 0 );
   ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
   ViewsText__Init( &_this->LastNameTxt, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->FirstnameTxt, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->FirstNameTxt, &_this->_.XObject, 0 );
   ViewsLine__Init( &_this->Line, &_this->_.XObject, 0 );
   ApplicationPushButtonSmall__Init( &_this->PrfofilButton, &_this->_.XObject, 0 );
+  ViewsLine__Init( &_this->Line1, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationContactItem );
@@ -824,27 +786,33 @@ void ApplicationContactItem__Init( ApplicationContactItem _this, XObject aLink, 
   CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const0013 );
   ViewsText_OnSetAlignment( &_this->LastNameTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const0014 ));
+  ViewsText_OnSetString( &_this->LastNameTxt, 0 );
   ViewsText_OnSetColor( &_this->LastNameTxt, ResBlack );
-  CoreView_OnSetStackingPriority((CoreView)&_this->FirstnameTxt, 0 );
-  CoreView_OnSetLayout((CoreView)&_this->FirstnameTxt, CoreLayoutAlignToLeft | CoreLayoutResizeHorz );
-  CoreRectView__OnSetBounds( &_this->FirstnameTxt, _Const0015 );
-  ViewsText_OnSetAlignment( &_this->FirstnameTxt, ViewsTextAlignmentAlignHorzLeft 
+  CoreView_OnSetStackingPriority((CoreView)&_this->FirstNameTxt, 0 );
+  CoreView_OnSetLayout((CoreView)&_this->FirstNameTxt, CoreLayoutAlignToLeft | CoreLayoutResizeHorz );
+  CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const0014 );
+  ViewsText_OnSetAlignment( &_this->FirstNameTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->FirstnameTxt, EwLoadString( &_Const0016 ));
-  ViewsText_OnSetColor( &_this->FirstnameTxt, ResBlack );
+  ViewsText_OnSetString( &_this->FirstNameTxt, 0 );
+  ViewsText_OnSetColor( &_this->FirstNameTxt, ResBlack );
   CoreView_OnSetLayout((CoreView)&_this->Line, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const000E );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const0015 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const000D );
-  ViewsLine_OnSetWidth( &_this->Line, 1 );
-  ViewsLine_OnSetColor( &_this->Line, _Const0017 );
-  CoreRectView__OnSetBounds( &_this->PrfofilButton, _Const0018 );
+  ViewsLine_OnSetWidth( &_this->Line, 2 );
+  ViewsLine_OnSetColor( &_this->Line, ResGreyLight );
+  CoreRectView__OnSetBounds( &_this->PrfofilButton, _Const0016 );
+  CoreView_OnSetLayout((CoreView)&_this->Line1, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const0017 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const0010 );
+  ViewsLine_OnSetWidth( &_this->Line1, 2 );
+  ViewsLine_OnSetColor( &_this->Line1, ResGreyLight );
   CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->LastNameTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->FirstnameTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->FirstNameTxt ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Line ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->PrfofilButton ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Line1 ), 0 );
   _this->FlashTimer.OnTrigger = EwNewSlot( _this, ApplicationContactItem_onFlashTimer );
   _this->KeyHandler.OnPress = EwNewSlot( _this, ApplicationContactItem_onPressKey );
   _this->TouchHandler.OnLeave = EwNewSlot( _this, ApplicationContactItem_onEnterLeaveTouch );
@@ -853,8 +821,11 @@ void ApplicationContactItem__Init( ApplicationContactItem _this, XObject aLink, 
   _this->TouchHandler.OnPress = EwNewSlot( _this, ApplicationContactItem_onPressTouch );
   ViewsText_OnSetFont( &_this->LastNameTxt, EwLoadResource( &ResContactFontBold15, 
   ResourcesFont ));
-  ViewsText_OnSetFont( &_this->FirstnameTxt, EwLoadResource( &ResContactFont15, 
+  ViewsText_OnSetFont( &_this->FirstNameTxt, EwLoadResource( &ResContactFont15, 
   ResourcesFont ));
+
+  /* Call the user defined constructor */
+  ApplicationContactItem_Init( _this, aArg );
 }
 
 /* Re-Initializer for the class 'Application::ContactItem' */
@@ -869,9 +840,10 @@ void ApplicationContactItem__ReInit( ApplicationContactItem _this )
   CoreSimpleTouchHandler__ReInit( &_this->TouchHandler );
   ViewsRectangle__ReInit( &_this->Background );
   ViewsText__ReInit( &_this->LastNameTxt );
-  ViewsText__ReInit( &_this->FirstnameTxt );
+  ViewsText__ReInit( &_this->FirstNameTxt );
   ViewsLine__ReInit( &_this->Line );
   ApplicationPushButtonSmall__ReInit( &_this->PrfofilButton );
+  ViewsLine__ReInit( &_this->Line1 );
 }
 
 /* Finalizer method for the class 'Application::ContactItem' */
@@ -886,12 +858,23 @@ void ApplicationContactItem__Done( ApplicationContactItem _this )
   CoreSimpleTouchHandler__Done( &_this->TouchHandler );
   ViewsRectangle__Done( &_this->Background );
   ViewsText__Done( &_this->LastNameTxt );
-  ViewsText__Done( &_this->FirstnameTxt );
+  ViewsText__Done( &_this->FirstNameTxt );
   ViewsLine__Done( &_this->Line );
   ApplicationPushButtonSmall__Done( &_this->PrfofilButton );
+  ViewsLine__Done( &_this->Line1 );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationContactItem_Init( ApplicationContactItem _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+  EW_UNUSED_ARG( aArg );
 }
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
@@ -951,11 +934,10 @@ void ApplicationContactItem_OnSetContact( ApplicationContactItem _this, Applicat
   _this->Contact = value;
 
   if ( _this->Contact != 0 )
-  {
     EwAttachObjObserver( EwNewSlot( _this, ApplicationContactItem_onContactUpdated ), 
       (XObject)_this->Contact, 0 );
-    EwPostSignal( EwNewSlot( _this, ApplicationContactItem_onContactUpdated ), ((XObject)_this ));
-  }
+
+  EwPostSignal( EwNewSlot( _this, ApplicationContactItem_onContactUpdated ), ((XObject)_this ));
 }
 
 /* 'C' function for method : 'Application::ContactItem.onContactUpdated()' */
@@ -965,9 +947,15 @@ void ApplicationContactItem_onContactUpdated( ApplicationContactItem _this, XObj
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  if ( _this->Contact != 0 )
+  if ( _this->Contact == 0 )
   {
-    ViewsText_OnSetString( &_this->FirstnameTxt, _this->Contact->FirstName );
+    ViewsText_OnSetString( &_this->FirstNameTxt, 0 );
+    ViewsText_OnSetString( &_this->LastNameTxt, 0 );
+    ApplicationPushButtonSmall_OnSetText( &_this->PrfofilButton, 0 );
+  }
+  else
+  {
+    ViewsText_OnSetString( &_this->FirstNameTxt, _this->Contact->FirstName );
     ViewsText_OnSetString( &_this->LastNameTxt, _this->Contact->LastName );
     ApplicationPushButtonSmall_OnSetText( &_this->PrfofilButton, _this->Contact->NameInitials );
   }
@@ -1107,6 +1095,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   ApplicationPushButtonBig__Init( &_this->UserInitialsBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonNoBackground__Init( &_this->EditBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonNoBackground__Init( &_this->BackBtn, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->FavoritTxt, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationContactDetailsPage );
@@ -1114,9 +1103,9 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const0019 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const001A );
-  ViewsLine_OnSetColor( &_this->Line2, _Const0017 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const0018 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const0019 );
+  ViewsLine_OnSetColor( &_this->Line2, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->NumberTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
   CoreRectView__OnSetBounds( &_this->NumberTxt, _Const001B );
   ViewsText_OnSetColorBR( &_this->NumberTxt, _Const001C );
@@ -1132,7 +1121,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   ViewsText_OnSetColor( &_this->MobileTxt, ResBlack );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const0020 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const0021 );
-  ViewsLine_OnSetColor( &_this->Line1, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line1, _Const001A );
   CoreRectView__OnSetBounds( &_this->CallBtn, _Const0022 );
   ApplicationPushButtonMediumBlue_OnSetIcon( &_this->CallBtn, EwLoadString( &ResCallTxt ));
   ApplicationPushButtonMediumBlue_OnSetDescrip( &_this->CallBtn, EwLoadString( &_Const0023 ));
@@ -1159,6 +1148,10 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   ApplicationPushButtonNoBackground_OnSetLabel( &_this->EditBtn, EwLoadString( &ResEditIconTxt ));
   CoreRectView__OnSetBounds( &_this->BackBtn, _Const002C );
   ApplicationPushButtonNoBackground_OnSetLabel( &_this->BackBtn, EwLoadString( &ResBackIconTxt ));
+  CoreRectView__OnSetBounds( &_this->FavoritTxt, _Const002D );
+  ViewsText_OnSetString( &_this->FavoritTxt, EwLoadString( &ResHeartTxt ));
+  ViewsText_OnSetColor( &_this->FavoritTxt, ResGrey );
+  ViewsText_OnSetVisible( &_this->FavoritTxt, 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Line2 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->NumberTxt ), 0 );
@@ -1171,12 +1164,14 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   CoreGroup__Add( _this, ((CoreView)&_this->UserInitialsBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->EditBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->BackBtn ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->FavoritTxt ), 0 );
   ViewsText_OnSetFont( &_this->NumberTxt, EwLoadResource( &ResContactFont15, ResourcesFont ));
   ViewsText_OnSetFont( &_this->MobileTxt, EwLoadResource( &ResContactFont15, ResourcesFont ));
   _this->CallBtn.OnActivate = EwNewSlot( _this, ApplicationContactDetailsPage_onTapCall );
   ViewsText_OnSetFont( &_this->ContactName, EwLoadResource( &ResTitileFont29, ResourcesFont ));
   _this->EditBtn.OnActivate = EwNewSlot( _this, ApplicationContactDetailsPage__onTapEdit );
   _this->BackBtn.OnActivate = EwNewSlot( _this, ApplicationContactDetailsPage_onBack );
+  ViewsText_OnSetFont( &_this->FavoritTxt, EwLoadResource( &ResIconsFont20, ResourcesFont ));
 }
 
 /* Re-Initializer for the class 'Application::ContactDetailsPage' */
@@ -1198,6 +1193,7 @@ void ApplicationContactDetailsPage__ReInit( ApplicationContactDetailsPage _this 
   ApplicationPushButtonBig__ReInit( &_this->UserInitialsBtn );
   ApplicationPushButtonNoBackground__ReInit( &_this->EditBtn );
   ApplicationPushButtonNoBackground__ReInit( &_this->BackBtn );
+  ViewsText__ReInit( &_this->FavoritTxt );
 }
 
 /* Finalizer method for the class 'Application::ContactDetailsPage' */
@@ -1219,6 +1215,7 @@ void ApplicationContactDetailsPage__Done( ApplicationContactDetailsPage _this )
   ApplicationPushButtonBig__Done( &_this->UserInitialsBtn );
   ApplicationPushButtonNoBackground__Done( &_this->EditBtn );
   ApplicationPushButtonNoBackground__Done( &_this->BackBtn );
+  ViewsText__Done( &_this->FavoritTxt );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
@@ -1277,10 +1274,8 @@ void ApplicationContactDetailsPage_onTapCall( ApplicationContactDetailsPage _thi
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  2 );
-  ApplicationDeviceClass_UpdateCallingNumber( EwGetAutoObject( &ApplicationDevice, 
-  ApplicationDeviceClass ), _this->Contact->PhoneNumber );
+  ApplicationDeviceClass_OutgoingCallContact( EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass ), _this->Contact );
 }
 
 /* 'C' function for method : 'Application::ContactDetailsPage.onSaveEdit()' */
@@ -1349,9 +1344,10 @@ void ApplicationContactDetailsPage_onContactUpdated( ApplicationContactDetailsPa
   if ( _this->Contact != 0 )
   {
     ViewsText_OnSetString( &_this->ContactName, EwConcatString( EwConcatString( 
-    _this->Contact->LastName, EwLoadString( &_Const002D )), _this->Contact->FirstName ));
+    _this->Contact->LastName, EwLoadString( &_Const002E )), _this->Contact->FirstName ));
     ViewsText_OnSetString( &_this->NumberTxt, _this->Contact->PhoneNumber );
     ApplicationPushButtonBig_OnSetInitials( &_this->UserInitialsBtn, _this->Contact->NameInitials );
+    ViewsText_OnSetVisible( &_this->FavoritTxt, 0 );
   }
 }
 
@@ -1408,28 +1404,28 @@ void ApplicationPushButtonMediumBlue__Init( ApplicationPushButtonMediumBlue _thi
   _this->_.VMT = EW_CLASS( ApplicationPushButtonMediumBlue );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const002E );
+  CoreRectView__OnSetBounds( _this, _Const002F );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const002F );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0030 );
   ViewsImage_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0030 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0031 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0032 );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0031 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0032 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0033 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->IconTxt, _Const0033 );
+  CoreRectView__OnSetBounds( &_this->IconTxt, _Const0034 );
   ViewsText_OnSetString( &_this->IconTxt, 0 );
   ViewsText_OnSetColor( &_this->IconTxt, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const0034 );
+  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const0035 );
   ViewsText_OnSetColor( &_this->DescripTxt, ResBlue );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
@@ -1697,28 +1693,28 @@ void ApplicationPushButtonBig__Init( ApplicationPushButtonBig _this, XObject aLi
   _this->_.VMT = EW_CLASS( ApplicationPushButtonBig );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0035 );
+  CoreRectView__OnSetBounds( _this, _Const0036 );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0036 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0037 );
   ViewsImage_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0037 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0038 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0039 );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0038 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0039 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const003A );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0036 );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0037 );
   ViewsText_OnSetString( &_this->Text, 0 );
   ViewsText_OnSetColor( &_this->Text, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const003A );
+  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const003B );
   ViewsText_OnSetAlignment( &_this->DescripTxt, ViewsTextAlignmentAlignHorzCenter 
   | ViewsTextAlignmentAlignVertBottom );
   ViewsText_OnSetString( &_this->DescripTxt, 0 );
@@ -1978,7 +1974,7 @@ void ApplicationPushButtonSmall__Init( ApplicationPushButtonSmall _this, XObject
   _this->_.VMT = EW_CLASS( ApplicationPushButtonSmall );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const003B );
+  CoreRectView__OnSetBounds( _this, _Const003C );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
@@ -1987,22 +1983,22 @@ void ApplicationPushButtonSmall__Init( ApplicationPushButtonSmall _this, XObject
   _this->IconColor = ResGrey;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const003B );
+  CoreRectView__OnSetBounds( &_this->Background, _Const003C );
   ViewsImage_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const003C );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const003D );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const003E );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const003D );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const003E );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const003F );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->IconTxt, _Const003B );
+  CoreRectView__OnSetBounds( &_this->IconTxt, _Const003C );
   ViewsText_OnSetString( &_this->IconTxt, 0 );
   ViewsText_OnSetColor( &_this->IconTxt, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->TextText, _Const003B );
+  CoreRectView__OnSetBounds( &_this->TextText, _Const003C );
   ViewsText_OnSetString( &_this->TextText, 0 );
   ViewsText_OnSetColor( &_this->TextText, _Const0012 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
@@ -2211,17 +2207,6 @@ void ApplicationPushButtonSmall_OnSetButtonColor( ApplicationPushButtonSmall _th
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
-/* 'C' function for method : 'Application::PushButtonSmall.OnSetTextColor()' */
-void ApplicationPushButtonSmall_OnSetTextColor( ApplicationPushButtonSmall _this, 
-  XColor value )
-{
-  if ( !EwCompColor( _this->TextColor, value ))
-    return;
-
-  _this->TextColor = value;
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-}
-
 /* 'C' function for method : 'Application::PushButtonSmall.OnSetIcon()' */
 void ApplicationPushButtonSmall_OnSetIcon( ApplicationPushButtonSmall _this, XString 
   value )
@@ -2295,25 +2280,25 @@ void ApplicationPushButtonNoBackground__Init( ApplicationPushButtonNoBackground 
   _this->_.VMT = EW_CLASS( ApplicationPushButtonNoBackground );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const003B );
+  CoreRectView__OnSetBounds( _this, _Const003C );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const003B );
+  CoreRectView__OnSetBounds( &_this->Background, _Const003C );
   ViewsImage_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const003C );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const003D );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const003E );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const003D );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const003E );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const003F );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const003B );
+  CoreRectView__OnSetBounds( &_this->Text, _Const003C );
   ViewsText_OnSetString( &_this->Text, 0 );
   ViewsText_OnSetColor( &_this->Text, _Const0012 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
@@ -2566,12 +2551,12 @@ void ApplicationSearchEtxt__Init( ApplicationSearchEtxt _this, XObject aLink, XH
   _this->_.VMT = EW_CLASS( ApplicationSearchEtxt );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const003F );
+  CoreRectView__OnSetBounds( _this, _Const0040 );
   _this->blinkEffect.Value2 = 0;
   _this->blinkEffect.Value1 = 1;
   EffectsBoolEffect_OnSetCycleDuration( &_this->blinkEffect, 500 );
   EffectsBoolEffect_OnSetInterCycleDelay( &_this->blinkEffect, 500 );
-  _this->Color = _Const0040;
+  _this->Color = _Const0041;
   _this->CursorKeyHandler.Filter = CoreKeyCodeCursorKeys;
   _this->BackspaceKeyHandler.Filter = CoreKeyCodeBackspace;
   _this->DeleteKeyHandler.Filter = CoreKeyCodeDelete;
@@ -2579,8 +2564,8 @@ void ApplicationSearchEtxt__Init( ApplicationSearchEtxt _this, XObject aLink, XH
   _this->CharacterKeyHandler.Filter = CoreKeyCodeCharacterKeys;
   CoreView_OnSetLayout((CoreView)&_this->Frame, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Frame, _Const0041 );
-  ViewsFrame_OnSetColor( &_this->Frame, _Const0042 );
+  CoreRectView__OnSetBounds( &_this->Frame, _Const0042 );
+  ViewsFrame_OnSetColor( &_this->Frame, _Const0043 );
   CoreView_OnSetLayout((CoreView)&_this->SlideTouchHandler, CoreLayoutAlignToBottom 
   | CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
@@ -2591,7 +2576,7 @@ void ApplicationSearchEtxt__Init( ApplicationSearchEtxt _this, XObject aLink, XH
   | CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
   CoreQuadView__OnSetPoint4( &_this->SimpleTouchHandler, _Const000D );
-  CoreQuadView__OnSetPoint3( &_this->SimpleTouchHandler, _Const0043 );
+  CoreQuadView__OnSetPoint3( &_this->SimpleTouchHandler, _Const0015 );
   CoreQuadView__OnSetPoint2( &_this->SimpleTouchHandler, _Const0044 );
   CoreQuadView__OnSetPoint1( &_this->SimpleTouchHandler, _Const0010 );
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->SimpleTouchHandler, 3 );
@@ -2603,10 +2588,10 @@ void ApplicationSearchEtxt__Init( ApplicationSearchEtxt _this, XObject aLink, XH
   ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0046 ));
   ViewsText_OnSetColor( &_this->Text, _Const0047 );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Caret, _Const0048 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Caret, _Const0031 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Caret, _Const0032 );
   ViewsLine_OnSetWidth2( &_this->Caret, 2 );
   ViewsLine_OnSetWidth1( &_this->Caret, 2 );
-  ViewsLine_OnSetColor( &_this->Caret, _Const0040 );
+  ViewsLine_OnSetColor( &_this->Caret, _Const0041 );
   ViewsLine_OnSetVisible( &_this->Caret, 0 );
   CoreView_OnSetLayout((CoreView)&_this->Search, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
   CoreRectView__OnSetBounds( &_this->Search, _Const0049 );
@@ -3193,7 +3178,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line4, _Const004F );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line4, _Const0050 );
-  ViewsLine_OnSetColor( &_this->Line4, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line4, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->PhoneNumberTxt, CoreLayoutAlignToLeft );
   CoreRectView__OnSetBounds( &_this->PhoneNumberTxt, _Const0051 );
   ApplicationInputEtxt_OnSetString( &_this->PhoneNumberTxt, 0 );
@@ -3201,7 +3186,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   ApplicationInputEtxt_OnSetPlaceholder( &_this->PhoneNumberTxt, EwLoadString( &_Const0052 ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line3, _Const0053 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line3, _Const0054 );
-  ViewsLine_OnSetColor( &_this->Line3, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line3, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->FirstNameTxt, CoreLayoutAlignToLeft );
   CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const0055 );
   ApplicationInputEtxt_OnSetString( &_this->FirstNameTxt, 0 );
@@ -3209,7 +3194,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   ApplicationInputEtxt_OnSetPlaceholder( &_this->FirstNameTxt, EwLoadString( &_Const0056 ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const0057 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const0058 );
-  ViewsLine_OnSetColor( &_this->Line2, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line2, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->LastNameTxt, CoreLayoutAlignToLeft );
   CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const0059 );
   ApplicationInputEtxt_OnSetString( &_this->LastNameTxt, 0 );
@@ -3217,7 +3202,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   ApplicationInputEtxt_OnSetPlaceholder( &_this->LastNameTxt, EwLoadString( &_Const005A ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const005B );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const005C );
-  ViewsLine_OnSetColor( &_this->Line1, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line1, _Const001A );
   CoreRectView__OnSetBounds( &_this->UserInitials, _Const005D );
   ApplicationPushButtonBig_OnSetDescript( &_this->UserInitials, EwLoadString( &_Const005E ));
   CoreRectView__OnSetBounds( &_this->TitleTxt, _Const005F );
@@ -3372,10 +3357,6 @@ void ApplicationContactAddPage_onContactUpdated( ApplicationContactAddPage _this
   &_this->LastNameTxt ));
   ApplicationContact_OnSetPhoneNumber( _this->Contact, ApplicationInputEtxt_OnGetString( 
   &_this->PhoneNumberTxt ));
-  ApplicationContact_OnSetNameInitials( _this->Contact, ApplicationContacts_GetInitials( 
-  &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-  ApplicationInputEtxt_OnGetString( &_this->LastNameTxt ), ApplicationInputEtxt_OnGetString( 
-  &_this->FirstNameTxt )));
 }
 
 /* 'C' function for method : 'Application::ContactAddPage.onClose()' */
@@ -3395,10 +3376,6 @@ void ApplicationContactAddPage_onFieldChanged( ApplicationContactAddPage _this,
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, ApplicationContacts_GetInitials( 
-  &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-  ApplicationInputEtxt_OnGetString( &_this->LastNameTxt ), ApplicationInputEtxt_OnGetString( 
-  &_this->FirstNameTxt )));
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
@@ -3475,7 +3452,7 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   ApplicationInputEtxt_OnSetPlaceholder( &_this->NumberTxt, EwLoadString( &_Const0064 ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line4, _Const0065 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line4, _Const0066 );
-  ViewsLine_OnSetColor( &_this->Line4, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line4, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->MobileTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
   CoreRectView__OnSetBounds( &_this->MobileTxt, _Const0067 );
   ViewsText_OnSetAlignment( &_this->MobileTxt, ViewsTextAlignmentAlignHorzLeft | 
@@ -3484,7 +3461,7 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   ViewsText_OnSetColor( &_this->MobileTxt, ResGrey );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line3, _Const0068 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line3, _Const0069 );
-  ViewsLine_OnSetColor( &_this->Line3, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line3, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->FirstNameTxt, CoreLayoutAlignToLeft );
   CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const006A );
   ApplicationInputEtxt_OnSetString( &_this->FirstNameTxt, EwLoadString( &_Const006B ));
@@ -3492,7 +3469,7 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   ApplicationInputEtxt_OnSetPlaceholder( &_this->FirstNameTxt, EwLoadString( &_Const006B ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const006C );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const006D );
-  ViewsLine_OnSetColor( &_this->Line2, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line2, _Const001A );
   CoreView_OnSetLayout((CoreView)&_this->LastNameTxt, CoreLayoutAlignToLeft );
   CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const006E );
   ApplicationInputEtxt_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const006F ));
@@ -3500,7 +3477,7 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   ApplicationInputEtxt_OnSetPlaceholder( &_this->LastNameTxt, EwLoadString( &_Const006F ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const0070 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const0071 );
-  ViewsLine_OnSetColor( &_this->Line1, _Const0017 );
+  ViewsLine_OnSetColor( &_this->Line1, _Const001A );
   CoreRectView__OnSetBounds( &_this->UserInitials, _Const0072 );
   ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, 0 );
   ApplicationPushButtonBig_OnSetDescript( &_this->UserInitials, EwLoadString( &_Const005E ));
@@ -3626,9 +3603,8 @@ void ApplicationContactEditPage_onSave( ApplicationContactEditPage _this, XObjec
   &_this->LastNameTxt ));
   ApplicationContact_OnSetPhoneNumber( _this->Contact, ApplicationInputEtxt_OnGetString( 
   &_this->NumberTxt ));
-  ApplicationContact_OnSetNameInitials( _this->Contact, ApplicationContacts_GetInitials( 
-  &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-  _this->Contact->LastName, _this->Contact->FirstName ));
+  ApplicationContact_OnSetNameInitials( _this->Contact, ApplicationContactList_GetInitials( 
+  &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, _this->Contact ));
   EwSignal( _this->OnSave, ((XObject)_this ));
 }
 
@@ -3649,7 +3625,7 @@ void ApplicationContactEditPage_onDeleteContact( ApplicationContactEditPage _thi
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ApplicationContacts_Remove( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
+  ApplicationContactList_Remove( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, 
   _this->Contact );
   EwSignal( _this->OnDelete, ((XObject)_this ));
 }
@@ -3699,10 +3675,8 @@ void ApplicationContactEditPage_onFieldModified( ApplicationContactEditPage _thi
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, ApplicationContacts_GetInitials( 
-  &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-  ApplicationInputEtxt_OnGetString( &_this->LastNameTxt ), ApplicationInputEtxt_OnGetString( 
-  &_this->FirstNameTxt )));
+  ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, ApplicationContactList_GetInitials( 
+  &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Contacts, _this->Contact ));
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
@@ -3748,6 +3722,9 @@ void ApplicationContact__Init( ApplicationContact _this, XObject aLink, XHandle 
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationContact );
+
+  /* Call the user defined constructor */
+  ApplicationContact_Init( _this, aArg );
 }
 
 /* Re-Initializer for the class 'Application::Contact' */
@@ -3765,6 +3742,16 @@ void ApplicationContact__Done( ApplicationContact _this )
 
   /* Don't forget to deinitialize the super class ... */
   XObject__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Application::Contact.Init()' */
+void ApplicationContact_Init( ApplicationContact _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  _this->ID = ApplicationDeviceClass_GetNewID( EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass ));
 }
 
 /* 'C' function for method : 'Application::Contact.OnSetFirstName()' */
@@ -3807,233 +3794,35 @@ void ApplicationContact_OnSetNameInitials( ApplicationContact _this, XString val
   EwNotifyObjObservers((XObject)_this, 0 );
 }
 
+/* 'C' function for method : 'Application::Contact.OnSetFavorite()' */
+void ApplicationContact_OnSetFavorite( ApplicationContact _this, XBool value )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+  EW_UNUSED_ARG( value );
+
+  EwTrace( "%s", EwLoadString( &_Const0073 ));
+}
+
+/* 'C' function for method : 'Application::Contact.CopyDataTo()' */
+ApplicationContact ApplicationContact_CopyDataTo( ApplicationContact _this, ApplicationContact 
+  aContact )
+{
+  ApplicationContact_OnSetLastName( aContact, _this->LastName );
+  ApplicationContact_OnSetFirstName( aContact, _this->FirstName );
+  ApplicationContact_OnSetPhoneNumber( aContact, _this->PhoneNumber );
+  ApplicationContact_OnSetNameInitials( aContact, _this->NameInitials );
+  return aContact;
+}
+
 /* Variants derived from the class : 'Application::Contact' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationContact )
 EW_END_OF_CLASS_VARIANTS( ApplicationContact )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Contact' */
-EW_DEFINE_CLASS( ApplicationContact, XObject, next, FirstName, FirstName, FirstName, 
-                 FirstName, _.VMT, "Application::Contact" )
+EW_DEFINE_CLASS( ApplicationContact, XObject, FirstName, FirstName, FirstName, FirstName, 
+                 FirstName, ID, "Application::Contact" )
 EW_END_OF_CLASS( ApplicationContact )
-
-/* Initializer for the class 'Application::Contacts' */
-void ApplicationContacts__Init( ApplicationContacts _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  XObject__Init( &_this->_.Super, aLink, aArg );
-
-  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationContacts );
-
-  /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationContacts );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  _this->Sorting = ApplicationSortingAscending;
-}
-
-/* Re-Initializer for the class 'Application::Contacts' */
-void ApplicationContacts__ReInit( ApplicationContacts _this )
-{
-  /* At first re-initialize the super class ... */
-  XObject__ReInit( &_this->_.Super );
-}
-
-/* Finalizer method for the class 'Application::Contacts' */
-void ApplicationContacts__Done( ApplicationContacts _this )
-{
-  /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( XObject );
-
-  /* Don't forget to deinitialize the super class ... */
-  XObject__Done( &_this->_.Super );
-}
-
-/* 'C' function for method : 'Application::Contacts.Add()' */
-void ApplicationContacts_Add( ApplicationContacts _this, ApplicationContact aContact )
-{
-  if ( _this->head == 0 )
-    _this->head = aContact;
-  else
-  {
-    ApplicationContact lastNode = _this->head;
-
-    while ( lastNode->next != 0 )
-      lastNode = lastNode->next;
-
-    lastNode->next = aContact;
-  }
-
-  ApplicationContacts_OnSetNoOfItems( _this, _this->NoOfItems + 1 );
-}
-
-/* 'C' function for method : 'Application::Contacts.Remove()' */
-void ApplicationContacts_Remove( ApplicationContacts _this, ApplicationContact aContact )
-{
-  ApplicationContact contact = _this->head;
-  ApplicationContact prev = 0;
-
-  if (( contact != 0 ) && ( contact == aContact ))
-  {
-    _this->head = contact->next;
-    ApplicationContacts_OnSetNoOfItems( _this, _this->NoOfItems - 1 );
-  }
-  else
-  {
-    while (( contact != 0 ) && ( contact != aContact ))
-    {
-      prev = contact;
-      contact = contact->next;
-    }
-
-    prev->next = contact->next;
-    ApplicationContacts_OnSetNoOfItems( _this, _this->NoOfItems - 1 );
-  }
-}
-
-/* 'C' function for method : 'Application::Contacts.OnSetNoOfItems()' */
-void ApplicationContacts_OnSetNoOfItems( ApplicationContacts _this, XInt32 value )
-{
-  if ( _this->NoOfItems == value )
-    return;
-
-  _this->NoOfItems = value;
-  EwNotifyRefObservers( EwNewRef( _this, ApplicationContacts_OnGetNoOfItems, ApplicationContacts_OnSetNoOfItems ), 
-    0 );
-}
-
-/* 'C' function for method : 'Application::Contacts.GetContact()' */
-ApplicationContact ApplicationContacts_GetContact( ApplicationContacts _this, XInt32 
-  aNo )
-{
-  ApplicationContact contact = _this->head;
-  XInt32 it = 0;
-
-  while ( it != aNo )
-  {
-    contact = contact->next;
-    it += 1;
-  }
-
-  return contact;
-}
-
-/* 'C' function for method : 'Application::Contacts.GetInitials()' */
-XString ApplicationContacts_GetInitials( ApplicationContacts _this, XString aLastName, 
-  XString aFirstName )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-
-  return EwConcatStringChar( EwConcatCharString( EwGetStringChar( aLastName, 0 ), 
-    0 ), EwGetStringChar( aFirstName, 0 ));
-}
-
-/* 'C' function for method : 'Application::Contacts.insertionSort()' */
-void ApplicationContacts_insertionSort( ApplicationContacts _this )
-{
-  ApplicationContact current = _this->head;
-
-  while ( current != 0 )
-  {
-    ApplicationContact next = current->next;
-    ApplicationContacts_sortedInsert( _this, current );
-    current = next;
-  }
-
-  _this->head = _this->sorted;
-  _this->sorted = 0;
-}
-
-/* 'C' function for method : 'Application::Contacts.sortedInsert()' */
-void ApplicationContacts_sortedInsert( ApplicationContacts _this, ApplicationContact 
-  aContact )
-{
-  if ((( _this->sorted == 0 ) || (( _this->Sorting == ApplicationSortingAscending ) 
-      && ( EwCompString( _this->sorted->LastName, aContact->LastName ) >= 0 ))) 
-      || (( _this->Sorting == ApplicationSortingDescending ) && ( EwCompString( 
-      _this->sorted->LastName, aContact->LastName ) <= 0 )))
-  {
-    aContact->next = _this->sorted;
-    _this->sorted = aContact;
-  }
-  else
-  {
-    ApplicationContact current = _this->sorted;
-
-    while (( current->next != 0 ) && ((( _this->Sorting == ApplicationSortingAscending ) 
-           && ( EwCompString( current->next->LastName, aContact->LastName ) < 0 )) 
-           || (( _this->Sorting == ApplicationSortingDescending ) && ( EwCompString( 
-           current->next->LastName, aContact->LastName ) > 0 ))))
-      current = current->next;
-
-    aContact->next = current->next;
-    current->next = aContact;
-  }
-}
-
-/* 'C' function for method : 'Application::Contacts.OnSetSorting()' */
-void ApplicationContacts_OnSetSorting( ApplicationContacts _this, XEnum value )
-{
-  if ( _this->Sorting == value )
-    return;
-
-  _this->Sorting = value;
-  ApplicationContacts_insertionSort( _this );
-  EwNotifyRefObservers( EwNewRef( _this, ApplicationContacts_OnGetSorting, ApplicationContacts_OnSetSorting ), 
-    0 );
-}
-
-/* 'C' function for method : 'Application::Contacts.FindByNumber()' */
-ApplicationContact ApplicationContacts_FindByNumber( ApplicationContacts _this, 
-  XString aNumber )
-{
-  ApplicationContact contact = _this->head;
-
-  while ( contact != 0 )
-  {
-    if ( !EwCompString( contact->PhoneNumber, aNumber ))
-      return contact;
-
-    contact = contact->next;
-  }
-
-  return 0;
-}
-
-/* Default onget method for the property 'NoOfItems' */
-XInt32 ApplicationContacts_OnGetNoOfItems( ApplicationContacts _this )
-{
-  return _this->NoOfItems;
-}
-
-/* Default onget method for the property 'Sorting' */
-XEnum ApplicationContacts_OnGetSorting( ApplicationContacts _this )
-{
-  return _this->Sorting;
-}
-
-/* Variants derived from the class : 'Application::Contacts' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationContacts )
-EW_END_OF_CLASS_VARIANTS( ApplicationContacts )
-
-/* Virtual Method Table (VMT) for the class : 'Application::Contacts' */
-EW_DEFINE_CLASS( ApplicationContacts, XObject, head, NoOfItems, NoOfItems, NoOfItems, 
-                 NoOfItems, NoOfItems, "Application::Contacts" )
-EW_END_OF_CLASS( ApplicationContacts )
-
-/* User defined auto object: 'Application::MyContactsManager' */
-EW_DEFINE_AUTOOBJECT( ApplicationMyContactsManager, ApplicationContactsManager )
-
-/* Initializer for the auto object 'Application::MyContactsManager' */
-void ApplicationMyContactsManager__Init( ApplicationContactsManager _this )
-{
-  EW_UNUSED_ARG( _this );
-}
-
-/* Table with links to derived variants of the auto object : 'Application::MyContactsManager' */
-EW_DEFINE_AUTOOBJECT_VARIANTS( ApplicationMyContactsManager )
-EW_END_OF_AUTOOBJECT_VARIANTS( ApplicationMyContactsManager )
 
 /* Initializer for the class 'Application::InputEtxt' */
 void ApplicationInputEtxt__Init( ApplicationInputEtxt _this, XObject aLink, XHandle aArg )
@@ -4061,17 +3850,17 @@ void ApplicationInputEtxt__Init( ApplicationInputEtxt _this, XObject aLink, XHan
   _this->_.VMT = EW_CLASS( ApplicationInputEtxt );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const003F );
+  CoreRectView__OnSetBounds( _this, _Const0040 );
   _this->blinkEffect.Value2 = 0;
   _this->blinkEffect.Value1 = 1;
   EffectsBoolEffect_OnSetCycleDuration( &_this->blinkEffect, 500 );
   EffectsBoolEffect_OnSetInterCycleDelay( &_this->blinkEffect, 500 );
   _this->Alignment = ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter;
-  _this->String = EwShareString( EwLoadString( &_Const0073 ));
-  _this->Color = _Const0040;
+  _this->String = EwShareString( EwLoadString( &_Const0074 ));
+  _this->Color = _Const0041;
   _this->CursorKeyHandler.Filter = CoreKeyCodeCursorKeys;
   _this->BackspaceKeyHandler.Filter = CoreKeyCodeBackspace;
-  _this->Placeholder = EwShareString( EwLoadString( &_Const0074 ));
+  _this->Placeholder = EwShareString( EwLoadString( &_Const0075 ));
   _this->DeleteKeyHandler.Filter = CoreKeyCodeDelete;
   _this->NewlineKeyHandler.Filter = CoreKeyCodeEnter;
   _this->CharacterKeyHandler.Filter = CoreKeyCodeCharacterKeys;
@@ -4085,30 +3874,30 @@ void ApplicationInputEtxt__Init( ApplicationInputEtxt _this, XObject aLink, XHan
   | CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
   CoreQuadView__OnSetPoint4( &_this->SimpleTouchHandler, _Const000D );
-  CoreQuadView__OnSetPoint3( &_this->SimpleTouchHandler, _Const0043 );
+  CoreQuadView__OnSetPoint3( &_this->SimpleTouchHandler, _Const0015 );
   CoreQuadView__OnSetPoint2( &_this->SimpleTouchHandler, _Const0044 );
   CoreQuadView__OnSetPoint1( &_this->SimpleTouchHandler, _Const0010 );
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->SimpleTouchHandler, 3 );
   CoreView_OnSetLayout((CoreView)&_this->Text, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0076 );
   ViewsText_OnSetWrapText( &_this->Text, 1 );
   ViewsText_OnSetAlignment( &_this->Text, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0076 ));
-  ViewsText_OnSetColor( &_this->Text, _Const0077 );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0077 ));
+  ViewsText_OnSetColor( &_this->Text, _Const0078 );
   CoreView_OnSetLayout((CoreView)&_this->TextPlaceholder, CoreLayoutAlignToBottom 
   | CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->TextPlaceholder, _Const0078 );
+  CoreRectView__OnSetBounds( &_this->TextPlaceholder, _Const0079 );
   ViewsText_OnSetAlignment( &_this->TextPlaceholder, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->TextPlaceholder, 0 );
   ViewsText_OnSetColor( &_this->TextPlaceholder, _Const0047 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Caret, _Const0079 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Caret, _Const007A );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Caret, _Const007A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Caret, _Const007B );
   ViewsLine_OnSetWidth2( &_this->Caret, 2 );
   ViewsLine_OnSetWidth1( &_this->Caret, 2 );
-  ViewsLine_OnSetColor( &_this->Caret, _Const0040 );
+  ViewsLine_OnSetColor( &_this->Caret, _Const0041 );
   ViewsLine_OnSetVisible( &_this->Caret, 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SlideTouchHandler ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SimpleTouchHandler ), 0 );
@@ -4683,7 +4472,7 @@ void ApplicationInputEtxt_OnSetString( ApplicationInputEtxt _this, XString value
   if ( _this->caretIndex > EwGetStringLength( str ))
     _this->caretIndex = EwGetStringLength( str );
 
-  ViewsText_OnSetString( &_this->Text, EwConcatString( str, EwLoadString( &_Const007B )));
+  ViewsText_OnSetString( &_this->Text, EwConcatString( str, EwLoadString( &_Const007C )));
   _this->autoScroll = 1;
   ViewsText_OnSetScrollOffset( &_this->Text, _Const0010 );
   EwPostSignal( EwNewSlot( _this, ApplicationInputEtxt_updatePlaceholder ), ((XObject)_this ));
@@ -4741,7 +4530,7 @@ void ApplicationInputEtxt_updatePlaceholder( ApplicationInputEtxt _this, XObject
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  if ( !EwCompString( ApplicationInputEtxt_OnGetString( _this ), EwLoadString( &_Const0076 )) 
+  if ( !EwCompString( ApplicationInputEtxt_OnGetString( _this ), EwLoadString( &_Const0077 )) 
       || !EwCompString( ApplicationInputEtxt_OnGetString( _this ), 0 ))
     ViewsText_OnSetVisible( &_this->TextPlaceholder, 1 );
   else
@@ -4799,29 +4588,29 @@ void ApplicationPushButtonDelete__Init( ApplicationPushButtonDelete _this, XObje
   _this->_.VMT = EW_CLASS( ApplicationPushButtonDelete );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const007C );
+  CoreRectView__OnSetBounds( _this, _Const007D );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const007D );
+  CoreRectView__OnSetBounds( &_this->Background, _Const007E );
   ViewsRectangle_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const007E );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const007F );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0080 );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const007F );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0080 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0081 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
   CoreView_OnSetLayout((CoreView)&_this->Text, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0081 );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0082 );
   ViewsText_OnSetAlignment( &_this->Text, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0062 ));
-  ViewsText_OnSetColor( &_this->Text, _Const0082 );
+  ViewsText_OnSetColor( &_this->Text, _Const0083 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Text ), 0 );
@@ -5047,109 +4836,71 @@ EW_END_OF_CLASS( ApplicationPushButtonDelete )
 void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandle aArg )
 {
   /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+  ApplicationCallPageBase__Init( &_this->_.Super, aLink, aArg );
 
   /* Allow the Immediate Garbage Collection to evalute the members of this class. */
   _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationCallPage );
 
   /* ... then construct all embedded objects */
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
-  ApplicationPushButtonMediumRed__Init( &_this->EndCallBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonMediumTrans__Init( &_this->ContactsBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonMediumTrans__Init( &_this->VideoCallBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonMediumTrans__Init( &_this->AddCallBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonMediumTrans__Init( &_this->SpeakerBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonMediumTrans__Init( &_this->KeyPadBtn, &_this->_.XObject, 0 );
   ApplicationPushButtonMediumTrans__Init( &_this->MuteBtn, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->TimeTxt, &_this->_.XObject, 0 );
-  ApplicationPushButtonBig__Init( &_this->UserInitials, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->ContactNameTxt, &_this->_.XObject, 0 );
   ApplicationKeypadInsideCall__Init( &_this->Keypad1, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationCallPage );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0083 );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0083 );
-  ViewsRectangle_OnSetColorBL( &_this->Background, ResGrey );
-  ViewsRectangle_OnSetColorBR( &_this->Background, ResGreyLight );
-  ViewsRectangle_OnSetColorTR( &_this->Background, ResGrey );
-  ViewsRectangle_OnSetColorTL( &_this->Background, ResGrey );
-  ViewsRectangle_OnSetColor( &_this->Background, ResBlack );
-  CoreRectView__OnSetBounds( &_this->EndCallBtn, _Const0084 );
-  ApplicationPushButtonMediumRed_OnSetLabel( &_this->EndCallBtn, EwLoadString( &ResEndCallTxt ));
-  CoreRectView__OnSetBounds( &_this->ContactsBtn, _Const0085 );
+  CoreRectView__OnSetBounds( _this, _Const0084 );
+  CoreRectView__OnSetBounds( &_this->Super1.DesclineButton, _Const0085 );
+  CoreRectView__OnSetBounds( &_this->ContactsBtn, _Const0086 );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->ContactsBtn, EwLoadString( 
   &ResUserIconTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->ContactsBtn, EwLoadString( 
-  &_Const0086 ));
-  CoreRectView__OnSetBounds( &_this->VideoCallBtn, _Const0087 );
+  &_Const0087 ));
+  CoreRectView__OnSetBounds( &_this->VideoCallBtn, _Const0088 );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->VideoCallBtn, EwLoadString( 
   &ResVideoCallTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->VideoCallBtn, EwLoadString( 
-  &_Const0088 ));
-  CoreRectView__OnSetBounds( &_this->AddCallBtn, _Const0089 );
+  &_Const0089 ));
+  CoreRectView__OnSetBounds( &_this->AddCallBtn, _Const008A );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->AddCallBtn, EwLoadString( 
   &ResPlusIconTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->AddCallBtn, EwLoadString( 
-  &_Const008A ));
-  CoreRectView__OnSetBounds( &_this->SpeakerBtn, _Const008B );
+  &_Const008B ));
+  CoreRectView__OnSetBounds( &_this->SpeakerBtn, _Const008C );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->SpeakerBtn, EwLoadString( 
   &ResSpeakerTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->SpeakerBtn, EwLoadString( 
-  &_Const008C ));
-  CoreRectView__OnSetBounds( &_this->KeyPadBtn, _Const008D );
+  &_Const008D ));
+  CoreRectView__OnSetBounds( &_this->KeyPadBtn, _Const008E );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->KeyPadBtn, EwLoadString( &ResKeypadTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->KeyPadBtn, EwLoadString( 
-  &_Const008E ));
-  CoreRectView__OnSetBounds( &_this->MuteBtn, _Const008F );
+  &_Const008F ));
+  CoreRectView__OnSetBounds( &_this->MuteBtn, _Const0090 );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->MuteBtn, EwLoadString( &ResMicOffTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->MuteBtn, EwLoadString( 
-  &_Const0090 ));
-  CoreView_OnSetLayout((CoreView)&_this->TimeTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const0091 );
-  ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzCenter | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const0092 ));
-  ViewsText_OnSetColor( &_this->TimeTxt, _Const0093 );
-  CoreRectView__OnSetBounds( &_this->UserInitials, _Const0094 );
-  CoreGroup_OnSetEnabled((CoreGroup)&_this->UserInitials, 0 );
-  CoreView_OnSetLayout((CoreView)&_this->ContactNameTxt, CoreLayoutAlignToLeft | 
-  CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const0095 );
-  ViewsText_OnSetEllipsis( &_this->ContactNameTxt, 1 );
-  ViewsText_OnSetWrapText( &_this->ContactNameTxt, 0 );
-  ViewsText_OnSetAlignment( &_this->ContactNameTxt, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->ContactNameTxt, EwLoadString( &_Const0029 ));
-  ViewsText_OnSetColor( &_this->ContactNameTxt, _Const0093 );
-  CoreRectView__OnSetBounds( &_this->Keypad1, _Const0096 );
+  &_Const0091 ));
+  CoreRectView__OnSetBounds( &_this->Keypad1, _Const0092 );
   ApplicationKeypadPage_OnSetHideFunction((ApplicationKeypadPage)&_this->Keypad1, 
   0 );
   ApplicationKeypadPage_OnSetHideCall((ApplicationKeypadPage)&_this->Keypad1, 1 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->EndCallBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->ContactsBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->VideoCallBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->AddCallBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SpeakerBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->KeyPadBtn ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->MuteBtn ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TimeTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->UserInitials ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->ContactNameTxt ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Keypad1 ), 0 );
-  _this->EndCallBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onEndCallPress );
   _this->ContactsBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onContactsPress );
   _this->VideoCallBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onVideoCallPress );
   _this->AddCallBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onAddCallPress );
   _this->SpeakerBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onSpeakerPress );
   _this->KeyPadBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onKeypadPress );
   _this->MuteBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onMicPress );
-  ViewsText_OnSetFont( &_this->TimeTxt, EwLoadResource( &ResContactFont12, ResourcesFont ));
-  ViewsText_OnSetFont( &_this->ContactNameTxt, EwLoadResource( &ResTitileFont25, 
-  ResourcesFont ));
   _this->Keypad1.Super1.OnEditTextChanged = EwNewSlot( _this, ApplicationCallPage_onKeypadEdit );
 
   /* Call the user defined constructor */
@@ -5160,20 +4911,15 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
 void ApplicationCallPage__ReInit( ApplicationCallPage _this )
 {
   /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_.Super );
+  ApplicationCallPageBase__ReInit( &_this->_.Super );
 
   /* ... then re-construct all embedded objects */
-  ViewsRectangle__ReInit( &_this->Background );
-  ApplicationPushButtonMediumRed__ReInit( &_this->EndCallBtn );
   ApplicationPushButtonMediumTrans__ReInit( &_this->ContactsBtn );
   ApplicationPushButtonMediumTrans__ReInit( &_this->VideoCallBtn );
   ApplicationPushButtonMediumTrans__ReInit( &_this->AddCallBtn );
   ApplicationPushButtonMediumTrans__ReInit( &_this->SpeakerBtn );
   ApplicationPushButtonMediumTrans__ReInit( &_this->KeyPadBtn );
   ApplicationPushButtonMediumTrans__ReInit( &_this->MuteBtn );
-  ViewsText__ReInit( &_this->TimeTxt );
-  ApplicationPushButtonBig__ReInit( &_this->UserInitials );
-  ViewsText__ReInit( &_this->ContactNameTxt );
   ApplicationKeypadInsideCall__ReInit( &_this->Keypad1 );
 }
 
@@ -5181,24 +4927,19 @@ void ApplicationCallPage__ReInit( ApplicationCallPage _this )
 void ApplicationCallPage__Done( ApplicationCallPage _this )
 {
   /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+  _this->_.Super._.VMT = EW_CLASS( ApplicationCallPageBase );
 
   /* Finalize all embedded objects */
-  ViewsRectangle__Done( &_this->Background );
-  ApplicationPushButtonMediumRed__Done( &_this->EndCallBtn );
   ApplicationPushButtonMediumTrans__Done( &_this->ContactsBtn );
   ApplicationPushButtonMediumTrans__Done( &_this->VideoCallBtn );
   ApplicationPushButtonMediumTrans__Done( &_this->AddCallBtn );
   ApplicationPushButtonMediumTrans__Done( &_this->SpeakerBtn );
   ApplicationPushButtonMediumTrans__Done( &_this->KeyPadBtn );
   ApplicationPushButtonMediumTrans__Done( &_this->MuteBtn );
-  ViewsText__Done( &_this->TimeTxt );
-  ApplicationPushButtonBig__Done( &_this->UserInitials );
-  ViewsText__Done( &_this->ContactNameTxt );
   ApplicationKeypadInsideCall__Done( &_this->Keypad1 );
 
   /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_.Super );
+  ApplicationCallPageBase__Done( &_this->_.Super );
 }
 
 /* The method Init() is invoked automatically after the component has been created. 
@@ -5207,65 +4948,8 @@ void ApplicationCallPage__Done( ApplicationCallPage _this )
 void ApplicationCallPage_Init( ApplicationCallPage _this, XHandle aArg )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
   EW_UNUSED_ARG( aArg );
-
-  EwAttachRefObserver( EwNewSlot( _this, ApplicationCallPage_onCallState ), EwNewRef( 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetCallState, 
-    ApplicationDeviceClass_OnSetCallState ), 0 );
-  EwPostSignal( EwNewSlot( _this, ApplicationCallPage_onCallState ), ((XObject)_this ));
-  ApplicationCallPage_getContact( _this );
-}
-
-/* 'C' function for method : 'Application::CallPage.OnSetContact()' */
-void ApplicationCallPage_OnSetContact( ApplicationCallPage _this, ApplicationContact 
-  value )
-{
-  if ( _this->Contact == value )
-    return;
-
-  if ( _this->Contact != 0 )
-    EwDetachObjObserver( EwNewSlot( _this, ApplicationCallPage_onContactUpdated ), 
-      (XObject)_this->Contact, 0 );
-
-  _this->Contact = value;
-
-  if ( _this->Contact != 0 )
-  {
-    EwAttachObjObserver( EwNewSlot( _this, ApplicationCallPage_onContactUpdated ), 
-      (XObject)_this->Contact, 0 );
-    EwPostSignal( EwNewSlot( _this, ApplicationCallPage_onContactUpdated ), ((XObject)_this ));
-  }
-}
-
-/* 'C' function for method : 'Application::CallPage.onContactUpdated()' */
-void ApplicationCallPage_onContactUpdated( ApplicationCallPage _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( _this->Contact != 0 )
-  {
-    ViewsText_OnSetString( &_this->ContactNameTxt, EwConcatString( EwConcatString( 
-    _this->Contact->LastName, EwLoadString( &_Const002D )), _this->Contact->FirstName ));
-    ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, _this->Contact->NameInitials );
-  }
-  else
-  {
-    ViewsText_OnSetString( &_this->ContactNameTxt, EwGetAutoObject( &ApplicationDevice, 
-    ApplicationDeviceClass )->CallingNumber );
-    CoreGroup_OnSetVisible((CoreGroup)&_this->UserInitials, 0 );
-  }
-}
-
-/* 'C' function for method : 'Application::CallPage.onEndCallPress()' */
-void ApplicationCallPage_onEndCallPress( ApplicationCallPage _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  0 );
-  EwPostSignal( EwNewSlot( _this, ApplicationCallPage_onCallState ), ((XObject)_this ));
 }
 
 /* 'C' function for method : 'Application::CallPage.onSpeakerPress()' */
@@ -5303,7 +4987,7 @@ void ApplicationCallPage_onKeypadPress( ApplicationCallPage _this, XObject sende
   EW_UNUSED_ARG( sender );
 
   CoreRectView__OnSetBounds( &_this->Keypad1, EwSetRectOrigin( _this->Keypad1.Super3.Bounds, 
-  _Const0097 ));
+  _Const0093 ));
   _this->Keypad1.Super1.OnHide = EwNewSlot( _this, ApplicationCallPage_onHide );
 }
 
@@ -5354,11 +5038,11 @@ void ApplicationCallPage_onHide( ApplicationCallPage _this, XObject sender )
   EW_UNUSED_ARG( sender );
 
   CoreRectView__OnSetBounds( &_this->Keypad1, EwSetRectY( _this->Keypad1.Super3.Bounds, 
-  _this->Super2.Bounds.Point2.Y ));
+  _this->Super3.Bounds.Point2.Y ));
   ApplicationInputEtxt_OnSetString( &_this->Keypad1.Super1.InputEtxt, 0 );
-  ViewsText_OnSetVisible( &_this->ContactNameTxt, 1 );
-  ViewsText_OnSetVisible( &_this->TimeTxt, 1 );
-  CoreGroup_OnSetVisible((CoreGroup)&_this->UserInitials, 1 );
+  ViewsText_OnSetVisible( &_this->Super1.ContactNameTxt, 1 );
+  ViewsText_OnSetVisible( &_this->Super1.TimeTxt, 1 );
+  CoreGroup_OnSetVisible((CoreGroup)&_this->Super1.UserInitials, 1 );
 }
 
 /* 'C' function for method : 'Application::CallPage.onKeypadEdit()' */
@@ -5367,49 +5051,12 @@ void ApplicationCallPage_onKeypadEdit( ApplicationCallPage _this, XObject sender
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ViewsText_OnSetVisible( &_this->ContactNameTxt, (XBool)!EwCompString( ApplicationInputEtxt_OnGetString( 
+  ViewsText_OnSetVisible( &_this->Super1.ContactNameTxt, (XBool)!EwCompString( ApplicationInputEtxt_OnGetString( 
   &_this->Keypad1.Super1.InputEtxt ), 0 ));
-  ViewsText_OnSetVisible( &_this->TimeTxt, (XBool)!EwCompString( ApplicationInputEtxt_OnGetString( 
+  ViewsText_OnSetVisible( &_this->Super1.TimeTxt, (XBool)!EwCompString( ApplicationInputEtxt_OnGetString( 
   &_this->Keypad1.Super1.InputEtxt ), 0 ));
-  CoreGroup_OnSetVisible((CoreGroup)&_this->UserInitials, (XBool)!EwCompString( 
+  CoreGroup_OnSetVisible((CoreGroup)&_this->Super1.UserInitials, (XBool)!EwCompString( 
   ApplicationInputEtxt_OnGetString( &_this->Keypad1.Super1.InputEtxt ), 0 ));
-}
-
-/* 'C' function for method : 'Application::CallPage.onCallState()' */
-void ApplicationCallPage_onCallState( ApplicationCallPage _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  EwTrace( "%e%s", EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState, 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallingNumber );
-
-  if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-      == ApplicationCallStateRingOutgoing )
-  {
-    CoreGroup_OnSetEnabled((CoreGroup)&_this->AddCallBtn, 0 );
-    CoreGroup_OnSetEnabled((CoreGroup)&_this->VideoCallBtn, 0 );
-  }
-  else
-    if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-        == ApplicationCallStateTalk )
-    {
-      CoreGroup_OnSetEnabled((CoreGroup)&_this->AddCallBtn, 1 );
-      CoreGroup_OnSetEnabled((CoreGroup)&_this->VideoCallBtn, 1 );
-      ViewsText_OnSetVisible( &_this->TimeTxt, 0 );
-    }
-    else
-      CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this ), 0, 0, 0, EwNullSlot, 
-      EwNullSlot, 0 );
-}
-
-/* 'C' function for method : 'Application::CallPage.getContact()' */
-void ApplicationCallPage_getContact( ApplicationCallPage _this )
-{
-  ApplicationCallPage_OnSetContact( _this, ApplicationContacts_FindByNumber( &EwGetAutoObject( 
-  &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, EwGetAutoObject( 
-  &ApplicationDevice, ApplicationDeviceClass )->CallingNumber ));
-  EwPostSignal( EwNewSlot( _this, ApplicationCallPage_onContactUpdated ), ((XObject)_this ));
 }
 
 /* Variants derived from the class : 'Application::CallPage' */
@@ -5417,8 +5064,8 @@ EW_DEFINE_CLASS_VARIANTS( ApplicationCallPage )
 EW_END_OF_CLASS_VARIANTS( ApplicationCallPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::CallPage' */
-EW_DEFINE_CLASS( ApplicationCallPage, CoreGroup, Contact, Background, Background, 
-                 Background, _.VMT, _.VMT, "Application::CallPage" )
+EW_DEFINE_CLASS( ApplicationCallPage, ApplicationCallPageBase, contactsPage, ContactsBtn, 
+                 ContactsBtn, ContactsBtn, _.VMT, _.VMT, "Application::CallPage" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -5464,29 +5111,29 @@ void ApplicationPushButtonMediumTrans__Init( ApplicationPushButtonMediumTrans _t
   _this->_.VMT = EW_CLASS( ApplicationPushButtonMediumTrans );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0098 );
+  CoreRectView__OnSetBounds( _this, _Const0094 );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0099 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0095 );
   ViewsImage_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const009A );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const009B );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const009C );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0096 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0097 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0098 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->IconTxt, _Const0099 );
+  CoreRectView__OnSetBounds( &_this->IconTxt, _Const0095 );
   ViewsText_OnSetString( &_this->IconTxt, 0 );
   ViewsText_OnSetColor( &_this->IconTxt, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->DescripTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const009D );
+  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const0099 );
   ViewsText_OnSetAlignment( &_this->DescripTxt, ViewsTextAlignmentAlignHorzCenter 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->DescripTxt, 0 );
@@ -5761,263 +5408,6 @@ EW_DEFINE_CLASS( ApplicationPushButtonMediumTrans, TemplatesPushButton, OnActiva
   CoreGroup_Add,
 EW_END_OF_CLASS( ApplicationPushButtonMediumTrans )
 
-/* Initializer for the class 'Application::PushButtonMediumRed' */
-void ApplicationPushButtonMediumRed__Init( ApplicationPushButtonMediumRed _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  TemplatesPushButton__Init( &_this->_.Super, aLink, aArg );
-
-  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationPushButtonMediumRed );
-
-  /* ... then construct all embedded objects */
-  CoreTimer__Init( &_this->FlashTimer, &_this->_.XObject, 0 );
-  CoreKeyPressHandler__Init( &_this->KeyHandler, &_this->_.XObject, 0 );
-  ViewsImage__Init( &_this->Background, &_this->_.XObject, 0 );
-  CoreSimpleTouchHandler__Init( &_this->TouchHandler, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->Text, &_this->_.XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationPushButtonMediumRed );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0099 );
-  CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
-  CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
-  _this->KeyHandler.Filter = CoreKeyCodeEnter;
-  CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
-  | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0099 );
-  ViewsImage_OnSetColor( &_this->Background, _Const0012 );
-  CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
-  CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const009A );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const009B );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const009C );
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
-  _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
-  | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
-  CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0099 );
-  ViewsText_OnSetString( &_this->Text, 0 );
-  ViewsText_OnSetColor( &_this->Text, _Const0012 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Text ), 0 );
-  _this->FlashTimer.OnTrigger = EwNewSlot( _this, ApplicationPushButtonMediumRed_onFlashTimer );
-  _this->KeyHandler.OnPress = EwNewSlot( _this, ApplicationPushButtonMediumRed_onPressKey );
-  ViewsImage_OnSetBitmap( &_this->Background, EwLoadResource( &ResButtonRoundMedium1, 
-  ResourcesBitmap ));
-  _this->TouchHandler.OnLeave = EwNewSlot( _this, ApplicationPushButtonMediumRed_onEnterLeaveTouch );
-  _this->TouchHandler.OnEnter = EwNewSlot( _this, ApplicationPushButtonMediumRed_onEnterLeaveTouch );
-  _this->TouchHandler.OnRelease = EwNewSlot( _this, ApplicationPushButtonMediumRed_onReleaseTouch );
-  _this->TouchHandler.OnPress = EwNewSlot( _this, ApplicationPushButtonMediumRed_onPressTouch );
-  ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ResIconsFont20, ResourcesFont ));
-}
-
-/* Re-Initializer for the class 'Application::PushButtonMediumRed' */
-void ApplicationPushButtonMediumRed__ReInit( ApplicationPushButtonMediumRed _this )
-{
-  /* At first re-initialize the super class ... */
-  TemplatesPushButton__ReInit( &_this->_.Super );
-
-  /* ... then re-construct all embedded objects */
-  CoreTimer__ReInit( &_this->FlashTimer );
-  CoreKeyPressHandler__ReInit( &_this->KeyHandler );
-  ViewsImage__ReInit( &_this->Background );
-  CoreSimpleTouchHandler__ReInit( &_this->TouchHandler );
-  ViewsText__ReInit( &_this->Text );
-}
-
-/* Finalizer method for the class 'Application::PushButtonMediumRed' */
-void ApplicationPushButtonMediumRed__Done( ApplicationPushButtonMediumRed _this )
-{
-  /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( TemplatesPushButton );
-
-  /* Finalize all embedded objects */
-  CoreTimer__Done( &_this->FlashTimer );
-  CoreKeyPressHandler__Done( &_this->KeyHandler );
-  ViewsImage__Done( &_this->Background );
-  CoreSimpleTouchHandler__Done( &_this->TouchHandler );
-  ViewsText__Done( &_this->Text );
-
-  /* Don't forget to deinitialize the super class ... */
-  TemplatesPushButton__Done( &_this->_.Super );
-}
-
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationPushButtonMediumRed_UpdateViewState( ApplicationPushButtonMediumRed _this, 
-  XSet aState )
-{
-  XBool isEnabled;
-  XBool isSelected;
-  XBool isPressed;
-
-  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-  isEnabled = (( aState & CoreViewStateEnabled ) == CoreViewStateEnabled );
-  isSelected = (( aState & CoreViewStateSelected ) == CoreViewStateSelected );
-  isPressed = (XBool)(( _this->TouchHandler.Down && _this->TouchHandler.Inside ) 
-  || _this->FlashTimer.Enabled );
-
-  if ( !isEnabled )
-    ViewsImage_OnSetColor( &_this->Background, ResRed );
-  else
-    if ( isPressed )
-      ViewsImage_OnSetColor( &_this->Background, ResRedLight );
-    else
-      ViewsImage_OnSetColor( &_this->Background, ResRed );
-
-  if ( &_this->Text != 0 )
-  {
-    ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ResIconsFont25, ResourcesFont ));
-    ViewsText_OnSetString( &_this->Text, _this->Label );
-    ViewsText_OnSetColor( &_this->Text, _Const0012 );
-  }
-
-  _this->enabled = isEnabled;
-  _this->selected = isSelected;
-  _this->pressed = isPressed;
-}
-
-/* This internal slot method is called when the '@FlashTimer' is expired. It ends 
-   the short flash feedback effect. */
-void ApplicationPushButtonMediumRed_onFlashTimer( ApplicationPushButtonMediumRed _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-  EwPostSignal( _this->OnActivate, ((XObject)_this ));
-}
-
-/* This internal slot method is called when the '@KeyHandler' is activated (when 
-   the user has pressed the key specified in the property 'Filter' of the key handler). */
-void ApplicationPushButtonMediumRed_onPressKey( ApplicationPushButtonMediumRed _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( _this->TouchHandler.Down )
-    return;
-
-  if ( _this->KeyHandler.Repetition )
-    return;
-
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-
-  if ( _this->FlashTimer.Enabled )
-  {
-    EwPostSignal( _this->OnActivate, ((XObject)_this ));
-    CoreTimer_OnSetEnabled( &_this->FlashTimer, 0 );
-  }
-
-  CoreTimer_OnSetEnabled( &_this->FlashTimer, 1 );
-}
-
-/* This internal slot method is called when the user drags the finger while pressing 
-   the button. This only updates the button to appear pressed or released. */
-void ApplicationPushButtonMediumRed_onEnterLeaveTouch( ApplicationPushButtonMediumRed _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-}
-
-/* This internal slot method is called when the user releases the touch screen after 
-   touching the button's area. This activates the button. */
-void ApplicationPushButtonMediumRed_onReleaseTouch( ApplicationPushButtonMediumRed _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( !_this->TouchHandler.Inside )
-    return;
-
-  if ( _this->TouchHandler.AutoDeflected )
-    return;
-
-  if ( _this->TouchHandler.HoldPeriod >= _this->FlashTimer.Begin )
-    EwPostSignal( _this->OnActivate, ((XObject)_this ));
-  else
-    CoreTimer_OnSetEnabled( &_this->FlashTimer, 1 );
-}
-
-/* This internal slot method is called when the user touches the button's area. */
-void ApplicationPushButtonMediumRed_onPressTouch( ApplicationPushButtonMediumRed _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( _this->FlashTimer.Enabled )
-  {
-    EwPostSignal( _this->OnActivate, ((XObject)_this ));
-    CoreTimer_OnSetEnabled( &_this->FlashTimer, 0 );
-  }
-}
-
-/* 'C' function for method : 'Application::PushButtonMediumRed.OnSetLabel()' */
-void ApplicationPushButtonMediumRed_OnSetLabel( ApplicationPushButtonMediumRed _this, 
-  XString value )
-{
-  if ( !EwCompString( _this->Label, value ))
-    return;
-
-  _this->Label = EwShareString( value );
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-}
-
-/* Variants derived from the class : 'Application::PushButtonMediumRed' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationPushButtonMediumRed )
-EW_END_OF_CLASS_VARIANTS( ApplicationPushButtonMediumRed )
-
-/* Virtual Method Table (VMT) for the class : 'Application::PushButtonMediumRed' */
-EW_DEFINE_CLASS( ApplicationPushButtonMediumRed, TemplatesPushButton, OnActivate, 
-                 OnActivate, FlashTimer, FlashTimer, Label, enabled, "Application::PushButtonMediumRed" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_OnSetBuffered,
-  CoreGroup_OnSetOpacity,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  ApplicationPushButtonMediumRed_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_FindSiblingView,
-  CoreGroup_RestackTop,
-  CoreGroup_Restack,
-  CoreGroup_Remove,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationPushButtonMediumRed )
-
 /* Initializer for the class 'Application::DeviceClass' */
 void ApplicationDeviceClass__Init( ApplicationDeviceClass _this, XObject aLink, XHandle aArg )
 {
@@ -6027,11 +5417,15 @@ void ApplicationDeviceClass__Init( ApplicationDeviceClass _this, XObject aLink, 
   /* Allow the Immediate Garbage Collection to evalute the members of this class. */
   _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationDeviceClass );
 
+  /* ... then construct all embedded objects */
+  ApplicationContactList__Init( &_this->Contacts, &_this->_.XObject, 0 );
+  ApplicationContactList__Init( &_this->History, &_this->_.XObject, 0 );
+  ApplicationContactList__Init( &_this->Favorites, &_this->_.XObject, 0 );
+  ApplicationContactList__Init( &_this->Search, &_this->_.XObject, 0 );
+  ApplicationContactList__Init( &_this->Ongoing, &_this->_.XObject, 0 );
+
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationDeviceClass );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  _this->CallState = ApplicationCallStateNone;
 
   /* Call the user defined constructor */
   ApplicationDeviceClass_Init( _this, aArg );
@@ -6042,6 +5436,13 @@ void ApplicationDeviceClass__ReInit( ApplicationDeviceClass _this )
 {
   /* At first re-initialize the super class ... */
   TemplatesDeviceClass__ReInit( &_this->_.Super );
+
+  /* ... then re-construct all embedded objects */
+  ApplicationContactList__ReInit( &_this->Contacts );
+  ApplicationContactList__ReInit( &_this->History );
+  ApplicationContactList__ReInit( &_this->Favorites );
+  ApplicationContactList__ReInit( &_this->Search );
+  ApplicationContactList__ReInit( &_this->Ongoing );
 }
 
 /* Finalizer method for the class 'Application::DeviceClass' */
@@ -6052,6 +5453,13 @@ void ApplicationDeviceClass__Done( ApplicationDeviceClass _this )
 
   /* Finalize this class */
   _this->_.Super._.VMT = EW_CLASS( TemplatesDeviceClass );
+
+  /* Finalize all embedded objects */
+  ApplicationContactList__Done( &_this->Contacts );
+  ApplicationContactList__Done( &_this->History );
+  ApplicationContactList__Done( &_this->Favorites );
+  ApplicationContactList__Done( &_this->Search );
+  ApplicationContactList__Done( &_this->Ongoing );
 
   /* Don't forget to deinitialize the super class ... */
   TemplatesDeviceClass__Done( &_this->_.Super );
@@ -6243,116 +5651,123 @@ __declspec( naked ) void ApplicationDeviceClass__UpdateSpeaker( void* _this, XBo
   __asm jmp ApplicationDeviceClass_UpdateSpeaker
 }
 
-/* 'C' function for method : 'Application::DeviceClass.OnGetCallState()' */
-XEnum ApplicationDeviceClass_OnGetCallState( ApplicationDeviceClass _this )
+/* 'C' function for method : 'Application::DeviceClass.OutgoingCallContact()' */
+void ApplicationDeviceClass_OutgoingCallContact( ApplicationDeviceClass _this, ApplicationContact 
+  aContact )
 {
-  return _this->CallState;
+  ApplicationHistoryContact historyContact = EwNewObject( ApplicationHistoryContact, 
+    0 );
+
+  ApplicationContact_CopyDataTo( aContact, ((ApplicationContact)historyContact ));
+  ApplicationHistoryContact_OnSetTimeOfCall( historyContact, CoreTime_OnGetCurrentTime( 
+  EwNewObject( CoreTime, 0 )));
+  ApplicationHistoryContact_OnSetCallState( historyContact, ApplicationCallStateDialing );
+  ApplicationHistoryContact_OnSetCallDirection( historyContact, ApplicationCallDirectionOutgoing );
+  ApplicationContactList_Add( &_this->Ongoing, aContact );
 }
 
-/* 'C' function for method : 'Application::DeviceClass.OnSetCallState()' */
-void ApplicationDeviceClass_OnSetCallState( ApplicationDeviceClass _this, XEnum 
-  value )
+/* 'C' function for method : 'Application::DeviceClass.UpdateIncomingCall()' */
+void ApplicationDeviceClass_UpdateIncomingCall( ApplicationDeviceClass _this, XString 
+  aPhoneNumber )
 {
-  if ( _this->CallState == value )
-    return;
+  ApplicationContact contact = ApplicationContactList_FindByPhoneNumber( &_this->Contacts, 
+    aPhoneNumber );
+  ApplicationHistoryContact historyContact = EwNewObject( ApplicationHistoryContact, 
+    0 );
 
-  _this->CallState = value;
+  if ( contact == 0 )
   {
-    /*
-       TO DO:
-
-       You can call a function of your own device API or you simply
-       modify a variable existing in your middleware to reflect the
-       new value:
-
-       YourDevice_SetSomeValue( value );
-
-       or
-
-       YourDevice_SomeVariable = value;
-    */
+    ApplicationContact_OnSetLastName((ApplicationContact)historyContact, aPhoneNumber );
+    ApplicationContact_OnSetPhoneNumber((ApplicationContact)historyContact, aPhoneNumber );
   }
-  EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetCallState, 
-    ApplicationDeviceClass_OnSetCallState ), 0 );
+  else
+    ApplicationContact_CopyDataTo( contact, ((ApplicationContact)historyContact ));
+
+  ApplicationHistoryContact_OnSetTimeOfCall( historyContact, CoreTime_OnGetCurrentTime( 
+  EwNewObject( CoreTime, 0 )));
+  ApplicationHistoryContact_OnSetCallState( historyContact, ApplicationCallStateDialing );
+  ApplicationHistoryContact_OnSetCallDirection( historyContact, ApplicationCallDirectionIncoming );
+  ApplicationContactList_Add( &_this->Ongoing, ((ApplicationContact)historyContact ));
 }
 
-/* This method is intended to be called by the device to notify the GUI application 
-   about an alternation of its setting or state value. */
-void ApplicationDeviceClass_UpdateCallState( ApplicationDeviceClass _this, XInt32 
-  aNewValue )
+/* 'C' function for method : 'Application::DeviceClass.OutgoingCallNumber()' */
+void ApplicationDeviceClass_OutgoingCallNumber( ApplicationDeviceClass _this, XString 
+  aPhoneNumber )
 {
-  if ( aNewValue != _this->CallState )
+  ApplicationHistoryContact historyContact = EwNewObject( ApplicationHistoryContact, 
+    0 );
+
+  ApplicationContact_OnSetLastName((ApplicationContact)historyContact, aPhoneNumber );
+  ApplicationContact_OnSetPhoneNumber((ApplicationContact)historyContact, aPhoneNumber );
+  ApplicationHistoryContact_OnSetTimeOfCall( historyContact, CoreTime_OnGetCurrentTime( 
+  EwNewObject( CoreTime, 0 )));
+  ApplicationHistoryContact_OnSetCallState( historyContact, ApplicationCallStateDialing );
+  ApplicationHistoryContact_OnSetCallDirection( historyContact, ApplicationCallDirectionOutgoing );
+  ApplicationContactList_Add( &_this->Ongoing, ((ApplicationContact)historyContact ));
+}
+
+/* 'C' function for method : 'Application::DeviceClass.GetNewID()' */
+XInt32 ApplicationDeviceClass_GetNewID( ApplicationDeviceClass _this )
+{
+  _this->LastID += 1;
+  return _this->LastID;
+}
+
+/* 'C' function for method : 'Application::DeviceClass.EndCall()' */
+void ApplicationDeviceClass_EndCall( ApplicationDeviceClass _this, ApplicationHistoryContact 
+  aContact )
+{
+  if ( aContact->CallDirection == ApplicationCallDirectionIncoming )
   {
-    _this->CallState = (XEnum)aNewValue;
-    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetCallState, 
-      ApplicationDeviceClass_OnSetCallState ), 0 );
+    if ( aContact->CallState == ApplicationCallStateRejected )
+    {
+      ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+      ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+    }
+    else
+      if ( aContact->CallState == ApplicationCallStateTimeout )
+      {
+        ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+        ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+      }
+      else
+        if ( aContact->CallState == ApplicationCallStateEndCall )
+        {
+          ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+          ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+        }
   }
+  else
+    if ( aContact->CallDirection == ApplicationCallDirectionOutgoing )
+    {
+      if ( aContact->CallState == ApplicationCallStateCancelled )
+      {
+        ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+        ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+      }
+      else
+        if ( aContact->CallState == ApplicationCallStateTimeout )
+        {
+          ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+          ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+        }
+        else
+          if ( aContact->CallState == ApplicationCallStateEndCall )
+          {
+            ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+            ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+          }
+    }
 }
 
-/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateCallState()' */
-__declspec( naked ) void ApplicationDeviceClass__UpdateCallState( void* _this, XInt32 
-  aNewValue )
+/* 'C' function for method : 'Application::DeviceClass.AnswerCall()' */
+void ApplicationDeviceClass_AnswerCall( ApplicationDeviceClass _this, ApplicationHistoryContact 
+  aContact )
 {
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( aNewValue );
 
-  __asm jmp ApplicationDeviceClass_UpdateCallState
-}
-
-/* 'C' function for method : 'Application::DeviceClass.OnGetCallingNumber()' */
-XString ApplicationDeviceClass_OnGetCallingNumber( ApplicationDeviceClass _this )
-{
-  return _this->CallingNumber;
-}
-
-/* 'C' function for method : 'Application::DeviceClass.OnSetCallingNumber()' */
-void ApplicationDeviceClass_OnSetCallingNumber( ApplicationDeviceClass _this, XString 
-  value )
-{
-  if ( !EwCompString( _this->CallingNumber, value ))
-    return;
-
-  _this->CallingNumber = EwShareString( value );
-  {
-    /*
-       TO DO:
-
-       You can call a function of your own device API or you simply
-       modify a variable existing in your middleware to reflect the
-       new value:
-
-       YourDevice_SetSomeValue( value );
-
-       or
-
-       YourDevice_SomeVariable = value;
-    */
-  }
-  EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetCallingNumber, 
-    ApplicationDeviceClass_OnSetCallingNumber ), 0 );
-}
-
-/* This method is intended to be called by the device to notify the GUI application 
-   about an alternation of its setting or state value. */
-void ApplicationDeviceClass_UpdateCallingNumber( ApplicationDeviceClass _this, XString 
-  aNewValue )
-{
-  if ( EwCompString( aNewValue, _this->CallingNumber ) != 0 )
-  {
-    _this->CallingNumber = EwShareString( aNewValue );
-    EwNotifyRefObservers( EwNewRef( _this, ApplicationDeviceClass_OnGetCallingNumber, 
-      ApplicationDeviceClass_OnSetCallingNumber ), 0 );
-  }
-}
-
-/* Wrapper function for the non virtual method : 'Application::DeviceClass.UpdateCallingNumber()' */
-__declspec( naked ) void ApplicationDeviceClass__UpdateCallingNumber( void* _this, 
-  XString aNewValue )
-{
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( aNewValue );
-
-  __asm jmp ApplicationDeviceClass_UpdateCallingNumber
+  ApplicationHistoryContact_OnSetCallState( aContact, ApplicationCallStateSpeaking );
 }
 
 /* Variants derived from the class : 'Application::DeviceClass' */
@@ -6360,8 +5775,8 @@ EW_DEFINE_CLASS_VARIANTS( ApplicationDeviceClass )
 EW_END_OF_CLASS_VARIANTS( ApplicationDeviceClass )
 
 /* Virtual Method Table (VMT) for the class : 'Application::DeviceClass' */
-EW_DEFINE_CLASS( ApplicationDeviceClass, TemplatesDeviceClass, CallingNumber, CallingNumber, 
-                 CallingNumber, CallingNumber, CallingNumber, CallState, "Application::DeviceClass" )
+EW_DEFINE_CLASS( ApplicationDeviceClass, TemplatesDeviceClass, Contacts, Contacts, 
+                 Contacts, Contacts, LastID, LastID, "Application::DeviceClass" )
 EW_END_OF_CLASS( ApplicationDeviceClass )
 
 /* User defined auto object: 'Application::Device' */
@@ -6398,7 +5813,7 @@ void ApplicationKeyPadButtons__Init( ApplicationKeyPadButtons _this, XObject aLi
   _this->_.VMT = EW_CLASS( ApplicationKeyPadButtons );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0099 );
+  CoreRectView__OnSetBounds( _this, _Const0095 );
   _this->ButtonColor = ResWhiteTransparent;
   _this->IconColor = ResWhite;
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
@@ -6406,22 +5821,22 @@ void ApplicationKeyPadButtons__Init( ApplicationKeyPadButtons _this, XObject aLi
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0099 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0095 );
   ViewsImage_OnSetColor( &_this->Background, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const009A );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const009B );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const009C );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const0096 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const0097 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0098 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->IconTxt, _Const0099 );
+  CoreRectView__OnSetBounds( &_this->IconTxt, _Const0095 );
   ViewsText_OnSetString( &_this->IconTxt, 0 );
   ViewsText_OnSetColor( &_this->IconTxt, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const0099 );
+  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const0095 );
   ViewsText_OnSetString( &_this->DescripTxt, 0 );
   ViewsText_OnSetColor( &_this->DescripTxt, _Const0012 );
   _this->TextColor = ResWhite;
@@ -6757,21 +6172,21 @@ void ApplicationDetailsInsideCall__Init( ApplicationDetailsInsideCall _this, XOb
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Super1.Background, _Const0000 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line2, _Const009E );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line2, _Const009F );
-  CoreRectView__OnSetBounds( &_this->Super1.NumberTxt, _Const00A0 );
-  CoreRectView__OnSetBounds( &_this->Super1.MobileTxt, _Const00A1 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line2, _Const009A );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line2, _Const009B );
+  CoreRectView__OnSetBounds( &_this->Super1.NumberTxt, _Const009C );
+  CoreRectView__OnSetBounds( &_this->Super1.MobileTxt, _Const009D );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line1, _Const0053 );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line1, _Const0054 );
-  CoreRectView__OnSetBounds( &_this->Super1.CallBtn, _Const00A2 );
+  CoreRectView__OnSetBounds( &_this->Super1.CallBtn, _Const009E );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->Super1.CallBtn, 0 );
-  CoreRectView__OnSetBounds( &_this->Super1.VideoCallBtn, _Const00A3 );
-  CoreRectView__OnSetBounds( &_this->Super1.PushButtonMediumBlue2, _Const00A4 );
-  CoreRectView__OnSetBounds( &_this->Super1.ContactName, _Const00A5 );
-  CoreRectView__OnSetBounds( &_this->Super1.UserInitialsBtn, _Const00A6 );
+  CoreRectView__OnSetBounds( &_this->Super1.VideoCallBtn, _Const009F );
+  CoreRectView__OnSetBounds( &_this->Super1.PushButtonMediumBlue2, _Const00A0 );
+  CoreRectView__OnSetBounds( &_this->Super1.ContactName, _Const00A1 );
+  CoreRectView__OnSetBounds( &_this->Super1.UserInitialsBtn, _Const00A2 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->Super1.UserInitialsBtn, 0 );
-  CoreRectView__OnSetBounds( &_this->Super1.EditBtn, _Const00A7 );
-  CoreRectView__OnSetBounds( &_this->Super1.BackBtn, _Const00A8 );
+  CoreRectView__OnSetBounds( &_this->Super1.EditBtn, _Const00A3 );
+  CoreRectView__OnSetBounds( &_this->Super1.BackBtn, _Const00A4 );
 }
 
 /* Re-Initializer for the class 'Application::DetailsInsideCall' */
@@ -6860,25 +6275,25 @@ void ApplicationTextButton__Init( ApplicationTextButton _this, XObject aLink, XH
   _this->_.VMT = EW_CLASS( ApplicationTextButton );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00A9 );
+  CoreRectView__OnSetBounds( _this, _Const00A5 );
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const003C );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00AA );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00AB );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const003D );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00A6 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00A7 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const00AC );
+  CoreRectView__OnSetBounds( &_this->Background, _Const00A8 );
   ViewsRectangle_OnSetColor( &_this->Background, _Const001C );
   CoreView_OnSetLayout((CoreView)&_this->TextTxt, CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->TextTxt, _Const00A9 );
+  CoreRectView__OnSetBounds( &_this->TextTxt, _Const00A5 );
   ViewsText_OnSetAlignment( &_this->TextTxt, ViewsTextAlignmentAlignHorzCenter | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->TextTxt, 0 );
@@ -7154,7 +6569,7 @@ void ApplicationNavBarButtons__Init( ApplicationNavBarButtons _this, XObject aLi
   _this->_.VMT = EW_CLASS( ApplicationNavBarButtons );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00AD );
+  CoreRectView__OnSetBounds( _this, _Const00A9 );
   _this->selected = 1;
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
@@ -7162,22 +6577,22 @@ void ApplicationNavBarButtons__Init( ApplicationNavBarButtons _this, XObject aLi
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00AE );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00AF );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const009C );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00AA );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00AB );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const0098 );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const0010 );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->IconTxt, _Const00B0 );
+  CoreRectView__OnSetBounds( &_this->IconTxt, _Const00AC );
   ViewsText_OnSetString( &_this->IconTxt, 0 );
   ViewsText_OnSetColor( &_this->IconTxt, _Const0012 );
   CoreView_OnSetLayout((CoreView)&_this->DescripTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const00B1 );
+  CoreRectView__OnSetBounds( &_this->DescripTxt, _Const00AD );
   ViewsText_OnSetAlignment( &_this->DescripTxt, ViewsTextAlignmentAlignHorzCenter 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->DescripTxt, 0 );
-  _this->Descript = EwShareString( EwLoadString( &_Const0073 ));
+  _this->Descript = EwShareString( EwLoadString( &_Const0074 ));
   _this->IconColor = ResGrey;
   _this->DescrpitColor = ResGrey;
   CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
@@ -7554,94 +6969,94 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   _this->HideFunction = 1;
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Background, _Const0012 );
-  CoreRectView__OnSetBounds( &_this->callbtn, _Const00B2 );
+  CoreRectView__OnSetBounds( &_this->callbtn, _Const00AE );
   ApplicationKeyPadButtons_OnSetIcon( &_this->callbtn, EwLoadString( &ResCallTxt ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->callbtn, ResGreenDark );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->callbtn, ResGreen );
-  CoreRectView__OnSetBounds( &_this->BtnErase, _Const00B3 );
+  CoreRectView__OnSetBounds( &_this->BtnErase, _Const00AF );
   ApplicationKeyPadButtons_OnSetIcon( &_this->BtnErase, EwLoadString( &ResBackspaceTxt ));
   ApplicationKeyPadButtons_OnSetText( &_this->BtnErase, 0 );
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->BtnErase, ResTransparent );
   ApplicationKeyPadButtons_OnSetIconColor( &_this->BtnErase, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->BtnErase, ResTransparent );
   ApplicationKeyPadButtons_OnSetIconColorPressed( &_this->BtnErase, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn1, _Const00B4 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn1, EwLoadString( &_Const00B5 ));
+  CoreRectView__OnSetBounds( &_this->btn1, _Const00B0 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn1, EwLoadString( &_Const00B1 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn1, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn1, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn1, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn1, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn3, _Const00B6 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn3, EwLoadString( &_Const00B7 ));
+  CoreRectView__OnSetBounds( &_this->btn3, _Const00B2 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn3, EwLoadString( &_Const00B3 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn3, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn3, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn3, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn3, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn2, _Const00B8 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn2, EwLoadString( &_Const00B9 ));
+  CoreRectView__OnSetBounds( &_this->btn2, _Const00B4 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn2, EwLoadString( &_Const00B5 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn2, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn2, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn2, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn2, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn4, _Const00BA );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn4, EwLoadString( &_Const00BB ));
+  CoreRectView__OnSetBounds( &_this->btn4, _Const00B6 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn4, EwLoadString( &_Const00B7 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn4, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn4, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn4, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn4, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn6, _Const00BC );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn6, EwLoadString( &_Const00BD ));
+  CoreRectView__OnSetBounds( &_this->btn6, _Const00B8 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn6, EwLoadString( &_Const00B9 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn6, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn6, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn6, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn6, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn5, _Const00BE );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn5, EwLoadString( &_Const00BF ));
+  CoreRectView__OnSetBounds( &_this->btn5, _Const00BA );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn5, EwLoadString( &_Const00BB ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn5, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn5, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn5, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn5, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn7, _Const00C0 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn7, EwLoadString( &_Const00C1 ));
+  CoreRectView__OnSetBounds( &_this->btn7, _Const00BC );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn7, EwLoadString( &_Const00BD ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn7, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn7, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn7, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn7, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn9, _Const00C2 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn9, EwLoadString( &_Const00C3 ));
+  CoreRectView__OnSetBounds( &_this->btn9, _Const00BE );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn9, EwLoadString( &_Const00BF ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn9, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn9, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn9, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn9, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn8, _Const00C4 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn8, EwLoadString( &_Const00C5 ));
+  CoreRectView__OnSetBounds( &_this->btn8, _Const00C0 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn8, EwLoadString( &_Const00C1 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn8, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn8, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn8, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn8, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btnstar, _Const00C6 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btnstar, EwLoadString( &_Const00C7 ));
+  CoreRectView__OnSetBounds( &_this->btnstar, _Const00C2 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btnstar, EwLoadString( &_Const00C3 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btnstar, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btnstar, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btnstar, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btnstar, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btnDiez, _Const00C8 );
-  ApplicationKeyPadButtons_OnSetText( &_this->btnDiez, EwLoadString( &_Const00C9 ));
+  CoreRectView__OnSetBounds( &_this->btnDiez, _Const00C4 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btnDiez, EwLoadString( &_Const00C5 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btnDiez, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btnDiez, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btnDiez, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btnDiez, ResGrey );
-  CoreRectView__OnSetBounds( &_this->btn0, _Const00CA );
-  ApplicationKeyPadButtons_OnSetText( &_this->btn0, EwLoadString( &_Const00CB ));
+  CoreRectView__OnSetBounds( &_this->btn0, _Const00C6 );
+  ApplicationKeyPadButtons_OnSetText( &_this->btn0, EwLoadString( &_Const00C7 ));
   ApplicationKeyPadButtons_OnSetButtonColor( &_this->btn0, ResGreyLight );
   ApplicationKeyPadButtons_OnSetTextColor( &_this->btn0, ResBlack );
   ApplicationKeyPadButtons_OnSetButtonColorPressed( &_this->btn0, ResPressColor );
   ApplicationKeyPadButtons_OnSetTextColorPressed( &_this->btn0, ResGrey );
-  CoreRectView__OnSetBounds( &_this->InputEtxt, _Const00CC );
+  CoreRectView__OnSetBounds( &_this->InputEtxt, _Const00C8 );
   ApplicationInputEtxt_OnSetString( &_this->InputEtxt, 0 );
   ApplicationInputEtxt_OnSetColor( &_this->InputEtxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->HideBtn, _Const00CD );
-  ApplicationTextButton_OnSetText( &_this->HideBtn, EwLoadString( &_Const00CE ));
+  CoreRectView__OnSetBounds( &_this->HideBtn, _Const00C9 );
+  ApplicationTextButton_OnSetText( &_this->HideBtn, EwLoadString( &_Const00CA ));
   ApplicationTextButton_OnSetTextColor( &_this->HideBtn, ResBlack );
   ApplicationTextButton_OnSetTextColorPress( &_this->HideBtn, ResGrey );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
@@ -7830,12 +7245,8 @@ void ApplicationKeypadPage_onCallPress( ApplicationKeypadPage _this, XObject sen
 
   if ( EwCompString( ApplicationInputEtxt_OnGetString( &_this->InputEtxt ), 0 ) 
       != 0 )
-  {
-    ApplicationDeviceClass_UpdateCallingNumber( EwGetAutoObject( &ApplicationDevice, 
+    ApplicationDeviceClass_OutgoingCallNumber( EwGetAutoObject( &ApplicationDevice, 
     ApplicationDeviceClass ), ApplicationInputEtxt_OnGetString( &_this->InputEtxt ));
-    ApplicationDeviceClass_OnSetCallState( EwGetAutoObject( &ApplicationDevice, 
-    ApplicationDeviceClass ), ApplicationCallStateRingOutgoing );
-  }
 }
 
 /* Variants derived from the class : 'Application::KeypadPage' */
@@ -7891,29 +7302,29 @@ void ApplicationContactsApp__Init( ApplicationContactsApp _this, XObject aLink, 
   _this->_.VMT = EW_CLASS( ApplicationContactsApp );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0083 );
+  CoreRectView__OnSetBounds( _this, _Const0084 );
   CoreRectView__OnSetBounds( &_this->Outline, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->Rectangle, _Const00CF );
-  CoreRectView__OnSetBounds( &_this->NavBarButtons, _Const00D0 );
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const00CB );
+  CoreRectView__OnSetBounds( &_this->NavBarButtons, _Const00CC );
   ApplicationNavBarButtons_OnSetIcon( &_this->NavBarButtons, EwLoadString( &ResHeartTxt ));
-  ApplicationNavBarButtons_OnSetDescript( &_this->NavBarButtons, EwLoadString( &_Const00D1 ));
-  CoreRectView__OnSetBounds( &_this->NavBarButtons1, _Const00D2 );
+  ApplicationNavBarButtons_OnSetDescript( &_this->NavBarButtons, EwLoadString( &_Const00CD ));
+  CoreRectView__OnSetBounds( &_this->NavBarButtons1, _Const00CE );
   ApplicationNavBarButtons_OnSetIcon( &_this->NavBarButtons1, EwLoadString( &ResCallTxt ));
   ApplicationNavBarButtons_OnSetDescript( &_this->NavBarButtons1, EwLoadString( 
-  &_Const00D3 ));
+  &_Const00CF ));
   ApplicationNavBarButtons_OnSetOutletSelector( &_this->NavBarButtons1, 1 );
-  CoreRectView__OnSetBounds( &_this->NavBarButtons2, _Const00D4 );
+  CoreRectView__OnSetBounds( &_this->NavBarButtons2, _Const00D0 );
   ApplicationNavBarButtons_OnSetIcon( &_this->NavBarButtons2, EwLoadString( &ResUserIconTxt ));
   ApplicationNavBarButtons_OnSetDescript( &_this->NavBarButtons2, EwLoadString( 
   &_Const0008 ));
   ApplicationNavBarButtons_OnSetOutletSelector( &_this->NavBarButtons2, 2 );
-  CoreRectView__OnSetBounds( &_this->NavBarButtons3, _Const00D5 );
+  CoreRectView__OnSetBounds( &_this->NavBarButtons3, _Const00D1 );
   ApplicationNavBarButtons_OnSetIcon( &_this->NavBarButtons3, EwLoadString( &ResKeypadTxt ));
   ApplicationNavBarButtons_OnSetDescript( &_this->NavBarButtons3, EwLoadString( 
-  &_Const00D6 ));
+  &_Const00D2 ));
   ApplicationNavBarButtons_OnSetOutletSelector( &_this->NavBarButtons3, 3 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00D7 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00D8 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00D3 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00D4 );
   ViewsLine_OnSetColor( &_this->Line, ResGrey );
   _this->SelectedPage = -1;
   CoreGroup__Add( _this, ((CoreView)&_this->Outline ), 0 );
@@ -7979,10 +7390,6 @@ void ApplicationContactsApp_Init( ApplicationContactsApp _this, XHandle aArg )
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( aArg );
 
-  EwAttachRefObserver( EwNewSlot( _this, ApplicationContactsApp_onCallState ), EwNewRef( 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetCallState, 
-    ApplicationDeviceClass_OnSetCallState ), 0 );
-  EwPostSignal( EwNewSlot( _this, ApplicationContactsApp_onCallState ), ((XObject)_this ));
   ApplicationContactsApp_OnSetSelectedPage( _this, 2 );
 }
 
@@ -8008,11 +7415,6 @@ void ApplicationContactsApp_OnSetSelectedPage( ApplicationContactsApp _this, XIn
     break;
 
     case 1 :
-    {
-      CoreGroup recent = ((CoreGroup)EwNewObject( ApplicationRecentPage, 0 ));
-      CoreGroup_SwitchToDialog( &_this->Outline, recent, 0, 0, 0, 0, 0, 0, 0, EwNullSlot, 
-      EwNullSlot, 0 );
-    }
     break;
 
     case 2 :
@@ -8032,7 +7434,7 @@ void ApplicationContactsApp_OnSetSelectedPage( ApplicationContactsApp _this, XIn
     break;
 
     default : 
-      EwTrace( "%s%i", EwLoadString( &_Const00D9 ), _this->SelectedPage );
+      EwTrace( "%s%i", EwLoadString( &_Const00D5 ), _this->SelectedPage );
   }
 }
 
@@ -8040,18 +7442,6 @@ void ApplicationContactsApp_OnSetSelectedPage( ApplicationContactsApp _this, XIn
 XInt32 ApplicationContactsApp_OnGetSelectedPage( ApplicationContactsApp _this )
 {
   return _this->SelectedPage;
-}
-
-/* 'C' function for method : 'Application::ContactsApp.onCallState()' */
-void ApplicationContactsApp_onCallState( ApplicationContactsApp _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-      != ApplicationCallStateNone )
-    CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this ), 0, 0, 0, EwNullSlot, 
-    EwNullSlot, 0 );
 }
 
 /* Variants derived from the class : 'Application::ContactsApp' */
@@ -8094,13 +7484,17 @@ void ApplicationApplication__Init( ApplicationApplication _this, XObject aLink, 
   /* Allow the Immediate Garbage Collection to evalute the members of this class. */
   _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationApplication );
 
+  /* ... then construct all embedded objects */
+  ApplicationContactsApp__Init( &_this->ContactsApp, &_this->_.XObject, 0 );
+
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationApplication );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0083 );
+  CoreRectView__OnSetBounds( _this, _Const0084 );
+  CoreRectView__OnSetBounds( &_this->ContactsApp, _Const0084 );
+  CoreGroup__Add( _this, ((CoreView)&_this->ContactsApp ), 0 );
   _this->deviceInstance = EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass );
-  _this->myContactInstance = EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager );
 
   /* Call the user defined constructor */
   ApplicationApplication_Init( _this, aArg );
@@ -8114,6 +7508,9 @@ void ApplicationApplication__ReInit( ApplicationApplication _this )
 {
   /* At first re-initialize the super class ... */
   CoreRoot__ReInit( &_this->_.Super );
+
+  /* ... then re-construct all embedded objects */
+  ApplicationContactsApp__ReInit( &_this->ContactsApp );
 
   /* Reinitialize the variant */
   if ( _this->_vthis )
@@ -8129,6 +7526,9 @@ void ApplicationApplication__Done( ApplicationApplication _this )
   /* Finalize this class */
   _this->_.Super._.VMT = EW_CLASS( CoreRoot );
 
+  /* Finalize all embedded objects */
+  ApplicationContactsApp__Done( &_this->ContactsApp );
+
   /* Don't forget to deinitialize the super class ... */
   CoreRoot__Done( &_this->_.Super );
 }
@@ -8142,48 +7542,48 @@ void ApplicationApplication_Init( ApplicationApplication _this, XHandle aArg )
   EW_UNUSED_ARG( aArg );
 
   EwAttachRefObserver( EwNewSlot( _this, ApplicationApplication_onCallState ), EwNewRef( 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetCallState, 
-    ApplicationDeviceClass_OnSetCallState ), 0 );
+    &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Ongoing, ApplicationContactList_OnGetNoOfItems, 
+    ApplicationContactList_OnSetNoOfItems ), 0 );
   EwPostSignal( EwNewSlot( _this, ApplicationApplication_onCallState ), ((XObject)_this ));
 }
 
 /* 'C' function for method : 'Application::Application.onCallState()' */
 void ApplicationApplication_onCallState( ApplicationApplication _this, XObject sender )
 {
-  ApplicationCallPage outgoingCall;
-  ApplicationInComingCall incomingCall;
-  ApplicationContactsApp app;
+  ApplicationHistoryContact historyContact;
 
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  outgoingCall = EwNewObject( ApplicationCallPage, 0 );
-  incomingCall = EwNewObject( ApplicationInComingCall, 0 );
-  app = EwNewObject( ApplicationContactsApp, 0 );
-  EwTrace( "%e%s", EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState, 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallingNumber );
+  historyContact = EwCastObject( ApplicationContactList_GetContact( &EwGetAutoObject( 
+  &ApplicationDevice, ApplicationDeviceClass )->Ongoing, 0 ), ApplicationHistoryContact );
 
-  if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-      == ApplicationCallStateNone )
-    CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)app ), ((EffectsTransition)EwGetAutoObject( 
-    &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, 0, 0, 0, EwNullSlot, 
-    EwNullSlot, 0 );
-  else
-    if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-        == ApplicationCallStateRingOutgoing )
-      CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)outgoingCall ), ((EffectsTransition)EwGetAutoObject( 
-      &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, 0, 0, 0, EwNullSlot, 
-      EwNullSlot, 0 );
+  if ( _this->ongoingPage != 0 )
+  {
+    CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
+    0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+    _this->ongoingPage = 0;
+  }
+
+  if ( historyContact != 0 )
+  {
+    if ( historyContact->CallDirection == ApplicationCallDirectionIncoming )
+    {
+      _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationIncomingCall, 
+      0 ));
+      ApplicationCallPageBase_OnSetContact( _this->ongoingPage, historyContact );
+      CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
+      0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+    }
     else
-      if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-          == ApplicationCallStateRingIncoming )
-        CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)incomingCall ), ((EffectsTransition)EwGetAutoObject( 
-        &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, 0, 0, 0, EwNullSlot, 
-        EwNullSlot, 0 );
-      else
-        CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)outgoingCall ), ((EffectsTransition)EwGetAutoObject( 
-        &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, 0, 0, 0, EwNullSlot, 
-        EwNullSlot, 0 );
+    {
+      _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationCallPage, 
+      0 ));
+      ApplicationCallPageBase_OnSetContact( _this->ongoingPage, historyContact );
+      CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
+      0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+    }
+  }
 }
 
 /* Variants derived from the class : 'Application::Application' */
@@ -8192,8 +7592,8 @@ EW_DEFINE_CLASS_VARIANTS( ApplicationApplication )
 EW_END_OF_CLASS_VARIANTS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */
-EW_DEFINE_CLASS( ApplicationApplication, CoreRoot, deviceInstance, _.VMT, _.VMT, 
-                 _.VMT, _.VMT, _.VMT, "Application::Application" )
+EW_DEFINE_CLASS( ApplicationApplication, CoreRoot, deviceInstance, ContactsApp, 
+                 ContactsApp, ContactsApp, _.VMT, _.VMT, "Application::Application" )
   CoreRectView_initLayoutContext,
   CoreRoot_GetRoot,
   CoreRoot_Draw,
@@ -8235,12 +7635,12 @@ void ApplicationKeypadInsideCall__Init( ApplicationKeypadInsideCall _this, XObje
 
   /* ... and initialize objects, variables, properties, etc. */
   ViewsRectangle_OnSetVisible( &_this->Super1.Background, 0 );
-  CoreRectView__OnSetBounds( &_this->BackgroundSmall, _Const00DA );
-  ViewsRectangle_OnSetColorBL( &_this->BackgroundSmall, ResGrey );
-  ViewsRectangle_OnSetColorBR( &_this->BackgroundSmall, ResGrey );
-  ViewsRectangle_OnSetColorTR( &_this->BackgroundSmall, ResGreyLight );
-  ViewsRectangle_OnSetColorTL( &_this->BackgroundSmall, ResGrey );
-  ViewsRectangle_OnSetColor( &_this->BackgroundSmall, ResBlack );
+  CoreRectView__OnSetBounds( &_this->BackgroundSmall, _Const00D6 );
+  ViewsRectangle_OnSetColorBL( &_this->BackgroundSmall, _Const00D7 );
+  ViewsRectangle_OnSetColorBR( &_this->BackgroundSmall, _Const00D8 );
+  ViewsRectangle_OnSetColorTR( &_this->BackgroundSmall, _Const00D9 );
+  ViewsRectangle_OnSetColorTL( &_this->BackgroundSmall, _Const00D9 );
+  ViewsRectangle_OnSetColor( &_this->BackgroundSmall, _Const00DA );
   CoreGroup_OnSetVisible((CoreGroup)&_this->Super1.callbtn, 0 );
   ApplicationKeyPadButtons_OnSetText( &_this->Super1.BtnErase, 0 );
   ApplicationKeyPadButtons_OnSetIconColor( &_this->Super1.BtnErase, ResWhite );
@@ -8533,9 +7933,7 @@ void ApplicationApplicationSimulation_onIncomingCall( ApplicationApplication _th
   EW_UNUSED_ARG( _this );
   EW_UNUSED_ARG( sender );
 
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  1 );
-  ApplicationDeviceClass_UpdateCallingNumber( EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass_UpdateIncomingCall( EwGetAutoObject( &ApplicationDevice, 
   ApplicationDeviceClass ), EwLoadString( &_Const00E3 ));
 }
 
@@ -8549,265 +7947,87 @@ EW_DEFINE_VCLASS( ApplicationApplicationSimulation, XObject, ApplicationApplicat
                   "Application::ApplicationSimulation" )
 EW_END_OF_VCLASS( ApplicationApplicationSimulation )
 
-/* Initializer for the class 'Application::InComingCall' */
-void ApplicationInComingCall__Init( ApplicationInComingCall _this, XObject aLink, XHandle aArg )
+/* Initializer for the class 'Application::IncomingCall' */
+void ApplicationIncomingCall__Init( ApplicationIncomingCall _this, XObject aLink, XHandle aArg )
 {
   /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+  ApplicationCallPageBase__Init( &_this->_.Super, aLink, aArg );
 
   /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationInComingCall );
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationIncomingCall );
 
   /* ... then construct all embedded objects */
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
-  ApplicationPushButtonMediumTrans__Init( &_this->PushButtonMediumTrans, &_this->_.XObject, 0 );
-  ApplicationPushButtonMediumTrans__Init( &_this->PushButtonMediumTrans1, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->TimeTxt, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->ContactNameTxt, &_this->_.XObject, 0 );
-  ApplicationPushButtonBig__Init( &_this->UserInitials, &_this->_.XObject, 0 );
-  CoreTime__Init( &_this->Time, &_this->_.XObject, 0 );
+  ApplicationPushButtonMediumTrans__Init( &_this->AcceptButton, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationInComingCall );
+  _this->_.VMT = EW_CLASS( ApplicationIncomingCall );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0083 );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0083 );
-  ViewsRectangle_OnSetColorBL( &_this->Background, _Const00E4 );
-  ViewsRectangle_OnSetColorBR( &_this->Background, _Const00E5 );
-  ViewsRectangle_OnSetColorTR( &_this->Background, _Const00E6 );
-  ViewsRectangle_OnSetColorTL( &_this->Background, _Const00E6 );
-  ViewsRectangle_OnSetColor( &_this->Background, _Const00E7 );
-  CoreRectView__OnSetBounds( &_this->PushButtonMediumTrans, _Const00E8 );
-  ApplicationPushButtonMediumTrans_OnSetIcon( &_this->PushButtonMediumTrans, EwLoadString( 
+  CoreRectView__OnSetBounds( _this, _Const0084 );
+  CoreRectView__OnSetBounds( &_this->AcceptButton, _Const00E4 );
+  ApplicationPushButtonMediumTrans_OnSetIcon( &_this->AcceptButton, EwLoadString( 
   &ResCallTxt ));
-  ApplicationPushButtonMediumTrans_OnSetDescript( &_this->PushButtonMediumTrans, 
-  EwLoadString( &_Const00E9 ));
-  ApplicationPushButtonMediumTrans_OnSetButtonColor( &_this->PushButtonMediumTrans, 
-  ResGreenDark );
-  CoreRectView__OnSetBounds( &_this->PushButtonMediumTrans1, _Const00EA );
-  ApplicationPushButtonMediumTrans_OnSetIcon( &_this->PushButtonMediumTrans1, EwLoadString( 
-  &ResEndCallTxt ));
-  ApplicationPushButtonMediumTrans_OnSetDescript( &_this->PushButtonMediumTrans1, 
-  EwLoadString( &_Const00EB ));
-  ApplicationPushButtonMediumTrans_OnSetButtonColor( &_this->PushButtonMediumTrans1, 
-  ResRed );
-  CoreView_OnSetLayout((CoreView)&_this->TimeTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00EC );
-  ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzCenter | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const0092 ));
-  ViewsText_OnSetColor( &_this->TimeTxt, ResWhite );
-  CoreView_OnSetLayout((CoreView)&_this->ContactNameTxt, CoreLayoutAlignToLeft | 
-  CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const00ED );
-  ViewsText_OnSetEnableBidiText( &_this->ContactNameTxt, 0 );
-  ViewsText_OnSetAutoSize( &_this->ContactNameTxt, 1 );
-  ViewsText_OnSetAlignment( &_this->ContactNameTxt, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->ContactNameTxt, EwLoadString( &_Const0029 ));
-  ViewsText_OnSetColor( &_this->ContactNameTxt, ResWhite );
-  CoreRectView__OnSetBounds( &_this->UserInitials, _Const00EE );
-  CoreGroup_OnSetEnabled((CoreGroup)&_this->UserInitials, 0 );
-  ApplicationPushButtonBig_OnSetDescript( &_this->UserInitials, 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->PushButtonMediumTrans ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->PushButtonMediumTrans1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TimeTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->ContactNameTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->UserInitials ), 0 );
-  _this->PushButtonMediumTrans.OnActivate = EwNewSlot( _this, ApplicationInComingCall_onAcceptCall );
-  _this->PushButtonMediumTrans1.OnActivate = EwNewSlot( _this, ApplicationInComingCall_onDesclineCall );
-  ViewsText_OnSetFont( &_this->TimeTxt, EwLoadResource( &ResContactFont12, ResourcesFont ));
-  ViewsText_OnSetFont( &_this->ContactNameTxt, EwLoadResource( &ResTitileFont25, 
-  ResourcesFont ));
+  ApplicationPushButtonMediumTrans_OnSetDescript( &_this->AcceptButton, EwLoadString( 
+  &_Const00E5 ));
+  ApplicationPushButtonMediumTrans_OnSetButtonColor( &_this->AcceptButton, ResGreenDark );
+  CoreGroup__Add( _this, ((CoreView)&_this->AcceptButton ), 0 );
+  _this->AcceptButton.OnActivate = EwNewSlot( _this, ApplicationIncomingCall_onAcceptCall );
 
   /* Call the user defined constructor */
-  ApplicationInComingCall_Init( _this, aArg );
+  ApplicationIncomingCall_Init( _this, aArg );
 }
 
-/* Re-Initializer for the class 'Application::InComingCall' */
-void ApplicationInComingCall__ReInit( ApplicationInComingCall _this )
+/* Re-Initializer for the class 'Application::IncomingCall' */
+void ApplicationIncomingCall__ReInit( ApplicationIncomingCall _this )
 {
   /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_.Super );
+  ApplicationCallPageBase__ReInit( &_this->_.Super );
 
   /* ... then re-construct all embedded objects */
-  ViewsRectangle__ReInit( &_this->Background );
-  ApplicationPushButtonMediumTrans__ReInit( &_this->PushButtonMediumTrans );
-  ApplicationPushButtonMediumTrans__ReInit( &_this->PushButtonMediumTrans1 );
-  ViewsText__ReInit( &_this->TimeTxt );
-  ViewsText__ReInit( &_this->ContactNameTxt );
-  ApplicationPushButtonBig__ReInit( &_this->UserInitials );
-  CoreTime__ReInit( &_this->Time );
+  ApplicationPushButtonMediumTrans__ReInit( &_this->AcceptButton );
 }
 
-/* Finalizer method for the class 'Application::InComingCall' */
-void ApplicationInComingCall__Done( ApplicationInComingCall _this )
+/* Finalizer method for the class 'Application::IncomingCall' */
+void ApplicationIncomingCall__Done( ApplicationIncomingCall _this )
 {
   /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+  _this->_.Super._.VMT = EW_CLASS( ApplicationCallPageBase );
 
   /* Finalize all embedded objects */
-  ViewsRectangle__Done( &_this->Background );
-  ApplicationPushButtonMediumTrans__Done( &_this->PushButtonMediumTrans );
-  ApplicationPushButtonMediumTrans__Done( &_this->PushButtonMediumTrans1 );
-  ViewsText__Done( &_this->TimeTxt );
-  ViewsText__Done( &_this->ContactNameTxt );
-  ApplicationPushButtonBig__Done( &_this->UserInitials );
-  CoreTime__Done( &_this->Time );
+  ApplicationPushButtonMediumTrans__Done( &_this->AcceptButton );
 
   /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_.Super );
+  ApplicationCallPageBase__Done( &_this->_.Super );
 }
 
 /* The method Init() is invoked automatically after the component has been created. 
    This method can be overridden and filled with logic containing additional initialization 
    statements. */
-void ApplicationInComingCall_Init( ApplicationInComingCall _this, XHandle aArg )
+void ApplicationIncomingCall_Init( ApplicationIncomingCall _this, XHandle aArg )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
   EW_UNUSED_ARG( aArg );
-
-  EwAttachRefObserver( EwNewSlot( _this, ApplicationInComingCall_onCallState ), 
-    EwNewRef( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), ApplicationDeviceClass_OnGetCallState, 
-    ApplicationDeviceClass_OnSetCallState ), 0 );
-  EwPostSignal( EwNewSlot( _this, ApplicationInComingCall_onCallState ), ((XObject)_this ));
-  EwPostSignal( EwNewSlot( _this, ApplicationInComingCall_updateCurrentTime ), ((XObject)_this ));
-  ApplicationInComingCall_getContact( _this );
 }
 
-/* 'C' function for method : 'Application::InComingCall.OnSetContact()' */
-void ApplicationInComingCall_OnSetContact( ApplicationInComingCall _this, ApplicationContact 
-  value )
-{
-  if ( _this->Contact == value )
-    return;
-
-  if ( _this->Contact != 0 )
-    EwDetachObjObserver( EwNewSlot( _this, ApplicationInComingCall_onContactUpdated ), 
-      (XObject)_this->Contact, 0 );
-
-  _this->Contact = value;
-
-  if ( _this->Contact != 0 )
-  {
-    EwAttachObjObserver( EwNewSlot( _this, ApplicationInComingCall_onContactUpdated ), 
-      (XObject)_this->Contact, 0 );
-    EwPostSignal( EwNewSlot( _this, ApplicationInComingCall_onContactUpdated ), 
-      ((XObject)_this ));
-  }
-}
-
-/* 'C' function for method : 'Application::InComingCall.onContactUpdated()' */
-void ApplicationInComingCall_onContactUpdated( ApplicationInComingCall _this, XObject 
+/* 'C' function for method : 'Application::IncomingCall.onAcceptCall()' */
+void ApplicationIncomingCall_onAcceptCall( ApplicationIncomingCall _this, XObject 
   sender )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  if ( _this->Contact != 0 )
-  {
-    ViewsText_OnSetString( &_this->ContactNameTxt, EwConcatString( EwConcatString( 
-    _this->Contact->LastName, EwLoadString( &_Const002D )), _this->Contact->FirstName ));
-    ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, _this->Contact->NameInitials );
-  }
-  else
-  {
-    ViewsText_OnSetString( &_this->ContactNameTxt, EwGetAutoObject( &ApplicationDevice, 
-    ApplicationDeviceClass )->CallingNumber );
-    CoreGroup_OnSetVisible((CoreGroup)&_this->UserInitials, 0 );
-  }
+  ApplicationDeviceClass_AnswerCall( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
+  _this->Super1.Contact );
 }
 
-/* 'C' function for method : 'Application::InComingCall.onDesclineCall()' */
-void ApplicationInComingCall_onDesclineCall( ApplicationInComingCall _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
+/* Variants derived from the class : 'Application::IncomingCall' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationIncomingCall )
+EW_END_OF_CLASS_VARIANTS( ApplicationIncomingCall )
 
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  0 );
-  EwPostSignal( EwNewSlot( _this, ApplicationInComingCall_onCallState ), ((XObject)_this ));
-}
-
-/* 'C' function for method : 'Application::InComingCall.onCallState()' */
-void ApplicationInComingCall_onCallState( ApplicationInComingCall _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  EwTrace( "%e%s", EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState, 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallingNumber );
-
-  if ( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallState 
-      != ApplicationCallStateRingIncoming )
-    CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this ), 0, 0, 0, EwNullSlot, 
-    EwNullSlot, 0 );
-}
-
-/* 'C' function for method : 'Application::InComingCall.onAcceptCall()' */
-void ApplicationInComingCall_onAcceptCall( ApplicationInComingCall _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  3 );
-  EwPostSignal( EwNewSlot( _this, ApplicationInComingCall_onCallState ), ((XObject)_this ));
-}
-
-/* 'C' function for method : 'Application::InComingCall.getContact()' */
-void ApplicationInComingCall_getContact( ApplicationInComingCall _this )
-{
-  ApplicationInComingCall_OnSetContact( _this, ApplicationContacts_FindByNumber( 
-  &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Contacts, 
-  EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallingNumber ));
-  EwPostSignal( EwNewSlot( _this, ApplicationInComingCall_onContactUpdated ), ((XObject)_this ));
-}
-
-/* 'C' function for method : 'Application::InComingCall.updateCurrentTime()' */
-void ApplicationInComingCall_updateCurrentTime( ApplicationInComingCall _this, XObject 
-  sender )
-{
-  CoreTime currentTime;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  currentTime = CoreTime_OnGetCurrentTime( &_this->Time );
-
-  if ( _this->Contact != 0 )
-  {
-    ApplicationContact_OnSetFirstName((ApplicationContact)_this->ContactHistory, 
-    _this->Contact->FirstName );
-    ApplicationContact_OnSetLastName((ApplicationContact)_this->ContactHistory, 
-    _this->Contact->LastName );
-    ApplicationContact_OnSetPhoneNumber((ApplicationContact)_this->ContactHistory, 
-    _this->Contact->PhoneNumber );
-  }
-  else
-    ApplicationContact_OnSetFirstName((ApplicationContact)_this->ContactHistory, 
-    EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->CallingNumber );
-
-  ApplicationContactHistory_OnSetCallType( _this->ContactHistory, EwLoadString( 
-  &_Const00EF ));
-  ApplicationContactHistory_OnSetTimeOfCall( _this->ContactHistory, EwNewStringInt( 
-  currentTime->Day, 2, 10 ));
-  ApplicationContacts_Add( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->History, 
-  0 );
-}
-
-/* Variants derived from the class : 'Application::InComingCall' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationInComingCall )
-EW_END_OF_CLASS_VARIANTS( ApplicationInComingCall )
-
-/* Virtual Method Table (VMT) for the class : 'Application::InComingCall' */
-EW_DEFINE_CLASS( ApplicationInComingCall, CoreGroup, Contact, Background, Background, 
-                 Background, _.VMT, _.VMT, "Application::InComingCall" )
+/* Virtual Method Table (VMT) for the class : 'Application::IncomingCall' */
+EW_DEFINE_CLASS( ApplicationIncomingCall, ApplicationCallPageBase, AcceptButton, 
+                 AcceptButton, AcceptButton, AcceptButton, _.VMT, _.VMT, "Application::IncomingCall" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -8830,7 +8050,7 @@ EW_DEFINE_CLASS( ApplicationInComingCall, CoreGroup, Contact, Background, Backgr
   CoreGroup_Restack,
   CoreGroup_Remove,
   CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationInComingCall )
+EW_END_OF_CLASS( ApplicationIncomingCall )
 
 /* The global autoobject Effects::SlideUpCentered represents the fade-in/out operation 
    affecting the position and the opacity of the given GUI component. When using 
@@ -8886,23 +8106,23 @@ void ApplicationFavoritesPage__Init( ApplicationFavoritesPage _this, XObject aLi
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->VerticalList, _Const00F0 );
+  CoreRectView__OnSetBounds( &_this->VerticalList, _Const00E6 );
   CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 32 );
   CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationFavContactItem ));
   CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -2 );
-  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00F0 );
+  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00E6 );
   _this->SlideTouchHandler.SlideHorz = 0;
   CoreRectView__OnSetBounds( &_this->TitleTxt1, _Const0007 );
   ViewsText_OnSetAlignment( &_this->TitleTxt1, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TitleTxt1, EwLoadString( &_Const00D1 ));
+  ViewsText_OnSetString( &_this->TitleTxt1, EwLoadString( &_Const00CD ));
   ViewsText_OnSetColor( &_this->TitleTxt1, ResBlack );
-  CoreRectView__OnSetBounds( &_this->PlusButton, _Const00F1 );
+  CoreRectView__OnSetBounds( &_this->PlusButton, _Const00E7 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->PlusButton, 1 );
   ApplicationPushButtonNoBackground_OnSetLabel( &_this->PlusButton, EwLoadString( 
   &ResPlusIconTxt ));
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const00F2 );
-  ApplicationTextButton_OnSetText( &_this->TextButton, EwLoadString( &_Const00F3 ));
+  CoreRectView__OnSetBounds( &_this->TextButton, _Const00E8 );
+  ApplicationTextButton_OnSetText( &_this->TextButton, EwLoadString( &_Const00E9 ));
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->VerticalList ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SlideTouchHandler ), 0 );
@@ -8961,8 +8181,9 @@ void ApplicationFavoritesPage_Init( ApplicationFavoritesPage _this, XHandle aArg
   EW_UNUSED_ARG( aArg );
 
   EwAttachRefObserver( EwNewSlot( _this, ApplicationFavoritesPage_onNoOfContactsChanged ), 
-    EwNewRef( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Favorites, 
-    ApplicationContacts_OnGetNoOfItems, ApplicationContacts_OnSetNoOfItems ), 0 );
+    EwNewRef( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Favorites, 
+    ApplicationContactList_OnGetNoOfItems, ApplicationContactList_OnSetNoOfItems ), 
+    0 );
   EwPostSignal( EwNewSlot( _this, ApplicationFavoritesPage_onNoOfContactsChanged ), 
     ((XObject)_this ));
 }
@@ -8976,7 +8197,9 @@ void ApplicationFavoritesPage_onAddPress( ApplicationFavoritesPage _this, XObjec
 
   _this->addFav = EwNewObject( ApplicationContactsList, 0 );
   _this->addFav->Super1.OnCancel = EwNewSlot( _this, ApplicationFavoritesPage_onClose );
-  _this->addFav->OnAddFav = EwNewSlot( _this, ApplicationFavoritesPage_onClose );
+  _this->addFav->OnAddFav = EwNewSlot( _this, ApplicationFavoritesPage_onAdd );
+  ApplicationContactsList_OnSetClonedContact( _this->addFav, EwNewObject( ApplicationContact, 
+  0 ));
   CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->addFav ), ((EffectsTransition)EwGetAutoObject( 
   &ResSlideUpCentered, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
   EwNullSlot, 0 );
@@ -8995,9 +8218,10 @@ void ApplicationFavoritesPage_OnLoadItem( ApplicationFavoritesPage _this, XObjec
   EW_UNUSED_ARG( sender );
 
   itemNo = _this->VerticalList.Item;
-  contact = ApplicationContacts_GetContact( &EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->Favorites, itemNo );
+  contact = ApplicationContactList_GetContact( &EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass )->Favorites, itemNo );
   itemView = EwCastObject( _this->VerticalList.View, ApplicationFavContactItem );
+  ApplicationFavoritesPage_OnSetSelectedContact( _this, itemView->Super1.Contact );
 
   if ( itemView == 0 )
     return;
@@ -9005,7 +8229,9 @@ void ApplicationFavoritesPage_OnLoadItem( ApplicationFavoritesPage _this, XObjec
   if ( contact != 0 )
   {
     ApplicationContactItem_OnSetContact((ApplicationContactItem)itemView, contact );
-    itemView->Super1.OnActivate = EwNewSlot( _this, ApplicationFavoritesPage_onContactActivated );
+    itemView->Super1.OnActivate = EwNewSlot( _this, ApplicationFavoritesPage_onPressedContact );
+    itemView->OnDelete = EwNewSlot( _this, ApplicationFavoritesPage_onDeleteContact );
+    itemView->OnInfo = EwNewSlot( _this, ApplicationFavoritesPage_onInfoContact );
     ApplicationFavContactItem_OnSetEditMode( itemView, _this->EditMode );
   }
 
@@ -9013,19 +8239,14 @@ void ApplicationFavoritesPage_OnLoadItem( ApplicationFavoritesPage _this, XObjec
   EwGetRectW( _this->VerticalList.Super2.Bounds ), _this->VerticalList.ItemHeight )));
 }
 
-/* 'C' function for method : 'Application::FavoritesPage.onContactActivated()' */
-void ApplicationFavoritesPage_onContactActivated( ApplicationFavoritesPage _this, 
+/* 'C' function for method : 'Application::FavoritesPage.onPressedContact()' */
+void ApplicationFavoritesPage_onPressedContact( ApplicationFavoritesPage _this, 
   XObject sender )
 {
-  ApplicationFavContactItem itemView = EwCastObject( sender, ApplicationFavContactItem );
-
-  ApplicationFavoritesPage_OnSetSelectedContact( _this, itemView->Super1.Contact );
-  itemView->OnInfo = EwNewSlot( _this, ApplicationFavoritesPage_onOpenDetailsPage );
-  itemView->OnDelete = EwNewSlot( _this, ApplicationFavoritesPage_onDeleteContacts );
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  2 );
-  ApplicationDeviceClass_UpdateCallingNumber( EwGetAutoObject( &ApplicationDevice, 
-  ApplicationDeviceClass ), _this->SelectedContact->PhoneNumber );
+  ApplicationFavoritesPage_OnSetSelectedContact( _this, EwCastObject( sender, ApplicationFavContactItem )->Super1.Contact );
+  ApplicationDeviceClass_OutgoingCallContact( EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass ), _this->SelectedContact );
+  ApplicationFavoritesPage_OnSetSelectedContact( _this, 0 );
 }
 
 /* 'C' function for method : 'Application::FavoritesPage.onClose()' */
@@ -9034,8 +8255,6 @@ void ApplicationFavoritesPage_onClose( ApplicationFavoritesPage _this, XObject s
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  CoreVerticalList_InvalidateItems( &_this->VerticalList, 0, _this->VerticalList.NoOfItems 
-  - 1 );
   CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->addFav ), ((EffectsTransition)EwGetAutoObject( 
   &ResSlideDownCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
   0 );
@@ -9048,8 +8267,8 @@ void ApplicationFavoritesPage_onNoOfContactsChanged( ApplicationFavoritesPage _t
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->Favorites.NoOfItems );
+  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass )->Favorites.NoOfItems );
 }
 
 /* 'C' function for method : 'Application::FavoritesPage.OnSetSelectedContact()' */
@@ -9064,6 +8283,52 @@ void ApplicationFavoritesPage_OnSetSelectedContact( ApplicationFavoritesPage _th
     ApplicationFavoritesPage_OnSetSelectedContact ), 0 );
 }
 
+/* 'C' function for method : 'Application::FavoritesPage.onInfoContact()' */
+void ApplicationFavoritesPage_onInfoContact( ApplicationFavoritesPage _this, XObject 
+  sender )
+{
+  _this->detailsPage = EwNewObject( ApplicationContactDetailsPage, 0 );
+  ApplicationContactDetailsPage_OnSetContact( _this->detailsPage, EwCastObject( 
+  sender, ApplicationFavContactItem )->Super1.Contact );
+  _this->detailsPage->OnBack = EwNewSlot( _this, ApplicationFavoritesPage_onCloseDetailsPage );
+  CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->detailsPage ), ((EffectsTransition)EwGetAutoObject( 
+  &ResSlideLeftCentered, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
+  EwNullSlot, 0 );
+}
+
+/* 'C' function for method : 'Application::FavoritesPage.onDeleteContact()' */
+void ApplicationFavoritesPage_onDeleteContact( ApplicationFavoritesPage _this, XObject 
+  sender )
+{
+  ApplicationContact contact;
+
+  ApplicationFavoritesPage_OnSetSelectedContact( _this, EwCastObject( sender, ApplicationFavContactItem )->Super1.Contact );
+  contact = ApplicationContactList_FindByID( &EwGetAutoObject( &ApplicationDevice, 
+  ApplicationDeviceClass )->Contacts, _this->SelectedContact );
+
+  if ( contact != 0 )
+    ApplicationContact_OnSetFavorite( contact, 0 );
+
+  ApplicationContactList_Remove( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Favorites, 
+  _this->SelectedContact );
+  CoreVerticalList_InvalidateItems( &_this->VerticalList, 0, _this->VerticalList.NoOfItems 
+  - 1 );
+  ApplicationFavoritesPage_OnSetSelectedContact( _this, 0 );
+}
+
+/* 'C' function for method : 'Application::FavoritesPage.onCloseDetailsPage()' */
+void ApplicationFavoritesPage_onCloseDetailsPage( ApplicationFavoritesPage _this, 
+  XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->detailsPage ), ((EffectsTransition)EwGetAutoObject( 
+  &ResSlideRightCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
+  0 );
+  ApplicationFavoritesPage_OnSetSelectedContact( _this, 0 );
+}
+
 /* 'C' function for method : 'Application::FavoritesPage.onEdit()' */
 void ApplicationFavoritesPage_onEdit( ApplicationFavoritesPage _this, XObject sender )
 {
@@ -9075,43 +8340,20 @@ void ApplicationFavoritesPage_onEdit( ApplicationFavoritesPage _this, XObject se
   - 1 );
 }
 
-/* 'C' function for method : 'Application::FavoritesPage.onOpenDetailsPage()' */
-void ApplicationFavoritesPage_onOpenDetailsPage( ApplicationFavoritesPage _this, 
-  XObject sender )
+/* 'C' function for method : 'Application::FavoritesPage.onAdd()' */
+void ApplicationFavoritesPage_onAdd( ApplicationFavoritesPage _this, XObject sender )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  _this->detailsPage = EwNewObject( ApplicationContactDetailsPage, 0 );
-  _this->detailsPage->OnBack = EwNewSlot( _this, ApplicationFavoritesPage_onCloseWindow );
-  CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->detailsPage ), ((EffectsTransition)EwGetAutoObject( 
-  &ResSlideLeftCentered, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
-  EwNullSlot, 0 );
-}
-
-/* 'C' function for method : 'Application::FavoritesPage.onDeleteContacts()' */
-void ApplicationFavoritesPage_onDeleteContacts( ApplicationFavoritesPage _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ApplicationContacts_Remove( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Favorites, 
-  _this->SelectedContact );
+  ApplicationContactList_Add( &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Favorites, 
+  _this->addFav->ClonedContact );
   CoreVerticalList_InvalidateItems( &_this->VerticalList, 0, _this->VerticalList.NoOfItems 
   - 1 );
-}
-
-/* 'C' function for method : 'Application::FavoritesPage.onCloseWindow()' */
-void ApplicationFavoritesPage_onCloseWindow( ApplicationFavoritesPage _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->detailsPage ), ((EffectsTransition)EwGetAutoObject( 
-  &ResSlideRightCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->addFav ), ((EffectsTransition)EwGetAutoObject( 
+  &ResSlideDownCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
   0 );
+  _this->addFav = 0;
 }
 
 /* Default onget method for the property 'SelectedContact' */
@@ -9151,623 +8393,6 @@ EW_DEFINE_CLASS( ApplicationFavoritesPage, CoreGroup, addFav, Background, Backgr
   CoreGroup_Add,
 EW_END_OF_CLASS( ApplicationFavoritesPage )
 
-/* Initializer for the class 'Application::RecentPage' */
-void ApplicationRecentPage__Init( ApplicationRecentPage _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_.Super, aLink, aArg );
-
-  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationRecentPage );
-
-  /* ... then construct all embedded objects */
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->TitleTxt1, &_this->_.XObject, 0 );
-  ApplicationTextButton__Init( &_this->TextButton, &_this->_.XObject, 0 );
-  CoreVerticalList__Init( &_this->VerticalList, &_this->_.XObject, 0 );
-  CoreSlideTouchHandler__Init( &_this->SlideTouchHandler, &_this->_.XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationRecentPage );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0000 );
-  CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
-  | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->TitleTxt1, _Const0007 );
-  ViewsText_OnSetAlignment( &_this->TitleTxt1, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TitleTxt1, EwLoadString( &_Const00D3 ));
-  ViewsText_OnSetColor( &_this->TitleTxt1, ResBlack );
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const00F2 );
-  ApplicationTextButton_OnSetText( &_this->TextButton, EwLoadString( &_Const00F3 ));
-  CoreRectView__OnSetBounds( &_this->VerticalList, _Const00F0 );
-  CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 50 );
-  CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationRecentContactItem ));
-  CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -2 );
-  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00F0 );
-  _this->SlideTouchHandler.SlideHorz = 0;
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TitleTxt1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TextButton ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->VerticalList ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->SlideTouchHandler ), 0 );
-  ViewsText_OnSetFont( &_this->TitleTxt1, EwLoadResource( &ResTitileFont32, ResourcesFont ));
-  _this->TextButton.OnActivate = EwNewSlot( _this, ApplicationRecentPage_onEdit );
-  _this->VerticalList.OnLoadItem = EwNewSlot( _this, ApplicationRecentPage_OnLoadItem );
-  CoreVerticalList_OnSetSlideHandler( &_this->VerticalList, &_this->SlideTouchHandler );
-
-  /* Call the user defined constructor */
-  ApplicationRecentPage_Init( _this, aArg );
-}
-
-/* Re-Initializer for the class 'Application::RecentPage' */
-void ApplicationRecentPage__ReInit( ApplicationRecentPage _this )
-{
-  /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_.Super );
-
-  /* ... then re-construct all embedded objects */
-  ViewsRectangle__ReInit( &_this->Background );
-  ViewsText__ReInit( &_this->TitleTxt1 );
-  ApplicationTextButton__ReInit( &_this->TextButton );
-  CoreVerticalList__ReInit( &_this->VerticalList );
-  CoreSlideTouchHandler__ReInit( &_this->SlideTouchHandler );
-}
-
-/* Finalizer method for the class 'Application::RecentPage' */
-void ApplicationRecentPage__Done( ApplicationRecentPage _this )
-{
-  /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
-
-  /* Finalize all embedded objects */
-  ViewsRectangle__Done( &_this->Background );
-  ViewsText__Done( &_this->TitleTxt1 );
-  ApplicationTextButton__Done( &_this->TextButton );
-  CoreVerticalList__Done( &_this->VerticalList );
-  CoreSlideTouchHandler__Done( &_this->SlideTouchHandler );
-
-  /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_.Super );
-}
-
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationRecentPage_Init( ApplicationRecentPage _this, XHandle aArg )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( aArg );
-
-  EwAttachRefObserver( EwNewSlot( _this, ApplicationRecentPage_onNoOfContactsChanged ), 
-    EwNewRef( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->History, 
-    ApplicationContacts_OnGetNoOfItems, ApplicationContacts_OnSetNoOfItems ), 0 );
-  EwPostSignal( EwNewSlot( _this, ApplicationRecentPage_onNoOfContactsChanged ), 
-    ((XObject)_this ));
-}
-
-/* This method is called by 'VerticalList' every time the list loads or updates 
-   an item. */
-void ApplicationRecentPage_OnLoadItem( ApplicationRecentPage _this, XObject sender )
-{
-  XInt32 itemNo;
-  ApplicationContact contact;
-  ApplicationFavContactItem itemView;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  itemNo = _this->VerticalList.Item;
-  contact = ApplicationContacts_GetContact( &EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->History, itemNo );
-  itemView = EwCastObject( _this->VerticalList.View, ApplicationFavContactItem );
-
-  if ( itemView == 0 )
-    return;
-
-  if ( contact != 0 )
-  {
-    ApplicationContactItem_OnSetContact((ApplicationContactItem)itemView, contact );
-    itemView->Super1.OnActivate = EwNewSlot( _this, ApplicationRecentPage_onContactActivated );
-  }
-
-  CoreRectView__OnSetBounds( itemView, EwSetRectSize( itemView->Super3.Bounds, EwNewPoint( 
-  EwGetRectW( _this->VerticalList.Super2.Bounds ), _this->VerticalList.ItemHeight )));
-}
-
-/* 'C' function for method : 'Application::RecentPage.onNoOfContactsChanged()' */
-void ApplicationRecentPage_onNoOfContactsChanged( ApplicationRecentPage _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, EwGetAutoObject( &ApplicationMyContactsManager, 
-  ApplicationContactsManager )->History.NoOfItems );
-}
-
-/* 'C' function for method : 'Application::RecentPage.onContactActivated()' */
-void ApplicationRecentPage_onContactActivated( ApplicationRecentPage _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  ApplicationDeviceClass_UpdateCallState( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
-  2 );
-  ApplicationDeviceClass_UpdateCallingNumber( EwGetAutoObject( &ApplicationDevice, 
-  ApplicationDeviceClass ), _this->SelectedContact->Super1.PhoneNumber );
-}
-
-/* 'C' function for method : 'Application::RecentPage.onEdit()' */
-void ApplicationRecentPage_onEdit( ApplicationRecentPage _this, XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  _this->EditMode = (XBool)!_this->EditMode;
-  CoreVerticalList_InvalidateItems( &_this->VerticalList, 0, _this->VerticalList.NoOfItems 
-  - 1 );
-}
-
-/* Variants derived from the class : 'Application::RecentPage' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationRecentPage )
-EW_END_OF_CLASS_VARIANTS( ApplicationRecentPage )
-
-/* Virtual Method Table (VMT) for the class : 'Application::RecentPage' */
-EW_DEFINE_CLASS( ApplicationRecentPage, CoreGroup, SelectedContact, Background, 
-                 Background, Background, EditMode, EditMode, "Application::RecentPage" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_OnSetBuffered,
-  CoreGroup_OnSetOpacity,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  CoreGroup_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_FindSiblingView,
-  CoreGroup_RestackTop,
-  CoreGroup_Restack,
-  CoreGroup_Remove,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationRecentPage )
-
-/* Initializer for the class 'Application::RecentContactItem' */
-void ApplicationRecentContactItem__Init( ApplicationRecentContactItem _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  CoreGroup__Init( &_this->_.Super, aLink, aArg );
-
-  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationRecentContactItem );
-
-  /* ... then construct all embedded objects */
-  CoreTimer__Init( &_this->FlashTimer, &_this->_.XObject, 0 );
-  CoreKeyPressHandler__Init( &_this->KeyHandler, &_this->_.XObject, 0 );
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
-  CoreSimpleTouchHandler__Init( &_this->TouchHandler, &_this->_.XObject, 0 );
-  ViewsLine__Init( &_this->Line, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->LastNameTxt, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->FirstNameTxt, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->CallType, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->Time, &_this->_.XObject, 0 );
-  ApplicationPushButtonSmall__Init( &_this->InfoButton, &_this->_.XObject, 0 );
-  ApplicationPushButtonSmall__Init( &_this->PushButtonSmall, &_this->_.XObject, 0 );
-  ApplicationPushButtonSmall__Init( &_this->RemoveButton, &_this->_.XObject, 0 );
-  ApplicationTextButton__Init( &_this->DeleteButton, &_this->_.XObject, 0 );
-  EffectsInt32Effect__Init( &_this->EditEffect, &_this->_.XObject, 0 );
-  EffectsInt32Effect__Init( &_this->DeleteEffect, &_this->_.XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationRecentContactItem );
-
-  /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00F4 );
-  _this->Icon = EwShareString( EwLoadString( &ResOutgoingCallTxt ));
-  _this->ButtonColor = ResWhite;
-  _this->IconColor = ResWhite;
-  CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
-  CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
-  _this->KeyHandler.Filter = CoreKeyCodeEnter;
-  CoreRectView__OnSetBounds( &_this->Background, _Const00F5 );
-  ViewsRectangle_OnSetColorBL( &_this->Background, _Const0011 );
-  ViewsRectangle_OnSetColorBR( &_this->Background, _Const0011 );
-  ViewsRectangle_OnSetColor( &_this->Background, _Const0012 );
-  CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
-  CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00F6 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00F7 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00F8 );
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const003E );
-  _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
-  | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
-  CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreView_OnSetLayout((CoreView)&_this->Line, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00F9 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00FA );
-  ViewsLine_OnSetWidth( &_this->Line, 1 );
-  ViewsLine_OnSetColor( &_this->Line, _Const0017 );
-  CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const00FB );
-  ViewsText_OnSetAutoSize( &_this->LastNameTxt, 1 );
-  ViewsText_OnSetAlignment( &_this->LastNameTxt, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const0014 ));
-  ViewsText_OnSetColor( &_this->LastNameTxt, ResBlack );
-  CoreView_OnSetStackingPriority((CoreView)&_this->FirstNameTxt, 0 );
-  CoreView_OnSetLayout((CoreView)&_this->FirstNameTxt, CoreLayoutAlignToLeft | CoreLayoutResizeHorz );
-  CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const00FC );
-  ViewsText_OnSetAutoSize( &_this->FirstNameTxt, 1 );
-  ViewsText_OnSetAlignment( &_this->FirstNameTxt, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->FirstNameTxt, EwLoadString( &_Const0016 ));
-  ViewsText_OnSetColor( &_this->FirstNameTxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->CallType, _Const00FD );
-  ViewsText_OnSetAutoSize( &_this->CallType, 1 );
-  ViewsText_OnSetAlignment( &_this->CallType, ViewsTextAlignmentAlignHorzLeft | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->CallType, EwLoadString( &_Const00FE ));
-  CoreRectView__OnSetBounds( &_this->Time, _Const00FF );
-  ViewsText_OnSetAutoSize( &_this->Time, 1 );
-  ViewsText_OnSetAlignment( &_this->Time, ViewsTextAlignmentAlignHorzRight | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->Time, EwLoadString( &_Const0100 ));
-  _this->NameColor = ResBlack;
-  _this->NameColor1 = ResGrey;
-  CoreView_OnSetLayout((CoreView)&_this->InfoButton, CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->InfoButton, _Const0101 );
-  ApplicationPushButtonSmall_OnSetButtonColor( &_this->InfoButton, ResTransparent );
-  ApplicationPushButtonSmall_OnSetIcon( &_this->InfoButton, EwLoadString( &ResInfoTxt ));
-  ApplicationPushButtonSmall_OnSetIconColor( &_this->InfoButton, ResBlue );
-  CoreRectView__OnSetBounds( &_this->PushButtonSmall, _Const0102 );
-  CoreGroup_OnSetAlphaBlended((CoreGroup)&_this->PushButtonSmall, 1 );
-  ApplicationPushButtonSmall_OnSetButtonColor( &_this->PushButtonSmall, ResTransparent );
-  ApplicationPushButtonSmall_OnSetTextColor( &_this->PushButtonSmall, ResGrey );
-  ApplicationPushButtonSmall_OnSetIcon( &_this->PushButtonSmall, EwLoadString( &ResOutgoingCallTxt ));
-  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const0103 );
-  ApplicationPushButtonSmall_OnSetButtonColor( &_this->RemoveButton, ResRed );
-  ApplicationPushButtonSmall_OnSetIcon( &_this->RemoveButton, EwLoadString( &ResRemoveTxt ));
-  ApplicationPushButtonSmall_OnSetIconColor( &_this->RemoveButton, ResWhite );
-  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const0104 );
-  ApplicationTextButton_OnSetText( &_this->DeleteButton, EwLoadString( &_Const0105 ));
-  ApplicationTextButton_OnSetTextColor( &_this->DeleteButton, ResWhite );
-  ApplicationTextButton_OnSetTextColorPress( &_this->DeleteButton, ResWhiteSemiTransparent );
-  ApplicationTextButton_OnSetBackgoundColor( &_this->DeleteButton, ResRed );
-  EffectsEffect_OnSetNoOfCycles((EffectsEffect)&_this->EditEffect, 1 );
-  EffectsEffect_OnSetCycleDuration((EffectsEffect)&_this->EditEffect, 250 );
-  _this->EditEffect.Value2 = 25;
-  _this->EditEffect.Value1 = 0;
-  EffectsEffect_OnSetNoOfCycles((EffectsEffect)&_this->DeleteEffect, 1 );
-  EffectsEffect_OnSetCycleDuration((EffectsEffect)&_this->DeleteEffect, 250 );
-  _this->DeleteEffect.Value2 = 110;
-  _this->DeleteEffect.Value1 = 0;
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Line ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->LastNameTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->FirstNameTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->CallType ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Time ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->InfoButton ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->PushButtonSmall ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->RemoveButton ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->DeleteButton ), 0 );
-  _this->FlashTimer.OnTrigger = EwNewSlot( _this, ApplicationRecentContactItem_onFlashTimer );
-  _this->KeyHandler.OnPress = EwNewSlot( _this, ApplicationRecentContactItem_onPressKey );
-  _this->TouchHandler.OnLeave = EwNewSlot( _this, ApplicationRecentContactItem_onEnterLeaveTouch );
-  _this->TouchHandler.OnEnter = EwNewSlot( _this, ApplicationRecentContactItem_onEnterLeaveTouch );
-  _this->TouchHandler.OnRelease = EwNewSlot( _this, ApplicationRecentContactItem_onReleaseTouch );
-  _this->TouchHandler.OnPress = EwNewSlot( _this, ApplicationRecentContactItem_onPressTouch );
-  ViewsText_OnSetFont( &_this->LastNameTxt, EwLoadResource( &ResContactFontBold15, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->FirstNameTxt, EwLoadResource( &ResContactFont15, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->CallType, EwLoadResource( &ResourcesDefaultFont, 
-  ResourcesFont ));
-  ViewsText_OnSetFont( &_this->Time, EwLoadResource( &ResourcesDefaultFont, ResourcesFont ));
-  _this->RemoveButton.OnActivate = EwNewSlot( _this, ApplicationRecentContactItem_onShowDelete );
-  _this->DeleteButton.OnActivate = EwNewSlot( _this, ApplicationRecentContactItem_onDelete );
-  _this->EditEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationRecentContactItem_onAnimate );
-  _this->DeleteEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationRecentContactItem_onAnimate );
-}
-
-/* Re-Initializer for the class 'Application::RecentContactItem' */
-void ApplicationRecentContactItem__ReInit( ApplicationRecentContactItem _this )
-{
-  /* At first re-initialize the super class ... */
-  CoreGroup__ReInit( &_this->_.Super );
-
-  /* ... then re-construct all embedded objects */
-  CoreTimer__ReInit( &_this->FlashTimer );
-  CoreKeyPressHandler__ReInit( &_this->KeyHandler );
-  ViewsRectangle__ReInit( &_this->Background );
-  CoreSimpleTouchHandler__ReInit( &_this->TouchHandler );
-  ViewsLine__ReInit( &_this->Line );
-  ViewsText__ReInit( &_this->LastNameTxt );
-  ViewsText__ReInit( &_this->FirstNameTxt );
-  ViewsText__ReInit( &_this->CallType );
-  ViewsText__ReInit( &_this->Time );
-  ApplicationPushButtonSmall__ReInit( &_this->InfoButton );
-  ApplicationPushButtonSmall__ReInit( &_this->PushButtonSmall );
-  ApplicationPushButtonSmall__ReInit( &_this->RemoveButton );
-  ApplicationTextButton__ReInit( &_this->DeleteButton );
-  EffectsInt32Effect__ReInit( &_this->EditEffect );
-  EffectsInt32Effect__ReInit( &_this->DeleteEffect );
-}
-
-/* Finalizer method for the class 'Application::RecentContactItem' */
-void ApplicationRecentContactItem__Done( ApplicationRecentContactItem _this )
-{
-  /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
-
-  /* Finalize all embedded objects */
-  CoreTimer__Done( &_this->FlashTimer );
-  CoreKeyPressHandler__Done( &_this->KeyHandler );
-  ViewsRectangle__Done( &_this->Background );
-  CoreSimpleTouchHandler__Done( &_this->TouchHandler );
-  ViewsLine__Done( &_this->Line );
-  ViewsText__Done( &_this->LastNameTxt );
-  ViewsText__Done( &_this->FirstNameTxt );
-  ViewsText__Done( &_this->CallType );
-  ViewsText__Done( &_this->Time );
-  ApplicationPushButtonSmall__Done( &_this->InfoButton );
-  ApplicationPushButtonSmall__Done( &_this->PushButtonSmall );
-  ApplicationPushButtonSmall__Done( &_this->RemoveButton );
-  ApplicationTextButton__Done( &_this->DeleteButton );
-  EffectsInt32Effect__Done( &_this->EditEffect );
-  EffectsInt32Effect__Done( &_this->DeleteEffect );
-
-  /* Don't forget to deinitialize the super class ... */
-  CoreGroup__Done( &_this->_.Super );
-}
-
-/* The method UpdateViewState() is invoked automatically after the state of the 
-   component has been changed. This method can be overridden and filled with logic 
-   to ensure the visual aspect of the component does reflect its current state. 
-   For example, the 'enabled' state of the component can affect its colors (disabled 
-   components may appear pale). In this case the logic of the method should modify 
-   the respective color properties accordingly to the current 'enabled' state. 
-   The current state of the component is passed as a set in the parameter aState. 
-   It reflects the very basic component state like its visibility or the ability 
-   to react to user inputs. Beside this common state, the method can also involve 
-   any other variables used in the component as long as they reflect its current 
-   state. For example, the toggle switch component can take in account its toggle 
-   state 'on' or 'off' and change accordingly the location of the slider, etc.
-   Usually, this method will be invoked automatically by the framework. Optionally 
-   you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationRecentContactItem_UpdateViewState( ApplicationRecentContactItem _this, 
-  XSet aState )
-{
-  XBool isEnabled;
-  XBool isSelected;
-  XBool isPressed;
-
-  CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-  isEnabled = (( aState & CoreViewStateEnabled ) == CoreViewStateEnabled );
-  isSelected = (( aState & CoreViewStateSelected ) == CoreViewStateSelected );
-  isPressed = (XBool)(( _this->TouchHandler.Down && _this->TouchHandler.Inside ) 
-  || _this->FlashTimer.Enabled );
-
-  if ( &_this->LastNameTxt != 0 )
-  {
-    XColor clr = _this->NameColor;
-    ResourcesFont font = EwLoadResource( &ResContactFontBold15, ResourcesFont );
-    ViewsText_OnSetFont( &_this->LastNameTxt, font );
-    ViewsText_OnSetColor( &_this->LastNameTxt, clr );
-  }
-
-  if ( &_this->FirstNameTxt != 0 )
-  {
-    XColor clr = _this->NameColor;
-    ResourcesFont font = EwLoadResource( &ResContactFont15, ResourcesFont );
-    ViewsText_OnSetFont( &_this->FirstNameTxt, font );
-    ViewsText_OnSetColor( &_this->FirstNameTxt, clr );
-  }
-
-  if ( &_this->CallType != 0 )
-  {
-    XColor clr = _this->NameColor1;
-    ViewsText_OnSetFont( &_this->CallType, EwLoadResource( &ResContactFont12, ResourcesFont ));
-    ViewsText_OnSetColor( &_this->CallType, clr );
-  }
-
-  if ( &_this->Time != 0 )
-  {
-    XColor clr = _this->NameColor1;
-    ViewsText_OnSetFont( &_this->Time, EwLoadResource( &ResContactFont12, ResourcesFont ));
-    ViewsText_OnSetColor( &_this->Time, clr );
-  }
-
-  if ( !isEnabled )
-  {
-    ViewsRectangle_OnSetColor( &_this->Background, _this->ButtonColor );
-    ApplicationPushButtonSmall_OnSetIconColor( &_this->PushButtonSmall, ResGrey );
-  }
-  else
-    if ( isPressed )
-    {
-      ViewsRectangle_OnSetColor( &_this->Background, ResPressColor );
-      ApplicationPushButtonSmall_OnSetIconColor( &_this->PushButtonSmall, ResGrey );
-    }
-    else
-      if ( isSelected )
-      {
-        ViewsRectangle_OnSetColor( &_this->Background, ResGreyLight );
-        ApplicationPushButtonSmall_OnSetIconColor( &_this->PushButtonSmall, ResGrey );
-      }
-      else
-      {
-        ViewsRectangle_OnSetColor( &_this->Background, _this->ButtonColor );
-        ApplicationPushButtonSmall_OnSetIconColor( &_this->PushButtonSmall, ResGrey );
-      }
-
-  _this->enabled = isEnabled;
-  _this->selected = isSelected;
-  _this->pressed = isPressed;
-}
-
-/* This internal slot method is called when the '@FlashTimer' is expired. It ends 
-   the short flash feedback effect. */
-void ApplicationRecentContactItem_onFlashTimer( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-}
-
-/* This internal slot method is called when the '@KeyHandler' is activated (when 
-   the user has pressed the key specified in the property 'Filter' of the key handler). */
-void ApplicationRecentContactItem_onPressKey( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( _this->TouchHandler.Down )
-    return;
-
-  if ( _this->KeyHandler.Repetition )
-    return;
-
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-
-  if ( _this->FlashTimer.Enabled )
-    CoreTimer_OnSetEnabled( &_this->FlashTimer, 0 );
-
-  CoreTimer_OnSetEnabled( &_this->FlashTimer, 1 );
-}
-
-/* This internal slot method is called when the user drags the finger while pressing 
-   the button. This only updates the button to appear pressed or released. */
-void ApplicationRecentContactItem_onEnterLeaveTouch( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreGroup_InvalidateViewState((CoreGroup)_this );
-}
-
-/* This internal slot method is called when the user releases the touch screen after 
-   touching the button's area. This activates the button. */
-void ApplicationRecentContactItem_onReleaseTouch( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( !_this->TouchHandler.Inside )
-    return;
-
-  if ( _this->TouchHandler.AutoDeflected )
-    return;
-
-  if ( !( _this->TouchHandler.HoldPeriod >= _this->FlashTimer.Begin ))
-    CoreTimer_OnSetEnabled( &_this->FlashTimer, 1 );
-}
-
-/* This internal slot method is called when the user touches the button's area. */
-void ApplicationRecentContactItem_onPressTouch( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  if ( _this->FlashTimer.Enabled )
-    CoreTimer_OnSetEnabled( &_this->FlashTimer, 0 );
-}
-
-/* 'C' function for method : 'Application::RecentContactItem.onAnimate()' */
-void ApplicationRecentContactItem_onAnimate( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  CoreRectView__OnSetBounds( &_this->RemoveButton, EwSetRectX( _this->RemoveButton.Super3.Bounds, 
-  ( _this->EditEffect.Value - 25 ) - _this->DeleteEffect.Value ));
-  CoreRectView__OnSetBounds( &_this->PushButtonSmall, EwSetRectX( _this->PushButtonSmall.Super3.Bounds, 
-  ( _this->EditEffect.Value + 6 ) - _this->DeleteEffect.Value ));
-  CoreRectView__OnSetBounds( &_this->LastNameTxt, EwSetRectX( _this->LastNameTxt.Super1.Bounds, 
-  ( _this->EditEffect.Value + 55 ) - _this->DeleteEffect.Value ));
-  CoreRectView__OnSetBounds( &_this->FirstNameTxt, EwSetRectX( _this->FirstNameTxt.Super1.Bounds, 
-  ( _this->EditEffect.Value + 146 ) - _this->DeleteEffect.Value ));
-  CoreRectView__OnSetBounds( &_this->InfoButton, EwSetRectX( _this->InfoButton.Super3.Bounds, 
-  ( _this->EditEffect.Value + 217 ) - _this->DeleteEffect.Value ));
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, EwSetPointX( _this->TouchHandler.Super1.Point1, 
-  _this->RemoveButton.Super3.Bounds.Point2.X ));
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, EwSetPointX( _this->TouchHandler.Super1.Point4, 
-  _this->RemoveButton.Super3.Bounds.Point2.X ));
-  CoreRectView__OnSetBounds( &_this->DeleteButton, EwSetRectX( _this->DeleteButton.Super3.Bounds, 
-  ( _this->EditEffect.Value + 273 ) - _this->DeleteEffect.Value ));
-}
-
-/* 'C' function for method : 'Application::RecentContactItem.onShowDelete()' */
-void ApplicationRecentContactItem_onShowDelete( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( sender );
-
-  EwSignal( EwNewSlot( &_this->DeleteEffect, EffectsEffect_StartEffect ), ((XObject)_this ));
-}
-
-/* 'C' function for method : 'Application::RecentContactItem.onDelete()' */
-void ApplicationRecentContactItem_onDelete( ApplicationRecentContactItem _this, 
-  XObject sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( sender );
-
-  ApplicationContacts_Remove( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Favorites, 
-  0 );
-}
-
-/* Variants derived from the class : 'Application::RecentContactItem' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationRecentContactItem )
-EW_END_OF_CLASS_VARIANTS( ApplicationRecentContactItem )
-
-/* Virtual Method Table (VMT) for the class : 'Application::RecentContactItem' */
-EW_DEFINE_CLASS( ApplicationRecentContactItem, CoreGroup, FlashTimer, FlashTimer, 
-                 FlashTimer, FlashTimer, Icon, ButtonColor, "Application::RecentContactItem" )
-  CoreRectView_initLayoutContext,
-  CoreView_GetRoot,
-  CoreGroup_Draw,
-  CoreView_HandleEvent,
-  CoreGroup_CursorHitTest,
-  CoreRectView_ArrangeView,
-  CoreRectView_MoveView,
-  CoreRectView_GetExtent,
-  CoreGroup_ChangeViewState,
-  CoreGroup_OnSetBounds,
-  CoreGroup_OnSetFocus,
-  CoreGroup_OnSetBuffered,
-  CoreGroup_OnSetOpacity,
-  CoreGroup_DispatchEvent,
-  CoreGroup_BroadcastEvent,
-  ApplicationRecentContactItem_UpdateViewState,
-  CoreGroup_InvalidateArea,
-  CoreGroup_FindSiblingView,
-  CoreGroup_RestackTop,
-  CoreGroup_Restack,
-  CoreGroup_Remove,
-  CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationRecentContactItem )
-
 /* Initializer for the class 'Application::ContactsList' */
 void ApplicationContactsList__Init( ApplicationContactsList _this, XObject aLink, XHandle aArg )
 {
@@ -9785,9 +8410,9 @@ void ApplicationContactsList__Init( ApplicationContactsList _this, XObject aLink
 
   /* ... and initialize objects, variables, properties, etc. */
   CoreGroup_OnSetVisible((CoreGroup)&_this->Super2.PlusButton, 0 );
-  CoreRectView__OnSetBounds( &_this->Super1.TextButton, _Const0106 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const0107 );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const0108 ));
+  CoreRectView__OnSetBounds( &_this->Super1.TextButton, _Const00EA );
+  CoreRectView__OnSetBounds( &_this->Text, _Const00EB );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const00EC ));
   ViewsText_OnSetColor( &_this->Text, ResBlack );
   CoreGroup__Add( _this, ((CoreView)&_this->Text ), 0 );
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ResContactFont12, ResourcesFont ));
@@ -9820,11 +8445,27 @@ void ApplicationContactsList__Done( ApplicationContactsList _this )
 void ApplicationContactsList_onContactActivated( ApplicationContactsList _this, 
   XObject sender )
 {
-  ApplicationContactItem itemView = EwCastObject( sender, ApplicationContactItem );
-
-  ApplicationContacts_Add( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Favorites, 
-  itemView->Contact );
+  ApplicationContactsList_OnSetClonedContact( _this, EwCastObject( sender, ApplicationContactItem )->Contact );
+  ApplicationContact_OnSetFavorite( _this->ClonedContact, 1 );
   EwPostSignal( _this->OnAddFav, ((XObject)_this ));
+}
+
+/* 'C' function for method : 'Application::ContactsList.OnSetClonedContact()' */
+void ApplicationContactsList_OnSetClonedContact( ApplicationContactsList _this, 
+  ApplicationContact value )
+{
+  if ( _this->ClonedContact == value )
+    return;
+
+  _this->ClonedContact = value;
+  EwNotifyRefObservers( EwNewRef( _this, ApplicationContactsList_OnGetClonedContact, 
+    ApplicationContactsList_OnSetClonedContact ), 0 );
+}
+
+/* Default onget method for the property 'ClonedContact' */
+ApplicationContact ApplicationContactsList_OnGetClonedContact( ApplicationContactsList _this )
+{
+  return _this->ClonedContact;
 }
 
 /* Variants derived from the class : 'Application::ContactsList' */
@@ -9832,7 +8473,7 @@ EW_DEFINE_CLASS_VARIANTS( ApplicationContactsList )
 EW_END_OF_CLASS_VARIANTS( ApplicationContactsList )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsList' */
-EW_DEFINE_CLASS( ApplicationContactsList, ApplicationContactsInsideCall, OnAddFav, 
+EW_DEFINE_CLASS( ApplicationContactsList, ApplicationContactsInsideCall, ClonedContact, 
                  OnAddFav, Text, Text, _.VMT, _.VMT, "Application::ContactsList" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
@@ -9859,74 +8500,6 @@ EW_DEFINE_CLASS( ApplicationContactsList, ApplicationContactsInsideCall, OnAddFa
   ApplicationContactsList_onContactActivated,
 EW_END_OF_CLASS( ApplicationContactsList )
 
-/* Initializer for the class 'Application::ContactsManager' */
-void ApplicationContactsManager__Init( ApplicationContactsManager _this, XObject aLink, XHandle aArg )
-{
-  /* At first initialize the super class ... */
-  XObject__Init( &_this->_.Super, aLink, aArg );
-
-  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationContactsManager );
-
-  /* ... then construct all embedded objects */
-  ApplicationContacts__Init( &_this->Contacts, &_this->_.XObject, 0 );
-  ApplicationContacts__Init( &_this->History, &_this->_.XObject, 0 );
-  ApplicationContacts__Init( &_this->Favorites, &_this->_.XObject, 0 );
-  ApplicationContacts__Init( &_this->Search, &_this->_.XObject, 0 );
-
-  /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationContactsManager );
-
-  /* Create and initialize the suitable class variant */
-  EwAttachObjectVariant( &_this->_.XObject, aLink, aArg );
-}
-
-/* Re-Initializer for the class 'Application::ContactsManager' */
-void ApplicationContactsManager__ReInit( ApplicationContactsManager _this )
-{
-  /* At first re-initialize the super class ... */
-  XObject__ReInit( &_this->_.Super );
-
-  /* ... then re-construct all embedded objects */
-  ApplicationContacts__ReInit( &_this->Contacts );
-  ApplicationContacts__ReInit( &_this->History );
-  ApplicationContacts__ReInit( &_this->Favorites );
-  ApplicationContacts__ReInit( &_this->Search );
-
-  /* Reinitialize the variant */
-  if ( _this->_vthis )
-    _this->_vthis->_.VMT->_ReInit( &_this->_.XObject );
-}
-
-/* Finalizer method for the class 'Application::ContactsManager' */
-void ApplicationContactsManager__Done( ApplicationContactsManager _this )
-{
-  /* Deinitialize the variant */
-  EwDetachObjectVariant( &_this->_.XObject );
-
-  /* Finalize this class */
-  _this->_.Super._.VMT = EW_CLASS( XObject );
-
-  /* Finalize all embedded objects */
-  ApplicationContacts__Done( &_this->Contacts );
-  ApplicationContacts__Done( &_this->History );
-  ApplicationContacts__Done( &_this->Favorites );
-  ApplicationContacts__Done( &_this->Search );
-
-  /* Don't forget to deinitialize the super class ... */
-  XObject__Done( &_this->_.Super );
-}
-
-/* Variants derived from the class : 'Application::ContactsManager' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationContactsManager )
-  EW_STATIC_CLASS_VARIANT( ApplicationSimulateDatabase ),
-EW_END_OF_CLASS_VARIANTS( ApplicationContactsManager )
-
-/* Virtual Method Table (VMT) for the class : 'Application::ContactsManager' */
-EW_DEFINE_CLASS( ApplicationContactsManager, XObject, Contacts, Contacts, Contacts, 
-                 Contacts, _.VMT, _.VMT, "Application::ContactsManager" )
-EW_END_OF_CLASS( ApplicationContactsManager )
-
 /* Initializer for the class 'Application::FavContactItem' */
 void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject aLink, XHandle aArg )
 {
@@ -9937,44 +8510,17 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationFavContactItem );
 
   /* ... then construct all embedded objects */
-  ApplicationPushButtonSmall__Init( &_this->RemoveButton, &_this->_.XObject, 0 );
-  ApplicationTextButton__Init( &_this->DeleteButton, &_this->_.XObject, 0 );
   EffectsInt32Effect__Init( &_this->EditEffect, &_this->_.XObject, 0 );
   EffectsInt32Effect__Init( &_this->DeleteEffect, &_this->_.XObject, 0 );
+  ApplicationPushButtonSmall__Init( &_this->RemoveButton, &_this->_.XObject, 0 );
+  ApplicationTextButton__Init( &_this->DeleteButton, &_this->_.XObject, 0 );
   ApplicationPushButtonSmall__Init( &_this->InfoButton, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationFavContactItem );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0109 );
-  CoreView_OnSetStackingPriority((CoreView)&_this->Super1.TouchHandler, -1 );
-  CoreQuadView__OnSetPoint3( &_this->Super1.TouchHandler, _Const010A );
-  CoreQuadView__OnSetPoint2( &_this->Super1.TouchHandler, _Const010B );
-  CoreView_OnSetLayout((CoreView)&_this->Super1.Background, CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Super1.Background, _Const0109 );
-  CoreView_OnSetLayout((CoreView)&_this->Super1.FirstnameTxt, CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Super1.FirstnameTxt, _Const010C );
-  ViewsText_OnSetAutoSize( &_this->Super1.FirstnameTxt, 1 );
-  ViewsText_OnSetString( &_this->Super1.FirstnameTxt, EwLoadString( &_Const0016 ));
-  CoreView_OnSetLayout((CoreView)&_this->Super1.LastNameTxt, CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Super1.LastNameTxt, _Const010D );
-  ViewsText_OnSetAutoSize( &_this->Super1.LastNameTxt, 1 );
-  CoreView_OnSetLayout((CoreView)&_this->Super1.PrfofilButton, CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Super1.PrfofilButton, _Const0018 );
-  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const010E );
-  ApplicationPushButtonSmall_OnSetButtonColor( &_this->RemoveButton, ResRed );
-  ApplicationPushButtonSmall_OnSetIcon( &_this->RemoveButton, EwLoadString( &ResRemoveTxt ));
-  ApplicationPushButtonSmall_OnSetIconColor( &_this->RemoveButton, ResWhite );
-  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const010F );
-  ApplicationTextButton_OnSetText( &_this->DeleteButton, EwLoadString( &_Const0105 ));
-  ApplicationTextButton_OnSetTextColor( &_this->DeleteButton, ResWhite );
-  ApplicationTextButton_OnSetTextColorPress( &_this->DeleteButton, ResWhiteSemiTransparent );
-  ApplicationTextButton_OnSetBackgoundColor( &_this->DeleteButton, ResRed );
+  CoreRectView__OnSetBounds( _this, _Const00ED );
   EffectsEffect_OnSetNoOfCycles((EffectsEffect)&_this->EditEffect, 1 );
   EffectsEffect_OnSetCycleDuration((EffectsEffect)&_this->EditEffect, 250 );
   _this->EditEffect.Value2 = 25;
@@ -9983,19 +8529,49 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   EffectsEffect_OnSetCycleDuration((EffectsEffect)&_this->DeleteEffect, 250 );
   _this->DeleteEffect.Value2 = 110;
   _this->DeleteEffect.Value1 = 0;
+  CoreView_OnSetStackingPriority((CoreView)&_this->Super1.TouchHandler, -1 );
+  CoreQuadView__OnSetPoint3( &_this->Super1.TouchHandler, _Const00EE );
+  CoreQuadView__OnSetPoint2( &_this->Super1.TouchHandler, _Const00EF );
+  CoreView_OnSetLayout((CoreView)&_this->Super1.Background, CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreRectView__OnSetBounds( &_this->Super1.Background, _Const00ED );
+  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const00F0 );
+  ApplicationPushButtonSmall_OnSetButtonColor( &_this->RemoveButton, ResRed );
+  ApplicationPushButtonSmall_OnSetIcon( &_this->RemoveButton, EwLoadString( &ResRemoveTxt ));
+  ApplicationPushButtonSmall_OnSetIconColor( &_this->RemoveButton, ResWhite );
+  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const00F1 );
+  ApplicationTextButton_OnSetText( &_this->DeleteButton, EwLoadString( &_Const00F2 ));
+  ApplicationTextButton_OnSetTextColor( &_this->DeleteButton, ResWhite );
+  ApplicationTextButton_OnSetTextColorPress( &_this->DeleteButton, ResWhiteSemiTransparent );
+  ApplicationTextButton_OnSetBackgoundColor( &_this->DeleteButton, ResRed );
   CoreView_OnSetLayout((CoreView)&_this->InfoButton, CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->InfoButton, _Const0110 );
+  CoreRectView__OnSetBounds( &_this->InfoButton, _Const00F3 );
   ApplicationPushButtonSmall_OnSetButtonColor( &_this->InfoButton, ResTransparent );
   ApplicationPushButtonSmall_OnSetIcon( &_this->InfoButton, EwLoadString( &ResInfoTxt ));
   ApplicationPushButtonSmall_OnSetIconColor( &_this->InfoButton, ResBlue );
-  CoreGroup__Restack( _this, ((CoreView)&_this->Super1.FirstnameTxt ), -1 );
-  CoreGroup__Add( _this, ((CoreView)&_this->RemoveButton ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->DeleteButton ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->InfoButton ), 0 );
-  _this->RemoveButton.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onShowDelete );
-  _this->DeleteButton.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onDelete );
+  CoreView_OnSetLayout((CoreView)&_this->Super1.LastNameTxt, CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreRectView__OnSetBounds( &_this->Super1.LastNameTxt, _Const00F4 );
+  ViewsText_OnSetAutoSize( &_this->Super1.LastNameTxt, 1 );
+  CoreView_OnSetLayout((CoreView)&_this->Super1.FirstNameTxt, CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreRectView__OnSetBounds( &_this->Super1.FirstNameTxt, _Const00F5 );
+  ViewsText_OnSetAutoSize( &_this->Super1.FirstNameTxt, 1 );
+  ViewsText_OnSetString( &_this->Super1.FirstNameTxt, EwLoadString( &_Const00F6 ));
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line, _Const00F7 );
+  ViewsLine_OnSetWidth( &_this->Super1.Line, 2 );
+  ViewsLine_OnSetColor( &_this->Super1.Line, ResGreyLight );
+  CoreView_OnSetLayout((CoreView)&_this->Super1.PrfofilButton, CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreRectView__OnSetBounds( &_this->Super1.PrfofilButton, _Const0016 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line1, _Const00F8 );
+  CoreGroup__Add( _this, ((CoreView)&_this->RemoveButton ), -5 );
+  CoreGroup__Add( _this, ((CoreView)&_this->DeleteButton ), -5 );
+  CoreGroup__Add( _this, ((CoreView)&_this->InfoButton ), -5 );
   _this->EditEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationFavContactItem_onAnimate );
   _this->DeleteEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationFavContactItem_onAnimate );
+  _this->RemoveButton.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onShowDelete );
+  _this->DeleteButton.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onDelete );
   _this->InfoButton.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onInfo );
 }
 
@@ -10006,10 +8582,10 @@ void ApplicationFavContactItem__ReInit( ApplicationFavContactItem _this )
   ApplicationContactItem__ReInit( &_this->_.Super );
 
   /* ... then re-construct all embedded objects */
-  ApplicationPushButtonSmall__ReInit( &_this->RemoveButton );
-  ApplicationTextButton__ReInit( &_this->DeleteButton );
   EffectsInt32Effect__ReInit( &_this->EditEffect );
   EffectsInt32Effect__ReInit( &_this->DeleteEffect );
+  ApplicationPushButtonSmall__ReInit( &_this->RemoveButton );
+  ApplicationTextButton__ReInit( &_this->DeleteButton );
   ApplicationPushButtonSmall__ReInit( &_this->InfoButton );
 }
 
@@ -10020,10 +8596,10 @@ void ApplicationFavContactItem__Done( ApplicationFavContactItem _this )
   _this->_.Super._.VMT = EW_CLASS( ApplicationContactItem );
 
   /* Finalize all embedded objects */
-  ApplicationPushButtonSmall__Done( &_this->RemoveButton );
-  ApplicationTextButton__Done( &_this->DeleteButton );
   EffectsInt32Effect__Done( &_this->EditEffect );
   EffectsInt32Effect__Done( &_this->DeleteEffect );
+  ApplicationPushButtonSmall__Done( &_this->RemoveButton );
+  ApplicationTextButton__Done( &_this->DeleteButton );
   ApplicationPushButtonSmall__Done( &_this->InfoButton );
 
   /* Don't forget to deinitialize the super class ... */
@@ -10043,7 +8619,7 @@ void ApplicationFavContactItem_onAnimate( ApplicationFavContactItem _this, XObje
   ( _this->EditEffect.Value + 6 ) - _this->DeleteEffect.Value ));
   CoreRectView__OnSetBounds( &_this->Super1.LastNameTxt, EwSetRectX( _this->Super1.LastNameTxt.Super1.Bounds, 
   ( _this->EditEffect.Value + 55 ) - _this->DeleteEffect.Value ));
-  CoreRectView__OnSetBounds( &_this->Super1.FirstnameTxt, EwSetRectX( _this->Super1.FirstnameTxt.Super1.Bounds, 
+  CoreRectView__OnSetBounds( &_this->Super1.FirstNameTxt, EwSetRectX( _this->Super1.FirstNameTxt.Super1.Bounds, 
   ( _this->EditEffect.Value + 146 ) - _this->DeleteEffect.Value ));
   CoreRectView__OnSetBounds( &_this->InfoButton, EwSetRectX( _this->InfoButton.Super3.Bounds, 
   ( _this->EditEffect.Value + 217 ) - _this->DeleteEffect.Value ));
@@ -10074,6 +8650,12 @@ void ApplicationFavContactItem_OnSetEditMode( ApplicationFavContactItem _this, X
   {
     ApplicationPushButtonSmall_OnSetIcon( &_this->InfoButton, EwLoadString( &ResInfoTxt ));
     ApplicationPushButtonSmall_OnSetIconColor( &_this->InfoButton, ResBlue );
+
+    if ( _this->DeleteEffect.Super1.Enabled || ( _this->DeleteEffect.Value == _this->DeleteEffect.Value2 ))
+    {
+      EffectsEffect_OnSetReversed((EffectsEffect)&_this->DeleteEffect, 1 );
+      EwSignal( EwNewSlot( &_this->DeleteEffect, EffectsEffect_StartEffect ), ((XObject)_this ));
+    }
   }
 
   EwSignal( EwNewSlot( &_this->EditEffect, EffectsEffect_StartEffect ), ((XObject)_this ));
@@ -10086,8 +8668,7 @@ void ApplicationFavContactItem_onDelete( ApplicationFavContactItem _this, XObjec
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  ApplicationContacts_Remove( &EwGetAutoObject( &ApplicationMyContactsManager, ApplicationContactsManager )->Favorites, 
-  _this->Super1.Contact );
+  EwPostSignal( _this->OnDelete, ((XObject)_this ));
 }
 
 /* 'C' function for method : 'Application::FavContactItem.onShowDelete()' */
@@ -10097,6 +8678,7 @@ void ApplicationFavContactItem_onShowDelete( ApplicationFavContactItem _this, XO
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
+  EffectsEffect_OnSetReversed((EffectsEffect)&_this->DeleteEffect, 0 );
   EwSignal( EwNewSlot( &_this->DeleteEffect, EffectsEffect_StartEffect ), ((XObject)_this ));
 }
 
@@ -10125,7 +8707,7 @@ EW_END_OF_CLASS_VARIANTS( ApplicationFavContactItem )
 
 /* Virtual Method Table (VMT) for the class : 'Application::FavContactItem' */
 EW_DEFINE_CLASS( ApplicationFavContactItem, ApplicationContactItem, OnDelete, OnDelete, 
-                 RemoveButton, RemoveButton, EditMode, EditMode, "Application::FavContactItem" )
+                 EditEffect, EditEffect, EditMode, EditMode, "Application::FavContactItem" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -10150,135 +8732,32 @@ EW_DEFINE_CLASS( ApplicationFavContactItem, ApplicationContactItem, OnDelete, On
   CoreGroup_Add,
 EW_END_OF_CLASS( ApplicationFavContactItem )
 
-/* Initializer for the class variant 'Application::SimulateDatabase' */
-void ApplicationSimulateDatabase__Init( ApplicationContactsManager _this, XObject aLink, XHandle aArg )
-{
-  ApplicationSimulateDatabase _vthis = (ApplicationSimulateDatabase)_this->_vthis;
-
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( aLink );
-
-  /* Allow the Immediate Garbage Collection to evalute the members of this class variant. */
-  _vthis->_.XObject._.GCT = EW_VCLASS_GCT( ApplicationSimulateDatabase );
-
-  /* Setup the VMT pointer */
-  _vthis->_.VMT = EW_VCLASS( ApplicationSimulateDatabase );
-
-  /* Call the user defined constructor */
-  ApplicationSimulateDatabase_Init( _this, aArg );
-}
-
-/* Re-Initializer for the class variant 'Application::SimulateDatabase' */
-void ApplicationSimulateDatabase__ReInit( ApplicationContactsManager _this )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-}
-
-/* Finalizer method for the class variant 'Application::SimulateDatabase' */
-void ApplicationSimulateDatabase__Done( ApplicationContactsManager _this )
-{
-  ApplicationSimulateDatabase _vthis = (ApplicationSimulateDatabase)_this->_vthis;
-
-  /* Finalize this class */
-  _vthis->_.VMT = 0;
-}
-
-/* 'C' function for method : 'Application::SimulateDatabase.Init()' */
-void ApplicationSimulateDatabase_Init( ApplicationContactsManager _this, XHandle 
-  aArg )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( aArg );
-
-  ApplicationSimulateDatabase_CreateContactData( _this );
-}
-
-/* 'C' function for method : 'Application::SimulateDatabase.CreateContact()' */
-void ApplicationSimulateDatabase_CreateContact( ApplicationContactsManager _this, 
-  XString aLastName, XString aFirstName, XString aPhoneNumber )
-{
-  ApplicationContact MyContact = EwNewObject( ApplicationContact, 0 );
-
-  ApplicationContact_OnSetFirstName( MyContact, aFirstName );
-  ApplicationContact_OnSetLastName( MyContact, aLastName );
-  ApplicationContact_OnSetPhoneNumber( MyContact, aPhoneNumber );
-  ApplicationContacts_Add( &_this->Contacts, MyContact );
-}
-
-/* 'C' function for method : 'Application::SimulateDatabase.CreateContactData()' */
-void ApplicationSimulateDatabase_CreateContactData( ApplicationContactsManager _this )
-{
-  ApplicationSimulateDatabase_CreateContact( _this, EwLoadString( &_Const0111 ), 
-  EwLoadString( &_Const0112 ), EwLoadString( &_Const0113 ));
-  ApplicationSimulateDatabase_CreateContact( _this, EwLoadString( &_Const0114 ), 
-  EwLoadString( &_Const0115 ), EwLoadString( &_Const0116 ));
-  ApplicationSimulateDatabase_CreateContact( _this, EwLoadString( &_Const0117 ), 
-  EwLoadString( &_Const0118 ), EwLoadString( &_Const0119 ));
-  ApplicationSimulateDatabase_CreateContact( _this, EwLoadString( &_Const011A ), 
-  EwLoadString( &_Const011B ), EwLoadString( &_Const011C ));
-  ApplicationSimulateDatabase_CreateContact1( _this, EwLoadString( &_Const0117 ), 
-  EwLoadString( &_Const0118 ), EwLoadString( &_Const0119 ));
-  ApplicationSimulateDatabase_CreateContact2( _this, EwLoadString( &_Const0117 ), 
-  EwLoadString( &_Const0118 ), EwLoadString( &_Const0119 ));
-  ApplicationContacts_insertionSort( &_this->Contacts );
-}
-
-/* 'C' function for method : 'Application::SimulateDatabase.CreateContact1()' */
-void ApplicationSimulateDatabase_CreateContact1( ApplicationContactsManager _this, 
-  XString aLastName, XString aFirstName, XString aPhoneNumber )
-{
-  ApplicationContact MyContact = EwNewObject( ApplicationContact, 0 );
-
-  ApplicationContact_OnSetFirstName( MyContact, aFirstName );
-  ApplicationContact_OnSetLastName( MyContact, aLastName );
-  ApplicationContact_OnSetPhoneNumber( MyContact, aPhoneNumber );
-  ApplicationContacts_Add( &_this->Favorites, MyContact );
-}
-
-/* 'C' function for method : 'Application::SimulateDatabase.CreateContact2()' */
-void ApplicationSimulateDatabase_CreateContact2( ApplicationContactsManager _this, 
-  XString aLastName, XString aFirstName, XString aPhoneNumber )
-{
-  ApplicationContact MyContact = EwNewObject( ApplicationContact, 0 );
-
-  ApplicationContact_OnSetFirstName( MyContact, aFirstName );
-  ApplicationContact_OnSetLastName( MyContact, aLastName );
-  ApplicationContact_OnSetPhoneNumber( MyContact, aPhoneNumber );
-  ApplicationContacts_Add( &_this->History, MyContact );
-}
-
-/* Variants derived from the class : 'Application::SimulateDatabase' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationSimulateDatabase )
-EW_END_OF_CLASS_VARIANTS( ApplicationSimulateDatabase )
-
-/* Virtual Method Table (VMT) for the class variant : 'Application::SimulateDatabase' */
-EW_DEFINE_VCLASS( ApplicationSimulateDatabase, XObject, ApplicationContactsManager, 
-                  _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, "Application::SimulateDatabase" )
-EW_END_OF_VCLASS( ApplicationSimulateDatabase )
-
-/* Initializer for the class 'Application::ContactHistory' */
-void ApplicationContactHistory__Init( ApplicationContactHistory _this, XObject aLink, XHandle aArg )
+/* Initializer for the class 'Application::HistoryContact' */
+void ApplicationHistoryContact__Init( ApplicationHistoryContact _this, XObject aLink, XHandle aArg )
 {
   /* At first initialize the super class ... */
   ApplicationContact__Init( &_this->_.Super, aLink, aArg );
 
   /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationContactHistory );
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationHistoryContact );
 
   /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationContactHistory );
+  _this->_.VMT = EW_CLASS( ApplicationHistoryContact );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  _this->CallState = ApplicationCallStateNone;
+  _this->CallDirection = ApplicationCallDirectionNone;
 }
 
-/* Re-Initializer for the class 'Application::ContactHistory' */
-void ApplicationContactHistory__ReInit( ApplicationContactHistory _this )
+/* Re-Initializer for the class 'Application::HistoryContact' */
+void ApplicationHistoryContact__ReInit( ApplicationHistoryContact _this )
 {
   /* At first re-initialize the super class ... */
   ApplicationContact__ReInit( &_this->_.Super );
 }
 
-/* Finalizer method for the class 'Application::ContactHistory' */
-void ApplicationContactHistory__Done( ApplicationContactHistory _this )
+/* Finalizer method for the class 'Application::HistoryContact' */
+void ApplicationHistoryContact__Done( ApplicationHistoryContact _this )
 {
   /* Finalize this class */
   _this->_.Super._.VMT = EW_CLASS( ApplicationContact );
@@ -10287,35 +8766,512 @@ void ApplicationContactHistory__Done( ApplicationContactHistory _this )
   ApplicationContact__Done( &_this->_.Super );
 }
 
-/* 'C' function for method : 'Application::ContactHistory.OnSetCallType()' */
-void ApplicationContactHistory_OnSetCallType( ApplicationContactHistory _this, XString 
+/* 'C' function for method : 'Application::HistoryContact.OnSetCallState()' */
+void ApplicationHistoryContact_OnSetCallState( ApplicationHistoryContact _this, 
+  XEnum value )
+{
+  if ( _this->CallState == value )
+    return;
+
+  _this->CallState = value;
+  EwNotifyObjObservers((XObject)_this, 0 );
+}
+
+/* 'C' function for method : 'Application::HistoryContact.OnSetTimeOfCall()' */
+void ApplicationHistoryContact_OnSetTimeOfCall( ApplicationHistoryContact _this, 
+  CoreTime value )
+{
+  if ( _this->TimeOfCall == value )
+    return;
+
+  _this->TimeOfCall = value;
+  EwNotifyObjObservers((XObject)_this, 0 );
+}
+
+/* 'C' function for method : 'Application::HistoryContact.OnSetCallDirection()' */
+void ApplicationHistoryContact_OnSetCallDirection( ApplicationHistoryContact _this, 
+  XEnum value )
+{
+  if ( _this->CallDirection == value )
+    return;
+
+  _this->CallDirection = value;
+}
+
+/* Variants derived from the class : 'Application::HistoryContact' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationHistoryContact )
+EW_END_OF_CLASS_VARIANTS( ApplicationHistoryContact )
+
+/* Virtual Method Table (VMT) for the class : 'Application::HistoryContact' */
+EW_DEFINE_CLASS( ApplicationHistoryContact, ApplicationContact, TimeOfCall, CallDirection, 
+                 CallDirection, CallDirection, CallDirection, CallDirection, "Application::HistoryContact" )
+EW_END_OF_CLASS( ApplicationHistoryContact )
+
+/* Initializer for the class 'Application::ContactListElement' */
+void ApplicationContactListElement__Init( ApplicationContactListElement _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  XObject__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationContactListElement );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( ApplicationContactListElement );
+}
+
+/* Re-Initializer for the class 'Application::ContactListElement' */
+void ApplicationContactListElement__ReInit( ApplicationContactListElement _this )
+{
+  /* At first re-initialize the super class ... */
+  XObject__ReInit( &_this->_.Super );
+}
+
+/* Finalizer method for the class 'Application::ContactListElement' */
+void ApplicationContactListElement__Done( ApplicationContactListElement _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( XObject );
+
+  /* Don't forget to deinitialize the super class ... */
+  XObject__Done( &_this->_.Super );
+}
+
+/* Variants derived from the class : 'Application::ContactListElement' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationContactListElement )
+EW_END_OF_CLASS_VARIANTS( ApplicationContactListElement )
+
+/* Virtual Method Table (VMT) for the class : 'Application::ContactListElement' */
+EW_DEFINE_CLASS( ApplicationContactListElement, XObject, next, _.VMT, _.VMT, _.VMT, 
+                 _.VMT, _.VMT, "Application::ContactListElement" )
+EW_END_OF_CLASS( ApplicationContactListElement )
+
+/* Initializer for the class 'Application::ContactList' */
+void ApplicationContactList__Init( ApplicationContactList _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  XObject__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationContactList );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( ApplicationContactList );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  _this->Sorting = ApplicationSortingNone;
+}
+
+/* Re-Initializer for the class 'Application::ContactList' */
+void ApplicationContactList__ReInit( ApplicationContactList _this )
+{
+  /* At first re-initialize the super class ... */
+  XObject__ReInit( &_this->_.Super );
+}
+
+/* Finalizer method for the class 'Application::ContactList' */
+void ApplicationContactList__Done( ApplicationContactList _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( XObject );
+
+  /* Don't forget to deinitialize the super class ... */
+  XObject__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Application::ContactList.Add()' */
+void ApplicationContactList_Add( ApplicationContactList _this, ApplicationContact 
+  aContact )
+{
+  ApplicationContactListElement elem = EwNewObject( ApplicationContactListElement, 
+    0 );
+
+  elem->Data = aContact;
+
+  if ( _this->head == 0 )
+    _this->head = elem;
+  else
+  {
+    ApplicationContactListElement lastNode = _this->head;
+
+    while ( lastNode->next != 0 )
+      lastNode = lastNode->next;
+
+    lastNode->next = elem;
+  }
+
+  ApplicationContactList_OnSetNoOfItems( _this, _this->NoOfItems + 1 );
+}
+
+/* 'C' function for method : 'Application::ContactList.Remove()' */
+void ApplicationContactList_Remove( ApplicationContactList _this, ApplicationContact 
+  aContact )
+{
+  ApplicationContactListElement elem = _this->head;
+  ApplicationContactListElement prev = 0;
+
+  if (( elem != 0 ) && ( elem->Data == aContact ))
+  {
+    _this->head = elem->next;
+    ApplicationContactList_OnSetNoOfItems( _this, _this->NoOfItems - 1 );
+  }
+  else
+  {
+    while (( elem != 0 ) && ( elem->Data != aContact ))
+    {
+      prev = elem;
+      elem = elem->next;
+    }
+
+    prev->next = elem->next;
+    ApplicationContactList_OnSetNoOfItems( _this, _this->NoOfItems - 1 );
+  }
+}
+
+/* 'C' function for method : 'Application::ContactList.OnSetNoOfItems()' */
+void ApplicationContactList_OnSetNoOfItems( ApplicationContactList _this, XInt32 
   value )
 {
-  if ( !EwCompString( _this->CallType, value ))
+  if ( _this->NoOfItems == value )
     return;
 
-  _this->CallType = EwShareString( value );
-  EwNotifyObjObservers((XObject)_this, 0 );
+  _this->NoOfItems = value;
+  EwNotifyRefObservers( EwNewRef( _this, ApplicationContactList_OnGetNoOfItems, 
+    ApplicationContactList_OnSetNoOfItems ), 0 );
 }
 
-/* 'C' function for method : 'Application::ContactHistory.OnSetTimeOfCall()' */
-void ApplicationContactHistory_OnSetTimeOfCall( ApplicationContactHistory _this, 
-  XString value )
+/* 'C' function for method : 'Application::ContactList.GetContact()' */
+ApplicationContact ApplicationContactList_GetContact( ApplicationContactList _this, 
+  XInt32 aIndex )
 {
-  if ( !EwCompString( _this->TimeOfCall, value ))
-    return;
+  ApplicationContactListElement elem;
+  XInt32 it;
 
-  _this->TimeOfCall = EwShareString( value );
-  EwNotifyObjObservers((XObject)_this, 0 );
+  if (( _this->head == 0 ) || ( aIndex >= _this->NoOfItems ))
+    return 0;
+
+  elem = _this->head;
+  it = 0;
+
+  while (( it != aIndex ) && ( elem->Data != 0 ))
+  {
+    elem = elem->next;
+    it += 1;
+  }
+
+  return elem->Data;
 }
 
-/* Variants derived from the class : 'Application::ContactHistory' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationContactHistory )
-EW_END_OF_CLASS_VARIANTS( ApplicationContactHistory )
+/* 'C' function for method : 'Application::ContactList.GetInitials()' */
+XString ApplicationContactList_GetInitials( ApplicationContactList _this, ApplicationContact 
+  aContact )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
 
-/* Virtual Method Table (VMT) for the class : 'Application::ContactHistory' */
-EW_DEFINE_CLASS( ApplicationContactHistory, ApplicationContact, CallType, CallType, 
-                 CallType, CallType, CallType, _.VMT, "Application::ContactHistory" )
-EW_END_OF_CLASS( ApplicationContactHistory )
+  return EwConcatStringChar( EwConcatCharString( EwGetStringChar( aContact->FirstName, 
+    0 ), 0 ), EwGetStringChar( aContact->LastName, 0 ));
+}
+
+/* 'C' function for method : 'Application::ContactList.insertionSort()' */
+void ApplicationContactList_insertionSort( ApplicationContactList _this )
+{
+  ApplicationContactListElement current = _this->head;
+
+  while ( current != 0 )
+  {
+    ApplicationContactListElement next = current->next;
+    ApplicationContactList_sortedInsert( _this, current );
+    current = next;
+  }
+
+  _this->head = _this->sorted;
+  _this->sorted = 0;
+}
+
+/* 'C' function for method : 'Application::ContactList.sortedInsert()' */
+void ApplicationContactList_sortedInsert( ApplicationContactList _this, ApplicationContactListElement 
+  aElement )
+{
+  if ((( _this->sorted == 0 ) || (( _this->Sorting == ApplicationSortingAscending ) 
+      && ( EwCompString( _this->sorted->Data->LastName, aElement->Data->LastName ) 
+      >= 0 ))) || (( _this->Sorting == ApplicationSortingDescending ) && ( EwCompString( 
+      _this->sorted->Data->LastName, aElement->Data->LastName ) <= 0 )))
+  {
+    aElement->next = _this->sorted;
+    _this->sorted = aElement;
+  }
+  else
+  {
+    ApplicationContactListElement current = _this->sorted;
+
+    while (( current->next != 0 ) && ((( _this->Sorting == ApplicationSortingAscending ) 
+           && ( EwCompString( current->next->Data->LastName, aElement->Data->LastName ) 
+           < 0 )) || (( _this->Sorting == ApplicationSortingDescending ) && ( EwCompString( 
+           current->next->Data->LastName, aElement->Data->LastName ) > 0 ))))
+      current = current->next;
+
+    aElement->next = current->next;
+    current->next = aElement;
+  }
+}
+
+/* 'C' function for method : 'Application::ContactList.OnSetSorting()' */
+void ApplicationContactList_OnSetSorting( ApplicationContactList _this, XEnum value )
+{
+  if ( _this->Sorting == value )
+    return;
+
+  _this->Sorting = value;
+  ApplicationContactList_insertionSort( _this );
+  EwNotifyRefObservers( EwNewRef( _this, ApplicationContactList_OnGetSorting, ApplicationContactList_OnSetSorting ), 
+    0 );
+}
+
+/* 'C' function for method : 'Application::ContactList.FindByPhoneNumber()' */
+ApplicationContact ApplicationContactList_FindByPhoneNumber( ApplicationContactList _this, 
+  XString aNumber )
+{
+  ApplicationContactListElement elem = _this->head;
+
+  while ( elem != 0 )
+  {
+    if ( !EwCompString( elem->Data->PhoneNumber, aNumber ))
+      return elem->Data;
+
+    elem = elem->next;
+  }
+
+  return 0;
+}
+
+/* 'C' function for method : 'Application::ContactList.FindByID()' */
+ApplicationContact ApplicationContactList_FindByID( ApplicationContactList _this, 
+  ApplicationContact aContact )
+{
+  ApplicationContactListElement elem = _this->head;
+
+  while ( elem->next != 0 )
+  {
+    if ( elem->Data->ID == aContact->ID )
+      return elem->Data;
+
+    elem = elem->next;
+  }
+
+  return 0;
+}
+
+/* Default onget method for the property 'NoOfItems' */
+XInt32 ApplicationContactList_OnGetNoOfItems( ApplicationContactList _this )
+{
+  return _this->NoOfItems;
+}
+
+/* Default onget method for the property 'Sorting' */
+XEnum ApplicationContactList_OnGetSorting( ApplicationContactList _this )
+{
+  return _this->Sorting;
+}
+
+/* Variants derived from the class : 'Application::ContactList' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationContactList )
+EW_END_OF_CLASS_VARIANTS( ApplicationContactList )
+
+/* Virtual Method Table (VMT) for the class : 'Application::ContactList' */
+EW_DEFINE_CLASS( ApplicationContactList, XObject, head, NoOfItems, NoOfItems, NoOfItems, 
+                 NoOfItems, NoOfItems, "Application::ContactList" )
+EW_END_OF_CLASS( ApplicationContactList )
+
+/* Initializer for the class 'Application::CallPageBase' */
+void ApplicationCallPageBase__Init( ApplicationCallPageBase _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationCallPageBase );
+
+  /* ... then construct all embedded objects */
+  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
+  ApplicationPushButtonMediumTrans__Init( &_this->DesclineButton, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->TimeTxt, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->ContactNameTxt, &_this->_.XObject, 0 );
+  ApplicationPushButtonBig__Init( &_this->UserInitials, &_this->_.XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( ApplicationCallPageBase );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0084 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0084 );
+  ViewsRectangle_OnSetColorBL( &_this->Background, _Const00D7 );
+  ViewsRectangle_OnSetColorBR( &_this->Background, _Const00D8 );
+  ViewsRectangle_OnSetColorTR( &_this->Background, _Const00D9 );
+  ViewsRectangle_OnSetColorTL( &_this->Background, _Const00D9 );
+  ViewsRectangle_OnSetColor( &_this->Background, _Const00DA );
+  CoreRectView__OnSetBounds( &_this->DesclineButton, _Const00F9 );
+  ApplicationPushButtonMediumTrans_OnSetIcon( &_this->DesclineButton, EwLoadString( 
+  &ResEndCallTxt ));
+  ApplicationPushButtonMediumTrans_OnSetDescript( &_this->DesclineButton, EwLoadString( 
+  &_Const00FA ));
+  ApplicationPushButtonMediumTrans_OnSetButtonColor( &_this->DesclineButton, ResRed );
+  CoreView_OnSetLayout((CoreView)&_this->TimeTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00FB );
+  ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzCenter | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00FC ));
+  ViewsText_OnSetColor( &_this->TimeTxt, ResWhite );
+  CoreView_OnSetLayout((CoreView)&_this->ContactNameTxt, CoreLayoutAlignToLeft | 
+  CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const00FD );
+  ViewsText_OnSetEnableBidiText( &_this->ContactNameTxt, 0 );
+  ViewsText_OnSetAutoSize( &_this->ContactNameTxt, 1 );
+  ViewsText_OnSetAlignment( &_this->ContactNameTxt, ViewsTextAlignmentAlignHorzLeft 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->ContactNameTxt, EwLoadString( &_Const0029 ));
+  ViewsText_OnSetColor( &_this->ContactNameTxt, ResWhite );
+  CoreRectView__OnSetBounds( &_this->UserInitials, _Const00FE );
+  CoreGroup_OnSetEnabled((CoreGroup)&_this->UserInitials, 0 );
+  ApplicationPushButtonBig_OnSetDescript( &_this->UserInitials, 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->DesclineButton ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->TimeTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->ContactNameTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->UserInitials ), 0 );
+  _this->DesclineButton.OnActivate = EwNewSlot( _this, ApplicationCallPageBase_onDesclineCall );
+  ViewsText_OnSetFont( &_this->TimeTxt, EwLoadResource( &ResContactFont12, ResourcesFont ));
+  ViewsText_OnSetFont( &_this->ContactNameTxt, EwLoadResource( &ResTitileFont25, 
+  ResourcesFont ));
+
+  /* Call the user defined constructor */
+  ApplicationCallPageBase_Init( _this, aArg );
+}
+
+/* Re-Initializer for the class 'Application::CallPageBase' */
+void ApplicationCallPageBase__ReInit( ApplicationCallPageBase _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_.Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsRectangle__ReInit( &_this->Background );
+  ApplicationPushButtonMediumTrans__ReInit( &_this->DesclineButton );
+  ViewsText__ReInit( &_this->TimeTxt );
+  ViewsText__ReInit( &_this->ContactNameTxt );
+  ApplicationPushButtonBig__ReInit( &_this->UserInitials );
+}
+
+/* Finalizer method for the class 'Application::CallPageBase' */
+void ApplicationCallPageBase__Done( ApplicationCallPageBase _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+
+  /* Finalize all embedded objects */
+  ViewsRectangle__Done( &_this->Background );
+  ApplicationPushButtonMediumTrans__Done( &_this->DesclineButton );
+  ViewsText__Done( &_this->TimeTxt );
+  ViewsText__Done( &_this->ContactNameTxt );
+  ApplicationPushButtonBig__Done( &_this->UserInitials );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_.Super );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationCallPageBase_Init( ApplicationCallPageBase _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+  EW_UNUSED_ARG( aArg );
+}
+
+/* 'C' function for method : 'Application::CallPageBase.onContactUpdated()' */
+void ApplicationCallPageBase_onContactUpdated( ApplicationCallPageBase _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Contact != 0 )
+  {
+    ViewsText_OnSetString( &_this->ContactNameTxt, EwConcatString( EwConcatString( 
+    _this->Contact->Super1.LastName, EwLoadString( &_Const002E )), _this->Contact->Super1.FirstName ));
+    ApplicationPushButtonBig_OnSetInitials( &_this->UserInitials, _this->Contact->Super1.NameInitials );
+  }
+  else
+  {
+    ViewsText_OnSetString( &_this->ContactNameTxt, ApplicationContactList_GetContact( 
+    &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Ongoing, 0 )->PhoneNumber );
+    CoreGroup_OnSetVisible((CoreGroup)&_this->UserInitials, 0 );
+  }
+}
+
+/* 'C' function for method : 'Application::CallPageBase.onDesclineCall()' */
+void ApplicationCallPageBase_onDesclineCall( ApplicationCallPageBase _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ApplicationDeviceClass_EndCall( EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass ), 
+  _this->Contact );
+}
+
+/* 'C' function for method : 'Application::CallPageBase.OnSetContact()' */
+void ApplicationCallPageBase_OnSetContact( ApplicationCallPageBase _this, ApplicationHistoryContact 
+  value )
+{
+  if ( _this->Contact == value )
+    return;
+
+  if ( _this->Contact != 0 )
+    EwDetachObjObserver( EwNewSlot( _this, ApplicationCallPageBase_onContactUpdated ), 
+      (XObject)_this->Contact, 0 );
+
+  _this->Contact = value;
+
+  if ( _this->Contact != 0 )
+  {
+    EwAttachObjObserver( EwNewSlot( _this, ApplicationCallPageBase_onContactUpdated ), 
+      (XObject)_this->Contact, 0 );
+    EwPostSignal( EwNewSlot( _this, ApplicationCallPageBase_onContactUpdated ), 
+      ((XObject)_this ));
+  }
+}
+
+/* Variants derived from the class : 'Application::CallPageBase' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationCallPageBase )
+EW_END_OF_CLASS_VARIANTS( ApplicationCallPageBase )
+
+/* Virtual Method Table (VMT) for the class : 'Application::CallPageBase' */
+EW_DEFINE_CLASS( ApplicationCallPageBase, CoreGroup, Contact, Background, Background, 
+                 Background, _.VMT, _.VMT, "Application::CallPageBase" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetBuffered,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_FindSiblingView,
+  CoreGroup_RestackTop,
+  CoreGroup_Restack,
+  CoreGroup_Remove,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationCallPageBase )
 
 /* Embedded Wizard */

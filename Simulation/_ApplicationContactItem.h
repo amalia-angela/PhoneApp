@@ -109,9 +109,10 @@ EW_DEFINE_FIELDS( ApplicationContactItem, CoreGroup )
   EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( LastNameTxt,     ViewsText )
-  EW_OBJECT  ( FirstnameTxt,    ViewsText )
+  EW_OBJECT  ( FirstNameTxt,    ViewsText )
   EW_OBJECT  ( Line,            ViewsLine )
   EW_OBJECT  ( PrfofilButton,   ApplicationPushButtonSmall )
+  EW_OBJECT  ( Line1,           ViewsLine )
   EW_PROPERTY( ButtonColor,     XColor )
   EW_PROPERTY( IconColor,       XColor )
   EW_PROPERTY( TextColor,       XColor )
@@ -154,6 +155,11 @@ EW_DEFINE_METHODS( ApplicationContactItem, CoreGroup )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
 EW_END_OF_METHODS( ApplicationContactItem )
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationContactItem_Init( ApplicationContactItem _this, XHandle aArg );
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 

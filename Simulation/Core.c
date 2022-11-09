@@ -2787,15 +2787,6 @@ __declspec( naked ) void CoreGroup__OnSetOpacity( void* _this, XInt32 value )
   }
 }
 
-/* 'C' function for method : 'Core::Group.OnSetAlphaBlended()' */
-void CoreGroup_OnSetAlphaBlended( CoreGroup _this, XBool value )
-{
-  if ( value )
-    CoreView__ChangeViewState( _this, CoreViewStateAlphaBlended, 0 );
-  else
-    CoreView__ChangeViewState( _this, 0, CoreViewStateAlphaBlended );
-}
-
 /* 'C' function for method : 'Core::Group.OnGetVisible()' */
 XBool CoreGroup_OnGetVisible( CoreGroup _this )
 {

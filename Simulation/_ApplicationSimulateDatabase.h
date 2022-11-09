@@ -60,7 +60,7 @@ void ApplicationSimulateDatabase_Init( ApplicationContactsManager _this, XHandle
 
 /* 'C' function for method : 'Application::SimulateDatabase.CreateContact()' */
 void ApplicationSimulateDatabase_CreateContact( ApplicationContactsManager _this, 
-  XString aLastName, XString aFirstName, XString aPhoneNumber );
+  XInt32 aID, XString aLastName, XString aFirstName, XString aPhoneNumber );
 
 /* 'C' function for method : 'Application::SimulateDatabase.CreateContactData()' */
 void ApplicationSimulateDatabase_CreateContactData( ApplicationContactsManager _this );

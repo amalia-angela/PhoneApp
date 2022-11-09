@@ -280,9 +280,6 @@ extern const XStringRes ResBackspaceTxt;
 /* User defined constant: 'Res::PressColor' */
 extern const XColor ResPressColor;
 
-/* User defined constant: 'Res::OutgoingCallTxt' */
-extern const XStringRes ResOutgoingCallTxt;
-
 /* User defined constant: 'Res::RemoveTxt' */
 extern const XStringRes ResRemoveTxt;
 
