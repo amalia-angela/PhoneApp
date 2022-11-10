@@ -59,6 +59,12 @@
 #define _ApplicationDeviceClass_
 #endif
 
+/* Forward declaration of the class Application::HistoryContact */
+#ifndef _ApplicationHistoryContact_
+  EW_DECLARE_CLASS( ApplicationHistoryContact )
+#define _ApplicationHistoryContact_
+#endif
+
 /* Forward declaration of the class Core::DialogContext */
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )

@@ -283,7 +283,7 @@ class ContactsPage : Core::Group
 // UI Pages
 note group Note
 {
-  attr Bounds = <0,0,410,910>;
+  attr Bounds = <0,0,410,940>;
 }
 
 // Resorces
@@ -778,20 +778,10 @@ class ContactDetailsPage : Core::Group
   $rect <300,50,450,90>
   var Application::ContactEditPage edit;
 
-  $rect <290,280,460,320>
-  var Application::CallPage call;
-
-  $rect <460,280,640,320>
+  $rect <310,280,490,320>
   slot onTapCall
   {
     Application::Device.OutgoingCallContact( Contact );
-
-  }
-
-  $rect <480,320,640,360>
-  slot onCallEnd
-  {
-    DismissDialog( call, Res::FadeInOutCentered, null, null, null, null, false);
   }
 
   $rect <460,90,620,130>
@@ -5328,23 +5318,20 @@ $rect <30,190,210,230>
 $output false
 class CallPage : Application::CallPageBase
 {
-  $rect <310,50,510,90>
-  inherited method Init()
-  {
-
-    /*attachobserver onCallState, ^Application::Device.CallState;
-    postsignal onCallState;
-
-    ///postsignal onContactUpdated;
-
-    getContact();
-    */
-
-
-  }
-
   $rect <0,490,200,530>
   inherited property Bounds = <0,0,272,480>;
+
+  $rect <300,150,500,190>
+  inherited slot onContactUpdated
+  {
+    if (  Contact.CallState == Application::CallState.Speaking )
+    {
+      AddCallBtn.Enabled = true;
+      VideoCallBtn.Enabled = true;
+    } 
+
+    super( sender );
+  }
 
   $rect <20,20,160,60>
   inherited object DesclineButton
@@ -5434,6 +5421,7 @@ class CallPage : Application::CallPageBase
   object Application::PushButtonMediumTrans VideoCallBtn
   {
     preset Bounds = <104,241,169,333>;
+    preset Enabled = false;
     preset OnActivate = onVideoCallPress;
     preset Icon = Res::VideoCallTxt;
     preset Descript = "VideoCall";
@@ -5443,6 +5431,7 @@ class CallPage : Application::CallPageBase
   object Application::PushButtonMediumTrans AddCallBtn
   {
     preset Bounds = <26,242,91,334>;
+    preset Enabled = false;
     preset OnActivate = onAddCallPress;
     preset Icon = Res::PlusIconTxt;
     preset Descript = "add call";
@@ -6589,7 +6578,7 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState = Application::CallState.Dialing;
     historyContact.CallDirection = Application::CallDirection.Outgoing;
 
-    Ongoing.Add( aContact );
+    Ongoing.Add( historyContact );
   }
 
   $rect <0,170,200,210>
@@ -6622,10 +6611,19 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,250,400,290>
   method void OutgoingCallNumber( arg string aPhoneNumber )
   {
+    var Application::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Application::HistoryContact historyContact = new Application::HistoryContact;
 
-    historyContact.LastName = aPhoneNumber;
-    historyContact.PhoneNumber = aPhoneNumber;
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+
     historyContact.TimeOfCall = (new Core::Time).CurrentTime;
     historyContact.CallState = Application::CallState.Dialing;
     historyContact.CallDirection = Application::CallDirection.Outgoing;
@@ -6652,61 +6650,41 @@ class DeviceClass : Templates::DeviceClass
   {
     if ( aContact.CallDirection == Application::CallDirection.Incoming )
     {
-      if ( aContact.CallState == Application::CallState.Rejected)
+      if ( aContact.CallState == Application::CallState.Dialing )
+        aContact.CallState = Application::CallState.Rejected;
+      else if ( aContact.CallState == Application::CallState.Speaking )
       {
-        History.Add( aContact );
-        Ongoing.Remove( aContact );
+        aContact.CallState = Application::CallState.EndCall;
+        aContact.EndTime = (new Core::Time).CurrentTime;
        }
-
-      else if ( aContact.CallState == Application::CallState.Timeout)
-      {
-        History.Add( aContact );
-        Ongoing.Remove( aContact );
-       }
-
-      else if ( aContact.CallState == Application::CallState.EndCall)
-      {
-        aContact.Duration.StopTimer;
-        History.Add( aContact );
-        Ongoing.Remove( aContact );
-       }
-        
     }
-
+      
     else if ( aContact.CallDirection == Application::CallDirection.Outgoing )
     {
-      if ( aContact.CallState == Application::CallState.Cancelled)
-      {
-        History.Add( aContact );
-        Ongoing.Remove( aContact );
-       }
-
-      else if ( aContact.CallState == Application::CallState.Timeout)
-      {
-        History.Add( aContact );
-        Ongoing.Remove( aContact );
-       }
-
-      else if ( aContact.CallState == Application::CallState.EndCall)
-      {
-        aContact.Duration.StopTimer;
-        History.Add( aContact );
-        Ongoing.Remove( aContact );
-       }
+      if ( aContact.CallState == Application::CallState.Dialing )
+        aContact.CallState = Application::CallState.Cancelled;
         
+      else if ( aContact.CallState == Application::CallState.Speaking )
+      {
+        aContact.CallState = Application::CallState.EndCall;
+        aContact.EndTime = (new Core::Time).CurrentTime;
+       }
     }
+
+    History.Add( aContact );
+    Ongoing.Remove( aContact );
   }
 
-  $rect <420,210,620,250>
+  $rect <430,210,630,250>
   method void AnswerCall( arg Application::HistoryContact aContact )
   {
     aContact.CallState = Application::CallState.Speaking;
-    aContact.Duration.StartTimer;
+    aContact.StartTime = (new Core::Time).CurrentTime;
 
   }
 }
 
-$rect <870,90,1100,130>
+$rect <870,80,1100,120>
 autoobject Application::DeviceClass Device;
 
 // Device
@@ -8659,8 +8637,8 @@ class ContactsApp : Core::Group
       }
       case 1: 
       {
-        //var Core::Group recent = new Application::RecentPage;
-        //Outline.SwitchToDialog( recent, null, null, null, null, null, null, null, null, null,false );
+        var Core::Group recent = new Application::RecentPage;
+        Outline.SwitchToDialog( recent, null, null, null, null, null, null, null, null, null,false );
       }
       case 2: 
       {
@@ -8740,7 +8718,10 @@ class Application : Core::Root
   $rect <290,80,490,120>
   slot onCallState
   {
-    var Application::HistoryContact historyContact = (Application::HistoryContact)Application::Device.Ongoing.GetContact( 0 );
+    if ( historyContact != null)
+      detachobserver onCallState, historyContact;
+
+    historyContact = (Application::HistoryContact)Application::Device.Ongoing.GetContact( 0 );
 
     if ( ongoingPage != null )
     {
@@ -8752,16 +8733,26 @@ class Application : Core::Root
     {
       if ( historyContact.CallDirection == Application::CallDirection.Incoming )
       {
-        ongoingPage = new Application::IncomingCall;
-        ongoingPage.Contact = historyContact;
+        if ( historyContact.CallState == Application::CallState.Speaking )
+        {
+          ongoingPage = new Application::CallPage;
+          ongoingPage.Contact = historyContact;
+        }
+        else
+        {
+          ongoingPage = new Application::IncomingCall;
+          ongoingPage.Contact = historyContact;
+        }
+        
         PresentDialog( ongoingPage, null, null, null, null, null, null, null, null, false );
       }
-      else if ( historyContact.CallDirection == Application::CallDirection.Outgoing || Application::CallState.Speaking )
+      else if ( historyContact.CallDirection == Application::CallDirection.Outgoing )
       {
         ongoingPage = new Application::CallPage;
         ongoingPage.Contact = historyContact;
         PresentDialog( ongoingPage, null, null, null, null, null, null, null, null, false );
       }
+      attachobserver onCallState, historyContact;
       
     }
 
@@ -8782,6 +8773,9 @@ class Application : Core::Root
 
   $rect <320,120,490,160>
   var Application::CallPageBase ongoingPage = null;
+
+  $rect <490,120,690,160>
+  var Application::HistoryContact historyContact = null;
 }
 
 $rect <50,310,210,350>
@@ -9080,7 +9074,6 @@ vclass ApplicationSimulation : Application::Application
   $rect <844,104,1044,144>
   slot onIncomingCall
   {
-
     Application::Device.UpdateIncomingCall( "zf" );
     //Application::Device.UpdateCallingNumber( "+40723494923" );
     //Application::Device.UpdateCallingNumber( "zf" );
@@ -9121,6 +9114,9 @@ class IncomingCall : Application::CallPageBase
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
 
+  $rect <20,20,160,60>
+  inherited object DesclineButton;
+
   // Touch screen events
   note group Note
   {
@@ -9148,6 +9144,11 @@ class IncomingCall : Application::CallPageBase
   {
     attr Bounds = <290,0,760,200>;
   }
+
+  $reorder Note 2
+  $reorder onAcceptCall 2
+  $reorder AcceptButton 2
+  $reorder Note2 2
 }
 
 // The global autoobject Effects::SlideUpCentered represents the fade-in/out operation \
@@ -9554,11 +9555,11 @@ class RecentPage : Core::Group
   $rect <290,40,480,80>
   inherited method Init()
   {
-    attachobserver onNoOfContactsChanged, ^Application::MyContactsManager.History.NoOfItems;
+    attachobserver onNoOfContactsChanged, ^Application::Device.History.NoOfItems;
     postsignal onNoOfContactsChanged;
   }
 
-  $rect <290,120,480,160>
+  $rect <0,460,190,500>
   inherited property Bounds = <0,0,272,440>;
 
   $rect <0,570,200,610>
@@ -9726,7 +9727,7 @@ class RecentPage : Core::Group
   $rect <20,20,160,60>
   object Core::SlideTouchHandler SlideTouchHandler
   {
-    preset StackingPriority = -2;
+    preset StackingPriority = -1;
     preset Bounds = <11,95,261,408>;
     preset SlideHorz = false;
   }
@@ -9766,7 +9767,7 @@ class RecentPage : Core::Group
   $rect <290,80,480,120>
   slot onNoOfContactsChanged
   {
-    VerticalList.NoOfItems = Application::MyContactsManager.History.NoOfItems;
+    VerticalList.NoOfItems = Application::Device.History.NoOfItems;
 
   }
 
@@ -9818,10 +9819,8 @@ class RecentPage : Core::Group
   $rect <720,80,890,120>
   slot onPressedContact
   {
-    //on contact pressed ->contact will be called
-    //var Application::FavContactItem itemView = (Application::FavContactItem)sender;
-
-    SelectedContact =  ((Application::RecentItm1)sender).Contact;
+    var Application::RecentItm itemView = (Application::RecentItm)sender;
+    SelectedContact = itemView.ContactHistory;
 
     Application::Device.OutgoingCallContact( SelectedContact );
 
@@ -9835,24 +9834,25 @@ class RecentPage : Core::Group
   $rect <720,160,890,200>
   slot onInfoContact
   {
-    detailsPage = new Application::RecentDetailsPage;
-    //var Application::FavContactItem itemView = (Application::FavContactItem)sender;
-    //SelectedContact = itemView.Contact;
+    var Application::RecentItm itemView = (Application::RecentItm)sender;
 
-    detailsPage.Contact = ((Application::RecentItm1)sender).Contact;
-    detailsPage.OnBack = onCloseDetailsPage;
+    if ( itemView != null )
+    {
+      detailsPage = new Application::RecentDetailsPage;
+      detailsPage.OnBack = onCloseDetailsPage;
+      //detailsPage.OnDelete = onDeleteContact;
 
-    SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null, null, null, null, false );
-
-
+      detailsPage.HistoryContact = itemView.ContactHistory;
+      SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null,
+                               null, null, null, false );
+    }
   }
 
   $rect <720,120,890,160>
   slot onDeleteContact
   {
-    // delete contact from favorites list
-
-    SelectedContact = (( Application::RecentItm1 ) sender ).ContactHistory;
+    var Application::RecentItm itemView = (Application::RecentItm)sender;
+    SelectedContact = itemView.ContactHistory;
 
     Application::Device.History.Remove( SelectedContact );
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
@@ -10160,17 +10160,17 @@ class FavContactItem : Application::ContactItem
   $reorder InfoButton 5
 }
 
-$rect <470,730,670,770>
+$rect <870,130,1100,170>
 $variant $SimulateData
-vclass SimulateDatabase : Application::DeviceClass
+vclass DeviceSimulation : Application::DeviceClass
 {
-  $rect <20,0,220,40>
+  $rect <0,0,200,40>
   inherited method Init()
   {
-    CreateContactData();
+    postsignal CreateContactData;
   }
 
-  $rect <10,90,210,130>
+  $rect <0,90,200,130>
   method void CreateContact( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
     var Application::Contact MyContact = new Application::Contact;
@@ -10181,11 +10181,41 @@ vclass SimulateDatabase : Application::DeviceClass
     Contacts.Add( MyContact );
 
 
+  }
+
+  $rect <0,130,200,170>
+  method void CreateContact1( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
+  {
+    var Application::Contact MyContact = new Application::Contact;
+
+
+    MyContact.FirstName = aFirstName;
+    MyContact.LastName = aLastName;
+    MyContact.PhoneNumber = aPhoneNumber;
+    Favorites.Add( MyContact );
+
+
 
   }
 
-  $rect <10,50,210,90>
-  method void CreateContactData()
+  $rect <0,170,200,210>
+  method void CreateContact2( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
+  {
+    var Application::HistoryContact MyContact = new Application::HistoryContact;
+
+
+    MyContact.FirstName = aFirstName;
+    MyContact.LastName = aLastName;
+    MyContact.PhoneNumber = aPhoneNumber;
+    MyContact.CallState = Application::CallState.Dialing;
+    History.Add( MyContact );
+
+
+
+  }
+
+  $rect <0,50,200,90>
+  slot CreateContactData
   {
     CreateContact( "Buna", "Zsolt", "sfdg");
     CreateContact(  "Benedek", "Norbert", "sfg");
@@ -10203,37 +10233,6 @@ vclass SimulateDatabase : Application::DeviceClass
     //{
     //  CreateContact( "Name" + (string)i, "LastName" + (string)i, "0722" + (string)i );
     //}
-
-
-  }
-
-  $rect <10,130,210,170>
-  method void CreateContact1( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
-  {
-    var Application::Contact MyContact = new Application::Contact;
-
-
-    MyContact.FirstName = aFirstName;
-    MyContact.LastName = aLastName;
-    MyContact.PhoneNumber = aPhoneNumber;
-    Application::Device.Favorites.Add( MyContact );
-
-
-
-  }
-
-  $rect <10,170,210,210>
-  method void CreateContact2( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
-  {
-    var Application::HistoryContact MyContact = new Application::HistoryContact;
-
-
-    MyContact.FirstName = aFirstName;
-    MyContact.LastName = aLastName;
-    MyContact.PhoneNumber = aPhoneNumber;
-    MyContact.CallState = Application::CallState.Dialing;
-    Application::Device.History.Add( MyContact );
-
 
 
   }
@@ -10276,17 +10275,17 @@ class HistoryContact : Application::Contact
   }
 
   $rect <10,160,210,200>
-  property Core::Timer Duration;
+  property Core::Time StartTime = null;
 
   $rect <210,160,410,200>
-  onset Duration
+  onset StartTime
   {
     // The value doesn't change - nothing to do.
-    if ( pure Duration == value )
+    if ( pure StartTime == value )
       return;
 
     // Remember the property's new value.
-    pure Duration = value;
+    pure StartTime = value;
 
     notifyobservers this;
   }
@@ -10304,9 +10303,39 @@ class HistoryContact : Application::Contact
     // Remember the property's new value.
     pure CallDirection = value;
 
-    // TO DO:
-    // 
-    // Now you can handle the alternation of the property.
+    notifyobservers this;
+  }
+
+  $rect <10,210,210,250>
+  property Core::Time EndTime = null;
+
+  $rect <210,210,410,250>
+  onset EndTime
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure EndTime == value )
+      return;
+
+    // Remember the property's new value.
+    pure EndTime = value;
+
+    notifyobservers this;
+  }
+
+  $rect <434,172,634,212>
+  method Core::TimeSpan GetDuration()
+  {
+    if ( StartTime == null )
+      return null;
+      
+    else if ( EndTime == null )
+    {
+      return (new Core::Time).CurrentTime.Difference( StartTime );
+     }
+    else
+    {
+      return StartTime.Difference( EndTime );
+     }
   }
 }
 
@@ -11177,7 +11206,7 @@ class RecentItm1 : Application::ContactItem
   $reorder Line1 1
 }
 
-$rect <91,850,250,890>
+$rect <221,850,380,890>
 $output false
 class RecentItm : Core::Group
 {
@@ -11537,8 +11566,8 @@ class RecentItm : Core::Group
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Point4 = <25,52>;
-    preset Point3 = <220,52>;
-    preset Point2 = <220,0>;
+    preset Point3 = <205,52>;
+    preset Point2 = <205,0>;
     preset Point1 = <25,0>;
     preset OnLeave = onEnterLeaveTouch;
     preset OnEnter = onEnterLeaveTouch;
@@ -11641,6 +11670,7 @@ class RecentItm : Core::Group
   {
     preset Layout = Core::Layout[ResizeHorz, ResizeVert];
     preset Bounds = <225,14,250,39>;
+    preset OnActivate = onInfo;
     preset ButtonColor = Res::Transparent;
     preset Icon = Res::InfoTxt;
     preset IconColor = Res::Blue;
@@ -11838,7 +11868,7 @@ class RecentItm : Core::Group
     {
       LastNameTxt.String  =  pure ContactHistory.LastName;
       FirstNameTxt.String = pure ContactHistory.FirstName;
-      CallType.String     = pure ContactHistory.CallState;
+      //CallType.String     = pure ContactHistory.CallState;
       
     }
 
@@ -11855,15 +11885,15 @@ class RecentDetailsPage : Application::ContactDetailsPage
   $rect <310,100,510,140>
   inherited slot onContactUpdated
   {
-    if ( pure HistoryContactContact != null )
+    if ( pure HistoryContact != null )
     {
-      ContactName.String = pure HistoryContactContact.LastName + " " + pure HistoryContactContact.FirstName;
-      NumberTxt.String = pure HistoryContactContact.PhoneNumber; 
+      ContactName.String = pure HistoryContact.LastName + " " + pure HistoryContact.FirstName;
+      NumberTxt.String = pure HistoryContact.PhoneNumber; 
       
-      UserInitialsBtn.Initials =  pure HistoryContactContact.NameInitials;
-      //DateTxt.String = pure HistoryContactContact.TimeOfCall;
-      //TimeTxt.String = pure HistoryContactContact.TimeOfCall;
-      //TyoeTxt.String = pure HistoryContactContact.CallType;
+      UserInitialsBtn.Initials =  pure HistoryContact.NameInitials;
+      DateTxt.String = pure HistoryContact.TimeOfCall.Format( "d m y" );
+      TimeTxt.String = pure HistoryContact.TimeOfCall.Format( "H:M p" );
+      //TyoeTxt.String = pure HistoryContact.CallState.;
      // DurationTxt.String = pure HistoryContactContact.Duration;  
     }
 
@@ -11944,30 +11974,30 @@ class RecentDetailsPage : Application::ContactDetailsPage
   }
 
   $rect <320,60,510,100>
-  onset HistoryContactContact
+  onset HistoryContact
   {
     // The value doesn't change - nothing to do.
-    if ( pure HistoryContactContact == value )
+    if ( pure HistoryContact == value )
       return;
 
-    if ( pure HistoryContactContact != null )
+    if ( pure HistoryContact != null )
     {
-       detachobserver onContactUpdated1, pure HistoryContactContact;
+       detachobserver onContactUpdated, pure HistoryContact;
     }
 
     // Remember the property's new value.
-    pure HistoryContactContact = value;
+    pure HistoryContact = value;
 
-    if ( pure HistoryContactContact != null )
+    if ( pure HistoryContact != null )
     {
-      attachobserver onContactUpdated1, pure HistoryContactContact;
-      postsignal onContactUpdated1;
+      attachobserver onContactUpdated, pure HistoryContact;
+      postsignal onContactUpdated;
     }
 
   }
 
   $rect <320,20,510,60>
-  property Application::HistoryContact HistoryContactContact;
+  property Application::HistoryContact HistoryContact;
 }
 
 $rect <470,520,650,560>
@@ -12205,23 +12235,10 @@ $rect <10,110,210,150>
 $output false
 class CallPageBase : Core::Group
 {
-  $rect <310,40,506,80>
-  inherited method Init()
-  {
-    /*attachobserver onCallState, ^Application::Device.CallState;
-    postsignal onCallState;
-
-    postsignal updateCurrentTime;
-    */
-    //getContact();
-
-
-  }
-
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
 
-  $rect <320,340,520,380>
+  $rect <310,120,510,160>
   slot onContactUpdated
   {
     //if the calling number is in the contact list display info
@@ -12242,10 +12259,10 @@ class CallPageBase : Core::Group
   // Displayed contact info
   note group Note1
   {
-    attr Bounds = <300,210,710,410>;
+    attr Bounds = <290,-10,700,190>;
   }
 
-  $rect <320,460,520,500>
+  $rect <310,240,510,280>
   slot onDesclineCall
   {
     Application::Device.EndCall( Contact );
@@ -12254,20 +12271,7 @@ class CallPageBase : Core::Group
   // Touch screen events
   note group Note
   {
-    attr Bounds = <300,420,710,580>;
-  }
-
-  $rect <510,40,706,80>
-  slot onCallState
-  {
-    //close dialog on call state changed
-    //Application::MyContactsManager.History.Add( Contact );
-    /*
-    if ( Application::Device.CallState != Application::CallType.IncomingCall && Owner!= null )
-    {
-      Owner.DismissDialog( this, null, null, null, null, null, false);
-    } */
-
+    attr Bounds = <290,200,700,360>;
   }
 
   $rect <20,20,160,60>
@@ -12323,10 +12327,10 @@ class CallPageBase : Core::Group
     preset Descript = "";
   }
 
-  $rect <320,260,520,300>
+  $rect <310,40,510,80>
   property Application::HistoryContact Contact = null;
 
-  $rect <320,300,520,340>
+  $rect <310,80,510,120>
   onset Contact
   {
     // The value doesn't change - nothing to do.
@@ -12347,12 +12351,6 @@ class CallPageBase : Core::Group
       postsignal onContactUpdated;
     }
 
-  }
-
-  // Initialization
-  note group Note2
-  {
-    attr Bounds = <300,0,710,200>;
   }
 }
 

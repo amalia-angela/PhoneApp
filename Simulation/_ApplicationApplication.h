@@ -64,6 +64,12 @@
 #define _ApplicationDeviceClass_
 #endif
 
+/* Forward declaration of the class Application::HistoryContact */
+#ifndef _ApplicationHistoryContact_
+  EW_DECLARE_CLASS( ApplicationHistoryContact )
+#define _ApplicationHistoryContact_
+#endif
+
 /* Forward declaration of the class Core::DialogContext */
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )
@@ -118,6 +124,7 @@ EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
   EW_VTHISPTR()
   EW_VARIABLE( deviceInstance,  ApplicationDeviceClass )
   EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
+  EW_VARIABLE( historyContact,  ApplicationHistoryContact )
   EW_OBJECT  ( ContactsApp,     ApplicationContactsApp )
 EW_END_OF_FIELDS( ApplicationApplication )
 

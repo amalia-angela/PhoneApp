@@ -1,12 +1,12 @@
 $version 1.0
 
-attr active = Application::DeviceClass;
+attr active = Application::ContactsApp;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
-attr codeFirstPos = <0,0>;
-attr codeInspector = Application::DeviceClass.EndCall;
-attr codeSelEnd = <32,39>;
-attr codeSelStart = <32,39>;
+attr codeFirstPos = <0,6>;
+attr codeInspector = Application::ContactsApp.OnSetSelectedPage;
+attr codeSelEnd = <4,19>;
+attr codeSelStart = <4,19>;
 attr connectInspectors = false;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
@@ -41,42 +41,68 @@ view Project
 view unit Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-7,-103>;
+  attr scrollTo = <-7,41>;
   attr zoom = 1.0;
 }
 
-view class Application::DeviceClass
+view class Application::RecentPage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = EndCall;
-  attr codeSelEnd = <32,39>;
-  attr codeSelStart = <32,39>;
-  attr enableWireMode = false;
-  attr scrollTo = <-7,137>;
-  attr zoom = 1.0;
-}
-
-view vclass Application::DeviceSimulation
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeInspector = CreateContact;
-  attr codeSelEnd = <61,0>;
-  attr codeSelStart = <41,0>;
+  attr codeInspector = onPressedContact;
+  attr codeSelEnd = <0,3>;
+  attr codeSelStart = <0,3>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
 }
 
-view class Application::Contact
+view class Application::RecentItm
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeInspector = Init;
-  attr codeSelEnd = <29,0>;
-  attr codeSelStart = <10,0>;
+  attr codeInspector = onContactRistoryUpdate;
+  attr codeSelEnd = <29,4>;
+  attr codeSelStart = <29,4>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,41>;
+  attr zoom = 1.0;
+}
+
+view class Application::RecentDetailsPage
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeInspector = onContactUpdated;
+  attr codeSelEnd = <4,9>;
+  attr codeSelStart = <4,9>;
   attr enableWireMode = false;
   attr scrollTo = <-7,-7>;
   attr zoom = 1.0;
+}
+
+view class Application::ContactsApp
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,6>;
+  attr codeInspector = OnSetSelectedPage;
+  attr codeSelEnd = <4,19>;
+  attr codeSelStart = <4,19>;
+  attr enableWireMode = false;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
+}
+
+breakpoints
+{
+  Application::Application.onCallState 1;
+  Application::ContactDetailsPage.onTapCall 1;
+  Application::DeviceClass.AnswerCall 1;
+  Application::DeviceClass.EndCall 1;
+  Application::DeviceClass.OutgoingCallContact 1;
+  Application::DeviceClass.OutgoingCallNumber 2;
+  Application::DeviceClass.OutgoingCallNumber 11;
+  Application::IncomingCall.onAcceptCall 1;
+  Application::KeypadPage.onCallPress 1;
+  Application::RecentPage.onPressedContact 4;
 }

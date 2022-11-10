@@ -161,12 +161,11 @@ EW_DEFINE_METHODS( ApplicationCallPage, ApplicationCallPageBase )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
+  EW_METHOD( onContactUpdated,  void )( ApplicationCallPage _this, XObject sender )
 EW_END_OF_METHODS( ApplicationCallPage )
 
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationCallPage_Init( ApplicationCallPage _this, XHandle aArg );
+/* 'C' function for method : 'Application::CallPage.onContactUpdated()' */
+void ApplicationCallPage_onContactUpdated( ApplicationCallPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::CallPage.onSpeakerPress()' */
 void ApplicationCallPage_onSpeakerPress( ApplicationCallPage _this, XObject sender );
