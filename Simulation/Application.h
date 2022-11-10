@@ -59,6 +59,7 @@
 #include "_ApplicationContactsPage.h"
 #include "_ApplicationDetailsInsideCall.h"
 #include "_ApplicationDeviceClass.h"
+#include "_ApplicationDeviceSimulation.h"
 #include "_ApplicationFavContactItem.h"
 #include "_ApplicationFavoritesPage.h"
 #include "_ApplicationHistoryContact.h"

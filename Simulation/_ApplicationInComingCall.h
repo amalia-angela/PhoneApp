@@ -147,6 +147,7 @@ EW_DEFINE_METHODS( ApplicationIncomingCall, ApplicationCallPageBase )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
+  EW_METHOD( onContactUpdated,  void )( ApplicationCallPageBase _this, XObject sender )
 EW_END_OF_METHODS( ApplicationIncomingCall )
 
 /* The method Init() is invoked automatically after the component has been created. 

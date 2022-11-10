@@ -66,6 +66,7 @@
 
 /* Deklaration of class : 'Application::DeviceClass' */
 EW_DEFINE_FIELDS( ApplicationDeviceClass, TemplatesDeviceClass )
+  EW_VTHISPTR()
   EW_OBJECT  ( Contacts,        ApplicationContactList )
   EW_OBJECT  ( History,         ApplicationContactList )
   EW_OBJECT  ( Favorites,       ApplicationContactList )
@@ -79,6 +80,10 @@ EW_END_OF_FIELDS( ApplicationDeviceClass )
 /* Virtual Method Table (VMT) for the class : 'Application::DeviceClass' */
 EW_DEFINE_METHODS( ApplicationDeviceClass, TemplatesDeviceClass )
 EW_END_OF_METHODS( ApplicationDeviceClass )
+
+/* Variant Dispatch Method Table for the class : 'Application::DeviceClass' */
+EW_DEFINE_DISPATCHER( ApplicationDeviceClass, TemplatesDeviceClass )
+EW_END_OF_DISPATCHER( ApplicationDeviceClass )
 
 /* 'C' function for method : 'Application::DeviceClass.Done()' */
 void ApplicationDeviceClass_Done( ApplicationDeviceClass _this );

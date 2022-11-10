@@ -42,6 +42,7 @@
 #include "_ApplicationContactsPage.h"
 #include "_ApplicationDetailsInsideCall.h"
 #include "_ApplicationDeviceClass.h"
+#include "_ApplicationDeviceSimulation.h"
 #include "_ApplicationFavContactItem.h"
 #include "_ApplicationFavoritesPage.h"
 #include "_ApplicationHistoryContact.h"
@@ -119,12 +120,16 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
 {
-  0x000000AE, /* ratio 71.26 % */
+  0x00000188, /* ratio 60.20 % */
   0xB8005100, 0x00086452, 0x24DE0034, 0x40073004, 0x00200019, 0x60088184, 0x003742CC,
   0x98AC48E8, 0x8546A291, 0x01922711, 0x47E23230, 0xDA36468A, 0x80075859, 0x3A69001C,
   0x00086C3E, 0x45818240, 0xC0043888, 0x87C6A766, 0x4CE01935, 0x4365F319, 0xB6364E8D,
-  0x017359D9, 0x39339D4E, 0x11898CF6, 0x38068028, 0x39EC4E2D, 0x33C60015, 0x1D845C00,
-  0x802CB35B, 0x00000080, 0x00000000
+  0x00F359D9, 0x5A00214E, 0x13589C62, 0x0C2D4E01, 0xD8D4F617, 0x33436714, 0xA99C0124,
+  0xD3C14009, 0x8E1F189D, 0xAC86B87C, 0x15498259, 0xF3B314BE, 0x06005725, 0x3B0002BC,
+  0x20CE2AB6, 0xD42A9600, 0x53801548, 0xF2D78082, 0x20956B24, 0x1B1689D4, 0x1379AC2A,
+  0x3D8DE071, 0x4BCE1663, 0x9AD86BF0, 0xD9508B6F, 0xCA401479, 0x366B2B89, 0x667A39C0,
+  0x2D3B2947, 0x7778C43E, 0xAE9D4E01, 0x9006662D, 0x826AEC96, 0xDCF62716, 0x0BAC718D,
+  0x938FC700, 0x00101B25, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -377,12 +382,25 @@ static const XRect _Const00F5 = {{ 131, 8 }, { 201, 26 }};
 static const XStringRes _Const00F6 = { _StringsDefault1, 0x0033 };
 static const XPoint _Const00F7 = { 250, 32 };
 static const XPoint _Const00F8 = { 250, 0 };
-static const XRect _Const00F9 = {{ 36, 340 }, { 101, 432 }};
-static const XStringRes _Const00FA = { _StringsDefault1, 0x003F };
-static const XRect _Const00FB = {{ 18, 73 }, { 91, 103 }};
-static const XStringRes _Const00FC = { _StringsDefault1, 0x004A };
-static const XRect _Const00FD = {{ 18, 42 }, { 171, 72 }};
-static const XRect _Const00FE = {{ 184, 28 }, { 254, 119 }};
+static const XStringRes _Const00F9 = { _StringsDefault1, 0x003F };
+static const XStringRes _Const00FA = { _StringsDefault1, 0x0046 };
+static const XStringRes _Const00FB = { _StringsDefault1, 0x004E };
+static const XStringRes _Const00FC = { _StringsDefault1, 0x0055 };
+static const XStringRes _Const00FD = { _StringsDefault1, 0x005F };
+static const XStringRes _Const00FE = { _StringsDefault1, 0x0069 };
+static const XStringRes _Const00FF = { _StringsDefault1, 0x006F };
+static const XStringRes _Const0100 = { _StringsDefault1, 0x0077 };
+static const XStringRes _Const0101 = { _StringsDefault1, 0x007E };
+static const XStringRes _Const0102 = { _StringsDefault1, 0x0086 };
+static const XStringRes _Const0103 = { _StringsDefault1, 0x008F };
+static const XStringRes _Const0104 = { _StringsDefault1, 0x0095 };
+static const XStringRes _Const0105 = { _StringsDefault1, 0x009F };
+static const XRect _Const0106 = {{ 36, 340 }, { 101, 432 }};
+static const XStringRes _Const0107 = { _StringsDefault1, 0x00AC };
+static const XRect _Const0108 = {{ 18, 73 }, { 91, 103 }};
+static const XStringRes _Const0109 = { _StringsDefault1, 0x00B7 };
+static const XRect _Const010A = {{ 18, 42 }, { 171, 72 }};
+static const XRect _Const010B = {{ 184, 28 }, { 254, 119 }};
 
 /* Initializer for the class 'Application::ContactsPage' */
 void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink, XHandle aArg )
@@ -4862,11 +4880,13 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->ContactsBtn, EwLoadString( 
   &_Const0087 ));
   CoreRectView__OnSetBounds( &_this->VideoCallBtn, _Const0088 );
+  CoreGroup_OnSetEnabled((CoreGroup)&_this->VideoCallBtn, 0 );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->VideoCallBtn, EwLoadString( 
   &ResVideoCallTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->VideoCallBtn, EwLoadString( 
   &_Const0089 ));
   CoreRectView__OnSetBounds( &_this->AddCallBtn, _Const008A );
+  CoreGroup_OnSetEnabled((CoreGroup)&_this->AddCallBtn, 0 );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->AddCallBtn, EwLoadString( 
   &ResPlusIconTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->AddCallBtn, EwLoadString( 
@@ -4902,9 +4922,6 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   _this->KeyPadBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onKeypadPress );
   _this->MuteBtn.OnActivate = EwNewSlot( _this, ApplicationCallPage_onMicPress );
   _this->Keypad1.Super1.OnEditTextChanged = EwNewSlot( _this, ApplicationCallPage_onKeypadEdit );
-
-  /* Call the user defined constructor */
-  ApplicationCallPage_Init( _this, aArg );
 }
 
 /* Re-Initializer for the class 'Application::CallPage' */
@@ -4942,14 +4959,16 @@ void ApplicationCallPage__Done( ApplicationCallPage _this )
   ApplicationCallPageBase__Done( &_this->_.Super );
 }
 
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationCallPage_Init( ApplicationCallPage _this, XHandle aArg )
+/* 'C' function for method : 'Application::CallPage.onContactUpdated()' */
+void ApplicationCallPage_onContactUpdated( ApplicationCallPage _this, XObject sender )
 {
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( aArg );
+  if ( _this->Super1.Contact->CallState == ApplicationCallStateSpeaking )
+  {
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->AddCallBtn, 1 );
+    CoreGroup_OnSetEnabled((CoreGroup)&_this->VideoCallBtn, 1 );
+  }
+
+  ApplicationCallPageBase_onContactUpdated((ApplicationCallPageBase)_this, sender );
 }
 
 /* 'C' function for method : 'Application::CallPage.onSpeakerPress()' */
@@ -5088,6 +5107,7 @@ EW_DEFINE_CLASS( ApplicationCallPage, ApplicationCallPageBase, contactsPage, Con
   CoreGroup_Restack,
   CoreGroup_Remove,
   CoreGroup_Add,
+  ApplicationCallPage_onContactUpdated,
 EW_END_OF_CLASS( ApplicationCallPage )
 
 /* Initializer for the class 'Application::PushButtonMediumTrans' */
@@ -5429,6 +5449,9 @@ void ApplicationDeviceClass__Init( ApplicationDeviceClass _this, XObject aLink, 
 
   /* Call the user defined constructor */
   ApplicationDeviceClass_Init( _this, aArg );
+
+  /* Create and initialize the suitable class variant */
+  EwAttachObjectVariant( &_this->_.XObject, aLink, aArg );
 }
 
 /* Re-Initializer for the class 'Application::DeviceClass' */
@@ -5443,11 +5466,18 @@ void ApplicationDeviceClass__ReInit( ApplicationDeviceClass _this )
   ApplicationContactList__ReInit( &_this->Favorites );
   ApplicationContactList__ReInit( &_this->Search );
   ApplicationContactList__ReInit( &_this->Ongoing );
+
+  /* Reinitialize the variant */
+  if ( _this->_vthis )
+    _this->_vthis->_.VMT->_ReInit( &_this->_.XObject );
 }
 
 /* Finalizer method for the class 'Application::DeviceClass' */
 void ApplicationDeviceClass__Done( ApplicationDeviceClass _this )
 {
+  /* Deinitialize the variant */
+  EwDetachObjectVariant( &_this->_.XObject );
+
   /* Call the user defined destructor of the class */
   ApplicationDeviceClass_Done( _this );
 
@@ -5663,7 +5693,7 @@ void ApplicationDeviceClass_OutgoingCallContact( ApplicationDeviceClass _this, A
   EwNewObject( CoreTime, 0 )));
   ApplicationHistoryContact_OnSetCallState( historyContact, ApplicationCallStateDialing );
   ApplicationHistoryContact_OnSetCallDirection( historyContact, ApplicationCallDirectionOutgoing );
-  ApplicationContactList_Add( &_this->Ongoing, aContact );
+  ApplicationContactList_Add( &_this->Ongoing, ((ApplicationContact)historyContact ));
 }
 
 /* 'C' function for method : 'Application::DeviceClass.UpdateIncomingCall()' */
@@ -5694,11 +5724,19 @@ void ApplicationDeviceClass_UpdateIncomingCall( ApplicationDeviceClass _this, XS
 void ApplicationDeviceClass_OutgoingCallNumber( ApplicationDeviceClass _this, XString 
   aPhoneNumber )
 {
+  ApplicationContact contact = ApplicationContactList_FindByPhoneNumber( &_this->Contacts, 
+    aPhoneNumber );
   ApplicationHistoryContact historyContact = EwNewObject( ApplicationHistoryContact, 
     0 );
 
-  ApplicationContact_OnSetLastName((ApplicationContact)historyContact, aPhoneNumber );
-  ApplicationContact_OnSetPhoneNumber((ApplicationContact)historyContact, aPhoneNumber );
+  if ( contact == 0 )
+  {
+    ApplicationContact_OnSetLastName((ApplicationContact)historyContact, aPhoneNumber );
+    ApplicationContact_OnSetPhoneNumber((ApplicationContact)historyContact, aPhoneNumber );
+  }
+  else
+    ApplicationContact_CopyDataTo( contact, ((ApplicationContact)historyContact ));
+
   ApplicationHistoryContact_OnSetTimeOfCall( historyContact, CoreTime_OnGetCurrentTime( 
   EwNewObject( CoreTime, 0 )));
   ApplicationHistoryContact_OnSetCallState( historyContact, ApplicationCallStateDialing );
@@ -5719,45 +5757,32 @@ void ApplicationDeviceClass_EndCall( ApplicationDeviceClass _this, ApplicationHi
 {
   if ( aContact->CallDirection == ApplicationCallDirectionIncoming )
   {
-    if ( aContact->CallState == ApplicationCallStateRejected )
-    {
-      ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
-      ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
-    }
+    if ( aContact->CallState == ApplicationCallStateDialing )
+      ApplicationHistoryContact_OnSetCallState( aContact, ApplicationCallStateRejected );
     else
-      if ( aContact->CallState == ApplicationCallStateTimeout )
+      if ( aContact->CallState == ApplicationCallStateSpeaking )
       {
-        ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
-        ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+        ApplicationHistoryContact_OnSetCallState( aContact, ApplicationCallStateEndCall );
+        ApplicationHistoryContact_OnSetEndTime( aContact, CoreTime_OnGetCurrentTime( 
+        EwNewObject( CoreTime, 0 )));
       }
-      else
-        if ( aContact->CallState == ApplicationCallStateEndCall )
-        {
-          ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
-          ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
-        }
   }
   else
     if ( aContact->CallDirection == ApplicationCallDirectionOutgoing )
     {
-      if ( aContact->CallState == ApplicationCallStateCancelled )
-      {
-        ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
-        ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
-      }
+      if ( aContact->CallState == ApplicationCallStateDialing )
+        ApplicationHistoryContact_OnSetCallState( aContact, ApplicationCallStateCancelled );
       else
-        if ( aContact->CallState == ApplicationCallStateTimeout )
+        if ( aContact->CallState == ApplicationCallStateSpeaking )
         {
-          ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
-          ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
+          ApplicationHistoryContact_OnSetCallState( aContact, ApplicationCallStateEndCall );
+          ApplicationHistoryContact_OnSetEndTime( aContact, CoreTime_OnGetCurrentTime( 
+          EwNewObject( CoreTime, 0 )));
         }
-        else
-          if ( aContact->CallState == ApplicationCallStateEndCall )
-          {
-            ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
-            ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
-          }
     }
+
+  ApplicationContactList_Add( &_this->History, ((ApplicationContact)aContact ));
+  ApplicationContactList_Remove( &_this->Ongoing, ((ApplicationContact)aContact ));
 }
 
 /* 'C' function for method : 'Application::DeviceClass.AnswerCall()' */
@@ -5768,10 +5793,13 @@ void ApplicationDeviceClass_AnswerCall( ApplicationDeviceClass _this, Applicatio
   EW_UNUSED_ARG( _this );
 
   ApplicationHistoryContact_OnSetCallState( aContact, ApplicationCallStateSpeaking );
+  ApplicationHistoryContact_OnSetStartTime( aContact, CoreTime_OnGetCurrentTime( 
+  EwNewObject( CoreTime, 0 )));
 }
 
 /* Variants derived from the class : 'Application::DeviceClass' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationDeviceClass )
+  EW_STATIC_CLASS_VARIANT( ApplicationDeviceSimulation ),
 EW_END_OF_CLASS_VARIANTS( ApplicationDeviceClass )
 
 /* Virtual Method Table (VMT) for the class : 'Application::DeviceClass' */
@@ -7550,12 +7578,14 @@ void ApplicationApplication_Init( ApplicationApplication _this, XHandle aArg )
 /* 'C' function for method : 'Application::Application.onCallState()' */
 void ApplicationApplication_onCallState( ApplicationApplication _this, XObject sender )
 {
-  ApplicationHistoryContact historyContact;
-
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  historyContact = EwCastObject( ApplicationContactList_GetContact( &EwGetAutoObject( 
+  if ( _this->historyContact != 0 )
+    EwDetachObjObserver( EwNewSlot( _this, ApplicationApplication_onCallState ), 
+      (XObject)_this->historyContact, 0 );
+
+  _this->historyContact = EwCastObject( ApplicationContactList_GetContact( &EwGetAutoObject( 
   &ApplicationDevice, ApplicationDeviceClass )->Ongoing, 0 ), ApplicationHistoryContact );
 
   if ( _this->ongoingPage != 0 )
@@ -7565,24 +7595,38 @@ void ApplicationApplication_onCallState( ApplicationApplication _this, XObject s
     _this->ongoingPage = 0;
   }
 
-  if ( historyContact != 0 )
+  if ( _this->historyContact != 0 )
   {
-    if ( historyContact->CallDirection == ApplicationCallDirectionIncoming )
+    if ( _this->historyContact->CallDirection == ApplicationCallDirectionIncoming )
     {
-      _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationIncomingCall, 
-      0 ));
-      ApplicationCallPageBase_OnSetContact( _this->ongoingPage, historyContact );
+      if ( _this->historyContact->CallState == ApplicationCallStateSpeaking )
+      {
+        _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationCallPage, 
+        0 ));
+        ApplicationCallPageBase_OnSetContact( _this->ongoingPage, _this->historyContact );
+      }
+      else
+      {
+        _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationIncomingCall, 
+        0 ));
+        ApplicationCallPageBase_OnSetContact( _this->ongoingPage, _this->historyContact );
+      }
+
       CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
       0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
     }
     else
-    {
-      _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationCallPage, 
-      0 ));
-      ApplicationCallPageBase_OnSetContact( _this->ongoingPage, historyContact );
-      CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
-      0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
-    }
+      if ( _this->historyContact->CallDirection == ApplicationCallDirectionOutgoing )
+      {
+        _this->ongoingPage = ((ApplicationCallPageBase)EwNewObject( ApplicationCallPage, 
+        0 ));
+        ApplicationCallPageBase_OnSetContact( _this->ongoingPage, _this->historyContact );
+        CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
+        0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+      }
+
+    EwAttachObjObserver( EwNewSlot( _this, ApplicationApplication_onCallState ), 
+      (XObject)_this->historyContact, 0 );
   }
 }
 
@@ -8050,6 +8094,7 @@ EW_DEFINE_CLASS( ApplicationIncomingCall, ApplicationCallPageBase, AcceptButton,
   CoreGroup_Restack,
   CoreGroup_Remove,
   CoreGroup_Add,
+  ApplicationCallPageBase_onContactUpdated,
 EW_END_OF_CLASS( ApplicationIncomingCall )
 
 /* The global autoobject Effects::SlideUpCentered represents the fade-in/out operation 
@@ -8732,6 +8777,121 @@ EW_DEFINE_CLASS( ApplicationFavContactItem, ApplicationContactItem, OnDelete, On
   CoreGroup_Add,
 EW_END_OF_CLASS( ApplicationFavContactItem )
 
+/* Initializer for the class variant 'Application::DeviceSimulation' */
+void ApplicationDeviceSimulation__Init( ApplicationDeviceClass _this, XObject aLink, XHandle aArg )
+{
+  ApplicationDeviceSimulation _vthis = (ApplicationDeviceSimulation)_this->_vthis;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aLink );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class variant. */
+  _vthis->_.XObject._.GCT = EW_VCLASS_GCT( ApplicationDeviceSimulation );
+
+  /* Setup the VMT pointer */
+  _vthis->_.VMT = EW_VCLASS( ApplicationDeviceSimulation );
+
+  /* Call the user defined constructor */
+  ApplicationDeviceSimulation_Init( _this, aArg );
+}
+
+/* Re-Initializer for the class variant 'Application::DeviceSimulation' */
+void ApplicationDeviceSimulation__ReInit( ApplicationDeviceClass _this )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+}
+
+/* Finalizer method for the class variant 'Application::DeviceSimulation' */
+void ApplicationDeviceSimulation__Done( ApplicationDeviceClass _this )
+{
+  ApplicationDeviceSimulation _vthis = (ApplicationDeviceSimulation)_this->_vthis;
+
+  /* Finalize this class */
+  _vthis->_.VMT = 0;
+}
+
+/* 'C' function for method : 'Application::DeviceSimulation.Init()' */
+void ApplicationDeviceSimulation_Init( ApplicationDeviceClass _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  EwPostSignal( EwNewSlot( _this, ApplicationDeviceSimulation_CreateContactData ), 
+    ((XObject)_this ));
+}
+
+/* 'C' function for method : 'Application::DeviceSimulation.CreateContact()' */
+void ApplicationDeviceSimulation_CreateContact( ApplicationDeviceClass _this, XString 
+  aLastName, XString aFirstName, XString aPhoneNumber )
+{
+  ApplicationContact MyContact = EwNewObject( ApplicationContact, 0 );
+
+  ApplicationContact_OnSetFirstName( MyContact, aFirstName );
+  ApplicationContact_OnSetLastName( MyContact, aLastName );
+  ApplicationContact_OnSetPhoneNumber( MyContact, aPhoneNumber );
+  ApplicationContactList_Add( &_this->Contacts, MyContact );
+}
+
+/* 'C' function for method : 'Application::DeviceSimulation.CreateContact1()' */
+void ApplicationDeviceSimulation_CreateContact1( ApplicationDeviceClass _this, XString 
+  aLastName, XString aFirstName, XString aPhoneNumber )
+{
+  ApplicationContact MyContact = EwNewObject( ApplicationContact, 0 );
+
+  ApplicationContact_OnSetFirstName( MyContact, aFirstName );
+  ApplicationContact_OnSetLastName( MyContact, aLastName );
+  ApplicationContact_OnSetPhoneNumber( MyContact, aPhoneNumber );
+  ApplicationContactList_Add( &_this->Favorites, MyContact );
+}
+
+/* 'C' function for method : 'Application::DeviceSimulation.CreateContact2()' */
+void ApplicationDeviceSimulation_CreateContact2( ApplicationDeviceClass _this, XString 
+  aLastName, XString aFirstName, XString aPhoneNumber )
+{
+  ApplicationHistoryContact MyContact = EwNewObject( ApplicationHistoryContact, 
+    0 );
+
+  ApplicationContact_OnSetFirstName((ApplicationContact)MyContact, aFirstName );
+  ApplicationContact_OnSetLastName((ApplicationContact)MyContact, aLastName );
+  ApplicationContact_OnSetPhoneNumber((ApplicationContact)MyContact, aPhoneNumber );
+  ApplicationHistoryContact_OnSetCallState( MyContact, ApplicationCallStateDialing );
+  ApplicationContactList_Add( &_this->History, ((ApplicationContact)MyContact ));
+}
+
+/* 'C' function for method : 'Application::DeviceSimulation.CreateContactData()' */
+void ApplicationDeviceSimulation_CreateContactData( ApplicationDeviceClass _this, 
+  XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ApplicationDeviceSimulation_CreateContact( _this, EwLoadString( &_Const00F9 ), 
+  EwLoadString( &_Const00FA ), EwLoadString( &_Const00FB ));
+  ApplicationDeviceSimulation_CreateContact( _this, EwLoadString( &_Const00FC ), 
+  EwLoadString( &_Const00FD ), EwLoadString( &_Const00FE ));
+  ApplicationDeviceSimulation_CreateContact( _this, EwLoadString( &_Const00FF ), 
+  EwLoadString( &_Const0100 ), EwLoadString( &_Const00E3 ));
+  ApplicationDeviceSimulation_CreateContact( _this, EwLoadString( &_Const0101 ), 
+  EwLoadString( &_Const0102 ), EwLoadString( &_Const0103 ));
+  ApplicationDeviceSimulation_CreateContact1( _this, EwLoadString( &_Const0104 ), 
+  EwLoadString( &_Const0100 ), EwLoadString( &_Const00E3 ));
+  ApplicationDeviceSimulation_CreateContact2( _this, EwLoadString( &_Const0105 ), 
+  EwLoadString( &_Const0100 ), EwLoadString( &_Const00E3 ));
+  ApplicationDeviceSimulation_CreateContact2( _this, EwLoadString( &_Const0105 ), 
+  EwLoadString( &_Const00FD ), EwLoadString( &_Const00FE ));
+  ApplicationContactList_insertionSort( &_this->Contacts );
+}
+
+/* Variants derived from the class : 'Application::DeviceSimulation' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationDeviceSimulation )
+EW_END_OF_CLASS_VARIANTS( ApplicationDeviceSimulation )
+
+/* Virtual Method Table (VMT) for the class variant : 'Application::DeviceSimulation' */
+EW_DEFINE_VCLASS( ApplicationDeviceSimulation, XObject, ApplicationDeviceClass, 
+                  _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, "Application::DeviceSimulation" )
+EW_END_OF_VCLASS( ApplicationDeviceSimulation )
+
 /* Initializer for the class 'Application::HistoryContact' */
 void ApplicationHistoryContact__Init( ApplicationHistoryContact _this, XObject aLink, XHandle aArg )
 {
@@ -8788,6 +8948,17 @@ void ApplicationHistoryContact_OnSetTimeOfCall( ApplicationHistoryContact _this,
   EwNotifyObjObservers((XObject)_this, 0 );
 }
 
+/* 'C' function for method : 'Application::HistoryContact.OnSetStartTime()' */
+void ApplicationHistoryContact_OnSetStartTime( ApplicationHistoryContact _this, 
+  CoreTime value )
+{
+  if ( _this->StartTime == value )
+    return;
+
+  _this->StartTime = value;
+  EwNotifyObjObservers((XObject)_this, 0 );
+}
+
 /* 'C' function for method : 'Application::HistoryContact.OnSetCallDirection()' */
 void ApplicationHistoryContact_OnSetCallDirection( ApplicationHistoryContact _this, 
   XEnum value )
@@ -8796,6 +8967,18 @@ void ApplicationHistoryContact_OnSetCallDirection( ApplicationHistoryContact _th
     return;
 
   _this->CallDirection = value;
+  EwNotifyObjObservers((XObject)_this, 0 );
+}
+
+/* 'C' function for method : 'Application::HistoryContact.OnSetEndTime()' */
+void ApplicationHistoryContact_OnSetEndTime( ApplicationHistoryContact _this, CoreTime 
+  value )
+{
+  if ( _this->EndTime == value )
+    return;
+
+  _this->EndTime = value;
+  EwNotifyObjObservers((XObject)_this, 0 );
 }
 
 /* Variants derived from the class : 'Application::HistoryContact' */
@@ -9110,28 +9293,28 @@ void ApplicationCallPageBase__Init( ApplicationCallPageBase _this, XObject aLink
   ViewsRectangle_OnSetColorTR( &_this->Background, _Const00D9 );
   ViewsRectangle_OnSetColorTL( &_this->Background, _Const00D9 );
   ViewsRectangle_OnSetColor( &_this->Background, _Const00DA );
-  CoreRectView__OnSetBounds( &_this->DesclineButton, _Const00F9 );
+  CoreRectView__OnSetBounds( &_this->DesclineButton, _Const0106 );
   ApplicationPushButtonMediumTrans_OnSetIcon( &_this->DesclineButton, EwLoadString( 
   &ResEndCallTxt ));
   ApplicationPushButtonMediumTrans_OnSetDescript( &_this->DesclineButton, EwLoadString( 
-  &_Const00FA ));
+  &_Const0107 ));
   ApplicationPushButtonMediumTrans_OnSetButtonColor( &_this->DesclineButton, ResRed );
   CoreView_OnSetLayout((CoreView)&_this->TimeTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00FB );
+  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const0108 );
   ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzCenter | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00FC ));
+  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const0109 ));
   ViewsText_OnSetColor( &_this->TimeTxt, ResWhite );
   CoreView_OnSetLayout((CoreView)&_this->ContactNameTxt, CoreLayoutAlignToLeft | 
   CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const00FD );
+  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const010A );
   ViewsText_OnSetEnableBidiText( &_this->ContactNameTxt, 0 );
   ViewsText_OnSetAutoSize( &_this->ContactNameTxt, 1 );
   ViewsText_OnSetAlignment( &_this->ContactNameTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->ContactNameTxt, EwLoadString( &_Const0029 ));
   ViewsText_OnSetColor( &_this->ContactNameTxt, ResWhite );
-  CoreRectView__OnSetBounds( &_this->UserInitials, _Const00FE );
+  CoreRectView__OnSetBounds( &_this->UserInitials, _Const010B );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->UserInitials, 0 );
   ApplicationPushButtonBig_OnSetDescript( &_this->UserInitials, 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
@@ -9143,9 +9326,6 @@ void ApplicationCallPageBase__Init( ApplicationCallPageBase _this, XObject aLink
   ViewsText_OnSetFont( &_this->TimeTxt, EwLoadResource( &ResContactFont12, ResourcesFont ));
   ViewsText_OnSetFont( &_this->ContactNameTxt, EwLoadResource( &ResTitileFont25, 
   ResourcesFont ));
-
-  /* Call the user defined constructor */
-  ApplicationCallPageBase_Init( _this, aArg );
 }
 
 /* Re-Initializer for the class 'Application::CallPageBase' */
@@ -9179,16 +9359,6 @@ void ApplicationCallPageBase__Done( ApplicationCallPageBase _this )
   CoreGroup__Done( &_this->_.Super );
 }
 
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationCallPageBase_Init( ApplicationCallPageBase _this, XHandle aArg )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( aArg );
-}
-
 /* 'C' function for method : 'Application::CallPageBase.onContactUpdated()' */
 void ApplicationCallPageBase_onContactUpdated( ApplicationCallPageBase _this, XObject 
   sender )
@@ -9207,6 +9377,22 @@ void ApplicationCallPageBase_onContactUpdated( ApplicationCallPageBase _this, XO
     ViewsText_OnSetString( &_this->ContactNameTxt, ApplicationContactList_GetContact( 
     &EwGetAutoObject( &ApplicationDevice, ApplicationDeviceClass )->Ongoing, 0 )->PhoneNumber );
     CoreGroup_OnSetVisible((CoreGroup)&_this->UserInitials, 0 );
+  }
+}
+
+/* Wrapper function for the virtual method : 'Application::CallPageBase.onContactUpdated()' */
+__declspec( naked ) void ApplicationCallPageBase__onContactUpdated( void* _this, 
+  XObject sender )
+{
+  EW_UNUSED_ARG( _this );
+  EW_UNUSED_ARG( sender );
+
+  __asm
+  {
+    /* Call the method via _this->VMT */
+    mov eax, DWORD PTR [ esp + 4 ]
+    mov eax, DWORD PTR [ eax ]
+    jmp      DWORD PTR [ eax + 144 ]
   }
 }
 
@@ -9229,16 +9415,16 @@ void ApplicationCallPageBase_OnSetContact( ApplicationCallPageBase _this, Applic
     return;
 
   if ( _this->Contact != 0 )
-    EwDetachObjObserver( EwNewSlot( _this, ApplicationCallPageBase_onContactUpdated ), 
+    EwDetachObjObserver( EwNewSlot( _this, ApplicationCallPageBase__onContactUpdated ), 
       (XObject)_this->Contact, 0 );
 
   _this->Contact = value;
 
   if ( _this->Contact != 0 )
   {
-    EwAttachObjObserver( EwNewSlot( _this, ApplicationCallPageBase_onContactUpdated ), 
+    EwAttachObjObserver( EwNewSlot( _this, ApplicationCallPageBase__onContactUpdated ), 
       (XObject)_this->Contact, 0 );
-    EwPostSignal( EwNewSlot( _this, ApplicationCallPageBase_onContactUpdated ), 
+    EwPostSignal( EwNewSlot( _this, ApplicationCallPageBase__onContactUpdated ), 
       ((XObject)_this ));
   }
 }
@@ -9272,6 +9458,7 @@ EW_DEFINE_CLASS( ApplicationCallPageBase, CoreGroup, Contact, Background, Backgr
   CoreGroup_Restack,
   CoreGroup_Remove,
   CoreGroup_Add,
+  ApplicationCallPageBase_onContactUpdated,
 EW_END_OF_CLASS( ApplicationCallPageBase )
 
 /* Embedded Wizard */
