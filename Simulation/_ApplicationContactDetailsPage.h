@@ -42,19 +42,13 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumBlue.h"
-#include "_ApplicationPushButtonNoBackground.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonMediumBlue.h"
+#include "_ComponentsPushButtonNoBackground.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::ContactDetailsPage */
 #ifndef _ApplicationContactDetailsPage_
@@ -98,6 +92,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -113,8 +113,8 @@
 
 /* Deklaration of class : 'Application::ContactDetailsPage' */
 EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
-  EW_VARIABLE( edit,            ApplicationContactEditPage )
-  EW_PROPERTY( Contact,         ApplicationContact )
+  EW_VARIABLE( editContact,     ApplicationContactEditPage )
+  EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnDelete,        XSlot )
   EW_PROPERTY( OnBack,          XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
@@ -122,13 +122,13 @@ EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
   EW_OBJECT  ( NumberTxt,       ViewsText )
   EW_OBJECT  ( MobileTxt,       ViewsText )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( CallBtn,         ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( VideoCallBtn,    ApplicationPushButtonMediumBlue )
-  EW_OBJECT  ( PushButtonMediumBlue2, ApplicationPushButtonMediumBlue )
+  EW_OBJECT  ( CallBtn,         ComponentsPushButtonMediumBlue )
+  EW_OBJECT  ( VideoCallBtn,    ComponentsPushButtonMediumBlue )
+  EW_OBJECT  ( PushButtonMediumBlue2, ComponentsPushButtonMediumBlue )
   EW_OBJECT  ( ContactName,     ViewsText )
-  EW_OBJECT  ( UserInitialsBtn, ApplicationPushButtonBig )
-  EW_OBJECT  ( EditBtn,         ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( BackBtn,         ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( UserInitialsBtn, ComponentsPushButtonBig )
+  EW_OBJECT  ( EditBtn,         ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( BackBtn,         ComponentsPushButtonNoBackground )
   EW_OBJECT  ( FavoritTxt,      ViewsText )
 EW_END_OF_FIELDS( ApplicationContactDetailsPage )
 
@@ -167,6 +167,8 @@ EW_DEFINE_METHODS( ApplicationContactDetailsPage, CoreGroup )
     aOrder )
   EW_METHOD( onTapEdit,         void )( ApplicationContactDetailsPage _this, XObject 
     sender )
+  EW_METHOD( onContactUpdated,  void )( ApplicationContactDetailsPage _this, XObject 
+    sender )
 EW_END_OF_METHODS( ApplicationContactDetailsPage )
 
 /* 'C' function for method : 'Application::ContactDetailsPage.onTapEdit()' */
@@ -198,11 +200,14 @@ void ApplicationContactDetailsPage_onBack( ApplicationContactDetailsPage _this,
 
 /* 'C' function for method : 'Application::ContactDetailsPage.OnSetContact()' */
 void ApplicationContactDetailsPage_OnSetContact( ApplicationContactDetailsPage _this, 
-  ApplicationContact value );
+  DeviceContact value );
 
 /* 'C' function for method : 'Application::ContactDetailsPage.onContactUpdated()' */
 void ApplicationContactDetailsPage_onContactUpdated( ApplicationContactDetailsPage _this, 
   XObject sender );
+
+/* Wrapper function for the virtual method : 'Application::ContactDetailsPage.onContactUpdated()' */
+void ApplicationContactDetailsPage__onContactUpdated( void* _this, XObject sender );
 
 #ifdef __cplusplus
   }

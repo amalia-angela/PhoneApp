@@ -42,7 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonSmall.h"
+#include "_ComponentsPushButtonSmall.h"
 #include "_CoreGroup.h"
 #include "_CoreKeyPressHandler.h"
 #include "_CoreSimpleTouchHandler.h"
@@ -50,12 +50,6 @@
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::ContactItem */
 #ifndef _ApplicationContactItem_
@@ -87,6 +81,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -102,7 +102,7 @@
 
 /* Deklaration of class : 'Application::ContactItem' */
 EW_DEFINE_FIELDS( ApplicationContactItem, CoreGroup )
-  EW_PROPERTY( Contact,         ApplicationContact )
+  EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnActivate,      XSlot )
   EW_OBJECT  ( FlashTimer,      CoreTimer )
   EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
@@ -111,7 +111,7 @@ EW_DEFINE_FIELDS( ApplicationContactItem, CoreGroup )
   EW_OBJECT  ( LastNameTxt,     ViewsText )
   EW_OBJECT  ( FirstNameTxt,    ViewsText )
   EW_OBJECT  ( Line,            ViewsLine )
-  EW_OBJECT  ( PrfofilButton,   ApplicationPushButtonSmall )
+  EW_OBJECT  ( PrfofilButton,   ComponentsPushButtonSmall )
   EW_OBJECT  ( Line1,           ViewsLine )
   EW_PROPERTY( ButtonColor,     XColor )
   EW_PROPERTY( IconColor,       XColor )
@@ -179,7 +179,7 @@ void ApplicationContactItem_UpdateViewState( ApplicationContactItem _this, XSet
   aState );
 
 /* 'C' function for method : 'Application::ContactItem.OnSetContact()' */
-void ApplicationContactItem_OnSetContact( ApplicationContactItem _this, ApplicationContact 
+void ApplicationContactItem_OnSetContact( ApplicationContactItem _this, DeviceContact 
   value );
 
 /* 'C' function for method : 'Application::ContactItem.onContactUpdated()' */

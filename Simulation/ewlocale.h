@@ -35,6 +35,7 @@
 /* The 'default' Language. Each project has to contain at least one language brick 
    called 'Default' */
 enum { Default          = 0 };
+enum { Magyar           = 1 };
 
 #ifdef __cplusplus
   }

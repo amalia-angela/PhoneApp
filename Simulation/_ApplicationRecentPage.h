@@ -42,17 +42,17 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationTextButton.h"
+#include "_ComponentsTextButton.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::ContactHistory */
-#ifndef _ApplicationContactHistory_
-  EW_DECLARE_CLASS( ApplicationContactHistory )
-#define _ApplicationContactHistory_
+/* Forward declaration of the class Application::RecentDetailsPage */
+#ifndef _ApplicationRecentDetailsPage_
+  EW_DECLARE_CLASS( ApplicationRecentDetailsPage )
+#define _ApplicationRecentDetailsPage_
 #endif
 
 /* Forward declaration of the class Application::RecentPage */
@@ -91,6 +91,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::HistoryContact */
+#ifndef _DeviceHistoryContact_
+  EW_DECLARE_CLASS( DeviceHistoryContact )
+#define _DeviceHistoryContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -106,10 +112,11 @@
 
 /* Deklaration of class : 'Application::RecentPage' */
 EW_DEFINE_FIELDS( ApplicationRecentPage, CoreGroup )
-  EW_PROPERTY( SelectedContact, ApplicationContactHistory )
+  EW_PROPERTY( SelectedContact, DeviceHistoryContact )
+  EW_VARIABLE( detailsPage,     ApplicationRecentDetailsPage )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( TitleTxt1,       ViewsText )
-  EW_OBJECT  ( TextButton,      ApplicationTextButton )
+  EW_OBJECT  ( TextButton,      ComponentsTextButton )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
   EW_PROPERTY( EditMode,        XBool )
@@ -163,12 +170,30 @@ void ApplicationRecentPage_OnLoadItem( ApplicationRecentPage _this, XObject send
 void ApplicationRecentPage_onNoOfContactsChanged( ApplicationRecentPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::RecentPage.onContactActivated()' */
-void ApplicationRecentPage_onContactActivated( ApplicationRecentPage _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::RecentPage.OnSetSelectedContact()' */
+void ApplicationRecentPage_OnSetSelectedContact( ApplicationRecentPage _this, DeviceHistoryContact 
+  value );
 
 /* 'C' function for method : 'Application::RecentPage.onEdit()' */
 void ApplicationRecentPage_onEdit( ApplicationRecentPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::RecentPage.onPressedContact()' */
+void ApplicationRecentPage_onPressedContact( ApplicationRecentPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::RecentPage.onInfoContact()' */
+void ApplicationRecentPage_onInfoContact( ApplicationRecentPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::RecentPage.onDeleteContact()' */
+void ApplicationRecentPage_onDeleteContact( ApplicationRecentPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::RecentPage.onCloseDetailsPage()' */
+void ApplicationRecentPage_onCloseDetailsPage( ApplicationRecentPage _this, XObject 
+  sender );
+
+/* Default onget method for the property 'SelectedContact' */
+DeviceHistoryContact ApplicationRecentPage_OnGetSelectedContact( ApplicationRecentPage _this );
 
 #ifdef __cplusplus
   }

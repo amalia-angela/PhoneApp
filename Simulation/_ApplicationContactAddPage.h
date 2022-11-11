@@ -42,19 +42,13 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationInputEtxt.h"
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonNoBackground.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonNoBackground.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::ContactAddPage */
 #ifndef _ApplicationContactAddPage_
@@ -92,6 +86,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -107,21 +107,21 @@
 
 /* Deklaration of class : 'Application::ContactAddPage' */
 EW_DEFINE_FIELDS( ApplicationContactAddPage, CoreGroup )
-  EW_PROPERTY( Contact,         ApplicationContact )
+  EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnSave,          XSlot )
   EW_PROPERTY( OnClose,         XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( Line4,           ViewsLine )
-  EW_OBJECT  ( PhoneNumberTxt,  ApplicationInputEtxt )
+  EW_OBJECT  ( PhoneNumberTxt,  ComponentsInputEtxt )
   EW_OBJECT  ( Line3,           ViewsLine )
-  EW_OBJECT  ( FirstNameTxt,    ApplicationInputEtxt )
+  EW_OBJECT  ( FirstNameTxt,    ComponentsInputEtxt )
   EW_OBJECT  ( Line2,           ViewsLine )
-  EW_OBJECT  ( LastNameTxt,     ApplicationInputEtxt )
+  EW_OBJECT  ( LastNameTxt,     ComponentsInputEtxt )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( UserInitials,    ApplicationPushButtonBig )
+  EW_OBJECT  ( UserInitials,    ComponentsPushButtonBig )
   EW_OBJECT  ( TitleTxt,        ViewsText )
-  EW_OBJECT  ( SaveBtn,         ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( CloseButton,     ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( SaveBtn,         ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( CloseButton,     ComponentsPushButtonNoBackground )
 EW_END_OF_FIELDS( ApplicationContactAddPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactAddPage' */
@@ -181,7 +181,7 @@ void ApplicationContactAddPage_onSave( ApplicationContactAddPage _this, XObject
   sender );
 
 /* 'C' function for method : 'Application::ContactAddPage.OnSetContact()' */
-void ApplicationContactAddPage_OnSetContact( ApplicationContactAddPage _this, ApplicationContact 
+void ApplicationContactAddPage_OnSetContact( ApplicationContactAddPage _this, DeviceContact 
   value );
 
 /* 'C' function for method : 'Application::ContactAddPage.onContactUpdated()' */

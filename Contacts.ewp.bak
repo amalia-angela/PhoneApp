@@ -62,7 +62,7 @@ note group Note2
 // Languages
 note group Note3
 {
-  attr Bounds = <510,10,750,120>;
+  attr Bounds = <510,10,750,180>;
 }
 
 // Project Units
@@ -89,9 +89,6 @@ profile Profile : Tara.Win32.RGBA8888
 
   $rect <10,50,170,90>
   macro SimulateData = true;
-
-  $rect <10,90,170,130>
-  macro Simulation = false;
 }
 
 $rect <30,500,230,540>
@@ -124,13 +121,31 @@ profile Simulation : Tara.Win32.RGBA8888
 
   $rect <10,50,170,90>
   macro SimulateData = true;
-
-  $rect <10,90,170,130>
-  macro Simulation = true;
 }
 
 $rect <30,540,230,580>
 unit WidgetSet
 {
   attr Directory = $Mosaic\;
+}
+
+$rect <30,150,230,190>
+unit Components
+{
+  attr Directory = .\;
+}
+
+$rect <30,190,230,230>
+unit Strings
+{
+  attr Directory = .\;
+}
+
+$rect <530,100,730,140>
+language Magyar;
+
+$rect <301,248,501,288>
+unit Device
+{
+  attr Directory = .\;
 }

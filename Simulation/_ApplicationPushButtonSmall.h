@@ -202,6 +202,10 @@ void ApplicationPushButtonSmall_OnSetText( ApplicationPushButtonSmall _this, XSt
 void ApplicationPushButtonSmall_OnSetButtonColor( ApplicationPushButtonSmall _this, 
   XColor value );
 
+/* 'C' function for method : 'Application::PushButtonSmall.OnSetTextColor()' */
+void ApplicationPushButtonSmall_OnSetTextColor( ApplicationPushButtonSmall _this, 
+  XColor value );
+
 /* 'C' function for method : 'Application::PushButtonSmall.OnSetIcon()' */
 void ApplicationPushButtonSmall_OnSetIcon( ApplicationPushButtonSmall _this, XString 
   value );

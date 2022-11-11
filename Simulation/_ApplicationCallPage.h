@@ -44,8 +44,8 @@
 
 #include "_ApplicationCallPageBase.h"
 #include "_ApplicationKeypadInsideCall.h"
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumTrans.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonMediumTrans.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -55,16 +55,16 @@
 #define _ApplicationCallPage_
 #endif
 
+/* Forward declaration of the class Application::ContactsAppInsideCall */
+#ifndef _ApplicationContactsAppInsideCall_
+  EW_DECLARE_CLASS( ApplicationContactsAppInsideCall )
+#define _ApplicationContactsAppInsideCall_
+#endif
+
 /* Forward declaration of the class Application::ContactsInsideCall */
 #ifndef _ApplicationContactsInsideCall_
   EW_DECLARE_CLASS( ApplicationContactsInsideCall )
 #define _ApplicationContactsInsideCall_
-#endif
-
-/* Forward declaration of the class Application::HistoryContact */
-#ifndef _ApplicationHistoryContact_
-  EW_DECLARE_CLASS( ApplicationHistoryContact )
-#define _ApplicationHistoryContact_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -103,6 +103,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::HistoryContact */
+#ifndef _DeviceHistoryContact_
+  EW_DECLARE_CLASS( DeviceHistoryContact )
+#define _DeviceHistoryContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -119,13 +125,14 @@
 /* Deklaration of class : 'Application::CallPage' */
 EW_DEFINE_FIELDS( ApplicationCallPage, ApplicationCallPageBase )
   EW_VARIABLE( contactsPage,    ApplicationContactsInsideCall )
-  EW_OBJECT  ( ContactsBtn,     ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( VideoCallBtn,    ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( AddCallBtn,      ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( SpeakerBtn,      ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( KeyPadBtn,       ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( MuteBtn,         ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( Keypad1,         ApplicationKeypadInsideCall )
+  EW_VARIABLE( addCall,         ApplicationContactsAppInsideCall )
+  EW_OBJECT  ( ContactsBtn,     ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( VideoCallBtn,    ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( AddCallBtn,      ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( SpeakerBtn,      ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( KeyPadBtn,       ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( MuteBtn,         ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( Keypad,          ApplicationKeypadInsideCall )
 EW_END_OF_FIELDS( ApplicationCallPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::CallPage' */
@@ -193,6 +200,9 @@ void ApplicationCallPage_onHide( ApplicationCallPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::CallPage.onKeypadEdit()' */
 void ApplicationCallPage_onKeypadEdit( ApplicationCallPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::CallPage.onCancel1()' */
+void ApplicationCallPage_onCancel1( ApplicationCallPage _this, XObject sender );
 
 #ifdef __cplusplus
   }

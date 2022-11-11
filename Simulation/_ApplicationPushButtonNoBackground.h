@@ -107,7 +107,10 @@ EW_DEFINE_FIELDS( ApplicationPushButtonNoBackground, TemplatesPushButton )
   EW_OBJECT  ( Background,      ViewsImage )
   EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
   EW_OBJECT  ( Text,            ViewsText )
-  EW_PROPERTY( Label,           XString )
+  EW_PROPERTY( Icon,            XString )
+  EW_PROPERTY( IconColor,       XColor )
+  EW_PROPERTY( IconColorPressed, XColor )
+  EW_PROPERTY( BackgroundColor, XColor )
   EW_VARIABLE( enabled,         XBool )
   EW_VARIABLE( selected,        XBool )
   EW_VARIABLE( pressed,         XBool )
@@ -190,8 +193,8 @@ void ApplicationPushButtonNoBackground_onReleaseTouch( ApplicationPushButtonNoBa
 void ApplicationPushButtonNoBackground_onPressTouch( ApplicationPushButtonNoBackground _this, 
   XObject sender );
 
-/* 'C' function for method : 'Application::PushButtonNoBackground.OnSetLabel()' */
-void ApplicationPushButtonNoBackground_OnSetLabel( ApplicationPushButtonNoBackground _this, 
+/* 'C' function for method : 'Application::PushButtonNoBackground.OnSetIcon()' */
+void ApplicationPushButtonNoBackground_OnSetIcon( ApplicationPushButtonNoBackground _this, 
   XString value );
 
 #ifdef __cplusplus

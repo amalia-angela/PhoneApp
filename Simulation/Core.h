@@ -65,6 +65,7 @@
 #include "_CoreTask.h"
 #include "_CoreTaskQueue.h"
 #include "_CoreTime.h"
+#include "_CoreTimeSpan.h"
 #include "_CoreTimer.h"
 #include "_CoreVerticalList.h"
 #include "_CoreView.h"

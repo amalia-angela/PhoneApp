@@ -48,6 +48,12 @@
 #define _CoreTime_
 #endif
 
+/* Forward declaration of the class Core::TimeSpan */
+#ifndef _CoreTimeSpan_
+  EW_DECLARE_CLASS( CoreTimeSpan )
+#define _CoreTimeSpan_
+#endif
+
 
 /* The class Core::Time is used for date and time operations. Objects of this class 
    can store the time, convert it and format strings with the time, etc. */
@@ -64,14 +70,32 @@ EW_END_OF_FIELDS( CoreTime )
 EW_DEFINE_METHODS( CoreTime, XObject )
 EW_END_OF_METHODS( CoreTime )
 
+/* 'C' function for method : 'Core::Time.getMonthName()' */
+XString CoreTime_getMonthName( CoreTime _this, XInt32 aMonth, XBool aAbbreviated );
+
+/* 'C' function for method : 'Core::Time.getDayOfWeekName()' */
+XString CoreTime_getDayOfWeekName( CoreTime _this, XInt32 aDayOfWeek, XBool aAbbreviated );
+
 /* 'C' function for method : 'Core::Time.getCurrentTime()' */
 XInt64 CoreTime_getCurrentTime( CoreTime _this );
+
+/* 'C' function for method : 'Core::Time.OnGetTime()' */
+XInt64 CoreTime_OnGetTime( CoreTime _this );
 
 /* 'C' function for method : 'Core::Time.OnSetTime()' */
 void CoreTime_OnSetTime( CoreTime _this, XInt64 value );
 
 /* 'C' function for method : 'Core::Time.OnGetCurrentTime()' */
 CoreTime CoreTime_OnGetCurrentTime( CoreTime _this );
+
+/* 'C' function for method : 'Core::Time.OnGetWeekOfYear()' */
+XInt32 CoreTime_OnGetWeekOfYear( CoreTime _this );
+
+/* 'C' function for method : 'Core::Time.OnGetDayOfYear()' */
+XInt32 CoreTime_OnGetDayOfYear( CoreTime _this );
+
+/* 'C' function for method : 'Core::Time.OnGetDayOfWeek()' */
+XInt32 CoreTime_OnGetDayOfWeek( CoreTime _this );
 
 /* 'C' function for method : 'Core::Time.OnSetSecond()' */
 void CoreTime_OnSetSecond( CoreTime _this, XInt32 value );
@@ -88,9 +112,42 @@ void CoreTime_OnSetDay( CoreTime _this, XInt32 value );
 /* 'C' function for method : 'Core::Time.OnSetMonth()' */
 void CoreTime_OnSetMonth( CoreTime _this, XInt32 value );
 
+/* The method Format() converts the stored date and time accordingly to the supplied 
+   aFormat parameter in a string. The aFormat parameter consists of format codes, 
+   preceded by the percent sign '%'. At the runtime the codes are replaced with 
+   their corresponding content. All other signs that do not begin with % are simply 
+   taken over from aFormat to the output string. Following codes are available:
+   -%d Day of month as decimal number (01-31)
+   -%H Hour in 24-hour format (00-23)
+   -%I Hour in 12-hour format (01-12)
+   -%m Month as decimal number (01-12)
+   -%M Minute as decimal number (00-59)
+   -%p AM / PM indicator
+   -%S Second as decimal number (00-59)
+   -%w Weekday as decimal number (0-6; Sunday is 0)
+   -%y Year without century, as decimal number (00-99)
+   -%Y Year with century as decimal number
+   -%j Day of year as decimal number (001-366)
+   -%W Week of year as decimal number with Monday as first day of week (00-53)
+   -%a Abbreviated weekday name
+   -%A Weekday name
+   -%b Abbreviated month name
+   -%B Month name
+   To remove the leading zeros, the '#' sign may prefix the following format code. 
+   For example '%#m' will format the month as a decimal number in the range 1-12. 
+   In contrast to it, '%m' formats the number with the leading zero sign 01-12.
+   The month and weekday names are stored in constants within the unit @Resources. 
+   To adapt them to a new language, you can create variants of these constants. */
+XString CoreTime_Format( CoreTime _this, XString aFormat );
+
 /* The method Initialize() initializes this Core::Time object with the given time 
    as number of seconds since 1.1.1970 and returns this object. */
 CoreTime CoreTime_Initialize( CoreTime _this, XInt64 aTime );
+
+/* The method Difference() calculates a delta value between this time object and 
+   the object passed in the parameter aTime. The method creates and initializes 
+   a new Core::TimeSpan object with the calculated difference. */
+CoreTimeSpan CoreTime_Difference( CoreTime _this, CoreTime aTime );
 
 #ifdef __cplusplus
   }

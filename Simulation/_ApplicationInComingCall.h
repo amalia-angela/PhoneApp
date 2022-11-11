@@ -43,16 +43,10 @@
 #endif
 
 #include "_ApplicationCallPageBase.h"
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumTrans.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonMediumTrans.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::HistoryContact */
-#ifndef _ApplicationHistoryContact_
-  EW_DECLARE_CLASS( ApplicationHistoryContact )
-#define _ApplicationHistoryContact_
-#endif
 
 /* Forward declaration of the class Application::IncomingCall */
 #ifndef _ApplicationIncomingCall_
@@ -96,6 +90,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::HistoryContact */
+#ifndef _DeviceHistoryContact_
+  EW_DECLARE_CLASS( DeviceHistoryContact )
+#define _DeviceHistoryContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -111,7 +111,7 @@
 
 /* Deklaration of class : 'Application::IncomingCall' */
 EW_DEFINE_FIELDS( ApplicationIncomingCall, ApplicationCallPageBase )
-  EW_OBJECT  ( AcceptButton,    ApplicationPushButtonMediumTrans )
+  EW_OBJECT  ( AcceptButton,    ComponentsPushButtonMediumTrans )
 EW_END_OF_FIELDS( ApplicationIncomingCall )
 
 /* Virtual Method Table (VMT) for the class : 'Application::IncomingCall' */

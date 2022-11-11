@@ -1,35 +1,35 @@
 ﻿$version 11.00
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <30,300,230,340>
+$rect <780,60,980,100>
 unit Core
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <30,340,230,380>
+$rect <780,100,980,140>
 unit Resources
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <30,380,230,420>
+$rect <780,140,980,180>
 unit Graphics
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <30,420,230,460>
+$rect <780,180,980,220>
 unit Effects
 {
   attr Directory = $Mosaic;
 }
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
-$rect <30,460,230,500>
+$rect <780,220,980,260>
 unit Views
 {
   attr Directory = $Mosaic;
@@ -50,7 +50,7 @@ unit Application
 // Mosaic Framework
 note group Note1
 {
-  attr Bounds = <10,250,250,590>;
+  attr Bounds = <760,10,1000,350>;
 }
 
 // Profile Configuration
@@ -62,13 +62,13 @@ note group Note2
 // Languages
 note group Note3
 {
-  attr Bounds = <510,10,750,120>;
+  attr Bounds = <510,10,750,180>;
 }
 
 // Project Units
 note group Note5
 {
-  attr Bounds = <10,10,250,240>;
+  attr Bounds = <10,10,250,320>;
 }
 
 // This is a profile member for the project. This profile controls the code generation \
@@ -91,13 +91,13 @@ profile Profile : Tara.Win32.RGBA8888
   macro SimulateData = true;
 }
 
-$rect <30,500,230,540>
+$rect <780,260,980,300>
 unit Templates
 {
   attr Directory = $Mosaic\;
 }
 
-$rect <30,100,230,140>
+$rect <30,180,230,220>
 unit Res
 {
   attr Directory = .\;
@@ -123,8 +123,29 @@ profile Simulation : Tara.Win32.RGBA8888
   macro SimulateData = true;
 }
 
-$rect <30,540,230,580>
+$rect <780,300,980,340>
 unit WidgetSet
 {
   attr Directory = $Mosaic\;
+}
+
+$rect <30,140,230,180>
+unit Components
+{
+  attr Directory = .\;
+}
+
+$rect <30,220,230,260>
+unit Strings
+{
+  attr Directory = .\;
+}
+
+$rect <530,100,730,140>
+language Magyar;
+
+$rect <30,100,230,140>
+unit Device
+{
+  attr Directory = .\;
 }

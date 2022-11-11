@@ -42,20 +42,14 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationInputEtxt.h"
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonDelete.h"
-#include "_ApplicationPushButtonNoBackground.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonDelete.h"
+#include "_ComponentsPushButtonNoBackground.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::ContactEditPage */
 #ifndef _ApplicationContactEditPage_
@@ -93,6 +87,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -108,23 +108,23 @@
 
 /* Deklaration of class : 'Application::ContactEditPage' */
 EW_DEFINE_FIELDS( ApplicationContactEditPage, CoreGroup )
-  EW_PROPERTY( Contact,         ApplicationContact )
+  EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnSave,          XSlot )
   EW_PROPERTY( OnClose,         XSlot )
   EW_PROPERTY( OnDelete,        XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( DeleteBtn,       ApplicationPushButtonDelete )
-  EW_OBJECT  ( NumberTxt,       ApplicationInputEtxt )
+  EW_OBJECT  ( DeleteBtn,       ComponentsPushButtonDelete )
+  EW_OBJECT  ( NumberTxt,       ComponentsInputEtxt )
   EW_OBJECT  ( Line4,           ViewsLine )
   EW_OBJECT  ( MobileTxt,       ViewsText )
   EW_OBJECT  ( Line3,           ViewsLine )
-  EW_OBJECT  ( FirstNameTxt,    ApplicationInputEtxt )
+  EW_OBJECT  ( FirstNameTxt,    ComponentsInputEtxt )
   EW_OBJECT  ( Line2,           ViewsLine )
-  EW_OBJECT  ( LastNameTxt,     ApplicationInputEtxt )
+  EW_OBJECT  ( LastNameTxt,     ComponentsInputEtxt )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( UserInitials,    ApplicationPushButtonBig )
-  EW_OBJECT  ( CloseBtn,        ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( SaveBtn,         ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( UserInitials,    ComponentsPushButtonBig )
+  EW_OBJECT  ( CloseBtn,        ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( SaveBtn,         ComponentsPushButtonNoBackground )
 EW_END_OF_FIELDS( ApplicationContactEditPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactEditPage' */
@@ -193,7 +193,7 @@ void ApplicationContactEditPage_onDeleteContact( ApplicationContactEditPage _thi
 
 /* 'C' function for method : 'Application::ContactEditPage.OnSetContact()' */
 void ApplicationContactEditPage_OnSetContact( ApplicationContactEditPage _this, 
-  ApplicationContact value );
+  DeviceContact value );
 
 /* 'C' function for method : 'Application::ContactEditPage.onContactUpdated()' */
 void ApplicationContactEditPage_onContactUpdated( ApplicationContactEditPage _this, 

@@ -2472,6 +2472,7 @@ void EffectsSlideTransition__Init( EffectsSlideTransition _this, XObject aLink, 
   _this->_.VMT = EW_CLASS( EffectsSlideTransition );
 
   /* ... and initialize objects, variables, properties, etc. */
+  _this->Alignment = EffectsDialogAlignmentAlignHorzCenter | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 500;
   _this->Direction = CoreDirectionNone;
 }
@@ -2596,14 +2597,26 @@ void EffectsSlideTransition_onInitializeIn( EffectsSlideTransition _this, XObjec
   sender )
 {
   EffectsPositionFader fader = EwCastObject( sender, EffectsPositionFader );
+  XSet align = _this->Alignment;
   XRect bounds = EwGetRectORect( fader->Super1.Owner->Super1.Bounds );
   XPoint size = EwGetRectSize( fader->Super1.Group->Super1.Bounds );
   XPoint pos;
 
   bounds.Point1.Y = ( bounds.Point1.Y + _this->MarginTop );
   pos = bounds.Point1;
-  pos.X = (( bounds.Point1.X + ( EwGetRectW( bounds ) / 2 )) - ( size.X / 2 ));
-  pos.Y = (( bounds.Point1.Y + ( EwGetRectH( bounds ) / 2 )) - ( size.Y / 2 ));
+
+  if ((( align & EffectsDialogAlignmentAlignHorzRight ) == EffectsDialogAlignmentAlignHorzRight ))
+    pos.X = ( bounds.Point2.X - size.X );
+  else
+    if ((( align & EffectsDialogAlignmentAlignHorzCenter ) == EffectsDialogAlignmentAlignHorzCenter ))
+      pos.X = (( bounds.Point1.X + ( EwGetRectW( bounds ) / 2 )) - ( size.X / 2 ));
+
+  if ((( align & EffectsDialogAlignmentAlignVertBottom ) == EffectsDialogAlignmentAlignVertBottom ))
+    pos.Y = ( bounds.Point2.Y - size.Y );
+  else
+    if ((( align & EffectsDialogAlignmentAlignVertCenter ) == EffectsDialogAlignmentAlignVertCenter ))
+      pos.Y = (( bounds.Point1.Y + ( EwGetRectH( bounds ) / 2 )) - ( size.Y / 2 ));
+
   fader->PositionEffect.Value2 = pos;
 
   if (((( fader->Super1.Group->Super2.Owner == 0 ) || !CoreGroup_OnGetVisible( fader->Super1.Group )) 

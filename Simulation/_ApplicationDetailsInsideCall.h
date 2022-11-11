@@ -43,18 +43,12 @@
 #endif
 
 #include "_ApplicationContactDetailsPage.h"
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumBlue.h"
-#include "_ApplicationPushButtonNoBackground.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonMediumBlue.h"
+#include "_ComponentsPushButtonNoBackground.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::ContactEditPage */
 #ifndef _ApplicationContactEditPage_
@@ -102,6 +96,12 @@
 #ifndef _CoreView_
   EW_DECLARE_CLASS( CoreView )
 #define _CoreView_
+#endif
+
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
 #endif
 
 /* Forward declaration of the class Effects::Fader */
@@ -155,6 +155,8 @@ EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
   EW_METHOD( onTapEdit,         void )( ApplicationDetailsInsideCall _this, XObject 
+    sender )
+  EW_METHOD( onContactUpdated,  void )( ApplicationContactDetailsPage _this, XObject 
     sender )
 EW_END_OF_METHODS( ApplicationDetailsInsideCall )
 

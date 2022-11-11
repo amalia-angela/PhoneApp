@@ -56,6 +56,7 @@ EW_DEFINE_FIELDS( ApplicationContact, XObject )
   EW_PROPERTY( PhoneNumber,     XString )
   EW_PROPERTY( NameInitials,    XString )
   EW_PROPERTY( ID,              XInt32 )
+  EW_PROPERTY( Favorite,        XBool )
 EW_END_OF_FIELDS( ApplicationContact )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Contact' */
@@ -77,12 +78,12 @@ void ApplicationContact_OnSetPhoneNumber( ApplicationContact _this, XString valu
 /* 'C' function for method : 'Application::Contact.OnSetNameInitials()' */
 void ApplicationContact_OnSetNameInitials( ApplicationContact _this, XString value );
 
-/* 'C' function for method : 'Application::Contact.OnSetFavorite()' */
-void ApplicationContact_OnSetFavorite( ApplicationContact _this, XBool value );
-
 /* 'C' function for method : 'Application::Contact.CopyDataTo()' */
 ApplicationContact ApplicationContact_CopyDataTo( ApplicationContact _this, ApplicationContact 
   aContact );
+
+/* 'C' function for method : 'Application::Contact.OnSetFavorite()' */
+void ApplicationContact_OnSetFavorite( ApplicationContact _this, XBool value );
 
 #ifdef __cplusplus
   }

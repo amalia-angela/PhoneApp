@@ -58,18 +58,6 @@
 #define _ApplicationCallPageBase_
 #endif
 
-/* Forward declaration of the class Application::DeviceClass */
-#ifndef _ApplicationDeviceClass_
-  EW_DECLARE_CLASS( ApplicationDeviceClass )
-#define _ApplicationDeviceClass_
-#endif
-
-/* Forward declaration of the class Application::HistoryContact */
-#ifndef _ApplicationHistoryContact_
-  EW_DECLARE_CLASS( ApplicationHistoryContact )
-#define _ApplicationHistoryContact_
-#endif
-
 /* Forward declaration of the class Core::DialogContext */
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )
@@ -106,6 +94,18 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::DeviceClass */
+#ifndef _DeviceDeviceClass_
+  EW_DECLARE_CLASS( DeviceDeviceClass )
+#define _DeviceDeviceClass_
+#endif
+
+/* Forward declaration of the class Device::HistoryContact */
+#ifndef _DeviceHistoryContact_
+  EW_DECLARE_CLASS( DeviceHistoryContact )
+#define _DeviceHistoryContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -122,9 +122,9 @@
 /* Deklaration of class : 'Application::Application' */
 EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
   EW_VTHISPTR()
-  EW_VARIABLE( deviceInstance,  ApplicationDeviceClass )
+  EW_VARIABLE( deviceInstance,  DeviceDeviceClass )
   EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
-  EW_VARIABLE( historyContact,  ApplicationHistoryContact )
+  EW_VARIABLE( historyContact,  DeviceHistoryContact )
   EW_OBJECT  ( ContactsApp,     ApplicationContactsApp )
 EW_END_OF_FIELDS( ApplicationApplication )
 
