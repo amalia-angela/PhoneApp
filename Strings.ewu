@@ -1,0 +1,141 @@
+﻿$version 11.00
+
+$rect <20,30,220,70>
+$output false
+const string MissedTxt =
+(
+  Default = "Missed Call";
+  Magyar = "nem fogadott hivas";
+);
+
+$rect <20,150,220,190>
+$output false
+const string IncomingTxt =
+(
+  Default = "Incoming Call";
+  Magyar = "Bejovo hivas";
+);
+
+$rect <20,110,220,150>
+$output false
+const string CancelledTxt =
+(
+  Default = "Cancelled Call";
+  Magyar = "Megszakitott hivas";
+);
+
+$rect <20,70,220,110>
+$output false
+const string RejectedTxt =
+(
+  Default = "Rejected Call";
+  Magyar = "Megszakitott hivas";
+);
+
+$rect <20,190,220,230>
+$output false
+const string OutgoingTxt =
+(
+  Default = "Outgoing Call";
+  Magyar = "Kimeno hivas";
+);
+
+$rect <20,250,220,290>
+$output false
+const string ErrorTxt = "ERROR";
+
+$rect <220,30,420,70>
+$output false
+const string FavoritesTxt = "Favorites";
+
+$rect <220,70,420,110>
+$output false
+const string RecentTxt = "Recent";
+
+$rect <220,150,420,190>
+$output false
+const string KeypadTxt = "KeyPad";
+
+$rect <220,110,420,150>
+$output false
+const string ContactsTxtx = "Contacts";
+
+$rect <430,110,630,150>
+$output false
+const string HideTxt = "Hide";
+
+$rect <430,70,630,110>
+$output false
+const string EditTxt = "Edit";
+
+$rect <430,30,630,70>
+$output false
+const string CancelTxt = "Cancel";
+
+$rect <640,30,840,70>
+$output false
+const string MobileTxt = "mobile";
+
+$rect <640,120,840,160>
+$output false
+const string AddToFavTxt = "Choose a contact to add to Favourites";
+
+$rect <640,80,840,120>
+$output false
+const string AddPhototTxt = "Add Photo";
+
+$rect <840,110,1040,150>
+$output false
+const string messageTxt = "message";
+
+$rect <840,70,1040,110>
+$output false
+const string VideoTxt = "video";
+
+$rect <840,30,1040,70>
+$output false
+const string callTxt = "call";
+
+$rect <640,160,840,200>
+$output false
+const string DeleteContactTxt = "Delete contact";
+
+$rect <640,200,840,240>
+$output false
+const string NewContactTxt = "New Contact";
+
+$rect <430,160,630,200>
+$output false
+const string deleteTxt = "Delete";
+
+$rect <20,310,220,350>
+$output false
+const string acceptTxt = "Accept";
+
+$rect <20,350,220,390>
+$output false
+const string declineTxt = "Decline";
+
+$rect <20,400,220,440>
+$output false
+const string muteTxt = "mute";
+
+$rect <20,480,220,520>
+$output false
+const string keypadTxt = "keypad";
+
+$rect <20,440,220,480>
+$output false
+const string speakerTxt = "speaker";
+
+$rect <20,520,220,560>
+$output false
+const string contactsTxt = "contacts";
+
+$rect <20,560,220,600>
+$output false
+const string addcallTxt = "add call";
+
+$rect <20,600,220,640>
+$output false
+const string videocallTxt = "VideoCall";

@@ -1,0 +1,1068 @@
+﻿$version 11.00
+
+$rect <20,140,190,180>
+$output false
+class Contact
+{
+  $rect <480,140,680,180>
+  inherited method Init()
+  {
+    pure ID = Device::Device.GetNewID();
+  }
+
+  $rect <0,60,200,100>
+  property string FirstName;
+
+  $rect <0,10,200,50>
+  var Device::Contact next;
+
+  $rect <0,100,200,140>
+  property string LastName;
+
+  $rect <470,30,670,70>
+  method void TraceContact()
+  {
+    trace FirstName + " " + LastName;
+  }
+
+  $rect <0,140,200,180>
+  property string PhoneNumber;
+
+  $rect <200,60,400,100>
+  onset FirstName
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure FirstName == value )
+      return;
+
+    // Remember the property's new value.
+    pure FirstName = value;
+
+    notifyobservers this;
+  }
+
+  $rect <200,100,400,140>
+  onset LastName
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure LastName == value )
+      return;
+
+    // Remember the property's new value.
+    pure LastName = value;
+
+    notifyobservers this;
+  }
+
+  $rect <200,140,400,180>
+  onset PhoneNumber
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure PhoneNumber == value )
+      return;
+
+    // Remember the property's new value.
+    pure PhoneNumber = value;
+
+    notifyobservers this;
+  }
+
+  $rect <0,180,200,220>
+  property string NameInitials;
+
+  $rect <200,180,400,220>
+  onset NameInitials
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NameInitials == value )
+      return;
+
+    // Remember the property's new value.
+    pure NameInitials = value;
+
+    notifyobservers this;
+  }
+
+  $rect <0,260,200,300>
+  property int32 ID = 0;
+
+  $rect <200,260,400,300>
+  onset ID
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ID == value )
+      return;
+
+    // Remember the property's new value.
+    pure ID = value;
+
+
+  }
+
+  $rect <470,80,670,120>
+  method Device::Contact CopyDataTo( arg Device::Contact aContact )
+  {
+    aContact.LastName     = LastName;
+    aContact.FirstName    = FirstName;
+    aContact.PhoneNumber  = PhoneNumber;
+    aContact.NameInitials = NameInitials;
+
+    return aContact;
+  }
+
+  $rect <0,220,200,260>
+  property bool Favorite;
+
+  $rect <200,220,400,260>
+  onset Favorite
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Favorite == value )
+      return;
+
+    // Remember the property's new value.
+    pure Favorite = value;
+
+    notifyobservers this;
+  }
+}
+
+// Data
+note group Note2
+{
+  attr Bounds = <0,0,510,360>;
+}
+
+$rect <270,180,480,220>
+$output false
+enum Sorting
+{
+  $rect <10,10,210,50>
+  item None;
+
+  $rect <220,10,420,50>
+  item Ascending;
+
+  $rect <430,10,630,50>
+  item Descending;
+}
+
+$rect <540,40,770,80>
+$output false
+class DeviceClass : Templates::DeviceClass
+{
+  $rect <0,40,200,80>
+  inherited method Done()
+  {
+    // The following section is intended to perform de-initialization-related operations
+    // in the underlying device or middleware. Consequently, the section is taken in
+    // account only when generating code (not during prototyping).
+    $if !$prototyper
+      var object thisObject = this;
+
+      /*
+         TO DO:
+
+         The following native statement is intended to enclose code to communicate with
+         your device API. The variable 'thisObject' contains a pointer to the actually
+         de-initialized Device::DeviceClass object. Use the 'thisObject' pointer to
+         e.g. de-register the object from the middleware if you have registered it
+         beforehand.
+         
+      */
+
+      native ( thisObject )
+      {
+        /*
+           TO DO:
+
+           Depending on your application case you call functions of the underlying
+           middleware (or access the device directly) in order to perform the necessary
+           de-initialization steps. For example, you invoke some 'C' function:
+
+             YourDevice_DeInitialize();
+
+           IMPORTANT:
+           ----------
+
+           The variable 'thisObject' represents the actually de-initialized instance of the
+           Device::DeviceClass. If you have stored this object at the initialization
+           time (in the 'Init' method) in some global C variable or registered it by the
+           middleware, it is important to perform now the opposite operation. Set the
+           global variable to NULL or de-register 'thisObject' object from the middleware.
+           
+        */
+      }
+    $endif
+  }
+
+  $rect <0,0,200,40>
+  inherited method Init()
+  {
+    // The following section is intended to perform initialization-related operations
+    // in the underlying device or middleware. Consequently, the section is taken in
+    // account only when generating code (not during prototyping).
+    $if !$prototyper
+      var object thisObject = this;
+
+      /*
+         TO DO:
+
+         The following native statement is intended to enclose code to communicate with
+         your device API. The variable 'thisObject' contains a pointer to the actually
+         initialized Device::DeviceClass object. Use the 'thisObject' pointer to
+         e.g. register the object by the middleware as receiver of events, etc.
+         
+      */
+
+      native ( thisObject )
+      {
+        /*
+           TO DO:
+
+           Depending on your application case you call functions of the underlying
+           middleware (or access the device directly) in order to perform the necessary
+           initialization steps. For example, you invoke some 'C' function:
+
+             YourDevice_Initialize();
+
+           The variable 'thisObject' represents the actually initialized instance of the
+           Device::DeviceClass. You can store this variable e.g. in the middleware
+           and use it whenever the middleware needs to notify the GUI application about
+           some state alternation or events. In this manner, the middleware will be able
+           to invoke methods of the interface device object.
+
+           For example, you can store 'thisObject' in some global C variable:
+
+             // Declaration of the global C variable
+             XObject theDeviceObject;
+
+             // Store the instance in the global variable
+             theDeviceObject = thisObject;
+
+           Later use the global variable e.g. to provide the GUI application with events:
+
+             ApplicationDeviceClass__TriggerSomeEvent( theDeviceObject );
+
+           IMPORTANT:
+           ----------
+
+           If you store 'thisObject' for later use, don't forget to implement the opposite
+           operation in the method 'Done'. Concrete, 'Done' should set the global variable
+           again to the value NULL.
+
+        */
+      }
+    $endif
+  }
+
+  $rect <200,90,400,130>
+  property bool Microphone;
+
+  $rect <600,90,800,130>
+  onget Microphone
+  {
+    // Per default return the value stored already in the property.
+    return pure Microphone;
+
+    /*
+
+      TO DO:
+
+      If the property should return the value stored in the underlying device
+      or in the middleware, remove the above 'return' statement and instead do
+      following:
+
+      Declare a local variable to receive the value from the underlying device.
+      The type of the variable has to correspond to the data type of the property.
+      For example in case of an 'int32' property:
+      
+        var int32 result;
+
+      Implement a native statement to access the value and to store it in the
+      variable 'result'. Then return the value. For example:
+
+        $if !$prototyper
+          native ( result )
+          {
+            result = YourDevice_GetSomeValue();
+          }
+        $endif
+
+        return result;
+
+    */
+  }
+
+  $rect <400,90,600,130>
+  onset Microphone
+  {
+    // The property doesn't change -> nothing to do.
+    if ( pure Microphone == value )
+      return;
+
+    // Remember the new value in the internal memory of the property.
+    pure Microphone = value;
+
+    // For target code generation you will use your specific device API 
+    // to change the affected value.
+    $if !$prototyper
+      native ( value )
+      {
+        /*
+           TO DO:
+
+           You can call a function of your own device API or you simply
+           modify a variable existing in your middleware to reflect the
+           new value:
+
+           YourDevice_SetSomeValue( value );
+
+           or
+
+           YourDevice_SomeVariable = value;
+        */
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^Microphone;
+  }
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about an alternation of its setting or state value.
+  $rect <0,90,200,130>
+  $output true
+  method void UpdateMicrophone( arg bool aNewValue )
+  {
+    // Only if the reported value does differ from the one stored currently in the property.
+    if ( aNewValue != pure Microphone )
+    {
+      // Remember the new value in the internal memory of the property.
+      pure Microphone = aNewValue;
+
+      // Notify all associated property observers.
+      notifyobservers ^Microphone;
+    }
+  }
+
+  $rect <200,130,400,170>
+  property bool Speaker;
+
+  $rect <600,130,800,170>
+  onget Speaker
+  {
+    // Per default return the value stored already in the property.
+    return pure Speaker;
+
+    /*
+
+      TO DO:
+
+      If the property should return the value stored in the underlying device
+      or in the middleware, remove the above 'return' statement and instead do
+      following:
+
+      Declare a local variable to receive the value from the underlying device.
+      The type of the variable has to correspond to the data type of the property.
+      For example in case of an 'int32' property:
+      
+        var int32 result;
+
+      Implement a native statement to access the value and to store it in the
+      variable 'result'. Then return the value. For example:
+
+        $if !$prototyper
+          native ( result )
+          {
+            result = YourDevice_GetSomeValue();
+          }
+        $endif
+
+        return result;
+
+    */
+  }
+
+  $rect <400,130,600,170>
+  onset Speaker
+  {
+    // The property doesn't change -> nothing to do.
+    if ( pure Speaker == value )
+      return;
+
+    // Remember the new value in the internal memory of the property.
+    pure Speaker = value;
+
+    // For target code generation you will use your specific device API 
+    // to change the affected value.
+    $if !$prototyper
+      native ( value )
+      {
+        /*
+           TO DO:
+
+           You can call a function of your own device API or you simply
+           modify a variable existing in your middleware to reflect the
+           new value:
+
+           YourDevice_SetSomeValue( value );
+
+           or
+
+           YourDevice_SomeVariable = value;
+        */
+      }
+    $endif
+
+    // Notify all associated property observers.
+    notifyobservers ^Speaker;
+  }
+
+  // This method is intended to be called by the device to notify the GUI application \
+  // about an alternation of its setting or state value.
+  $rect <0,130,200,170>
+  $output true
+  method void UpdateSpeaker( arg bool aNewValue )
+  {
+    // Only if the reported value does differ from the one stored currently in the property.
+    if ( aNewValue != pure Speaker )
+    {
+      // Remember the new value in the internal memory of the property.
+      pure Speaker = aNewValue;
+
+      // Notify all associated property observers.
+      notifyobservers ^Speaker;
+    }
+  }
+
+  $rect <-10,290,190,330>
+  object Device::ContactList Contacts;
+
+  $rect <-10,370,190,410>
+  object Device::ContactList History;
+
+  $rect <-10,330,190,370>
+  object Device::ContactList Favorites;
+
+  $rect <-10,410,190,450>
+  object Device::ContactList Search;
+
+  $rect <200,210,400,250>
+  method void OutgoingCallContact( arg Device::Contact aContact )
+  {
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+    aContact.CopyDataTo( historyContact );
+
+    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
+    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.CallDirection = Device::CallDirection.Outgoing;
+
+    Ongoing.Add( historyContact );
+  }
+
+  $rect <0,170,200,210>
+  method void UpdateIncomingCall( arg string aPhoneNumber )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+
+    //contact not found in contact list, than save it by number
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+
+    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
+    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.CallDirection = Device::CallDirection.Incoming;
+
+
+    Ongoing.Add( historyContact );
+
+
+  }
+
+  $rect <200,250,400,290>
+  method void OutgoingCallNumber( arg string aPhoneNumber )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+
+    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
+    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.CallDirection = Device::CallDirection.Outgoing;
+
+    Ongoing.Add( historyContact );
+  }
+
+  $rect <190,370,390,410>
+  object Device::ContactList Ongoing;
+
+  $rect <0,450,200,490>
+  method int32 GetNewID()
+  {
+    LastID +=1;
+
+    return LastID;
+  }
+
+  $rect <200,450,400,490>
+  var int32 LastID = 0;
+
+  $rect <630,210,830,250>
+  method void EndCall( arg Device::HistoryContact aContact )
+  {
+    if ( aContact.CallDirection == Device::CallDirection.Incoming )
+    {
+      if ( aContact.CallState == Device::CallState.Dialing )
+        aContact.CallState = Device::CallState.Rejected;
+        
+      else if ( aContact.CallState == Device::CallState.Speaking )
+      {
+        aContact.CallState = Device::CallState.EndCall;
+        aContact.EndTime = (new Core::Time).CurrentTime;
+       }
+    }
+      
+    else if ( aContact.CallDirection == Device::CallDirection.Outgoing )
+    {
+      if ( aContact.CallState == Device::CallState.Dialing )
+        aContact.CallState = Device::CallState.Cancelled;
+        
+      else if ( aContact.CallState == Device::CallState.Speaking )
+      {
+        aContact.CallState = Device::CallState.EndCall;
+        aContact.EndTime = (new Core::Time).CurrentTime;
+       }
+    }
+
+    History.Add( aContact );
+    Ongoing.Remove( aContact );
+  }
+
+  $rect <430,210,630,250>
+  method void AnswerCall( arg Device::HistoryContact aContact )
+  {
+    aContact.CallState = Device::CallState.Speaking;
+    aContact.StartTime = (new Core::Time).CurrentTime;
+
+  }
+}
+
+$rect <540,80,770,120>
+autoobject Device::DeviceClass Device;
+
+// Device
+note group Note3
+{
+  attr Bounds = <520,0,810,200>;
+}
+
+$rect <250,140,450,180>
+$output false
+enum CallState
+{
+  $rect <10,10,210,50>
+  item None;
+
+  $rect <10,130,210,170>
+  item Missed;
+
+  $rect <10,170,210,210>
+  item Cancelled;
+
+  $rect <15,65,215,105>
+  item Dialing;
+
+  $rect <10,210,210,250>
+  item Rejected;
+
+  $rect <10,270,210,310>
+  item Hold;
+
+  $rect <10,320,210,360>
+  item Speaking;
+
+  $rect <260,170,460,210>
+  item EndCall;
+}
+
+$rect <540,130,770,170>
+$variant $SimulateData
+vclass DeviceSimulation : Device::DeviceClass
+{
+  $rect <0,0,200,40>
+  inherited method Init()
+  {
+    postsignal CreateContactData;
+  }
+
+  $rect <0,90,200,130>
+  method void CreateContact( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
+  {
+    var Device::Contact MyContact = new Device::Contact;
+
+    MyContact.FirstName   = aFirstName;
+    MyContact.LastName    = aLastName;
+    MyContact.PhoneNumber = aPhoneNumber;
+    Contacts.Add( MyContact );
+
+
+  }
+
+  $rect <0,130,200,170>
+  method void CreateContact1( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
+  {
+    var Device::Contact MyContact = new Device::Contact;
+
+
+    MyContact.FirstName = aFirstName;
+    MyContact.LastName = aLastName;
+    MyContact.PhoneNumber = aPhoneNumber;
+    Favorites.Add( MyContact );
+
+
+
+  }
+
+  $rect <0,170,200,210>
+  method void CreateContact2( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
+  {
+    var Device::HistoryContact MyContact = new Device::HistoryContact;
+
+
+    MyContact.FirstName = aFirstName;
+    MyContact.LastName = aLastName;
+    MyContact.PhoneNumber = aPhoneNumber;
+    MyContact.CallState = Device::CallState.Dialing;
+    History.Add( MyContact );
+
+
+
+  }
+
+  $rect <0,50,200,90>
+  slot CreateContactData
+  {
+    CreateContact( "Buna", "Zsolt", "sfdg");
+    CreateContact(  "Benedek", "Norbert", "sfg");
+    CreateContact(  "Amota", "Adel", "zf");
+    CreateContact(  "Bacso", "Amalia", "sfd");
+    CreateContact1( "TestFav", "Adel", "zf");
+    //CreateContact2( "TestRecent", "Adel", "zf");
+    //CreateContact2( "TestRecent", "Norbert", "sfg");
+
+    Contacts.insertionSort();
+
+    //var int32 i =0;
+
+    //for ( i=0; i<100; i++ )
+    //{
+    //  CreateContact( "Name" + (string)i, "LastName" + (string)i, "0722" + (string)i );
+    //}
+
+
+  }
+}
+
+$rect <50,180,220,220>
+$output false
+class HistoryContact : Device::Contact
+{
+  $rect <10,40,210,80>
+  property Device::CallState CallState = Device::CallState.None;
+
+  $rect <210,40,410,80>
+  onset CallState
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure CallState == value )
+      return;
+
+    // Remember the property's new value.
+    pure CallState = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,120,210,160>
+  property Core::Time TimeOfCall;
+
+  $rect <210,120,410,160>
+  onset TimeOfCall
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure TimeOfCall == value )
+      return;
+
+    // Remember the property's new value.
+    pure TimeOfCall = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,160,210,200>
+  property Core::Time StartTime = null;
+
+  $rect <210,160,410,200>
+  onset StartTime
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure StartTime == value )
+      return;
+
+    // Remember the property's new value.
+    pure StartTime = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,80,210,120>
+  property Device::CallDirection CallDirection = Device::CallDirection.None;
+
+  $rect <210,80,410,120>
+  onset CallDirection
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure CallDirection == value )
+      return;
+
+    // Remember the property's new value.
+    pure CallDirection = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,200,210,240>
+  property Core::Time EndTime = null;
+
+  $rect <210,200,410,240>
+  onset EndTime
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure EndTime == value )
+      return;
+
+    // Remember the property's new value.
+    pure EndTime = value;
+
+    notifyobservers this;
+  }
+
+  $rect <420,180,620,220>
+  method string GetDuration()
+  {
+    var Core::TimeSpan time = new Core::TimeSpan;
+    if ( StartTime == null )
+      return "";
+      
+    else if ( EndTime == null )
+    {
+      time = (new Core::Time).CurrentTime.Difference( StartTime );
+     }
+    else
+    {
+      time = EndTime.Difference( StartTime );
+    }
+
+    if ( time.TotalMinutes < 1 )
+      return time.Format( "%S seconds" );
+
+    if ( time.TotalMinutes < 60 )
+      return time.Format( "%M:%S minutes" );
+      
+    else
+      return time.Format( "%H:%M:%S houres" );
+  }
+
+  $rect <420,40,620,80>
+  method string GetCallState()
+  {
+    switch ( CallState )
+    {
+      case Device::CallState.Cancelled: return Strings::CancelledTxt;
+
+      case Device::CallState.Missed: return Strings::MissedTxt;
+      
+      case Device::CallState.Rejected: return Strings::RejectedTxt;
+
+      default: 
+        return Strings::ErrorTxt;
+    }
+  }
+
+  $rect <420,80,620,120>
+  method string GetCallDirection()
+  {
+    switch ( CallDirection )
+    {
+      case Device::CallDirection.Incoming: return Strings::IncomingTxt;
+
+      case Device::CallDirection.Outgoing: return Strings::OutgoingTxt;
+
+      default:
+        return Strings::ErrorTxt;
+    }
+  }
+}
+
+$rect <50,80,230,120>
+$output false
+class ContactListElement
+{
+  $rect <0,10,200,50>
+  var Device::ContactListElement next = null;
+
+  $rect <230,10,430,50>
+  method void TraceContact()
+  {
+    //trace FirstName + " " + LastName;
+  }
+
+  $rect <0,50,200,90>
+  var Device::Contact Data = null;
+}
+
+$rect <20,40,200,80>
+$output false
+class ContactList
+{
+  $rect <0,0,200,40>
+  var Device::ContactListElement head = null;
+
+  $rect <0,50,200,90>
+  method void Add( arg Device::Contact aContact )
+  {
+    var Device::ContactListElement elem = new Device::ContactListElement;
+    elem.Data = aContact;
+
+    if ( head ==  null )
+    {  
+      head = elem; 
+    }  
+    else
+    {
+      // add contact after the last node
+      var Device::ContactListElement lastNode = head;
+      while ( lastNode.next != null )
+      {
+        lastNode = lastNode.next;
+      }
+
+      lastNode.next = elem;
+    }
+
+    NoOfItems +=1;
+
+  }
+
+  $rect <0,90,200,130>
+  method void Remove( arg Device::Contact aContact )
+  {
+    var Device::ContactListElement elem = head;
+    var Device::ContactListElement prev = null;
+
+    if (( elem != null) && ( elem.Data == aContact ))
+    {
+      head = elem.next;
+      NoOfItems -= 1;
+    }
+     
+    else
+    {
+      while ((elem != null) && (elem.Data != aContact))
+      {
+        prev = elem;
+        elem = elem.next;
+       }
+       prev.next = elem.next;
+       NoOfItems -= 1;
+    }
+  }
+
+  $rect <0,250,200,290>
+  method void TraceContacts()
+  {
+    var Device::ContactListElement elem = head;
+
+    while ( elem.Data != null )
+    {
+      elem.TraceContact();
+      elem = elem.next;
+    }
+
+  }
+
+  $rect <210,0,410,40>
+  property int32 NoOfItems = 0;
+
+  $rect <210,40,410,80>
+  onset NoOfItems
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NoOfItems == value )
+      return;
+
+    // Remember the property's new value.
+    pure NoOfItems = value;
+
+    notifyobservers ^NoOfItems;
+
+  }
+
+  $rect <0,130,200,170>
+  method Device::Contact GetContact( arg int32 aIndex )
+  {
+    if ( head == null || aIndex >= NoOfItems )
+      return null;
+      
+    var Device::ContactListElement elem = head;
+    var int32 it = 0;
+    while ( it != aIndex && elem.Data != null )
+    {
+      elem = elem.next;
+      it += 1;
+    }
+
+    return elem.Data;
+
+  }
+
+  $rect <860,0,1060,40>
+  method string GetInitials( arg string aLastname, arg string aFirstname )
+  {
+     return aLastname[0] + "" + aFirstname[0];
+  }
+
+  $rect <430,80,630,120>
+  method void insertionSort()
+  {
+    var Device::ContactListElement current = head;
+
+    while ( current != null )
+    {
+      //store the currents next for next iteration 
+      var Device::ContactListElement next = current.next;
+      //insert cuurent in sorted liked list
+      sortedInsert ( current );
+
+      //update current 
+      current = next;
+    }
+
+    head = sorted;
+    sorted = null;
+  }
+
+  $rect <430,40,630,80>
+  method void sortedInsert( arg Device::ContactListElement aElement )
+  {
+    if ((sorted == null) || 
+        ((Sorting == Device::Sorting.Ascending)  && (sorted.Data.LastName >= aElement.Data.LastName )) ||
+        ((Sorting == Device::Sorting.Descending) && (sorted.Data.LastName <= aElement.Data.LastName)))
+    {
+      aElement.next = sorted;
+      sorted = aElement;
+    }
+
+    else
+    {
+      var Device::ContactListElement current = sorted;
+
+      
+     while (( current.next != null) &&
+              (((Sorting == Device::Sorting.Ascending) && (current.next.Data.LastName < aElement.Data.LastName)) ||
+              ((Sorting == Device::Sorting.Descending) && (current.next.Data.LastName > aElement.Data.LastName))))
+      {
+        current = current.next;
+      }
+      aElement.next = current.next;
+      current.next  = aElement;
+    }
+
+
+  }
+
+  $rect <430,0,630,40>
+  var Device::ContactListElement sorted = null;
+
+  $rect <640,0,840,40>
+  property Device::Sorting Sorting = Device::Sorting.None;
+
+  $rect <640,40,840,80>
+  onset Sorting
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Sorting == value )
+      return;
+
+    // Remember the property's new value.
+    pure Sorting = value;
+
+    insertionSort();
+    notifyobservers ^Sorting;
+  }
+
+  $rect <0,210,200,250>
+  method Device::Contact FindByPhoneNumber( arg string aNumber )
+  {
+    var Device::ContactListElement elem = head;
+
+    while ( elem != null )
+    {
+      if( elem.Data.PhoneNumber == aNumber )
+        return elem.Data;
+      elem = elem.next;
+    }
+
+    return null; 
+     
+
+  }
+
+  $rect <0,170,200,210>
+  method Device::Contact FindByID( arg Device::Contact aContact )
+  {
+    var Device::ContactListElement elem = head;
+
+    while ( elem.next != null )
+    {
+      if ( elem.Data.ID == aContact.ID )
+        return elem.Data;
+        
+      elem = elem.next;
+    }
+
+    return null;
+  }
+}
+
+$rect <280,220,480,260>
+$output false
+enum CallDirection
+{
+  $rect <10,10,210,50>
+  item None;
+
+  $rect <10,60,210,100>
+  item Incoming;
+
+  $rect <10,100,210,140>
+  item Outgoing;
+}
