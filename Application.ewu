@@ -278,7 +278,6 @@ class ContactsPage : Core::Group
 }
 
 // GUI
-
 note group Note
 {
   attr Bounds = <0,0,980,400>;
@@ -2196,7 +2195,6 @@ class ContactsApp : Core::Group
   }
 
   // Initialization
-
   note group Note
   {
     attr Bounds = <290,0,510,230>;
@@ -4337,7 +4335,6 @@ class RecentDetailsPage : Application::ContactDetailsPage
   property Device::HistoryContact HistoryContact;
 
   // Contact data
-
   note group Note8
   {
     attr Bounds = <290,0,580,260>;

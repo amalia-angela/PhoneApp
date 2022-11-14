@@ -1,6 +1,6 @@
 ﻿$version 11.00
 
-$rect <20,140,190,180>
+$rect <320,140,490,180>
 $output false
 class Contact
 {
@@ -130,10 +130,10 @@ class Contact
 // Data
 note group Note2
 {
-  attr Bounds = <0,0,510,360>;
+  attr Bounds = <300,0,810,360>;
 }
 
-$rect <270,180,480,220>
+$rect <570,180,780,220>
 $output false
 enum Sorting
 {
@@ -147,7 +147,7 @@ enum Sorting
   item Descending;
 }
 
-$rect <540,40,770,80>
+$rect <20,40,250,80>
 $output false
 class DeviceClass : Templates::DeviceClass
 {
@@ -436,16 +436,16 @@ class DeviceClass : Templates::DeviceClass
     }
   }
 
-  $rect <-10,290,190,330>
+  $rect <0,290,200,330>
   object Device::ContactList Contacts;
 
-  $rect <-10,370,190,410>
+  $rect <0,370,200,410>
   object Device::ContactList History;
 
-  $rect <-10,330,190,370>
+  $rect <0,330,200,370>
   object Device::ContactList Favorites;
 
-  $rect <-10,410,190,450>
+  $rect <0,410,200,450>
   object Device::ContactList Search;
 
   $rect <200,210,400,250>
@@ -511,7 +511,7 @@ class DeviceClass : Templates::DeviceClass
     Ongoing.Add( historyContact );
   }
 
-  $rect <190,370,390,410>
+  $rect <200,370,400,410>
   object Device::ContactList Ongoing;
 
   $rect <0,450,200,490>
@@ -565,16 +565,16 @@ class DeviceClass : Templates::DeviceClass
   }
 }
 
-$rect <540,80,770,120>
+$rect <20,80,250,120>
 autoobject Device::DeviceClass Device;
 
 // Device
 note group Note3
 {
-  attr Bounds = <520,0,810,200>;
+  attr Bounds = <0,0,290,200>;
 }
 
-$rect <250,140,450,180>
+$rect <550,140,750,180>
 $output false
 enum CallState
 {
@@ -603,7 +603,7 @@ enum CallState
   item EndCall;
 }
 
-$rect <540,130,770,170>
+$rect <20,130,250,170>
 $variant $SimulateData
 vclass DeviceSimulation : Device::DeviceClass
 {
@@ -681,7 +681,7 @@ vclass DeviceSimulation : Device::DeviceClass
   }
 }
 
-$rect <50,180,220,220>
+$rect <350,180,520,220>
 $output false
 class HistoryContact : Device::Contact
 {
@@ -822,7 +822,7 @@ class HistoryContact : Device::Contact
   }
 }
 
-$rect <50,80,230,120>
+$rect <350,80,530,120>
 $output false
 class ContactListElement
 {
@@ -839,7 +839,7 @@ class ContactListElement
   var Device::Contact Data = null;
 }
 
-$rect <20,40,200,80>
+$rect <320,40,500,80>
 $output false
 class ContactList
 {
@@ -1053,7 +1053,7 @@ class ContactList
   }
 }
 
-$rect <280,220,480,260>
+$rect <580,220,780,260>
 $output false
 enum CallDirection
 {
