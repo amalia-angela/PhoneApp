@@ -333,8 +333,8 @@ class ContactItem : Core::Group
   inherited method Init()
   {
     $if $composer
-      FirstNameTxt.String = "Lastname";
-      LastNameTxt.String = "Firstname";
+      FirstNameTxt.String = "Firstname";
+      LastNameTxt.String = "Lastname";
     $endif
   }
 
@@ -429,17 +429,21 @@ class ContactItem : Core::Group
       FirstNameTxt.String = "";
       LastNameTxt.String = "";
       PrfofilButton.Text = "";
-      //FavoritTxt.Visible  =  pure Contact.Favorite ? true : false;
     }
     else
     {
-      FirstNameTxt.String = pure Contact.FirstName;
-      LastNameTxt.String  = pure Contact.LastName;
+      if ( pure Contact.LastName == "")
+        LastNameTxt.String = pure Contact.FirstName;
+      else
+      {
+        FirstNameTxt.String = pure Contact.FirstName;
+        LastNameTxt.String  = pure Contact.LastName;
+       }
       PrfofilButton.Text  = pure Contact.NameInitials;
-      //FavoritTxt.Visible  =  pure Contact.Favorite ? true : false;
-        
+     
     }
 
+      //FavoritTxt.Visible  =  pure Contact.Favorite ? true : false;
   }
 
   // Contact data
@@ -959,7 +963,7 @@ class ContactDetailsPage : Core::Group
   object Views::Text ContactName
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <8,98,265,128>;
+    preset Bounds = <8,98,265,145>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "Contact name";
     preset Font = Res::TitileFont29;
@@ -1031,6 +1035,7 @@ class ContactAddPage : Core::Group
   $rect <311,50,511,90>
   slot onSave
   {
+
     notifyobservers pure Contact;
     signal OnSave;
   }
@@ -1070,6 +1075,9 @@ class ContactAddPage : Core::Group
     Contact.LastName     = LastNameTxt.String;
     Contact.PhoneNumber  = PhoneNumberTxt.String;
     Contact.NameInitials = Device::Device.Contacts.GetInitials( LastNameTxt.String, FirstNameTxt.String);
+
+    if ( Contact.LastName == "" &&  Contact.FirstName == "")
+      Contact.LastName =  Contact.PhoneNumber;
 
 
          

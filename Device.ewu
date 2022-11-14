@@ -640,9 +640,10 @@ vclass DeviceSimulation : Device::DeviceClass
   {
     var Device::Contact MyContact = new Device::Contact;
 
-    MyContact.FirstName   = aFirstName;
-    MyContact.LastName    = aLastName;
-    MyContact.PhoneNumber = aPhoneNumber;
+    MyContact.FirstName    = aFirstName;
+    MyContact.LastName     = aLastName;
+    MyContact.PhoneNumber  = aPhoneNumber;
+    MyContact.NameInitials = Contacts.GetInitials( aLastName, aFirstName );
     Contacts.Add( MyContact );
 
 
@@ -657,6 +658,7 @@ vclass DeviceSimulation : Device::DeviceClass
     MyContact.FirstName = aFirstName;
     MyContact.LastName = aLastName;
     MyContact.PhoneNumber = aPhoneNumber;
+    MyContact.NameInitials = Favorites.GetInitials( aLastName, aFirstName );
     Favorites.Add( MyContact );
 
 
