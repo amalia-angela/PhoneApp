@@ -42,10 +42,10 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationInputEtxt.h"
-#include "_ApplicationKeyPadButtons.h"
 #include "_ApplicationKeypadPage.h"
-#include "_ApplicationTextButton.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsKeyPadButtons.h"
+#include "_ComponentsTextButton.h"
 #include "_ViewsRectangle.h"
 
 /* Forward declaration of the class Application::KeypadInsideCall */

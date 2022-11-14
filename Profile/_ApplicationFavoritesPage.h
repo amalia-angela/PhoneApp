@@ -42,18 +42,18 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonNoBackground.h"
-#include "_ApplicationTextButton.h"
+#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsTextButton.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
+/* Forward declaration of the class Application::ContactDetailsPage */
+#ifndef _ApplicationContactDetailsPage_
+  EW_DECLARE_CLASS( ApplicationContactDetailsPage )
+#define _ApplicationContactDetailsPage_
 #endif
 
 /* Forward declaration of the class Application::ContactsList */
@@ -98,6 +98,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -114,13 +120,14 @@
 /* Deklaration of class : 'Application::FavoritesPage' */
 EW_DEFINE_FIELDS( ApplicationFavoritesPage, CoreGroup )
   EW_VARIABLE( addFav,          ApplicationContactsList )
-  EW_PROPERTY( SelectedContact, ApplicationContact )
+  EW_PROPERTY( Contact,         DeviceContact )
+  EW_VARIABLE( detailsPage,     ApplicationContactDetailsPage )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
   EW_OBJECT  ( TitleTxt1,       ViewsText )
-  EW_OBJECT  ( PlusButton,      ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( TextButton,      ApplicationTextButton )
+  EW_OBJECT  ( PlusButton,      ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( TextButton,      ComponentsTextButton )
   EW_PROPERTY( EditMode,        XBool )
 EW_END_OF_FIELDS( ApplicationFavoritesPage )
 
@@ -173,8 +180,8 @@ void ApplicationFavoritesPage_onAddPress( ApplicationFavoritesPage _this, XObjec
 void ApplicationFavoritesPage_OnLoadItem( ApplicationFavoritesPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::FavoritesPage.onContactActivated()' */
-void ApplicationFavoritesPage_onContactActivated( ApplicationFavoritesPage _this, 
+/* 'C' function for method : 'Application::FavoritesPage.onPressedContact()' */
+void ApplicationFavoritesPage_onPressedContact( ApplicationFavoritesPage _this, 
   XObject sender );
 
 /* 'C' function for method : 'Application::FavoritesPage.onClose()' */
@@ -184,8 +191,30 @@ void ApplicationFavoritesPage_onClose( ApplicationFavoritesPage _this, XObject s
 void ApplicationFavoritesPage_onNoOfContactsChanged( ApplicationFavoritesPage _this, 
   XObject sender );
 
+/* 'C' function for method : 'Application::FavoritesPage.OnSetContact()' */
+void ApplicationFavoritesPage_OnSetContact( ApplicationFavoritesPage _this, DeviceContact 
+  value );
+
+/* 'C' function for method : 'Application::FavoritesPage.onInfoContact()' */
+void ApplicationFavoritesPage_onInfoContact( ApplicationFavoritesPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::FavoritesPage.onDeleteContact()' */
+void ApplicationFavoritesPage_onDeleteContact( ApplicationFavoritesPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::FavoritesPage.onCloseDetailsPage()' */
+void ApplicationFavoritesPage_onCloseDetailsPage( ApplicationFavoritesPage _this, 
+  XObject sender );
+
 /* 'C' function for method : 'Application::FavoritesPage.onEdit()' */
 void ApplicationFavoritesPage_onEdit( ApplicationFavoritesPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::FavoritesPage.onAdd()' */
+void ApplicationFavoritesPage_onAdd( ApplicationFavoritesPage _this, XObject sender );
+
+/* Default onget method for the property 'Contact' */
+DeviceContact ApplicationFavoritesPage_OnGetContact( ApplicationFavoritesPage _this );
 
 #ifdef __cplusplus
   }

@@ -563,6 +563,28 @@ class DeviceClass : Templates::DeviceClass
     aContact.StartTime = (new Core::Time).CurrentTime;
 
   }
+
+  $rect <730,350,930,390>
+  property string MyNumber;
+
+  $rect <730,390,930,430>
+  onset MyNumber
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure MyNumber == value )
+      return;
+
+    // Remember the property's new value.
+    pure MyNumber = value;
+
+    trace MyNumber;
+  }
+
+  $rect <730,430,930,470>
+  onget MyNumber
+  {
+    return pure MyNumber;
+  }
 }
 
 $rect <20,80,250,120>

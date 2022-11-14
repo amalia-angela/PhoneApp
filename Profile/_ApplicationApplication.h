@@ -42,6 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationContactsApp.h"
 #include "_CoreRoot.h"
 #include "_CoreTimer.h"
 
@@ -51,16 +52,10 @@
 #define _ApplicationApplication_
 #endif
 
-/* Forward declaration of the class Application::ContactsManager */
-#ifndef _ApplicationContactsManager_
-  EW_DECLARE_CLASS( ApplicationContactsManager )
-#define _ApplicationContactsManager_
-#endif
-
-/* Forward declaration of the class Application::DeviceClass */
-#ifndef _ApplicationDeviceClass_
-  EW_DECLARE_CLASS( ApplicationDeviceClass )
-#define _ApplicationDeviceClass_
+/* Forward declaration of the class Application::CallPageBase */
+#ifndef _ApplicationCallPageBase_
+  EW_DECLARE_CLASS( ApplicationCallPageBase )
+#define _ApplicationCallPageBase_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -99,6 +94,18 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::DeviceClass */
+#ifndef _DeviceDeviceClass_
+  EW_DECLARE_CLASS( DeviceDeviceClass )
+#define _DeviceDeviceClass_
+#endif
+
+/* Forward declaration of the class Device::HistoryContact */
+#ifndef _DeviceHistoryContact_
+  EW_DECLARE_CLASS( DeviceHistoryContact )
+#define _DeviceHistoryContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -114,8 +121,10 @@
 
 /* Deklaration of class : 'Application::Application' */
 EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
-  EW_VARIABLE( deviceInstance,  ApplicationDeviceClass )
-  EW_VARIABLE( myContactInstance, ApplicationContactsManager )
+  EW_VARIABLE( deviceInstance,  DeviceDeviceClass )
+  EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
+  EW_VARIABLE( historyContact,  DeviceHistoryContact )
+  EW_OBJECT  ( ContactsApp,     ApplicationContactsApp )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */

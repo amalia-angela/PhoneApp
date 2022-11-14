@@ -146,7 +146,6 @@ EW_DEFINE_FIELDS( ViewsText, CoreRectView )
   EW_PROPERTY( Color,           XColor )
   EW_PROPERTY( WrapText,        XBool )
   EW_PROPERTY( AutoSize,        XBool )
-  EW_PROPERTY( Ellipsis,        XBool )
   EW_PROPERTY( EnableBidiText,  XBool )
   EW_VARIABLE( reparsed,        XBool )
 EW_END_OF_FIELDS( ViewsText )
@@ -235,10 +234,6 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender );
 
 /* 'C' function for method : 'Views::Text.OnSetEnableBidiText()' */
 void ViewsText_OnSetEnableBidiText( ViewsText _this, XBool value );
-
-/* The onset method for the property 'Ellipsis' changes the ellipsis mode and forces 
-   an update. */
-void ViewsText_OnSetEllipsis( ViewsText _this, XBool value );
 
 /* 'C' function for method : 'Views::Text.OnSetOnUpdate()' */
 void ViewsText_OnSetOnUpdate( ViewsText _this, XSlot value );

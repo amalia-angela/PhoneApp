@@ -78,11 +78,11 @@ EW_DECLARE_BITMAP_RES( ResButtonRoundBig )
 /* Bitmap resource : 'Res::ButtonRoundSmall' */
 EW_DECLARE_BITMAP_RES( ResButtonRoundSmall )
 
-/* Bitmap resource : 'Res::SearchButton' */
-EW_DECLARE_BITMAP_RES( ResSearchButton )
-
 /* Bitmap resource : 'Res::ButtonRoundMedium1' */
 EW_DECLARE_BITMAP_RES( ResButtonRoundMedium1 )
+
+/* Bitmap resource : 'Res::SearchButton' */
+EW_DECLARE_BITMAP_RES( ResSearchButton )
 
 /* Forward declaration of the class Effects::FadeInOutTransition */
 #ifndef _EffectsFadeInOutTransition_
@@ -280,8 +280,35 @@ extern const XStringRes ResBackspaceTxt;
 /* User defined constant: 'Res::PressColor' */
 extern const XColor ResPressColor;
 
+/* User defined constant: 'Res::OutgoingCallTxt' */
+extern const XStringRes ResOutgoingCallTxt;
+
 /* User defined constant: 'Res::RemoveTxt' */
 extern const XStringRes ResRemoveTxt;
+
+/* User defined constant: 'Res::InfoTxt' */
+extern const XStringRes ResInfoTxt;
+
+/* User defined constant: 'Res::MenuTxt' */
+extern const XStringRes ResMenuTxt;
+
+/* The global autoobject Res::SlideUpCentered1 represents the fade-in/out operation 
+   affecting the position and the opacity of the given GUI component. When using 
+   the transition for the fade-in operation, the GUI component slides from the bottom 
+   edge of its owner component and continues moving vertically until it reaches 
+   the owner's center position. When using the transition for the fade-out operation, 
+   the component slides up until it leaves the visible area of its owner component. 
+   Additionally, while the transitions are performed, the opacity of the GUI component 
+   fades-in or fades-out accordingly. This transition is thus ideal wherever one 
+   GUI component should smoothly slide-in/out in context of another component. The 
+   duration of the transition is configured per default to take 500 ms and the timing 
+   is configured to start fast and then slow down the animation (FastIn_EaseOut).
+   This object exists for your convenience permitting you to simply refer the transition 
+   wherever it is required in your implementation without having to take care of 
+   the creation and configuration of the object. If you require the transition to 
+   run with other configuration (e.g. other timing parameters), create a copy of 
+   this object and adapt its properties accordingly. */
+EW_DECLARE_AUTOOBJECT( ResSlideUpCenteredLimit, EffectsSlideTransition )
 
 #ifdef __cplusplus
   }

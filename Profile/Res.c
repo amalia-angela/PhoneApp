@@ -34,11 +34,11 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x0000009C, /* ratio 58.97 % */
+  0x000000B4, /* ratio 55.56 % */
   0xB8000900, 0x38160452, 0x12040000, 0xA10E229C, 0xCAE022C2, 0x24581C39, 0x0B89B8D9,
   0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xAE092289, 0x88B29838, 0xA12D8B86,
-  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0x96E5B1E2, 0x061108A2,
-  0x00000004, 0x00000000
+  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0x0725B1E2, 0x14B71B73,
+  0x2848E87D, 0x11286941, 0x00080C22, 0x00000000
 };
 
 /* User defined constant: 'Res::CallTxt' */
@@ -89,6 +89,7 @@ EW_DEFINE_AUTOOBJECT( ResSlideDownCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideDownCentered' */
 void ResSlideDownCentered__Init( EffectsSlideTransition _this )
 {
+  _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionBottom;
 }
@@ -118,6 +119,7 @@ EW_DEFINE_AUTOOBJECT( ResSlideUpCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideUpCentered' */
 void ResSlideUpCentered__Init( EffectsSlideTransition _this )
 {
+  _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionTop;
 }
@@ -148,6 +150,7 @@ EW_DEFINE_AUTOOBJECT( ResSlideRightCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideRightCentered' */
 void ResSlideRightCentered__Init( EffectsSlideTransition _this )
 {
+  _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionRight;
 }
@@ -288,12 +291,6 @@ EW_RES_WITHOUT_VARIANTS( ResButtonRoundBig )
 /* Table with links to derived variants of the bitmap resource : 'Res::ButtonRoundSmall' */
 EW_RES_WITHOUT_VARIANTS( ResButtonRoundSmall )
 
-/* Include a file containing the bitmap resource : 'Res::SearchButton' */
-#include "_ResSearchButton.h"
-
-/* Table with links to derived variants of the bitmap resource : 'Res::SearchButton' */
-EW_RES_WITHOUT_VARIANTS( ResSearchButton )
-
 /* Include a file containing the bitmap resource : 'Res::ButtonRoundMedium1' */
 #include "_ResButtonRoundMedium1.h"
 
@@ -347,6 +344,7 @@ EW_DEFINE_AUTOOBJECT( ResSlideLeftCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideLeftCentered' */
 void ResSlideLeftCentered__Init( EffectsSlideTransition _this )
 {
+  _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionLeft;
 }
@@ -364,7 +362,53 @@ const XStringRes ResBackspaceTxt = { _StringsDefault0, 0x0046 };
 /* User defined constant: 'Res::PressColor' */
 const XColor ResPressColor = { 0xF8, 0xF8, 0xF8, 0xD5 };
 
+/* User defined constant: 'Res::OutgoingCallTxt' */
+const XStringRes ResOutgoingCallTxt = { _StringsDefault0, 0x004A };
+
 /* User defined constant: 'Res::RemoveTxt' */
-const XStringRes ResRemoveTxt = { _StringsDefault0, 0x004A };
+const XStringRes ResRemoveTxt = { _StringsDefault0, 0x004E };
+
+/* User defined constant: 'Res::InfoTxt' */
+const XStringRes ResInfoTxt = { _StringsDefault0, 0x0052 };
+
+/* User defined constant: 'Res::MenuTxt' */
+const XStringRes ResMenuTxt = { _StringsDefault0, 0x0056 };
+
+/* Include a file containing the bitmap resource : 'Res::SearchButton' */
+#include "_ResSearchButton.h"
+
+/* Table with links to derived variants of the bitmap resource : 'Res::SearchButton' */
+EW_RES_WITHOUT_VARIANTS( ResSearchButton )
+
+/* The global autoobject Res::SlideUpCentered1 represents the fade-in/out operation 
+   affecting the position and the opacity of the given GUI component. When using 
+   the transition for the fade-in operation, the GUI component slides from the bottom 
+   edge of its owner component and continues moving vertically until it reaches 
+   the owner's center position. When using the transition for the fade-out operation, 
+   the component slides up until it leaves the visible area of its owner component. 
+   Additionally, while the transitions are performed, the opacity of the GUI component 
+   fades-in or fades-out accordingly. This transition is thus ideal wherever one 
+   GUI component should smoothly slide-in/out in context of another component. The 
+   duration of the transition is configured per default to take 500 ms and the timing 
+   is configured to start fast and then slow down the animation (FastIn_EaseOut).
+   This object exists for your convenience permitting you to simply refer the transition 
+   wherever it is required in your implementation without having to take care of 
+   the creation and configuration of the object. If you require the transition to 
+   run with other configuration (e.g. other timing parameters), create a copy of 
+   this object and adapt its properties accordingly. */
+EW_DEFINE_AUTOOBJECT( ResSlideUpCenteredLimit, EffectsSlideTransition )
+
+/* Initializer for the auto object 'Res::SlideUpCenteredLimit' */
+void ResSlideUpCenteredLimit__Init( EffectsSlideTransition _this )
+{
+  _this->MarginTop = 40;
+  _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
+  _this->Duration = 200;
+  _this->Direction = CoreDirectionTop;
+}
+
+/* Table with links to derived variants of the auto object : 'Res::SlideUpCenteredLimit' */
+EW_DEFINE_AUTOOBJECT_VARIANTS( ResSlideUpCenteredLimit )
+EW_END_OF_AUTOOBJECT_VARIANTS( ResSlideUpCenteredLimit )
 
 /* Embedded Wizard */

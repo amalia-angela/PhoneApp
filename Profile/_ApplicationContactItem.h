@@ -42,7 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonSmall.h"
+#include "_ComponentsPushButtonSmall.h"
 #include "_CoreGroup.h"
 #include "_CoreKeyPressHandler.h"
 #include "_CoreSimpleTouchHandler.h"
@@ -50,12 +50,6 @@
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::ContactItem */
 #ifndef _ApplicationContactItem_
@@ -87,6 +81,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -102,16 +102,17 @@
 
 /* Deklaration of class : 'Application::ContactItem' */
 EW_DEFINE_FIELDS( ApplicationContactItem, CoreGroup )
-  EW_PROPERTY( Contact,         ApplicationContact )
+  EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnActivate,      XSlot )
-  EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( LastNameTxt,     ViewsText )
-  EW_OBJECT  ( FirstnameTxt,    ViewsText )
-  EW_OBJECT  ( Line,            ViewsLine )
-  EW_OBJECT  ( PushButtonSmall, ApplicationPushButtonSmall )
   EW_OBJECT  ( FlashTimer,      CoreTimer )
   EW_OBJECT  ( KeyHandler,      CoreKeyPressHandler )
   EW_OBJECT  ( TouchHandler,    CoreSimpleTouchHandler )
+  EW_OBJECT  ( Background,      ViewsRectangle )
+  EW_OBJECT  ( LastNameTxt,     ViewsText )
+  EW_OBJECT  ( FirstNameTxt,    ViewsText )
+  EW_OBJECT  ( Line,            ViewsLine )
+  EW_OBJECT  ( PrfofilButton,   ComponentsPushButtonSmall )
+  EW_OBJECT  ( Line1,           ViewsLine )
   EW_PROPERTY( ButtonColor,     XColor )
   EW_PROPERTY( IconColor,       XColor )
   EW_PROPERTY( TextColor,       XColor )
@@ -155,6 +156,11 @@ EW_DEFINE_METHODS( ApplicationContactItem, CoreGroup )
     aOrder )
 EW_END_OF_METHODS( ApplicationContactItem )
 
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationContactItem_Init( ApplicationContactItem _this, XHandle aArg );
+
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 
    to ensure the visual aspect of the component does reflect its current state. 
@@ -173,7 +179,7 @@ void ApplicationContactItem_UpdateViewState( ApplicationContactItem _this, XSet
   aState );
 
 /* 'C' function for method : 'Application::ContactItem.OnSetContact()' */
-void ApplicationContactItem_OnSetContact( ApplicationContactItem _this, ApplicationContact 
+void ApplicationContactItem_OnSetContact( ApplicationContactItem _this, DeviceContact 
   value );
 
 /* 'C' function for method : 'Application::ContactItem.onContactUpdated()' */

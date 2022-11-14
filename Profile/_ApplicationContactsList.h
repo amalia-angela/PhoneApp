@@ -43,11 +43,14 @@
 #endif
 
 #include "_ApplicationContactsInsideCall.h"
-#include "_ApplicationPushButtonNoBackground.h"
-#include "_ApplicationSearchEtxt.h"
-#include "_ApplicationTextButton.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsPushButtonSmall.h"
+#include "_ComponentsSearchEtxt.h"
+#include "_ComponentsTextButton.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
+#include "_TemplatesTextEditor.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -105,6 +108,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -120,6 +129,7 @@
 
 /* Deklaration of class : 'Application::ContactsList' */
 EW_DEFINE_FIELDS( ApplicationContactsList, ApplicationContactsInsideCall )
+  EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnAddFav,        XSlot )
   EW_OBJECT  ( Text,            ViewsText )
 EW_END_OF_FIELDS( ApplicationContactsList )
@@ -164,6 +174,13 @@ EW_END_OF_METHODS( ApplicationContactsList )
 /* 'C' function for method : 'Application::ContactsList.onContactActivated()' */
 void ApplicationContactsList_onContactActivated( ApplicationContactsList _this, 
   XObject sender );
+
+/* 'C' function for method : 'Application::ContactsList.OnSetContact()' */
+void ApplicationContactsList_OnSetContact( ApplicationContactsList _this, DeviceContact 
+  value );
+
+/* Default onget method for the property 'Contact' */
+DeviceContact ApplicationContactsList_OnGetContact( ApplicationContactsList _this );
 
 #ifdef __cplusplus
   }

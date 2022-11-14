@@ -43,11 +43,14 @@
 #endif
 
 #include "_ApplicationContactsPage.h"
-#include "_ApplicationPushButtonNoBackground.h"
-#include "_ApplicationSearchEtxt.h"
-#include "_ApplicationTextButton.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsPushButtonSmall.h"
+#include "_ComponentsSearchEtxt.h"
+#include "_ComponentsTextButton.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
+#include "_TemplatesTextEditor.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -121,7 +124,7 @@
 /* Deklaration of class : 'Application::ContactsInsideCall' */
 EW_DEFINE_FIELDS( ApplicationContactsInsideCall, ApplicationContactsPage )
   EW_PROPERTY( OnCancel,        XSlot )
-  EW_OBJECT  ( TextButton,      ApplicationTextButton )
+  EW_OBJECT  ( TextButton,      ComponentsTextButton )
 EW_END_OF_FIELDS( ApplicationContactsInsideCall )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsInsideCall' */

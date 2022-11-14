@@ -7,3 +7,6 @@ module Application              file "Application.c";
 module Templates                file "Templates.c";
 module Res                      file "Res.c";
 module WidgetSet                file "WidgetSet.c";
+module Components               file "Components.c";
+module Strings                  file "Strings.c";
+module Device                   file "Device.c";

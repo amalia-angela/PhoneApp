@@ -4,9 +4,10 @@ $rect <250,160,430,200>
 $output false
 class ContactsPage : Core::Group
 {
-  $rect <310,40,510,80>
+  $rect <310,40,480,80>
   inherited method Init()
   {
+
     attachobserver onNoOfContactsChanged, ^Device::Device.Contacts.NoOfItems;
     postsignal onNoOfContactsChanged;
 
@@ -20,7 +21,7 @@ class ContactsPage : Core::Group
 
   }
 
-  $rect <310,80,510,120>
+  $rect <310,80,480,120>
   inherited property Bounds = <0,0,272,440>;
 
   $rect <450,210,650,250>
@@ -188,7 +189,7 @@ class ContactsPage : Core::Group
   object Core::VerticalList VerticalList
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <10,141,260,440>;
+    preset Bounds = <11,167,261,440>;
     preset OnLoadItem = OnLoadItem;
     preset SlideHandler = SlideTouchHandler;
     preset ItemHeight = 32;
@@ -200,7 +201,7 @@ class ContactsPage : Core::Group
   {
     preset StackingPriority = -1;
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <11,141,260,440>;
+    preset Bounds = <12,167,261,440>;
     preset SnapNext = <0,35>;
     preset SlideHorz = false;
   }
@@ -209,7 +210,7 @@ class ContactsPage : Core::Group
   object Components::PushButtonNoBackground UpButton
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop];
-    preset Bounds = <235,115,261,141>;
+    preset Bounds = <236,141,262,167>;
     preset OnActivate = onUpPress;
     preset Icon = Res::Uptxt;
   }
@@ -218,7 +219,7 @@ class ContactsPage : Core::Group
   object Components::PushButtonNoBackground DownButton
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop];
-    preset Bounds = <209,115,235,141>;
+    preset Bounds = <210,141,236,167>;
     preset Enabled = true;
     preset OnActivate = onDownPress;
     preset Icon = Res::DownTxt;
@@ -228,7 +229,7 @@ class ContactsPage : Core::Group
   object Components::SearchEtxt SearchExt
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToRight, AlignToTop, ResizeHorz];
-    preset Bounds = <2,83,268,115>;
+    preset Bounds = <3,67,269,99>;
     preset OnChange = onSearch;
     preset Color = Res::Grey;
   }
@@ -236,7 +237,7 @@ class ContactsPage : Core::Group
   $rect <20,20,160,60>
   object Views::Text TitleTxt
   {
-    preset Bounds = <11,42,261,76>;
+    preset Bounds = <11,27,261,61>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = Strings::ContactsTxtx;
     preset Font = Res::TitileFont32;
@@ -274,6 +275,47 @@ class ContactsPage : Core::Group
                                null, null, null, false );
     }
 
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MyCardTxt
+  {
+    preset Bounds = <65,103,165,126>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "My Card";
+    preset Font = Res::ContactFont15;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Components::PushButtonSmall PushButtonSmall
+  {
+    preset Bounds = <29,112,54,137>;
+    preset Icon = Res::UserIconTxt;
+    preset IconColor = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Templates::TextEditor TextEditor1
+  {
+    preset Bounds = <186,130,186,130>;
+  }
+
+  $rect <20,20,160,60>
+  object Components::InputEtxt InputEtxt
+  {
+    preset Bounds = <65,125,165,157>;
+    preset OnChange = onSetMyNumber;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "";
+    preset Color = Res::Grey;
+    preset Placeholder = "ex. 123";
+  }
+
+  $rect <480,40,650,80>
+  slot onSetMyNumber
+  {
+    Device::Device.MyNumber = InputEtxt.String;
   }
 }
 

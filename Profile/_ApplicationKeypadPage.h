@@ -42,9 +42,9 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationInputEtxt.h"
-#include "_ApplicationKeyPadButtons.h"
-#include "_ApplicationTextButton.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsKeyPadButtons.h"
+#include "_ComponentsTextButton.h"
 #include "_CoreGroup.h"
 #include "_ViewsRectangle.h"
 
@@ -102,22 +102,22 @@ EW_DEFINE_FIELDS( ApplicationKeypadPage, CoreGroup )
   EW_PROPERTY( OnHide,          XSlot )
   EW_PROPERTY( OnEditTextChanged, XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( callbtn,         ApplicationKeyPadButtons )
-  EW_OBJECT  ( BtnErase,        ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn1,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn3,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn2,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn4,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn6,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn5,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn7,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn9,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn8,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( btnstar,         ApplicationKeyPadButtons )
-  EW_OBJECT  ( btnDiez,         ApplicationKeyPadButtons )
-  EW_OBJECT  ( btn0,            ApplicationKeyPadButtons )
-  EW_OBJECT  ( InputEtxt,       ApplicationInputEtxt )
-  EW_OBJECT  ( HideBtn,         ApplicationTextButton )
+  EW_OBJECT  ( callbtn,         ComponentsKeyPadButtons )
+  EW_OBJECT  ( BtnErase,        ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn1,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn3,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn2,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn4,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn6,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn5,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn7,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn9,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn8,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( btnstar,         ComponentsKeyPadButtons )
+  EW_OBJECT  ( btnDiez,         ComponentsKeyPadButtons )
+  EW_OBJECT  ( btn0,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( InputEtxt,       ComponentsInputEtxt )
+  EW_OBJECT  ( HideBtn,         ComponentsTextButton )
   EW_PROPERTY( BackgoundColor,  XColor )
   EW_PROPERTY( HideCall,        XBool )
   EW_PROPERTY( HideFunction,    XBool )

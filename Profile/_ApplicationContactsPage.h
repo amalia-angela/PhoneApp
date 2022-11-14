@@ -42,11 +42,14 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationPushButtonNoBackground.h"
-#include "_ApplicationSearchEtxt.h"
+#include "_ComponentsInputEtxt.h"
+#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsPushButtonSmall.h"
+#include "_ComponentsSearchEtxt.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
+#include "_TemplatesTextEditor.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -118,11 +121,15 @@ EW_DEFINE_FIELDS( ApplicationContactsPage, CoreGroup )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
-  EW_OBJECT  ( UpButton,        ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( DownButton,      ApplicationPushButtonNoBackground )
-  EW_OBJECT  ( SearchExt,       ApplicationSearchEtxt )
+  EW_OBJECT  ( UpButton,        ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( DownButton,      ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( SearchExt,       ComponentsSearchEtxt )
   EW_OBJECT  ( TitleTxt,        ViewsText )
-  EW_OBJECT  ( PlusButton,      ApplicationPushButtonNoBackground )
+  EW_OBJECT  ( PlusButton,      ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( MyCardTxt,       ViewsText )
+  EW_OBJECT  ( PushButtonSmall, ComponentsPushButtonSmall )
+  EW_OBJECT  ( TextEditor1,     TemplatesTextEditor )
+  EW_OBJECT  ( InputEtxt,       ComponentsInputEtxt )
 EW_END_OF_FIELDS( ApplicationContactsPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsPage' */

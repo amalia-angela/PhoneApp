@@ -9,4 +9,7 @@ EMWIFILES := \
 	Application.c \
 	Templates.c \
 	Res.c \
-	WidgetSet.c
+	WidgetSet.c \
+	Components.c \
+	Strings.c \
+	Device.c

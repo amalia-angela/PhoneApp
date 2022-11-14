@@ -42,11 +42,10 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationCallPageBase.h"
 #include "_ApplicationKeypadInsideCall.h"
-#include "_ApplicationPushButtonBig.h"
-#include "_ApplicationPushButtonMediumRed.h"
-#include "_ApplicationPushButtonMediumTrans.h"
-#include "_CoreGroup.h"
+#include "_ComponentsPushButtonBig.h"
+#include "_ComponentsPushButtonMediumTrans.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -56,10 +55,10 @@
 #define _ApplicationCallPage_
 #endif
 
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
+/* Forward declaration of the class Application::ContactsAppInsideCall */
+#ifndef _ApplicationContactsAppInsideCall_
+  EW_DECLARE_CLASS( ApplicationContactsAppInsideCall )
+#define _ApplicationContactsAppInsideCall_
 #endif
 
 /* Forward declaration of the class Application::ContactsInsideCall */
@@ -72,6 +71,12 @@
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )
 #define _CoreDialogContext_
+#endif
+
+/* Forward declaration of the class Core::Group */
+#ifndef _CoreGroup_
+  EW_DECLARE_CLASS( CoreGroup )
+#define _CoreGroup_
 #endif
 
 /* Forward declaration of the class Core::KeyPressHandler */
@@ -98,6 +103,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::HistoryContact */
+#ifndef _DeviceHistoryContact_
+  EW_DECLARE_CLASS( DeviceHistoryContact )
+#define _DeviceHistoryContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -112,25 +123,20 @@
 
 
 /* Deklaration of class : 'Application::CallPage' */
-EW_DEFINE_FIELDS( ApplicationCallPage, CoreGroup )
-  EW_PROPERTY( Contact,         ApplicationContact )
+EW_DEFINE_FIELDS( ApplicationCallPage, ApplicationCallPageBase )
   EW_VARIABLE( contactsPage,    ApplicationContactsInsideCall )
-  EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( EndCallBtn,      ApplicationPushButtonMediumRed )
-  EW_OBJECT  ( ContactsBtn,     ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( VideoCallBtn,    ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( AddCallBtn,      ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( SpeakerBtn,      ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( KeyPadBtn,       ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( MuteBtn,         ApplicationPushButtonMediumTrans )
-  EW_OBJECT  ( TimeTxt,         ViewsText )
-  EW_OBJECT  ( UserInitials,    ApplicationPushButtonBig )
-  EW_OBJECT  ( ContactNameTxt,  ViewsText )
-  EW_OBJECT  ( Keypad1,         ApplicationKeypadInsideCall )
+  EW_VARIABLE( addCall,         ApplicationContactsAppInsideCall )
+  EW_OBJECT  ( ContactsBtn,     ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( VideoCallBtn,    ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( AddCallBtn,      ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( SpeakerBtn,      ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( KeyPadBtn,       ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( MuteBtn,         ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( Keypad,          ApplicationKeypadInsideCall )
 EW_END_OF_FIELDS( ApplicationCallPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::CallPage' */
-EW_DEFINE_METHODS( ApplicationCallPage, CoreGroup )
+EW_DEFINE_METHODS( ApplicationCallPage, ApplicationCallPageBase )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -162,22 +168,11 @@ EW_DEFINE_METHODS( ApplicationCallPage, CoreGroup )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
+  EW_METHOD( onContactUpdated,  void )( ApplicationCallPage _this, XObject sender )
 EW_END_OF_METHODS( ApplicationCallPage )
-
-/* The method Init() is invoked automatically after the component has been created. 
-   This method can be overridden and filled with logic containing additional initialization 
-   statements. */
-void ApplicationCallPage_Init( ApplicationCallPage _this, XHandle aArg );
-
-/* 'C' function for method : 'Application::CallPage.OnSetContact()' */
-void ApplicationCallPage_OnSetContact( ApplicationCallPage _this, ApplicationContact 
-  value );
 
 /* 'C' function for method : 'Application::CallPage.onContactUpdated()' */
 void ApplicationCallPage_onContactUpdated( ApplicationCallPage _this, XObject sender );
-
-/* 'C' function for method : 'Application::CallPage.onEndCallPress()' */
-void ApplicationCallPage_onEndCallPress( ApplicationCallPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::CallPage.onSpeakerPress()' */
 void ApplicationCallPage_onSpeakerPress( ApplicationCallPage _this, XObject sender );
@@ -206,11 +201,8 @@ void ApplicationCallPage_onHide( ApplicationCallPage _this, XObject sender );
 /* 'C' function for method : 'Application::CallPage.onKeypadEdit()' */
 void ApplicationCallPage_onKeypadEdit( ApplicationCallPage _this, XObject sender );
 
-/* 'C' function for method : 'Application::CallPage.onCallState()' */
-void ApplicationCallPage_onCallState( ApplicationCallPage _this, XObject sender );
-
-/* 'C' function for method : 'Application::CallPage.getContact()' */
-void ApplicationCallPage_getContact( ApplicationCallPage _this );
+/* 'C' function for method : 'Application::CallPage.onCancel1()' */
+void ApplicationCallPage_onCancel1( ApplicationCallPage _this, XObject sender );
 
 #ifdef __cplusplus
   }

@@ -43,8 +43,8 @@
 #endif
 
 #include "_ApplicationContactItem.h"
-#include "_ApplicationPushButtonSmall.h"
-#include "_ApplicationTextButton.h"
+#include "_ComponentsPushButtonSmall.h"
+#include "_ComponentsTextButton.h"
 #include "_CoreKeyPressHandler.h"
 #include "_CoreSimpleTouchHandler.h"
 #include "_CoreTimer.h"
@@ -52,12 +52,6 @@
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
-
-/* Forward declaration of the class Application::Contact */
-#ifndef _ApplicationContact_
-  EW_DECLARE_CLASS( ApplicationContact )
-#define _ApplicationContact_
-#endif
 
 /* Forward declaration of the class Application::FavContactItem */
 #ifndef _ApplicationFavContactItem_
@@ -95,6 +89,12 @@
 #define _CoreView_
 #endif
 
+/* Forward declaration of the class Device::Contact */
+#ifndef _DeviceContact_
+  EW_DECLARE_CLASS( DeviceContact )
+#define _DeviceContact_
+#endif
+
 /* Forward declaration of the class Effects::Fader */
 #ifndef _EffectsFader_
   EW_DECLARE_CLASS( EffectsFader )
@@ -110,10 +110,13 @@
 
 /* Deklaration of class : 'Application::FavContactItem' */
 EW_DEFINE_FIELDS( ApplicationFavContactItem, ApplicationContactItem )
-  EW_OBJECT  ( RemoveButton,    ApplicationPushButtonSmall )
-  EW_OBJECT  ( DeleteButton,    ApplicationTextButton )
+  EW_PROPERTY( OnDelete,        XSlot )
+  EW_PROPERTY( OnInfo,          XSlot )
   EW_OBJECT  ( EditEffect,      EffectsInt32Effect )
   EW_OBJECT  ( DeleteEffect,    EffectsInt32Effect )
+  EW_OBJECT  ( RemoveButton,    ComponentsPushButtonSmall )
+  EW_OBJECT  ( DeleteButton,    ComponentsTextButton )
+  EW_OBJECT  ( InfoButton,      ComponentsPushButtonSmall )
   EW_PROPERTY( EditMode,        XBool )
 EW_END_OF_FIELDS( ApplicationFavContactItem )
 
@@ -166,6 +169,10 @@ void ApplicationFavContactItem_onDelete( ApplicationFavContactItem _this, XObjec
 
 /* 'C' function for method : 'Application::FavContactItem.onShowDelete()' */
 void ApplicationFavContactItem_onShowDelete( ApplicationFavContactItem _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::FavContactItem.onInfo()' */
+void ApplicationFavContactItem_onInfo( ApplicationFavContactItem _this, XObject 
   sender );
 
 #ifdef __cplusplus

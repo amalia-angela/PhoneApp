@@ -32,15 +32,25 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x00000056, /* ratio 97.67 % */
-  0xB8005300, 0x000A8452, 0x00CA0034, 0x0E000100, 0xDE003900, 0x10F84C34, 0x79001D00,
-  0x01380216, 0x30C548C0, 0x9C50DA00, 0x000D2002, 0x3239143D, 0xA3473934, 0x00450014,
-  0x44400104, 0x4E0013E3, 0x90013000, 0x000B8005, 0x08028340, 0x00000008, 0x00000000
+  0x000002B8, /* ratio 51.72 % */
+  0xB8001300, 0x8009A452, 0x00DC0037, 0x0C200320, 0x22003C80, 0x8458182A, 0x003A800A,
+  0xB39800CA, 0x88C3E1B0, 0xBC501800, 0x42A3B192, 0x3A191C8D, 0x01711884, 0x2E688B45,
+  0xB1B39002, 0x02904AE3, 0x09991A09, 0x8FCD8D20, 0xF14E292D, 0x4D264748, 0xE4014095,
+  0xA314322C, 0x012CA442, 0x0418A014, 0x5388C180, 0x0AB14209, 0x25412272, 0x7462151E,
+  0x4BAA3348, 0xF0C5259D, 0x2A33CB1C, 0xC9068A02, 0x20031802, 0x04B7C466, 0xE9E1C2AB,
+  0x03480D93, 0x3D463D70, 0xD3AC1140, 0x7F091192, 0xEA37E995, 0xCF18AAD2, 0x3458E4C8,
+  0x438248A2, 0xAA2DEE35, 0xB5000DB1, 0xA44A691A, 0x802E64F8, 0xF34108A2, 0xC9D04A0C,
+  0x4A760041, 0x1A2D567A, 0x4422D9C0, 0xFCEDD24A, 0xC06D64B9, 0x54220D04, 0x45781118,
+  0x8F8B1A99, 0x3950C92C, 0x9D329841, 0xD349D917, 0x0EA1F4A7, 0xDE30032B, 0xC2DFE134,
+  0xD5A3BF61, 0xDC7A56A8, 0x02A9DBD5, 0xF03BFBD8, 0xBD86E94D, 0xBE2C67C3, 0x92006408,
+  0x2BDC97AF, 0xED5D34BD, 0x5086B9C6, 0xA6E5D26C, 0xA5115D11, 0x255D52F0, 0x4F1EB081,
+  0xDA15ED08, 0x78391F69, 0x79D40002, 0x434699E4, 0x4947A4F9, 0x13E83A17, 0x014A0E47,
+  0x54001140, 0xA5839B95, 0x0004C6B9, 0x02E00059, 0x04063448, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
 static const XPoint _Const0000 = { 0, 0 };
-static const XStringRes _Const0001 = { _StringsDefault0, 0x0002 };
+static const XStringRes _Const0001 = { _StringsDefault0, 0x0133 };
 
 /* Initializer for the class 'Resources::Bitmap' */
 void ResourcesBitmap__Init( ResourcesBitmap _this, XObject aLink, XHandle aArg )
@@ -195,6 +205,12 @@ EW_DEFINE_CLASS( ResourcesBitmap, CoreResource, _.VMT, _.VMT, _.VMT, _.VMT, _.VM
   ResourcesBitmap_OnSetFrameSize,
   ResourcesBitmap_Update,
 EW_END_OF_CLASS( ResourcesBitmap )
+
+/* Include a file containing the font resource : 'Resources::DefaultFont' */
+#include "_ResourcesDefaultFont.h"
+
+/* Table with links to derived variants of the font resource : 'Resources::DefaultFont' */
+EW_RES_WITHOUT_VARIANTS( ResourcesDefaultFont )
 
 /* Initializer for the class 'Resources::Font' */
 void ResourcesFont__Init( ResourcesFont _this, XObject aLink, XHandle aArg )
@@ -426,5 +442,245 @@ EW_RES_WITHOUT_VARIANTS( ResourcesFontMedium )
 
 /* Table with links to derived variants of the bitmap resource : 'Resources::WhiteBitmapStripe' */
 EW_RES_WITHOUT_VARIANTS( ResourcesWhiteBitmapStripe )
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesMonday = { _StringsDefault0, 0x0002 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesTuesday = { _StringsDefault0, 0x000B };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesWednesday = { _StringsDefault0, 0x0015 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesThursday = { _StringsDefault0, 0x0021 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesFriday = { _StringsDefault0, 0x002C };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesSaturday = { _StringsDefault0, 0x0035 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesSunday = { _StringsDefault0, 0x0040 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesAM = { _StringsDefault0, 0x0049 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesPM = { _StringsDefault0, 0x004E };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesJanuary = { _StringsDefault0, 0x0053 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesFebruary = { _StringsDefault0, 0x005D };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesMarch = { _StringsDefault0, 0x0068 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesApril = { _StringsDefault0, 0x0070 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesMay = { _StringsDefault0, 0x0078 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesJune = { _StringsDefault0, 0x007E };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesJuly = { _StringsDefault0, 0x0085 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesAugust = { _StringsDefault0, 0x008C };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesSeptember = { _StringsDefault0, 0x0095 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesOctober = { _StringsDefault0, 0x00A1 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesNovember = { _StringsDefault0, 0x00AB };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesDecember = { _StringsDefault0, 0x00B6 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesMondayAbbr = { _StringsDefault0, 0x00C1 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesTuesdayAbbr = { _StringsDefault0, 0x00C7 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesWednesdayAbbr = { _StringsDefault0, 0x00CD };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesThursdayAbbr = { _StringsDefault0, 0x00D3 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesFridayAbbr = { _StringsDefault0, 0x00D9 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesSaturdayAbbr = { _StringsDefault0, 0x00DF };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesSundayAbbr = { _StringsDefault0, 0x00E5 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesJanuaryAbbr = { _StringsDefault0, 0x00EB };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesFebruaryAbbr = { _StringsDefault0, 0x00F1 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesMarchAbbr = { _StringsDefault0, 0x00F7 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesAprilAbbr = { _StringsDefault0, 0x00FD };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesMayAbbr = { _StringsDefault0, 0x0103 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesJuneAbbr = { _StringsDefault0, 0x0109 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesJulyAbbr = { _StringsDefault0, 0x010F };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesAugustAbbr = { _StringsDefault0, 0x0115 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesSeptemberAbbr = { _StringsDefault0, 0x011B };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesOctoberAbbr = { _StringsDefault0, 0x0121 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesNovemberAbbr = { _StringsDefault0, 0x0127 };
+
+/* Constant string used by Core::Time class to format time and date. Per default 
+   the constant is initialized in English language. If necessary, you can derive 
+   a variant from the interesting constant, store the variant in one of your project 
+   units and initialize it with other eventually multi-lingual localized text. */
+const XStringRes ResourcesDecemberAbbr = { _StringsDefault0, 0x012D };
 
 /* Embedded Wizard */

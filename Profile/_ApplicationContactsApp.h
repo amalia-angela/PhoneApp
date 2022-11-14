@@ -42,7 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationNavBarButtons.h"
+#include "_ComponentsNavBarButtons.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
@@ -100,10 +100,10 @@
 EW_DEFINE_FIELDS( ApplicationContactsApp, CoreGroup )
   EW_OBJECT  ( Outline,         CoreGroup )
   EW_OBJECT  ( Rectangle,       ViewsRectangle )
-  EW_OBJECT  ( NavBarButtons,   ApplicationNavBarButtons )
-  EW_OBJECT  ( NavBarButtons1,  ApplicationNavBarButtons )
-  EW_OBJECT  ( NavBarButtons2,  ApplicationNavBarButtons )
-  EW_OBJECT  ( NavBarButtons3,  ApplicationNavBarButtons )
+  EW_OBJECT  ( NavBarButtons,   ComponentsNavBarButtons )
+  EW_OBJECT  ( NavBarButtons1,  ComponentsNavBarButtons )
+  EW_OBJECT  ( NavBarButtons2,  ComponentsNavBarButtons )
+  EW_OBJECT  ( NavBarButtons3,  ComponentsNavBarButtons )
   EW_OBJECT  ( Line,            ViewsLine )
   EW_PROPERTY( SelectedPage,    XInt32 )
 EW_END_OF_FIELDS( ApplicationContactsApp )
@@ -154,9 +154,6 @@ void ApplicationContactsApp_OnSetSelectedPage( ApplicationContactsApp _this, XIn
 
 /* 'C' function for method : 'Application::ContactsApp.OnGetSelectedPage()' */
 XInt32 ApplicationContactsApp_OnGetSelectedPage( ApplicationContactsApp _this );
-
-/* 'C' function for method : 'Application::ContactsApp.onCallState()' */
-void ApplicationContactsApp_onCallState( ApplicationContactsApp _this, XObject sender );
 
 #ifdef __cplusplus
   }

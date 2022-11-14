@@ -48,6 +48,8 @@
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreTask.h"
 #include "_CoreTaskQueue.h"
+#include "_CoreTime.h"
+#include "_CoreTimeSpan.h"
 #include "_CoreTimer.h"
 #include "_CoreVerticalList.h"
 #include "_CoreView.h"
@@ -61,6 +63,7 @@
 #include "_ViewsText.h"
 #include "Core.h"
 #include "Effects.h"
+#include "Resources.h"
 
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
@@ -91,7 +94,7 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
 {
-  0x00000378, /* ratio 50.45 % */
+  0x0000038A, /* ratio 50.77 % */
   0xB8007D00, 0x000A8452, 0x00CA0034, 0x4DA00100, 0x0E740042, 0x80037802, 0x520042CC,
   0x68A43A1E, 0x000A21E7, 0x01A62E29, 0x9BA2E730, 0x862F1089, 0xE571D001, 0x56003648,
   0x5300018A, 0x2791C321, 0x29410E19, 0x000EA1E7, 0xEC3CAD3F, 0x98E47119, 0x30013498,
@@ -107,7 +110,8 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
   0x411D48DC, 0xCD198008, 0x4E90E451, 0x1404F93C, 0x58B44700, 0x0070001C, 0xBC0DDBA0,
   0x88DA54F5, 0x9D579517, 0xD43D9072, 0x21E4521E, 0x661AD255, 0x8351787D, 0x0006A149,
   0x69264089, 0x296C84DE, 0x0A8DC718, 0x0850A63D, 0x23D089F8, 0x47DA3F00, 0x291795A2,
-  0x5E96D274, 0x925B4972, 0x24192D2B, 0xF51D6C6C, 0x06787E25, 0x00000004, 0x00000000
+  0x5E96D274, 0x925B4972, 0x24192D2B, 0xF51D6C6C, 0x50057E25, 0x32000315, 0x550047E0,
+  0x6827E025, 0x00000040, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -138,6 +142,8 @@ static const XStringRes _Const0017 = { _StringsDefault1, 0x00BA };
 static const XStringRes _Const0018 = { _StringsDefault1, 0x010C };
 static const XStringRes _Const0019 = { _StringsDefault1, 0x0163 };
 static const XStringRes _Const001A = { _StringsDefault1, 0x019A };
+static const XStringRes _Const001B = { _StringsDefault1, 0x01BC };
+static const XStringRes _Const001C = { _StringsDefault1, 0x01C1 };
 
 #ifndef EW_DONT_CHECK_INDEX
   /* This function is used to check the indices when accessing an array.
@@ -2783,6 +2789,15 @@ __declspec( naked ) void CoreGroup__OnSetOpacity( void* _this, XInt32 value )
     mov eax, DWORD PTR [ eax ]
     jmp      DWORD PTR [ eax + 104 ]
   }
+}
+
+/* 'C' function for method : 'Core::Group.OnSetAlphaBlended()' */
+void CoreGroup_OnSetAlphaBlended( CoreGroup _this, XBool value )
+{
+  if ( value )
+    CoreView__ChangeViewState( _this, CoreViewStateAlphaBlended, 0 );
+  else
+    CoreView__ChangeViewState( _this, 0, CoreViewStateAlphaBlended );
 }
 
 /* 'C' function for method : 'Core::Group.OnGetVisible()' */
@@ -9488,5 +9503,820 @@ EW_DEFINE_CLASS( CoreTimer, XObject, OnTrigger, OnTrigger, timer, timer, timer,
                  timer, "Core::Timer" )
   CoreTimer_Trigger,
 EW_END_OF_CLASS( CoreTimer )
+
+/* Initializer for the class 'Core::Time' */
+void CoreTime__Init( CoreTime _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  XObject__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( CoreTime );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( CoreTime );
+}
+
+/* Re-Initializer for the class 'Core::Time' */
+void CoreTime__ReInit( CoreTime _this )
+{
+  /* At first re-initialize the super class ... */
+  XObject__ReInit( &_this->_.Super );
+}
+
+/* Finalizer method for the class 'Core::Time' */
+void CoreTime__Done( CoreTime _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( XObject );
+
+  /* Don't forget to deinitialize the super class ... */
+  XObject__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Core::Time.getMonthName()' */
+XString CoreTime_getMonthName( CoreTime _this, XInt32 aMonth, XBool aAbbreviated )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  if ( aAbbreviated )
+    switch ( aMonth )
+    {
+      case 1 :
+        return EwLoadString( &ResourcesJanuaryAbbr );
+
+      case 2 :
+        return EwLoadString( &ResourcesFebruaryAbbr );
+
+      case 3 :
+        return EwLoadString( &ResourcesMarchAbbr );
+
+      case 4 :
+        return EwLoadString( &ResourcesAprilAbbr );
+
+      case 5 :
+        return EwLoadString( &ResourcesMayAbbr );
+
+      case 6 :
+        return EwLoadString( &ResourcesJuneAbbr );
+
+      case 7 :
+        return EwLoadString( &ResourcesJulyAbbr );
+
+      case 8 :
+        return EwLoadString( &ResourcesAugustAbbr );
+
+      case 9 :
+        return EwLoadString( &ResourcesSeptemberAbbr );
+
+      case 10 :
+        return EwLoadString( &ResourcesOctoberAbbr );
+
+      case 11 :
+        return EwLoadString( &ResourcesNovemberAbbr );
+
+      case 12 :
+        return EwLoadString( &ResourcesDecemberAbbr );
+
+      default : 
+        return 0;
+    }
+  else
+    switch ( aMonth )
+    {
+      case 1 :
+        return EwLoadString( &ResourcesJanuary );
+
+      case 2 :
+        return EwLoadString( &ResourcesFebruary );
+
+      case 3 :
+        return EwLoadString( &ResourcesMarch );
+
+      case 4 :
+        return EwLoadString( &ResourcesApril );
+
+      case 5 :
+        return EwLoadString( &ResourcesMay );
+
+      case 6 :
+        return EwLoadString( &ResourcesJune );
+
+      case 7 :
+        return EwLoadString( &ResourcesJuly );
+
+      case 8 :
+        return EwLoadString( &ResourcesAugust );
+
+      case 9 :
+        return EwLoadString( &ResourcesSeptember );
+
+      case 10 :
+        return EwLoadString( &ResourcesOctober );
+
+      case 11 :
+        return EwLoadString( &ResourcesNovember );
+
+      case 12 :
+        return EwLoadString( &ResourcesDecember );
+
+      default : 
+        return 0;
+    }
+}
+
+/* 'C' function for method : 'Core::Time.getDayOfWeekName()' */
+XString CoreTime_getDayOfWeekName( CoreTime _this, XInt32 aDayOfWeek, XBool aAbbreviated )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  if ( aAbbreviated )
+    switch ( aDayOfWeek )
+    {
+      case 1 :
+        return EwLoadString( &ResourcesMondayAbbr );
+
+      case 2 :
+        return EwLoadString( &ResourcesTuesdayAbbr );
+
+      case 3 :
+        return EwLoadString( &ResourcesWednesdayAbbr );
+
+      case 4 :
+        return EwLoadString( &ResourcesThursdayAbbr );
+
+      case 5 :
+        return EwLoadString( &ResourcesFridayAbbr );
+
+      case 6 :
+        return EwLoadString( &ResourcesSaturdayAbbr );
+
+      case 0 :
+        return EwLoadString( &ResourcesSundayAbbr );
+
+      default : 
+        return 0;
+    }
+  else
+    switch ( aDayOfWeek )
+    {
+      case 1 :
+        return EwLoadString( &ResourcesMonday );
+
+      case 2 :
+        return EwLoadString( &ResourcesTuesday );
+
+      case 3 :
+        return EwLoadString( &ResourcesWednesday );
+
+      case 4 :
+        return EwLoadString( &ResourcesThursday );
+
+      case 5 :
+        return EwLoadString( &ResourcesFriday );
+
+      case 6 :
+        return EwLoadString( &ResourcesSaturday );
+
+      case 0 :
+        return EwLoadString( &ResourcesSunday );
+
+      default : 
+        return 0;
+    }
+}
+
+/* 'C' function for method : 'Core::Time.getCurrentTime()' */
+XInt64 CoreTime_getCurrentTime( CoreTime _this )
+{
+  XInt64 result;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( _this );
+
+  result = 0;
+  result = EwGetTime();
+  return result;
+}
+
+/* 'C' function for method : 'Core::Time.OnGetTime()' */
+XInt64 CoreTime_OnGetTime( CoreTime _this )
+{
+  XInt32 d = _this->Day;
+  XInt32 m = _this->Month;
+  XInt32 y = _this->Year - (( m <= 2 )? 1 : 0 );
+  XInt32 era = (( y >= 0 )? y : y - 399 ) / 400;
+  XInt32 yoe = y - ( era * 400 );
+  XInt32 doy = (((( 153 * ( m + (( m > 2 )? -3 : 9 ))) + 2 ) / 5 ) + d ) - 1;
+  XInt32 doe = ((( yoe * 365 ) + ( yoe / 4 )) - ( yoe / 100 )) + doy;
+  XInt32 days = (( era * 146097 ) + doe ) - 719468;
+
+  return ((((XInt64)days * 86400 ) + ((XInt64)_this->Hour * 3600 )) + ((XInt64)_this->Minute 
+    * 60 )) + (XInt64)_this->Second;
+}
+
+/* 'C' function for method : 'Core::Time.OnSetTime()' */
+void CoreTime_OnSetTime( CoreTime _this, XInt64 value )
+{
+  XInt32 z;
+  XInt32 era;
+  XInt32 doe;
+  XInt32 yoe;
+  XInt32 y;
+  XInt32 doy;
+  XInt32 mp;
+  XInt32 d;
+  XInt32 m;
+  XInt32 h;
+  XInt32 i;
+  XInt32 s;
+
+  value += 62162035200LL;
+
+  if ( value < 0 )
+    value = 0;
+
+  z = (XInt32)( value / 86400 );
+  era = (( z >= 0 )? z : z - 146096 ) / 146097;
+  doe = z - ( era * 146097 );
+  yoe = ((( doe - ( doe / 1460 )) + ( doe / 36524 )) - ( doe / 146096 )) / 365;
+  y = yoe + ( era * 400 );
+  doy = doe - ((( 365 * yoe ) + ( yoe / 4 )) - ( yoe / 100 ));
+  mp = (( 5 * doy ) + 2 ) / 153;
+  d = ( doy - ((( 153 * mp ) + 2 ) / 5 )) + 1;
+  m = mp + (( mp < 10 )? 3 : -9 );
+  h = (XInt32)(( value / 3600 ) % 24 );
+  i = (XInt32)(( value / 60 ) % 60 );
+  s = (XInt32)( value % 60 );
+  _this->Year = y + (( m <= 2 )? 1 : 0 );
+  CoreTime_OnSetMonth( _this, m );
+  CoreTime_OnSetDay( _this, d );
+  CoreTime_OnSetHour( _this, h + (( h < 0 )? 24 : 0 ));
+  CoreTime_OnSetMinute( _this, i + (( i < 0 )? 60 : 0 ));
+  CoreTime_OnSetSecond( _this, s + (( s < 0 )? 60 : 0 ));
+}
+
+/* 'C' function for method : 'Core::Time.OnGetCurrentTime()' */
+CoreTime CoreTime_OnGetCurrentTime( CoreTime _this )
+{
+  return CoreTime_Initialize( EwNewObject( CoreTime, 0 ), CoreTime_getCurrentTime( 
+    _this ));
+}
+
+/* 'C' function for method : 'Core::Time.OnGetWeekOfYear()' */
+XInt32 CoreTime_OnGetWeekOfYear( CoreTime _this )
+{
+  XInt32 doy = CoreTime_OnGetDayOfYear( _this ) - 1;
+  XInt32 dow = ( 6 + CoreTime_OnGetDayOfWeek( _this )) % 7;
+  XInt32 dow1Jan = (( 371 + dow ) - doy ) % 7;
+
+  if ( _this->Month == 12 )
+  {
+    XInt32 d = _this->Day;
+
+    if (( d == 31 ) && ( dow < 3 ))
+      return 0;
+
+    if (( d == 30 ) && ( dow < 2 ))
+      return 0;
+
+    if (( d == 29 ) && ( dow < 1 ))
+      return 0;
+  }
+
+  if ( dow1Jan <= 3 )
+    doy += dow1Jan;
+  else
+    doy -= ( 7 - dow1Jan );
+
+  if ( doy < 0 )
+  {
+    XInt32 d = _this->Day;
+    XInt32 m = _this->Month;
+    _this->Year--;
+    CoreTime_OnSetDay( _this, 31 );
+    CoreTime_OnSetMonth( _this, 12 );
+    doy = CoreTime_OnGetDayOfYear( _this ) - 1;
+    dow = ( 6 + CoreTime_OnGetDayOfWeek( _this )) % 7;
+    dow1Jan = (( 371 + dow ) - doy ) % 7;
+
+    if ( dow1Jan <= 3 )
+      doy += dow1Jan;
+    else
+      doy -= dow1Jan;
+
+    _this->Year++;
+    CoreTime_OnSetDay( _this, d );
+    CoreTime_OnSetMonth( _this, m );
+  }
+
+  return doy / 7;
+}
+
+/* 'C' function for method : 'Core::Time.OnGetDayOfYear()' */
+XInt32 CoreTime_OnGetDayOfYear( CoreTime _this )
+{
+  XInt32 d = _this->Day;
+  XInt32 m = _this->Month;
+  XInt32 y = _this->Year;
+  XInt32 ly = (( !!!( y % 4 ) && ( !!( y % 100 ) || !!!( y % 400 )))? 1 : 0 );
+
+  switch ( m )
+  {
+    case 2 :
+      d += 31;
+    break;
+
+    case 3 :
+      d += ( 59 + ly );
+    break;
+
+    case 4 :
+      d += ( 90 + ly );
+    break;
+
+    case 5 :
+      d += ( 120 + ly );
+    break;
+
+    case 6 :
+      d += ( 151 + ly );
+    break;
+
+    case 7 :
+      d += ( 181 + ly );
+    break;
+
+    case 8 :
+      d += ( 212 + ly );
+    break;
+
+    case 9 :
+      d += ( 243 + ly );
+    break;
+
+    case 10 :
+      d += ( 273 + ly );
+    break;
+
+    case 11 :
+      d += ( 304 + ly );
+    break;
+
+    case 12 :
+      d += ( 334 + ly );
+    break;
+
+    default :; 
+  }
+
+  return d;
+}
+
+/* 'C' function for method : 'Core::Time.OnGetDayOfWeek()' */
+XInt32 CoreTime_OnGetDayOfWeek( CoreTime _this )
+{
+  XInt32 d = _this->Day;
+  XInt32 m = _this->Month + (( _this->Month > 2 )? -2 : 10 );
+  XInt32 y = _this->Year - (( _this->Month <= 2 )? 1 : 0 );
+  XInt32 c = y / 100;
+
+  y %= 100;
+  d += ((((((( 26 * m ) - 2 ) / 10 ) + y ) + ( y / 4 )) + ( c / 4 )) - ( 2 * c ));
+
+  if ( d >= 0 )
+    return d % 7;
+  else
+    return ( 7 - ( -d % 7 )) % 7;
+}
+
+/* 'C' function for method : 'Core::Time.OnSetSecond()' */
+void CoreTime_OnSetSecond( CoreTime _this, XInt32 value )
+{
+  if ( value < 0 )
+    value = 0;
+
+  if ( value > 59 )
+    value = 59;
+
+  _this->Second = value;
+}
+
+/* 'C' function for method : 'Core::Time.OnSetMinute()' */
+void CoreTime_OnSetMinute( CoreTime _this, XInt32 value )
+{
+  if ( value < 0 )
+    value = 0;
+
+  if ( value > 59 )
+    value = 59;
+
+  _this->Minute = value;
+}
+
+/* 'C' function for method : 'Core::Time.OnSetHour()' */
+void CoreTime_OnSetHour( CoreTime _this, XInt32 value )
+{
+  if ( value < 0 )
+    value = 0;
+
+  if ( value > 23 )
+    value = 23;
+
+  _this->Hour = value;
+}
+
+/* 'C' function for method : 'Core::Time.OnSetDay()' */
+void CoreTime_OnSetDay( CoreTime _this, XInt32 value )
+{
+  if ( value < 1 )
+    value = 1;
+
+  if ( value > 31 )
+    value = 31;
+
+  _this->Day = value;
+}
+
+/* 'C' function for method : 'Core::Time.OnSetMonth()' */
+void CoreTime_OnSetMonth( CoreTime _this, XInt32 value )
+{
+  if ( value < 1 )
+    value = 1;
+
+  if ( value > 12 )
+    value = 12;
+
+  _this->Month = value;
+}
+
+/* The method Format() converts the stored date and time accordingly to the supplied 
+   aFormat parameter in a string. The aFormat parameter consists of format codes, 
+   preceded by the percent sign '%'. At the runtime the codes are replaced with 
+   their corresponding content. All other signs that do not begin with % are simply 
+   taken over from aFormat to the output string. Following codes are available:
+   -%d Day of month as decimal number (01-31)
+   -%H Hour in 24-hour format (00-23)
+   -%I Hour in 12-hour format (01-12)
+   -%m Month as decimal number (01-12)
+   -%M Minute as decimal number (00-59)
+   -%p AM / PM indicator
+   -%S Second as decimal number (00-59)
+   -%w Weekday as decimal number (0-6; Sunday is 0)
+   -%y Year without century, as decimal number (00-99)
+   -%Y Year with century as decimal number
+   -%j Day of year as decimal number (001-366)
+   -%W Week of year as decimal number with Monday as first day of week (00-53)
+   -%a Abbreviated weekday name
+   -%A Weekday name
+   -%b Abbreviated month name
+   -%B Month name
+   To remove the leading zeros, the '#' sign may prefix the following format code. 
+   For example '%#m' will format the month as a decimal number in the range 1-12. 
+   In contrast to it, '%m' formats the number with the leading zero sign 01-12.
+   The month and weekday names are stored in constants within the unit @Resources. 
+   To adapt them to a new language, you can create variants of these constants. */
+XString CoreTime_Format( CoreTime _this, XString aFormat )
+{
+  XString result = 0;
+  XInt32 inx = 0;
+
+  while ( EwGetStringChar( aFormat, inx ) != 0 )
+    if ( EwGetStringChar( aFormat, inx ) == '%' )
+    {
+      XInt32 leadingZeros = 1;
+      inx = inx + 1;
+
+      if ( EwGetStringChar( aFormat, inx ) == '#' )
+      {
+        inx = inx + 1;
+        leadingZeros = 0;
+      }
+
+      switch ( EwGetStringChar( aFormat, inx ))
+      {
+        case 'd' :
+          result = EwConcatString( result, EwNewStringInt( _this->Day, 2 * leadingZeros, 
+          10 ));
+        break;
+
+        case 'H' :
+          result = EwConcatString( result, EwNewStringInt( _this->Hour, 2 * leadingZeros, 
+          10 ));
+        break;
+
+        case 'I' :
+          if (( _this->Hour % 12 ) == 0 )
+            result = EwConcatString( result, EwLoadString( &_Const001B ));
+          else
+            result = EwConcatString( result, EwNewStringInt( _this->Hour % 12, 2 
+            * leadingZeros, 10 ));
+        break;
+
+        case 'm' :
+          result = EwConcatString( result, EwNewStringInt( _this->Month, 2 * leadingZeros, 
+          10 ));
+        break;
+
+        case 'M' :
+          result = EwConcatString( result, EwNewStringInt( _this->Minute, 2 * leadingZeros, 
+          10 ));
+        break;
+
+        case 'p' :
+          if ( _this->Hour < 12 )
+            result = EwConcatString( result, EwLoadString( &ResourcesAM ));
+          else
+            result = EwConcatString( result, EwLoadString( &ResourcesPM ));
+        break;
+
+        case 'S' :
+          result = EwConcatString( result, EwNewStringInt( _this->Second, 2 * leadingZeros, 
+          10 ));
+        break;
+
+        case 'w' :
+          result = EwConcatString( result, EwNewStringInt( CoreTime_OnGetDayOfWeek( 
+          _this ), leadingZeros, 10 ));
+        break;
+
+        case 'y' :
+          result = EwConcatString( result, EwNewStringInt( _this->Year % 100, 2 
+          * leadingZeros, 10 ));
+        break;
+
+        case 'Y' :
+          result = EwConcatString( result, EwNewStringInt( _this->Year, 4 * leadingZeros, 
+          10 ));
+        break;
+
+        case '%' :
+          result = EwConcatString( result, EwLoadString( &_Const001C ));
+        break;
+
+        case 'j' :
+          result = EwConcatString( result, EwNewStringInt( CoreTime_OnGetDayOfYear( 
+          _this ), 3 * leadingZeros, 10 ));
+        break;
+
+        case 'W' :
+          result = EwConcatString( result, EwNewStringInt( CoreTime_OnGetWeekOfYear( 
+          _this ), 2 * leadingZeros, 10 ));
+        break;
+
+        case 'a' :
+          result = EwConcatString( result, CoreTime_getDayOfWeekName( _this, CoreTime_OnGetDayOfWeek( 
+          _this ), 1 ));
+        break;
+
+        case 'A' :
+          result = EwConcatString( result, CoreTime_getDayOfWeekName( _this, CoreTime_OnGetDayOfWeek( 
+          _this ), 0 ));
+        break;
+
+        case 'b' :
+          result = EwConcatString( result, CoreTime_getMonthName( _this, _this->Month, 
+          1 ));
+        break;
+
+        case 'B' :
+          result = EwConcatString( result, CoreTime_getMonthName( _this, _this->Month, 
+          0 ));
+        break;
+
+        default :; 
+      }
+
+      inx = inx + 1;
+    }
+    else
+    {
+      result = EwConcatStringChar( result, EwGetStringChar( aFormat, inx ));
+      inx = inx + 1;
+    }
+
+  return result;
+}
+
+/* The method Initialize() initializes this Core::Time object with the given time 
+   as number of seconds since 1.1.1970 and returns this object. */
+CoreTime CoreTime_Initialize( CoreTime _this, XInt64 aTime )
+{
+  CoreTime_OnSetTime( _this, aTime );
+  return _this;
+}
+
+/* The method Difference() calculates a delta value between this time object and 
+   the object passed in the parameter aTime. The method creates and initializes 
+   a new Core::TimeSpan object with the calculated difference. */
+CoreTimeSpan CoreTime_Difference( CoreTime _this, CoreTime aTime )
+{
+  if ( aTime == 0 )
+    return CoreTimeSpan_Initialize( EwNewObject( CoreTimeSpan, 0 ), CoreTime_OnGetTime( 
+      _this ));
+
+  return CoreTimeSpan_Initialize( EwNewObject( CoreTimeSpan, 0 ), CoreTime_OnGetTime( 
+    _this ) - CoreTime_OnGetTime( aTime ));
+}
+
+/* Variants derived from the class : 'Core::Time' */
+EW_DEFINE_CLASS_VARIANTS( CoreTime )
+EW_END_OF_CLASS_VARIANTS( CoreTime )
+
+/* Virtual Method Table (VMT) for the class : 'Core::Time' */
+EW_DEFINE_CLASS( CoreTime, XObject, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, "Core::Time" )
+EW_END_OF_CLASS( CoreTime )
+
+/* Initializer for the class 'Core::TimeSpan' */
+void CoreTimeSpan__Init( CoreTimeSpan _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  XObject__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( CoreTimeSpan );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( CoreTimeSpan );
+}
+
+/* Re-Initializer for the class 'Core::TimeSpan' */
+void CoreTimeSpan__ReInit( CoreTimeSpan _this )
+{
+  /* At first re-initialize the super class ... */
+  XObject__ReInit( &_this->_.Super );
+}
+
+/* Finalizer method for the class 'Core::TimeSpan' */
+void CoreTimeSpan__Done( CoreTimeSpan _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( XObject );
+
+  /* Don't forget to deinitialize the super class ... */
+  XObject__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Core::TimeSpan.OnGetTime()' */
+XInt64 CoreTimeSpan_OnGetTime( CoreTimeSpan _this )
+{
+  return ((((XInt64)_this->Days * 86400 ) + ((XInt64)_this->Hours * 3600 )) + ((XInt64)_this->Minutes 
+    * 60 )) + _this->Seconds;
+}
+
+/* 'C' function for method : 'Core::TimeSpan.OnSetTime()' */
+void CoreTimeSpan_OnSetTime( CoreTimeSpan _this, XInt64 value )
+{
+  XInt32 sign = 1;
+
+  _this->Days = (XInt32)( value / 86400 );
+
+  if ( value < 0 )
+  {
+    value = -value;
+    sign = -1;
+  }
+
+  _this->Hours = sign * (XInt32)(( value / 3600 ) % 24 );
+  _this->Minutes = sign * (XInt32)(( value / 60 ) % 60 );
+  _this->Seconds = sign * (XInt32)( value % 60 );
+}
+
+/* 'C' function for method : 'Core::TimeSpan.OnGetTotalMinutes()' */
+XInt32 CoreTimeSpan_OnGetTotalMinutes( CoreTimeSpan _this )
+{
+  return (XInt32)( CoreTimeSpan_OnGetTime( _this ) / 60 );
+}
+
+/* 'C' function for method : 'Core::TimeSpan.OnGetTotalHours()' */
+XInt32 CoreTimeSpan_OnGetTotalHours( CoreTimeSpan _this )
+{
+  return (XInt32)( CoreTimeSpan_OnGetTime( _this ) / 3600 );
+}
+
+/* The method Format() converts the stored time span accordingly to the supplied 
+   aFormat parameter in a string. The aFormat parameter consists of format codes, 
+   preceded by the percent sign '%'. At the runtime the codes are replaced with 
+   their corresponding content. All other signs that do not begin with % are simply 
+   taken over from aFormat to the output string. Following codes are available:
+   -%d Days as decimal number
+   -%h Total hours as decimal number
+   -%m Total minutes as decimal number
+   -%s Total seconds as decimal number
+   -%H Hours in 24-hour format (00-23)
+   -%M Minutes as decimal number (00-59)
+   -%S Seconds as decimal number (00-59)
+   -%- '-' for negative time span and a ' ' for a positive
+   -%+ '-' for negative time span and a '+' for a positive
+   To remove the leading zeros, the '#' sign may prefix the following format code. 
+   For example '%#M' will format the number of minutes as a decimal number in the 
+   range 0-59. In contrast to it, '%M' formats the number with the leading zero 
+   sign 00-59. If the '#' sign is used together with the format code '%-', no blank 
+   is used for positive time span. */
+XString CoreTimeSpan_Format( CoreTimeSpan _this, XString aFormat )
+{
+  XString result = 0;
+  XInt32 inx = 0;
+  XInt32 sign = 1;
+
+  if ( CoreTimeSpan_OnGetTime( _this ) < 0 )
+    sign = -1;
+
+  while ( EwGetStringChar( aFormat, inx ) != 0 )
+    if ( EwGetStringChar( aFormat, inx ) == '%' )
+    {
+      XInt32 leadingZeros = 1;
+      inx = inx + 1;
+
+      if ( EwGetStringChar( aFormat, inx ) == '#' )
+      {
+        inx = inx + 1;
+        leadingZeros = 0;
+      }
+
+      switch ( EwGetStringChar( aFormat, inx ))
+      {
+        case 'd' :
+          result = EwConcatString( result, EwNewStringInt( sign * _this->Days, 0, 
+          10 ));
+        break;
+
+        case 'h' :
+          result = EwConcatString( result, EwNewStringInt( sign * CoreTimeSpan_OnGetTotalHours( 
+          _this ), 0, 10 ));
+        break;
+
+        case 'm' :
+          result = EwConcatString( result, EwNewStringInt( sign * CoreTimeSpan_OnGetTotalMinutes( 
+          _this ), 0, 10 ));
+        break;
+
+        case 's' :
+          result = EwConcatString( result, EwNewStringInt64( sign * CoreTimeSpan_OnGetTime( 
+          _this ), 0, 10 ));
+        break;
+
+        case 'H' :
+          result = EwConcatString( result, EwNewStringInt( sign * _this->Hours, 
+          leadingZeros * 2, 10 ));
+        break;
+
+        case 'M' :
+          result = EwConcatString( result, EwNewStringInt( sign * _this->Minutes, 
+          leadingZeros * 2, 10 ));
+        break;
+
+        case 'S' :
+          result = EwConcatString( result, EwNewStringInt( sign * _this->Seconds, 
+          leadingZeros * 2, 10 ));
+        break;
+
+        case '+' :
+          if ( sign == -1 )
+            result = EwConcatStringChar( result, '-' );
+          else
+            result = EwConcatStringChar( result, '+' );
+        break;
+
+        case '-' :
+          if ( sign == -1 )
+            result = EwConcatStringChar( result, '-' );
+          else
+            if ( leadingZeros != 0 )
+              result = EwConcatStringChar( result, 0x0020 );
+        break;
+
+        default :; 
+      }
+
+      inx = inx + 1;
+    }
+    else
+    {
+      result = EwConcatStringChar( result, EwGetStringChar( aFormat, inx ));
+      inx = inx + 1;
+    }
+
+  return result;
+}
+
+/* The method Initialize() initializes this Core::TimeSpan object with a time span 
+   expressed in seconds and returns this object. */
+CoreTimeSpan CoreTimeSpan_Initialize( CoreTimeSpan _this, XInt64 aTime )
+{
+  CoreTimeSpan_OnSetTime( _this, aTime );
+  return _this;
+}
+
+/* Variants derived from the class : 'Core::TimeSpan' */
+EW_DEFINE_CLASS_VARIANTS( CoreTimeSpan )
+EW_END_OF_CLASS_VARIANTS( CoreTimeSpan )
+
+/* Virtual Method Table (VMT) for the class : 'Core::TimeSpan' */
+EW_DEFINE_CLASS( CoreTimeSpan, XObject, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, 
+                 "Core::TimeSpan" )
+EW_END_OF_CLASS( CoreTimeSpan )
 
 /* Embedded Wizard */
