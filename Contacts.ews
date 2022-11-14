@@ -4,7 +4,6 @@ attr active = Application;
 attr callStackMonitor_Show = false;
 attr codeColSelect = false;
 attr codeFirstPos = <0,0>;
-attr codeInspector = Application::FavContactItem.onDelete;
 attr codeSelEnd = <20,2>;
 attr codeSelStart = <20,2>;
 attr connectInspectors = false;
