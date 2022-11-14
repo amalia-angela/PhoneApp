@@ -458,7 +458,7 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
-    Ongoing.Add( historyContact );
+    Ongoing.AddLast( historyContact );
   }
 
   $rect <0,170,200,210>
@@ -483,7 +483,7 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallDirection = Device::CallDirection.Incoming;
 
 
-    Ongoing.Add( historyContact );
+    Ongoing.AddLast( historyContact );
 
 
   }
@@ -508,7 +508,7 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
-    Ongoing.Add( historyContact );
+    Ongoing.AddLast( historyContact );
   }
 
   $rect <200,370,400,410>
@@ -552,7 +552,7 @@ class DeviceClass : Templates::DeviceClass
        }
     }
 
-    History.Add( aContact );
+    History.AddFirst( aContact );
     Ongoing.Remove( aContact );
   }
 
@@ -644,7 +644,7 @@ vclass DeviceSimulation : Device::DeviceClass
     MyContact.LastName     = aLastName;
     MyContact.PhoneNumber  = aPhoneNumber;
     MyContact.NameInitials = Contacts.GetInitials( aLastName, aFirstName );
-    Contacts.Add( MyContact );
+    Contacts.AddLast( MyContact );
 
 
   }
@@ -659,7 +659,7 @@ vclass DeviceSimulation : Device::DeviceClass
     MyContact.LastName = aLastName;
     MyContact.PhoneNumber = aPhoneNumber;
     MyContact.NameInitials = Favorites.GetInitials( aLastName, aFirstName );
-    Favorites.Add( MyContact );
+    Favorites.AddLast( MyContact );
 
 
 
@@ -675,7 +675,7 @@ vclass DeviceSimulation : Device::DeviceClass
     MyContact.LastName = aLastName;
     MyContact.PhoneNumber = aPhoneNumber;
     MyContact.CallState = Device::CallState.Dialing;
-    History.Add( MyContact );
+    History.AddFirst( MyContact );
 
 
 
@@ -871,7 +871,7 @@ class ContactList
   var Device::ContactListElement head = null;
 
   $rect <0,50,200,90>
-  method void Add( arg Device::Contact aContact )
+  method void AddLast( arg Device::Contact aContact )
   {
     var Device::ContactListElement elem = new Device::ContactListElement;
     elem.Data = aContact;
@@ -896,7 +896,7 @@ class ContactList
 
   }
 
-  $rect <0,90,200,130>
+  $rect <0,130,200,170>
   method void Remove( arg Device::Contact aContact )
   {
     var Device::ContactListElement elem = head;
@@ -920,7 +920,7 @@ class ContactList
     }
   }
 
-  $rect <0,250,200,290>
+  $rect <0,290,200,330>
   method void TraceContacts()
   {
     var Device::ContactListElement elem = head;
@@ -950,7 +950,7 @@ class ContactList
 
   }
 
-  $rect <0,130,200,170>
+  $rect <0,170,200,210>
   method Device::Contact GetContact( arg int32 aIndex )
   {
     if ( head == null || aIndex >= NoOfItems )
@@ -1043,7 +1043,7 @@ class ContactList
     notifyobservers ^Sorting;
   }
 
-  $rect <0,210,200,250>
+  $rect <0,250,200,290>
   method Device::Contact FindByPhoneNumber( arg string aNumber )
   {
     var Device::ContactListElement elem = head;
@@ -1060,7 +1060,7 @@ class ContactList
 
   }
 
-  $rect <0,170,200,210>
+  $rect <0,210,200,250>
   method Device::Contact FindByID( arg Device::Contact aContact )
   {
     var Device::ContactListElement elem = head;
@@ -1074,6 +1074,20 @@ class ContactList
     }
 
     return null;
+  }
+
+  $rect <0,90,200,130>
+  method void AddFirst( arg Device::Contact aContact )
+  {
+    var Device::ContactListElement elem = new Device::ContactListElement;
+    elem.Data = aContact;
+
+
+    elem.Data = aContact;
+    elem.next = head;
+    head = elem;
+
+    NoOfItems += 1;
   }
 }
 

@@ -43,7 +43,7 @@ class ContactsPage : Core::Group
   $rect <470,250,650,290>
   slot onSaveAdd
   {
-    Device::Device.Contacts.Add( addContact.Contact );
+    Device::Device.Contacts.AddLast( addContact.Contact );
 
     DismissDialog( addContact, Res::SlideDownCentered, null, null, null, null, false);
 
@@ -2943,7 +2943,7 @@ class FavoritesPage : Core::Group
   $rect <490,340,660,380>
   slot onAdd
   {
-    Device::Device.Favorites.Add ( addFav.Contact );
+    Device::Device.Favorites.AddLast ( addFav.Contact );
     VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
 
     DismissDialog ( addFav, Res::SlideDownCentered, null, null, null, null, false );
