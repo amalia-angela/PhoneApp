@@ -1,7 +1,6 @@
 ﻿$version 11.00
 
 // Components
-
 note group Note1
 {
   attr Bounds = <10,0,430,370>;
