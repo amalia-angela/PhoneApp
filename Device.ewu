@@ -650,7 +650,7 @@ vclass DeviceSimulation : Device::DeviceClass
   }
 
   $rect <0,130,200,170>
-  method void CreateContact1( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
+  method void CreateContactFav( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
     var Device::Contact MyContact = new Device::Contact;
 
@@ -684,24 +684,17 @@ vclass DeviceSimulation : Device::DeviceClass
   $rect <0,50,200,90>
   slot CreateContactData
   {
-    CreateContact( "Buna", "Zsolt", "sfdg");
-    CreateContact(  "Benedek", "Norbert", "sfg");
-    CreateContact(  "Amota", "Adel", "zf");
-    CreateContact(  "Bacso", "Amalia", "sfd");
-    CreateContact1( "TestFav", "Adel", "zf");
-    //CreateContact2( "TestRecent", "Adel", "zf");
-    //CreateContact2( "TestRecent", "Norbert", "sfg");
+    CreateContact( "Smith", "Noah", "0723456781");
+    CreateContact(  "Jones", "Oliver", "0745837264");
+    CreateContact(  "Williams", "Amelia", "0759876234");
+    CreateContact(  "Taylor", "Leo", "0713243546");
+    CreateContact( "Brown", "Nancy", "0754981234");
+    CreateContact(  "Davies", "James", "0756788890");
+    CreateContact(  "Addison", "Michaek", "0740987662");
+    CreateContact(  "Kennedy", "Jane", "0755545654");
+    CreateContactFav( "Humphrey", "George", "0737678772");
 
     Contacts.insertionSort();
-
-    //var int32 i =0;
-
-    //for ( i=0; i<100; i++ )
-    //{
-    //  CreateContact( "Name" + (string)i, "LastName" + (string)i, "0722" + (string)i );
-    //}
-
-
   }
 }
 
