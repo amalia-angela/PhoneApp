@@ -837,6 +837,24 @@ class HistoryContact : Device::Contact
         return Strings::ErrorTxt;
     }
   }
+
+  $rect <420,120,620,160>
+  method string GetTimeOfCall()
+  {
+    var Core::TimeSpan time = new Core::TimeSpan;
+    if ( TimeOfCall == null )
+      return "";
+
+    time = (new Core::Time).CurrentTime.Difference( TimeOfCall );
+    if ( time.TotalHours < 24)
+      return TimeOfCall.Format( "%H:%M %p" );
+
+    if ( TimeOfCall.Day < (new Core::Time).CurrentTime.Day)
+      return TimeOfCall.Format( "%w" );
+      
+    else
+      return TimeOfCall.Format( "%d:%m:%y" );
+  }
 }
 
 $rect <350,80,530,120>

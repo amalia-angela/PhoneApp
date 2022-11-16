@@ -7,7 +7,6 @@ class ContactsPage : Core::Group
   $rect <310,40,480,80>
   inherited method Init()
   {
-
     attachobserver onNoOfContactsChanged, ^Device::Device.Contacts.NoOfItems;
     postsignal onNoOfContactsChanged;
 
@@ -1035,7 +1034,6 @@ class ContactAddPage : Core::Group
   $rect <311,50,511,90>
   slot onSave
   {
-
     notifyobservers pure Contact;
     signal OnSave;
   }
@@ -2618,9 +2616,7 @@ vclass ApplicationSimulation : Application::Application
   $rect <844,104,1044,144>
   slot onIncomingCall
   {
-    Device::Device.UpdateIncomingCall( "zf" );
-    //Device::Device.UpdateCallingNumber( "+40723494923" );
-    //Device::Device.UpdateCallingNumber( "zf" );
+    Device::Device.UpdateIncomingCall( "+40723494923" );
   }
 }
 
@@ -4242,7 +4238,7 @@ class RecentItm : Core::Group
       LastNameTxt.String  =  pure ContactHistory.LastName;
       FirstNameTxt.String = pure ContactHistory.FirstName;
       CallTypeTxt.String  = pure ContactHistory.GetCallDirection();
-      TimeTxt.String      = pure ContactHistory.TimeOfCall.Format( "%d %B" );
+      TimeTxt.String      = pure ContactHistory.GetTimeOfCall();
       
     }
 
