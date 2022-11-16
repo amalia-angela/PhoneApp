@@ -2119,7 +2119,7 @@ class KeypadPage : Core::Group
 }
 
 // This is the root component of the entire GUI application.
-$rect <230,110,430,150>
+$rect <440,110,640,150>
 $output false
 class ContactsApp : Core::Group
 {
@@ -4237,9 +4237,21 @@ class RecentItm : Core::Group
     {
       LastNameTxt.String  =  pure ContactHistory.LastName;
       FirstNameTxt.String = pure ContactHistory.FirstName;
+      
+      if ( pure ContactHistory.CallDirection == Device::CallDirection.Incoming )
+        PushButtonSmall.Icon = Res::IncomingCallTxt;
+      else
+        PushButtonSmall.Icon = Res::OutgoingCallTxt;
+      
       CallTypeTxt.String  = pure ContactHistory.GetCallDirection();
       TimeTxt.String      = pure ContactHistory.GetTimeOfCall();
       
+      if ( pure ContactHistory.CallState == Device::CallState.Missed )
+      {
+        ColorText1 = Res::Red;
+       }
+      else
+        ColorText1 = Res::Black;
     }
 
   }
