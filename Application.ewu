@@ -314,7 +314,7 @@ class ContactsPage : Core::Group
   $rect <480,40,650,80>
   slot onSetMyNumber
   {
-    Device::Device.MyNumber = InputEtxt.String;
+    Device::Device.MyDevice = InputEtxt.String;
   }
 }
 

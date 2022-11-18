@@ -114,7 +114,7 @@ profile Simulation : Tara.WebGL.RGBA8888
   attr ApplicationClass = Application::Application;
   attr CleanOutputDirectories = false;
   attr FontConversion = Windows;
-  attr Obfuscation = true;
+  attr Obfuscation = false;
 
   $rect <10,10,170,50>
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
