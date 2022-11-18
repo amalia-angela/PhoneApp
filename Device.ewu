@@ -459,6 +459,14 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
     Ongoing.AddLast( historyContact );
+
+    /////
+    if ( ! Device::PhoneServer.StartCall( MyDevice, historyContact.PhoneNumber ) )
+    {
+      historyContact.CallState = Device::CallState.Missed;
+      History.AddFirst( aContact );
+      Ongoing.Remove( historyContact );
+    }
   }
 
   $rect <0,170,200,210>
@@ -509,6 +517,15 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
     Ongoing.AddLast( historyContact );
+
+    /////
+    if ( ! Device::PhoneServer.StartCall( MyDevice, historyContact.PhoneNumber ) )
+    {
+      historyContact.CallState = Device::CallState.Missed;
+      History.AddFirst( historyContact );
+      Ongoing.Remove( historyContact );
+    }
+
   }
 
   $rect <200,370,400,410>
@@ -531,25 +548,33 @@ class DeviceClass : Templates::DeviceClass
     if ( aContact.CallDirection == Device::CallDirection.Incoming )
     {
       if ( aContact.CallState == Device::CallState.Dialing )
+      {
         aContact.CallState = Device::CallState.Rejected;
+        ////
+        Device::PhoneServer.RejectedCall( aContact.PhoneNumber );
+      }
         
       else if ( aContact.CallState == Device::CallState.Speaking )
       {
         aContact.CallState = Device::CallState.EndCall;
         aContact.EndTime = (new Core::Time).CurrentTime;
-       }
+        ////
+        Device::PhoneServer.EndCall( aContact.PhoneNumber );
+       }   
     }
       
     else if ( aContact.CallDirection == Device::CallDirection.Outgoing )
     {
       if ( aContact.CallState == Device::CallState.Dialing )
-        aContact.CallState = Device::CallState.Cancelled;
+         aContact.CallState = Device::CallState.Cancelled;    
         
       else if ( aContact.CallState == Device::CallState.Speaking )
       {
         aContact.CallState = Device::CallState.EndCall;
         aContact.EndTime = (new Core::Time).CurrentTime;
-       }
+       }   
+       ////
+       Device::PhoneServer.EndCall( aContact.PhoneNumber );
     }
 
     History.AddFirst( aContact );
@@ -562,28 +587,30 @@ class DeviceClass : Templates::DeviceClass
     aContact.CallState = Device::CallState.Speaking;
     aContact.StartTime = (new Core::Time).CurrentTime;
 
+    Device::PhoneServer.AcceptedCall( aContact.PhoneNumber );
+
   }
 
-  $rect <730,350,930,390>
-  property string MyNumber;
+  $rect <10,510,210,550>
+  property string MyDevice;
 
-  $rect <730,390,930,430>
-  onset MyNumber
+  $rect <10,550,210,590>
+  onset MyDevice
   {
     // The value doesn't change - nothing to do.
-    if ( pure MyNumber == value )
+    if ( pure MyDevice == value )
       return;
 
     // Remember the property's new value.
-    pure MyNumber = value;
+    pure MyDevice = value;
 
-    trace MyNumber;
+    trace MyDevice;
   }
 
-  $rect <730,430,930,470>
-  onget MyNumber
+  $rect <10,590,210,630>
+  onget MyDevice
   {
-    return pure MyNumber;
+    return pure MyDevice;
   }
 }
 
@@ -1114,4 +1141,346 @@ enum CallDirection
 
   $rect <10,100,210,140>
   item Outgoing;
+}
+
+$rect <20,260,270,300>
+$output false
+class PhoneServerClass : Templates::DeviceClass
+{
+  $rect <30,80,230,120>
+  inherited method Done()
+  {
+    // The following section is intended to perform de-initialization-related operations
+    // in the underlying device or middleware. Consequently, the section is taken in
+    // account only when generating code (not during prototyping).
+    $if !$prototyper
+      var object thisObject = this;
+
+      /*
+         TO DO:
+
+         The following native statement is intended to enclose code to communicate with
+         your device API. The variable 'thisObject' contains a pointer to the actually
+         de-initialized Device::DeviceClass1 object. Use the 'thisObject' pointer to
+         e.g. de-register the object from the middleware if you have registered it
+         beforehand.
+         
+      */
+
+      native ( thisObject )
+      {
+        /*
+           TO DO:
+
+           Depending on your application case you call functions of the underlying
+           middleware (or access the device directly) in order to perform the necessary
+           de-initialization steps. For example, you invoke some 'C' function:
+
+             YourDevice_DeInitialize();
+
+           IMPORTANT:
+           ----------
+
+           The variable 'thisObject' represents the actually de-initialized instance of the
+           Device::DeviceClass1. If you have stored this object at the initialization
+           time (in the 'Init' method) in some global C variable or registered it by the
+           middleware, it is important to perform now the opposite operation. Set the
+           global variable to NULL or de-register 'thisObject' object from the middleware.
+           
+        */
+      }
+    $endif
+  }
+
+  $rect <30,40,230,80>
+  inherited method Init()
+  {
+    // The following section is intended to perform initialization-related operations
+    // in the underlying device or middleware. Consequently, the section is taken in
+    // account only when generating code (not during prototyping).
+    $if !$prototyper
+      var object thisObject = this;
+
+      /*
+         TO DO:
+
+         The following native statement is intended to enclose code to communicate with
+         your device API. The variable 'thisObject' contains a pointer to the actually
+         initialized Device::DeviceClass1 object. Use the 'thisObject' pointer to
+         e.g. register the object by the middleware as receiver of events, etc.
+         
+      */
+
+      native ( thisObject )
+      {
+        /*
+           TO DO:
+
+           Depending on your application case you call functions of the underlying
+           middleware (or access the device directly) in order to perform the necessary
+           initialization steps. For example, you invoke some 'C' function:
+
+             YourDevice_Initialize();
+
+           The variable 'thisObject' represents the actually initialized instance of the
+           Device::DeviceClass1. You can store this variable e.g. in the middleware
+           and use it whenever the middleware needs to notify the GUI application about
+           some state alternation or events. In this manner, the middleware will be able
+           to invoke methods of the interface device object.
+
+           For example, you can store 'thisObject' in some global C variable:
+
+             // Declaration of the global C variable
+             XObject theDeviceObject;
+
+             // Store the instance in the global variable
+             theDeviceObject = thisObject;
+
+           Later use the global variable e.g. to provide the GUI application with events:
+
+             ApplicationDeviceClass__TriggerSomeEvent( theDeviceObject );
+
+           IMPORTANT:
+           ----------
+
+           If you store 'thisObject' for later use, don't forget to implement the opposite
+           operation in the method 'Done'. Concrete, 'Done' should set the global variable
+           again to the value NULL.
+
+        */
+      }
+    $endif
+  }
+
+  // Constructor and Destructor
+  note group Note1
+  {
+    attr Bounds = <10,0,250,140>;
+  }
+
+  $rect <250,0,450,40>
+  object Core::Timer PollServerData
+  {
+    preset OnTrigger = askServerData;
+    preset Enabled = true;
+  }
+
+  $rect <440,0,640,40>
+  slot askServerData
+  {
+    var string url;
+    var string result;
+    url = "/call/{senderID}/poll"; //!!!! {senderID} DEvice::Device.MyDevice
+
+    $if !$prototyper
+    native ( url, result )
+    {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", url, false );
+      xmlHttp.send( null );
+      result = xmlHttp.responseURL;
+    }
+
+    if ( result != "")
+    {
+      Device::Device.UpdateIncomingCall( result );
+    }
+    $endif
+
+  }
+
+  $rect <440,40,640,80>
+  method bool StartCall( arg string aMyDeviceNumber, arg string aReceiverNumber )
+  {
+    var string myDeviceNumber;
+    var string receiverNumber;
+    var string url;
+    var string result;
+
+
+    myDeviceNumber = aMyDeviceNumber;
+    receiverNumber = aReceiverNumber;
+
+    //url = "https://google.com";
+    url = "/call/{senderID}{receiverID}/started"; //!!!! {senderID}{receiverID}= senderNumber, receiverNumber
+
+    $if !$prototyper
+    native ( url, result )
+    {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", url, false );
+      xmlHttp.send( null );
+      result = xmlHttp.responseURL;
+    }
+    $endif
+
+    if ( result == "" )
+      return false;
+      
+    return true;
+  }
+
+  $rect <440,80,640,120>
+  method void EndCall( arg string aReceiverNumber )
+  {
+    var string url;
+    var string result;
+
+    url = "/call/{senderID}{receiverID}/ended"; //!!!!
+
+    $if !$prototyper
+    native ( url, result )
+    {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open ( "GET", url, false );
+      xmlHttp.send( null );
+      result = xmlHttp.responseURL;
+    }
+    $endif
+
+    if ( result != "")
+    {
+      var Device::Contact contact = Device::Device.Contacts.FindByPhoneNumber( aReceiverNumber );
+      var Device::HistoryContact historyContact = new Device::HistoryContact;
+      
+      if ( contact == null )
+      {
+        historyContact.LastName = aReceiverNumber;
+        historyContact.PhoneNumber = aReceiverNumber;
+      }
+      else
+      {
+       contact.CopyDataTo( historyContact ); 
+      }
+
+      Device::Device.EndCall( historyContact );
+    }
+  }
+
+  $rect <610,240,810,280>
+  array Device::PhoneServerCallInfo Calls[ 10 ];
+
+  $rect <440,120,640,160>
+  method void RejectedCall( arg string aReceiverNumber )
+  {
+    //Device::Device.EndCall( aReceiverNumber );
+    var string url;
+    var string result;
+
+    url = "/call/{senderID}{receiverID}/rejected"; //!!!!!
+
+    $if !$prototyper
+    native ( url, result )
+    {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open ( "GET", url, false );
+      xmlHttp.send( null );
+      result = xmlHttp.responseURL;
+    }
+    $endif
+  }
+
+  $rect <440,160,640,200>
+  method void AcceptedCall( arg string aReceiverNumber )
+  {
+    // /call/{senderID}{receiverID}/accepted
+    //Device::Device.AnswerCall( aReceiverNumber );
+    var string url;
+    var string result;
+
+    url = "/call/{senderID}{receiverID}/accepted"; //!!!!!
+
+    $if !$prototyper
+    native ( url, result )
+    {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open ( "GET", url, false );
+      xmlHttp.send( null );
+      result = xmlHttp.responseURL;
+    }
+    $endif
+
+    if ( result != "" )
+    {
+      var Device::Contact contact = Device::Device.Contacts.FindByPhoneNumber( aReceiverNumber );
+      var Device::HistoryContact historyContact = new Device::HistoryContact;
+      
+      if ( contact == null )
+      {
+        historyContact.LastName = aReceiverNumber;
+        historyContact.PhoneNumber = aReceiverNumber;
+      }
+      else
+      {
+       contact.CopyDataTo( historyContact ); 
+      }
+      Device::Device.AnswerCall( historyContact );
+    }
+
+  }
+
+  $rect <410,240,610,280>
+  var int32 CallsSize = 0;
+
+  $rect <420,280,620,320>
+  method void Method( arg int32 aArg1 )
+  {
+    /*
+    trace Calls.size;
+    Calls[CallsSize] = new Device::PhoneServerCallInfo();
+    CallsSize++;
+    Calls[2] = null;
+    CallsSize--;
+    */
+  }
+}
+
+$rect <20,300,270,340>
+autoobject Device::PhoneServerClass PhoneServer;
+
+// Device
+note group Note4
+{
+  attr Bounds = <0,210,290,410>;
+}
+
+$rect <20,350,270,390>
+$output false
+class PhoneServerCallInfo
+{
+  $rect <0,0,200,40>
+  property string Caller;
+
+  $rect <0,40,200,80>
+  onset Caller
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Caller == value )
+      return;
+
+    // Remember the property's new value.
+    pure Caller = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <210,0,410,40>
+  property string Receiver;
+
+  $rect <210,40,410,80>
+  onset Receiver
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Receiver == value )
+      return;
+
+    // Remember the property's new value.
+    pure Receiver = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
 }
