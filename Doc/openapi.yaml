@@ -6,7 +6,7 @@ servers:
   - url: http://localhost/php-files/contacts/
 paths:
 
-  /call/{senderID}{receiverID}/started:
+  /send/{senderID}/{receiverID}/{message}/:
     post:
       parameters:
       - name: senderID
@@ -23,6 +23,13 @@ paths:
         schema:
           type: string
           example: 0769002233
+      - name: message
+        in: path
+        description: Sender ID
+        required: true
+        schema:
+          type: string
+          example: call
       tags:
         - call
       summary: Starts a call from the given id to the given recieverID.
@@ -30,7 +37,7 @@ paths:
         '200':
           description: Successful operation
 
-  /call/{senderID}{receiverID}/ended:
+  /recive/{senderID}/:
     post:
       parameters:
       - name: senderID
@@ -39,85 +46,10 @@ paths:
         required: true
         schema:
           type: string
-          example: 0769878653
-      - name: receiverID
-        in: path
-        description: Revicer ID
-        required: true
-        schema:
-          type: string
-          example: 0769002233
-        
+          example: 0769878653    
       tags:
         - call
       summary: End a call from the given id to the given recieverID.
       responses:
         '200':
           description: Successful operation
-          
-  /call/{senderID}{receiverID}/accepted:
-    post:
-      parameters:
-      - name: senderID
-        in: path
-        description: User ID
-        required: true
-        schema:
-          type: string
-          example: 0769878653
-      - name: receiverID
-        in: path
-        description: Revicer ID
-        required: true
-        schema:
-          type: string
-          example: 0769002233
-      tags:
-        - call
-      summary: Accepts a call from the given id to the given recieverID.
-      responses:
-        '200':
-          description: Successful operation
-          
-  /call/{senderID}{receiverID}/rejected:
-    post:
-      parameters:
-      - name: senderID
-        in: path
-        description: User ID
-        required: true
-        schema:
-          type: string
-          example: 0769878653
-      - name: receiverID
-        in: path
-        description: Revicer ID
-        required: true
-        schema:
-          type: string
-          example: 0769002233
-          
-      tags:
-        - call
-      summary: Rejects a call from the given id to the given recieverID.
-      responses:
-        '200':
-          description: Successful operation
-          
-  /call/{senderID}/poll:
-    get:
-      parameters:
-      - name: senderID
-        in: path
-        description: User ID
-        required: true
-        schema:
-          type: string
-          example: 0769878653
-      tags:
-        - call
-      summary: Checks for a started call for the given ID.
-      responses:
-        '200':
-          description: Successful operation
-          
