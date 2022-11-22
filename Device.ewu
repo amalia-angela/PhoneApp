@@ -461,9 +461,9 @@ class DeviceClass : Templates::DeviceClass
     Ongoing.AddLast( historyContact );
 
     /////
-    if ( ! Device::PhoneServer.StartCall( MyDevice, historyContact.PhoneNumber ) )
+    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
     {
-      historyContact.CallState = Device::CallState.Missed;
+      historyContact.CallState = Device::CallState.Fail;
       History.AddFirst( aContact );
       Ongoing.Remove( historyContact );
     }
@@ -519,7 +519,7 @@ class DeviceClass : Templates::DeviceClass
     Ongoing.AddLast( historyContact );
 
     /////
-    if ( ! Device::PhoneServer.StartCall( MyDevice, historyContact.PhoneNumber ) )
+    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
     {
       historyContact.CallState = Device::CallState.Missed;
       History.AddFirst( historyContact );
@@ -542,52 +542,53 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,450,400,490>
   var int32 LastID = 0;
 
-  $rect <630,210,830,250>
-  method void EndCall( arg Device::HistoryContact aContact )
+  $rect <430,250,630,290>
+  method void UpdateIncomingEndCall( arg string aPhoneNumber )
   {
-    if ( aContact.CallDirection == Device::CallDirection.Incoming )
-    {
-      if ( aContact.CallState == Device::CallState.Dialing )
-      {
-        aContact.CallState = Device::CallState.Rejected;
-        ////
-        Device::PhoneServer.RejectedCall( aContact.PhoneNumber );
-      }
-        
-      else if ( aContact.CallState == Device::CallState.Speaking )
-      {
-        aContact.CallState = Device::CallState.EndCall;
-        aContact.EndTime = (new Core::Time).CurrentTime;
-        ////
-        Device::PhoneServer.EndCall( aContact.PhoneNumber );
-       }   
-    }
-      
-    else if ( aContact.CallDirection == Device::CallDirection.Outgoing )
-    {
-      if ( aContact.CallState == Device::CallState.Dialing )
-         aContact.CallState = Device::CallState.Cancelled;    
-        
-      else if ( aContact.CallState == Device::CallState.Speaking )
-      {
-        aContact.CallState = Device::CallState.EndCall;
-        aContact.EndTime = (new Core::Time).CurrentTime;
-       }   
-       ////
-       Device::PhoneServer.EndCall( aContact.PhoneNumber );
-    }
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
 
-    History.AddFirst( aContact );
-    Ongoing.Remove( aContact );
+    //contact not found in contact list, than save it by number
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+    if ( ! Device::PhoneServer.EndCall ( aPhoneNumber ) )
+    {
+      if ( historyContact.CallDirection == Device::CallDirection.Incoming )
+      {
+        if ( historyContact.CallState == Device::CallState.Dialing )
+        {
+          historyContact.CallState = Device::CallState.Rejected;
+        }
+        
+        else if ( historyContact.CallState == Device::CallState.Speaking )
+        {
+          historyContact.CallState = Device::CallState.EndCall;
+          historyContact.EndTime = (new Core::Time).CurrentTime;
+         }   
+      }
+     
+      History.AddFirst( historyContact );
+      Ongoing.Remove( historyContact );
+    }
   }
 
   $rect <430,210,630,250>
-  method void AnswerCall( arg Device::HistoryContact aContact )
+  method void UpdateIncomingCallAnswer( arg Device::HistoryContact aContact )
   {
-    aContact.CallState = Device::CallState.Speaking;
-    aContact.StartTime = (new Core::Time).CurrentTime;
+    if ( ! Device::PhoneServer.AnswerCall( aContact.PhoneNumber ) )
+    {
+      aContact.CallState = Device::CallState.Speaking;
+      aContact.StartTime = (new Core::Time).CurrentTime;
+    }
 
-    Device::PhoneServer.AcceptedCall( aContact.PhoneNumber );
+
 
   }
 
@@ -611,6 +612,61 @@ class DeviceClass : Templates::DeviceClass
   onget MyDevice
   {
     return pure MyDevice;
+  }
+
+  $rect <0,210,200,250>
+  method void UpdateOutgoingCallAnswered( arg string aPhoneNumber )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+
+    //contact not found in contact list, than save it by number
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+
+    historyContact.CallState = Device::CallState.Speaking;
+    historyContact.StartTime = (new Core::Time).CurrentTime;
+  }
+
+  $rect <0,250,200,290>
+  method void UpdateOutgoingCallRejected( arg string aPhoneNumber )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+
+    //contact not found in contact list, than save it by number
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+
+    if ( historyContact.CallDirection == Device::CallDirection.Outgoing )
+    {
+      if ( historyContact.CallState == Device::CallState.Dialing )
+         historyContact.CallState = Device::CallState.Cancelled;    
+        
+      else if ( historyContact.CallState == Device::CallState.Speaking )
+      {
+        historyContact.CallState = Device::CallState.EndCall;
+        historyContact.EndTime = (new Core::Time).CurrentTime;
+        }
+    }
+
+    History.AddFirst( historyContact );
+    Ongoing.Remove( historyContact );
+
   }
 }
 
@@ -650,6 +706,9 @@ enum CallState
 
   $rect <260,170,460,210>
   item EndCall;
+
+  $rect <250,70,450,110>
+  item Fail;
 }
 
 $rect <20,130,250,170>
@@ -1269,41 +1328,56 @@ class PhoneServerClass : Templates::DeviceClass
   slot askServerData
   {
     var string url;
-    var string result;
-    url = "/call/{senderID}/poll"; //!!!! {senderID} DEvice::Device.MyDevice
+    var string senderID = Device::Device.MyDevice;
+    var string phoneNumber;
+    var string message;
+    url = "/receive/senderID/"; 
 
     $if !$prototyper
-    native ( url, result )
+    native ( url, phoneNumber, message )
     {
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.open( "GET", url, false );
       xmlHttp.send( null );
-      result = xmlHttp.responseURL;
-    }
-
-    if ( result != "")
-    {
-      Device::Device.UpdateIncomingCall( result );
+      var result = JSON.parse(xmlHttp.responseText);
+      phoneNumber = result['sender'];
+      message     = result['message'];
     }
     $endif
+
+    //result.message || result['message']
+
+    if ( message == "call")
+    {
+      Device::Device.UpdateIncomingCall( phoneNumber );
+    }
+    else if ( message == "answer")
+    {
+      Device::Device.UpdateOutgoingCallAnswered( phoneNumber);
+    }
+    else if ( message == "reject")
+    {
+      Device::Device.UpdateOutgoingCallRejected( phoneNumber  );
+    }
+    else if ( message == "end call")
+    {
+      Device::Device.UpdateIncomingEndCall( phoneNumber );
+    }
+
+
 
   }
 
   $rect <440,40,640,80>
-  method bool StartCall( arg string aMyDeviceNumber, arg string aReceiverNumber )
+  method bool StartCall( arg string aReceiverNumber )
   {
-    var string myDeviceNumber;
-    var string receiverNumber;
     var string url;
     var string result;
 
-
-    myDeviceNumber = aMyDeviceNumber;
-    receiverNumber = aReceiverNumber;
+    var string senderID = Device::Device.MyDevice;
 
     //url = "https://google.com";
-    url = "/call/{senderID}{receiverID}/started"; //!!!! {senderID}{receiverID}= senderNumber, receiverNumber
-
+    url = "/send/senderID/aReceiverNumber/'call'/"; 
     $if !$prototyper
     native ( url, result )
     {
@@ -1321,12 +1395,13 @@ class PhoneServerClass : Templates::DeviceClass
   }
 
   $rect <440,80,640,120>
-  method void EndCall( arg string aReceiverNumber )
+  method bool EndCall( arg string aReceiverNumber )
   {
     var string url;
     var string result;
+    var string senderID = Device::Device.MyDevice;
 
-    url = "/call/{senderID}{receiverID}/ended"; //!!!!
+    url = "/send/senderID/aReceiverNumber/'end call'/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1338,36 +1413,22 @@ class PhoneServerClass : Templates::DeviceClass
     }
     $endif
 
-    if ( result != "")
-    {
-      var Device::Contact contact = Device::Device.Contacts.FindByPhoneNumber( aReceiverNumber );
-      var Device::HistoryContact historyContact = new Device::HistoryContact;
+    if ( result == "" )
+      return false;
       
-      if ( contact == null )
-      {
-        historyContact.LastName = aReceiverNumber;
-        historyContact.PhoneNumber = aReceiverNumber;
-      }
-      else
-      {
-       contact.CopyDataTo( historyContact ); 
-      }
-
-      Device::Device.EndCall( historyContact );
-    }
+    return true;
   }
 
   $rect <610,240,810,280>
   array Device::PhoneServerCallInfo Calls[ 10 ];
 
-  $rect <440,120,640,160>
-  method void RejectedCall( arg string aReceiverNumber )
+  $rect <650,80,850,120>
+  method bool RejectCall( arg string aReceiverNumber )
   {
-    //Device::Device.EndCall( aReceiverNumber );
     var string url;
     var string result;
-
-    url = "/call/{senderID}{receiverID}/rejected"; //!!!!!
+    var string senderID = Device::Device.MyDevice;
+    url = "/send/senderID/aReceiverNumber/'reject'/";
 
     $if !$prototyper
     native ( url, result )
@@ -1378,17 +1439,22 @@ class PhoneServerClass : Templates::DeviceClass
       result = xmlHttp.responseURL;
     }
     $endif
+
+    if ( result == "" )
+      return false;
+      
+    return true;
   }
 
-  $rect <440,160,640,200>
-  method void AcceptedCall( arg string aReceiverNumber )
+  $rect <650,40,850,80>
+  method bool AnswerCall( arg string aReceiverNumber )
   {
     // /call/{senderID}{receiverID}/accepted
     //Device::Device.AnswerCall( aReceiverNumber );
     var string url;
     var string result;
-
-    url = "/call/{senderID}{receiverID}/accepted"; //!!!!!
+    var string senderID = Device::Device.MyDevice;
+    url = "/send/senderID/aReceiverNumber/'answer'/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1400,23 +1466,10 @@ class PhoneServerClass : Templates::DeviceClass
     }
     $endif
 
-    if ( result != "" )
-    {
-      var Device::Contact contact = Device::Device.Contacts.FindByPhoneNumber( aReceiverNumber );
-      var Device::HistoryContact historyContact = new Device::HistoryContact;
+    if ( result == "" )
+      return false;
       
-      if ( contact == null )
-      {
-        historyContact.LastName = aReceiverNumber;
-        historyContact.PhoneNumber = aReceiverNumber;
-      }
-      else
-      {
-       contact.CopyDataTo( historyContact ); 
-      }
-      Device::Device.AnswerCall( historyContact );
-    }
-
+    return true;
   }
 
   $rect <410,240,610,280>

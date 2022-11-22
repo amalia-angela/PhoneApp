@@ -2666,7 +2666,7 @@ class IncomingCall : Application::CallPageBase
   $rect <310,260,510,300>
   slot onAcceptCall
   {
-    Device::Device.AnswerCall( Contact );
+    Device::Device.UpdateIncomingCallAnswer( Contact );
   }
 
   $rect <20,20,160,60>
@@ -4433,7 +4433,7 @@ class CallPageBase : Core::Group
   $rect <310,240,510,280>
   slot onDesclineCall
   {
-    Device::Device.EndCall( Contact );
+    Device::Device.UpdateIncomingEndCall( Contact.PhoneNumber );
   }
 
   // Touch screen events
