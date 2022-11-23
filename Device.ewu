@@ -558,7 +558,7 @@ class DeviceClass : Templates::DeviceClass
     {
       contact.CopyDataTo( historyContact );
     }
-    if ( ! Device::PhoneServer.EndCall ( aPhoneNumber ) )
+
     {
       if ( historyContact.CallDirection == Device::CallDirection.Incoming )
       {
@@ -582,11 +582,11 @@ class DeviceClass : Templates::DeviceClass
   $rect <430,210,630,250>
   method void UpdateIncomingCallAnswer( arg Device::HistoryContact aContact )
   {
-    if ( ! Device::PhoneServer.AnswerCall( aContact.PhoneNumber ) )
-    {
+    //
+    Device::PhoneServer.AnswerCall( aContact.PhoneNumber );
       aContact.CallState = Device::CallState.Speaking;
       aContact.StartTime = (new Core::Time).CurrentTime;
-    }
+
 
 
 
@@ -1331,15 +1331,16 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID = Device::Device.MyDevice;
     var string phoneNumber;
     var string message;
-    url = "/receive/senderID/"; 
+    url = "http://localhost/php-files/contacts/receive/"+senderID+"/"; 
 
     $if !$prototyper
     native ( url, phoneNumber, message )
     {
       var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", url, false );
-      xmlHttp.send( null );
+      xmlHttp.open( "GET", url );
+      xmlHttp.send();
       var result = JSON.parse(xmlHttp.responseText);
+      
       phoneNumber = result['sender'];
       message     = result['message'];
     }
@@ -1359,7 +1360,7 @@ class PhoneServerClass : Templates::DeviceClass
     {
       Device::Device.UpdateOutgoingCallRejected( phoneNumber  );
     }
-    else if ( message == "end call")
+    else if ( message == "endcall")
     {
       Device::Device.UpdateIncomingEndCall( phoneNumber );
     }
@@ -1376,8 +1377,7 @@ class PhoneServerClass : Templates::DeviceClass
 
     var string senderID = Device::Device.MyDevice;
 
-    //url = "https://google.com";
-    url = "/send/senderID/aReceiverNumber/'call'/"; 
+    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
     $if !$prototyper
     native ( url, result )
     {
@@ -1401,7 +1401,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID = Device::Device.MyDevice;
 
-    url = "/send/senderID/aReceiverNumber/'end call'/"; 
+    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/endcall/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1419,16 +1419,13 @@ class PhoneServerClass : Templates::DeviceClass
     return true;
   }
 
-  $rect <610,240,810,280>
-  array Device::PhoneServerCallInfo Calls[ 10 ];
-
   $rect <650,80,850,120>
   method bool RejectCall( arg string aReceiverNumber )
   {
     var string url;
     var string result;
     var string senderID = Device::Device.MyDevice;
-    url = "/send/senderID/aReceiverNumber/'reject'/";
+    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/reject/";
 
     $if !$prototyper
     native ( url, result )
@@ -1454,14 +1451,14 @@ class PhoneServerClass : Templates::DeviceClass
     var string url;
     var string result;
     var string senderID = Device::Device.MyDevice;
-    url = "/send/senderID/aReceiverNumber/'answer'/"; 
-
+    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
+    //url = "https://google.com";
     $if !$prototyper
     native ( url, result )
     {
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.open ( "GET", url, false );
-      xmlHttp.send( null );
+      mlHttp.send( null );
       result = xmlHttp.responseURL;
     }
     $endif
@@ -1470,21 +1467,6 @@ class PhoneServerClass : Templates::DeviceClass
       return false;
       
     return true;
-  }
-
-  $rect <410,240,610,280>
-  var int32 CallsSize = 0;
-
-  $rect <420,280,620,320>
-  method void Method( arg int32 aArg1 )
-  {
-    /*
-    trace Calls.size;
-    Calls[CallsSize] = new Device::PhoneServerCallInfo();
-    CallsSize++;
-    Calls[2] = null;
-    CallsSize--;
-    */
   }
 }
 
