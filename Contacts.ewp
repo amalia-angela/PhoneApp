@@ -109,12 +109,13 @@ $rect <280,100,480,140>
 profile Simulation : Tara.WebGL.RGBA8888
 {
   attr Verbose = false;
-  attr ScreenSize = <800,480>;
+  attr ScreenSize = <272,480>;
   attr Optimization = High;
   attr ApplicationClass = Application::Application;
   attr CleanOutputDirectories = false;
   attr FontConversion = Windows;
   attr Obfuscation = false;
+  attr OutputDirectory = C:\xampp\htdocs\test;
 
   $rect <10,10,170,50>
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";

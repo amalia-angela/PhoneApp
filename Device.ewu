@@ -449,7 +449,7 @@ class DeviceClass : Templates::DeviceClass
   object Device::ContactList Search;
 
   $rect <200,210,400,250>
-  method void OutgoingCallContact( arg Device::Contact aContact )
+  method void SendCallContact( arg Device::Contact aContact )
   {
     var Device::HistoryContact historyContact = new Device::HistoryContact;
     aContact.CopyDataTo( historyContact );
@@ -460,17 +460,17 @@ class DeviceClass : Templates::DeviceClass
 
     Ongoing.AddLast( historyContact );
 
-    /////
+    // if call fails
     if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
     {
       historyContact.CallState = Device::CallState.Fail;
-      History.AddFirst( aContact );
+      History.AddFirst( historyContact );
       Ongoing.Remove( historyContact );
     }
   }
 
   $rect <0,170,200,210>
-  method void UpdateIncomingCall( arg string aPhoneNumber )
+  method void ReceiveCall( arg string aPhoneNumber )
   {
     var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
@@ -490,14 +490,13 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Incoming;
 
-
     Ongoing.AddLast( historyContact );
 
 
   }
 
   $rect <200,250,400,290>
-  method void OutgoingCallNumber( arg string aPhoneNumber )
+  method void SendCallNumber( arg string aPhoneNumber )
   {
     var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
@@ -518,7 +517,7 @@ class DeviceClass : Templates::DeviceClass
 
     Ongoing.AddLast( historyContact );
 
-    /////
+    /// if call fails
     if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
     {
       historyContact.CallState = Device::CallState.Missed;
@@ -542,8 +541,8 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,450,400,490>
   var int32 LastID = 0;
 
-  $rect <430,250,630,290>
-  method void UpdateIncomingEndCall( arg string aPhoneNumber )
+  $rect <430,290,630,330>
+  method void SendEndCall( arg string aPhoneNumber )
   {
     var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
@@ -558,42 +557,41 @@ class DeviceClass : Templates::DeviceClass
     {
       contact.CopyDataTo( historyContact );
     }
-
-    {
-      if ( historyContact.CallDirection == Device::CallDirection.Incoming )
-      {
-        if ( historyContact.CallState == Device::CallState.Dialing )
-        {
-          historyContact.CallState = Device::CallState.Rejected;
-        }
-        
-        else if ( historyContact.CallState == Device::CallState.Speaking )
-        {
-          historyContact.CallState = Device::CallState.EndCall;
-          historyContact.EndTime = (new Core::Time).CurrentTime;
-         }   
-      }
      
-      History.AddFirst( historyContact );
-      Ongoing.Remove( historyContact );
-    }
+    if ( historyContact.CallState == Device::CallState.Dialing )
+    {
+       historyContact.CallState = Device::CallState.Cancelled; 
+       trace "cancelled";
+       Device::PhoneServer.CancelledCall( aPhoneNumber ); 
+    }  
+      
+    else if ( historyContact.CallState == Device::CallState.Speaking )
+    {
+      historyContact.CallState = Device::CallState.EndCall;
+      historyContact.EndTime = (new Core::Time).CurrentTime;
+      Device::PhoneServer.EndCall( aPhoneNumber );
+    } 
+
+
+    History.AddFirst( historyContact );
+    Ongoing.Remove( historyContact );
+
   }
 
   $rect <430,210,630,250>
-  method void UpdateIncomingCallAnswer( arg Device::HistoryContact aContact )
+  method void SendCallAnswer( arg Device::HistoryContact aContact )
   {
-    //
+    aContact.CallState = Device::CallState.Speaking;
+    aContact.StartTime = (new Core::Time).CurrentTime;
+
     Device::PhoneServer.AnswerCall( aContact.PhoneNumber );
-      aContact.CallState = Device::CallState.Speaking;
-      aContact.StartTime = (new Core::Time).CurrentTime;
-
-
+    //esetleg ha megszakad a vonal akkor tegye be fail
 
 
   }
 
   $rect <10,510,210,550>
-  property string MyDevice;
+  property string MyDevice = "";
 
   $rect <10,550,210,590>
   onset MyDevice
@@ -602,20 +600,19 @@ class DeviceClass : Templates::DeviceClass
     if ( pure MyDevice == value )
       return;
 
-    // Remember the property's new value.
     pure MyDevice = value;
 
-    trace MyDevice;
-  }
+    if ( pure MyDevice != "" )
+    {
 
-  $rect <10,590,210,630>
-  onget MyDevice
-  {
-    return pure MyDevice;
+      signal Device::PhoneServer.PollServerData.StartTimer;
+    }
+
+
   }
 
   $rect <0,210,200,250>
-  method void UpdateOutgoingCallAnswered( arg string aPhoneNumber )
+  method void ReceiveCallAnswered( arg string aPhoneNumber )
   {
     var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
@@ -636,7 +633,7 @@ class DeviceClass : Templates::DeviceClass
   }
 
   $rect <0,250,200,290>
-  method void UpdateOutgoingCallRejected( arg string aPhoneNumber )
+  method void ReceiveCallRejected( arg string aPhoneNumber )
   {
     var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
@@ -652,22 +649,81 @@ class DeviceClass : Templates::DeviceClass
       contact.CopyDataTo( historyContact );
     }
 
-    if ( historyContact.CallDirection == Device::CallDirection.Outgoing )
+    if ( historyContact.CallState == Device::CallState.Dialing )
     {
-      if ( historyContact.CallState == Device::CallState.Dialing )
-         historyContact.CallState = Device::CallState.Cancelled;    
-        
-      else if ( historyContact.CallState == Device::CallState.Speaking )
-      {
-        historyContact.CallState = Device::CallState.EndCall;
-        historyContact.EndTime = (new Core::Time).CurrentTime;
-        }
+      historyContact.CallState = Device::CallState.Rejected;
     }
 
     History.AddFirst( historyContact );
     Ongoing.Remove( historyContact );
 
   }
+
+  $rect <430,250,630,290>
+  method void SendCallRejected( arg string aPhoneNumber )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+
+    //contact not found in contact list, than save it by number
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+
+    if ( historyContact.CallState == Device::CallState.Dialing )
+    {
+      historyContact.CallState = Device::CallState.Rejected;
+    }
+
+    Device::PhoneServer.RejectCall( aPhoneNumber );
+
+    History.AddFirst( historyContact );
+    Ongoing.Remove( historyContact );
+
+  }
+
+  $rect <440,340,640,380>
+  method void ReceiveEndCall( arg string aPhoneNumber )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+
+    //contact not found in contact list, than save it by number
+    if ( contact == null )
+    {
+      historyContact.LastName = aPhoneNumber;
+      historyContact.PhoneNumber = aPhoneNumber;
+    }
+    else
+    {
+      contact.CopyDataTo( historyContact );
+    }
+     
+    if ( historyContact.CallState == Device::CallState.Dialing )
+    {
+       historyContact.CallState = Device::CallState.Cancelled; 
+    }  
+      
+    else if ( historyContact.CallState == Device::CallState.Speaking )
+    {
+      historyContact.CallState = Device::CallState.EndCall;
+      historyContact.EndTime = (new Core::Time).CurrentTime;
+    } 
+
+
+    History.AddFirst( historyContact );
+    Ongoing.Remove( historyContact );
+
+  }
+
+  $rect <710,0,910,40>
+  var Device::PhoneServerClass server = Device::PhoneServer;
 }
 
 $rect <20,80,250,120>
@@ -770,8 +826,8 @@ vclass DeviceSimulation : Device::DeviceClass
   $rect <0,50,200,90>
   slot CreateContactData
   {
-    CreateContact( "Smith", "Noah", "0723456781");
-    CreateContact(  "Jones", "Oliver", "0745837264");
+    CreateContact( "Smith", "Noah", "0723");
+    CreateContact(  "Jones", "Oliver", "0745");
     CreateContact(  "Williams", "Amelia", "0759876234");
     CreateContact(  "Taylor", "Leo", "0713243546");
     CreateContact( "Brown", "Nancy", "0754981234");
@@ -1206,6 +1262,65 @@ $rect <20,260,270,300>
 $output false
 class PhoneServerClass : Templates::DeviceClass
 {
+  $rect <440,0,640,40>
+  slot askServerData
+  {
+    var string senderID;
+    var string phoneNumber;
+    var string message;
+    var string url;
+
+    senderID = Device::Device.MyDevice;
+    phoneNumber = "";
+    message = "";
+    url = "http://localhost/php-files/contacts/receive/"+senderID+"/"; 
+    trace url;
+    $if !$prototyper
+    native ( url, phoneNumber, message )
+    {
+      let req = new XMLHttpRequest();
+      req.open('GET', url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+          
+          let json    = JSON.parse(req.response);
+          phoneNumber = json.sender;
+          message     = json.message;
+        }
+      };
+      req.send();
+      
+     // console.log("OUT" + phoneNumber); 
+    }
+    $endif
+    //trace url + " " + message + " " + phoneNumber ;
+    if ( message == "call")
+    {
+      Device::Device.ReceiveCall( phoneNumber );
+    }
+    else if ( message == "answer")
+    {
+      Device::Device.ReceiveCallAnswered( phoneNumber);
+    }
+    else if ( message == "reject")
+    {
+      Device::Device.ReceiveCallRejected( phoneNumber  );
+    }
+    else if ( message == "endcall")
+    {
+      Device::Device.ReceiveEndCall( phoneNumber );
+    }
+    else if ( message == "cancelled")
+    {
+      Device::Device.ReceiveEndCall( phoneNumber );
+    }
+
+
+
+
+
+  }
+
   $rect <30,80,230,120>
   inherited method Done()
   {
@@ -1321,52 +1436,6 @@ class PhoneServerClass : Templates::DeviceClass
   object Core::Timer PollServerData
   {
     preset OnTrigger = askServerData;
-    preset Enabled = true;
-  }
-
-  $rect <440,0,640,40>
-  slot askServerData
-  {
-    var string url;
-    var string senderID = Device::Device.MyDevice;
-    var string phoneNumber;
-    var string message;
-    url = "http://localhost/php-files/contacts/receive/"+senderID+"/"; 
-
-    $if !$prototyper
-    native ( url, phoneNumber, message )
-    {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", url );
-      xmlHttp.send();
-      var result = JSON.parse(xmlHttp.responseText);
-      
-      phoneNumber = result['sender'];
-      message     = result['message'];
-    }
-    $endif
-
-    //result.message || result['message']
-
-    if ( message == "call")
-    {
-      Device::Device.UpdateIncomingCall( phoneNumber );
-    }
-    else if ( message == "answer")
-    {
-      Device::Device.UpdateOutgoingCallAnswered( phoneNumber);
-    }
-    else if ( message == "reject")
-    {
-      Device::Device.UpdateOutgoingCallRejected( phoneNumber  );
-    }
-    else if ( message == "endcall")
-    {
-      Device::Device.UpdateIncomingEndCall( phoneNumber );
-    }
-
-
-
   }
 
   $rect <440,40,640,80>
@@ -1381,17 +1450,22 @@ class PhoneServerClass : Templates::DeviceClass
     $if !$prototyper
     native ( url, result )
     {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open( "GET", url, false );
-      xmlHttp.send( null );
-      result = xmlHttp.responseURL;
+      var req = new XMLHttpRequest();
+      req.open("GET", url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+        
+      req.send();
     }
     $endif
-
+    trace result;
     if ( result == "" )
-      return false;
+      return true;
       
-    return true;
+    return false;
   }
 
   $rect <440,80,640,120>
@@ -1401,22 +1475,27 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID = Device::Device.MyDevice;
 
-    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/endcall/"; 
+    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
     native ( url, result )
     {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open ( "GET", url, false );
-      xmlHttp.send( null );
-      result = xmlHttp.responseURL;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, false); 
+      xhr.onload = function() {
+        if (xhr.readyState === 4) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+      
+      xhr.send();
     }
     $endif
-
+    trace result;
     if ( result == "" )
-      return false;
+      return true;
       
-    return true;
+    return false;
   }
 
   $rect <650,80,850,120>
@@ -1430,44 +1509,84 @@ class PhoneServerClass : Templates::DeviceClass
     $if !$prototyper
     native ( url, result )
     {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open ( "GET", url, false );
-      xmlHttp.send( null );
-      result = xmlHttp.responseURL;
+      var req = new XMLHttpRequest();
+      req.open("GET", url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+        
+      req.send();
     }
     $endif
 
     if ( result == "" )
-      return false;
+      return true;
       
-    return true;
+    return false;
   }
 
   $rect <650,40,850,80>
   method bool AnswerCall( arg string aReceiverNumber )
   {
-    // /call/{senderID}{receiverID}/accepted
-    //Device::Device.AnswerCall( aReceiverNumber );
     var string url;
     var string result;
     var string senderID = Device::Device.MyDevice;
     url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
-    //url = "https://google.com";
+
     $if !$prototyper
     native ( url, result )
     {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open ( "GET", url, false );
-      mlHttp.send( null );
-      result = xmlHttp.responseURL;
+      var req = new XMLHttpRequest();
+      req.open("GET", url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+        
+      req.send();
     }
     $endif
-
+    trace result;
     if ( result == "" )
-      return false;
+      return true;
       
-    return true;
+    return false;
   }
+
+  $rect <440,120,640,160>
+  method bool CancelledCall( arg string aReceiverNumber )
+  {
+    var string url;
+    var string result;
+    var string senderID = Device::Device.MyDevice;
+
+    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    trace url;
+    $if !$prototyper
+    native ( url, result )
+    {
+      var req = new XMLHttpRequest();
+      req.open("GET", url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+        
+      req.send();
+    }
+    $endif
+    trace result;
+    if ( result == "" )
+      return true;
+      
+    return false;
+  }
+
+  $reorder askServerData 3
 }
 
 $rect <20,300,270,340>

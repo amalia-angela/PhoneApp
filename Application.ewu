@@ -304,7 +304,6 @@ class ContactsPage : Core::Group
   object Components::InputEtxt InputEtxt
   {
     preset Bounds = <65,125,165,157>;
-    preset OnChange = onSetMyNumber;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "";
     preset Color = Res::Grey;
@@ -315,6 +314,17 @@ class ContactsPage : Core::Group
   slot onSetMyNumber
   {
     Device::Device.MyDevice = InputEtxt.String;
+
+
+  }
+
+  $rect <20,20,160,60>
+  object Components::PushButtonNoBackground SaveBtn
+  {
+    preset Bounds = <227,112,252,137>;
+    preset Enabled = true;
+    preset OnActivate = onSetMyNumber;
+    preset Icon = Res::CkeckIconTxt;
   }
 }
 
@@ -817,7 +827,7 @@ class ContactDetailsPage : Core::Group
   $rect <310,280,490,320>
   slot onTapCall
   {
-    Device::Device.OutgoingCallContact( Contact );
+    Device::Device.SendCallContact( Contact );
   }
 
   $rect <460,90,620,130>
@@ -1487,6 +1497,12 @@ class CallPage : Application::CallPageBase
     super( sender );
   }
 
+  $rect <310,430,510,470>
+  inherited slot onDesclineCall
+  {
+    Device::Device.SendEndCall( Contact.PhoneNumber );
+  }
+
   $rect <20,20,160,60>
   inherited object DesclineButton
   {
@@ -1904,7 +1920,7 @@ class KeypadPage : Core::Group
   {
     if( InputEtxt.String != "")
     {
-      Device::Device.OutgoingCallNumber( InputEtxt.String );
+      Device::Device.SendCallNumber( InputEtxt.String );
 
     }
   }
@@ -2260,6 +2276,9 @@ class Application : Core::Root
     postsignal onCallState;
 
 
+
+
+
   }
 
   $rect <290,0,490,40>
@@ -2305,6 +2324,12 @@ class Application : Core::Root
 
     if ( historyContact != null )
     {
+      if ( historyContact.CallState == Device::CallState.Cancelled || historyContact.CallState == Device::CallState.EndCall ||
+      historyContact.CallState == Device::CallState.Rejected || historyContact.CallState == Device::CallState.Missed)
+      {
+        trace "close page";
+        DismissDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, false );
+      }
       if ( historyContact.CallDirection == Device::CallDirection.Incoming )
       {
         if ( historyContact.CallState == Device::CallState.Speaking )
@@ -2336,7 +2361,7 @@ class Application : Core::Root
 
   }
 
-  $rect <520,40,720,80>
+  $rect <500,0,700,40>
   var Device::DeviceClass deviceInstance = Device::Device;
 
   $rect <20,20,160,60>
@@ -2601,23 +2626,8 @@ $rect <1010,47,1210,87>
 $variant Simulation
 vclass ApplicationSimulation : Application::Application
 {
-  $rect <810,0,1010,40>
-  inherited property Bounds = <0,0,800,480>;
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton PushButton
-  {
-    preset Bounds = <421,155,571,205>;
-    preset OnActivate = onIncomingCall;
-    preset Label = "Incoming call";
-    preset Appearance = WidgetSet::PushButton_Medium;
-  }
-
-  $rect <844,104,1044,144>
-  slot onIncomingCall
-  {
-    Device::Device.UpdateIncomingCall( "+40723494923" );
-  }
+  $rect <290,0,490,40>
+  inherited property Bounds = <0,0,272,480>;
 }
 
 $rect <1010,90,1260,130>
@@ -2666,7 +2676,7 @@ class IncomingCall : Application::CallPageBase
   $rect <310,260,510,300>
   slot onAcceptCall
   {
-    Device::Device.UpdateIncomingCallAnswer( Contact );
+    Device::Device.SendCallAnswer( Contact );
   }
 
   $rect <20,20,160,60>
@@ -2780,7 +2790,7 @@ class FavoritesPage : Core::Group
   {
     Contact = (( Application::FavContactItem ) sender ).Contact;
 
-    Device::Device.OutgoingCallContact( Contact );
+    Device::Device.SendCallContact( Contact );
 
     Contact = null;
 
@@ -3223,7 +3233,7 @@ class RecentPage : Core::Group
     var Application::RecentItm itemView = (Application::RecentItm)sender;
     SelectedContact = itemView.ContactHistory;
 
-    Device::Device.OutgoingCallContact( SelectedContact );
+    Device::Device.SendCallContact( SelectedContact );
 
     SelectedContact = null;
 
@@ -4433,7 +4443,7 @@ class CallPageBase : Core::Group
   $rect <310,240,510,280>
   slot onDesclineCall
   {
-    Device::Device.UpdateIncomingEndCall( Contact.PhoneNumber );
+    Device::Device.ReceiveCallRejected( Contact.PhoneNumber );
   }
 
   // Touch screen events
