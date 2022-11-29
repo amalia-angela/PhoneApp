@@ -13,6 +13,12 @@ class ContactsPage : Core::Group
     attachobserver onContactsSortingChanged, ^Device::Device.Contacts.Sorting;
     postsignal onContactsSortingChanged;
 
+    attachobserver onMYCardUpdate, ^Device::Device.MyCard;
+    postsignal onMYCardUpdate;
+
+
+
+
 
 
 
@@ -277,54 +283,42 @@ class ContactsPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Text MyCardTxt
-  {
-    preset Bounds = <65,103,165,126>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "My Card";
-    preset Font = Res::ContactFont15;
-    preset Color = Res::Black;
-  }
-
-  $rect <20,20,160,60>
-  object Components::PushButtonSmall PushButtonSmall
-  {
-    preset Bounds = <29,112,54,137>;
-    preset Icon = Res::UserIconTxt;
-    preset IconColor = Res::White;
-  }
-
-  $rect <20,20,160,60>
   object Templates::TextEditor TextEditor1
   {
     preset Bounds = <186,130,186,130>;
   }
 
-  $rect <20,20,160,60>
-  object Components::InputEtxt InputEtxt
-  {
-    preset Bounds = <65,125,165,157>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "";
-    preset Color = Res::Grey;
-    preset Placeholder = "ex. 123";
-  }
-
   $rect <480,40,650,80>
-  slot onSetMyNumber
+  slot onMYCardUpdate
   {
-    Device::Device.MyDevice = InputEtxt.String;
-
+    VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
 
   }
 
   $rect <20,20,160,60>
-  object Components::PushButtonNoBackground SaveBtn
+  object Application::MyCardItem MyCardItem
   {
-    preset Bounds = <227,112,252,137>;
-    preset Enabled = true;
-    preset OnActivate = onSetMyNumber;
-    preset Icon = Res::CkeckIconTxt;
+    preset Bounds = <6,99,266,144>;
+    preset OnActivate = onMyCardPress;
+  }
+
+  $rect <690,340,890,380>
+  slot onMyCardPress
+  {
+    if ( Device::Device.MyCard != null )
+    {
+      var Device::Contact contact = Device::Device.Contacts.FindByID( Device::Device.MyCard );
+
+      if ( contact != null ){
+
+        detailsPage          = new Application::ContactDetailsPage;
+        detailsPage.OnBack   = onCloseContact;
+        detailsPage.Contact  = contact;
+      
+        SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null,
+                                   null, null, null, false );
+       }
+    }
   }
 }
 
@@ -345,10 +339,14 @@ class ContactItem : Core::Group
       FirstNameTxt.String = "Firstname";
       LastNameTxt.String = "Lastname";
     $endif
+
+    attachobserver onContactUpdated, ^Device::Device.MyCard;
+    postsignal onContactUpdated; 
+
   }
 
   $rect <10,500,210,540>
-  inherited property Bounds = <0,0,272,32>;
+  inherited property Bounds = <0,0,250,32>;
 
   $rect <10,100,210,140>
   inherited method UpdateViewState()
@@ -371,6 +369,9 @@ class ContactItem : Core::Group
     if ( !isEnabled )
     {
       Background.Color = ButtonColor;
+      LastNameTxt.Color = Res::Grey;
+      FirstNameTxt.Color = Res::Grey;
+      MeTxt.Color = Res::Transparent;
     }
 
     else if ( isPressed )
@@ -387,6 +388,9 @@ class ContactItem : Core::Group
     else
     {
       Background.Color = ButtonColor;
+      LastNameTxt.Color = TextColor;
+      FirstNameTxt.Color = TextColor;
+      MeTxt.Color = Res::Transparent;
     }
 
 
@@ -433,26 +437,26 @@ class ContactItem : Core::Group
   $rect <230,190,430,230>
   slot onContactUpdated
   {
-    if ( Contact == null )
-    {
+    if ( Contact == null ){
       FirstNameTxt.String = "";
       LastNameTxt.String = "";
       PrfofilButton.Text = "";
-    }
-    else
-    {
+    }else{
       if ( pure Contact.LastName == "")
         LastNameTxt.String = pure Contact.FirstName;
-      else
-      {
+      else{
         FirstNameTxt.String = pure Contact.FirstName;
         LastNameTxt.String  = pure Contact.LastName;
        }
       PrfofilButton.Text  = pure Contact.NameInitials;
-     
-    }
 
-      //FavoritTxt.Visible  =  pure Contact.Favorite ? true : false;
+    if (  Device::Device.MyCard != null )
+    {
+      if ( pure Contact.ID == Device::Device.MyCard.ID ){
+        MeTxt.Color = Res::Grey;
+        }
+      }
+    }
   }
 
   // Contact data
@@ -525,24 +529,6 @@ class ContactItem : Core::Group
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
-  }
-
-  $rect <1190,0,1390,40>
-  property color IconColor = Res::White;
-
-  $rect <1190,40,1390,80>
-  onset IconColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
   }
 
   // Feedback flash effect
@@ -703,7 +689,7 @@ class ContactItem : Core::Group
     }
   }
 
-  $rect <1390,0,1590,40>
+  $rect <1200,0,1400,40>
   property color TextColor = Res::Black;
 
   $rect <20,20,160,60>
@@ -711,8 +697,8 @@ class ContactItem : Core::Group
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Point4 = <0,32>;
-    preset Point3 = <268,32>;
-    preset Point2 = <268,0>;
+    preset Point3 = <250,32>;
+    preset Point2 = <250,0>;
     preset Point1 = <0,0>;
     preset OnLeave = onEnterLeaveTouch;
     preset OnEnter = onEnterLeaveTouch;
@@ -725,7 +711,7 @@ class ContactItem : Core::Group
   $rect <20,20,160,60>
   object Views::Rectangle Background
   {
-    preset Bounds = <0,0,272,32>;
+    preset Bounds = <0,0,250,32>;
     preset ColorBL = #FDFDFDC8;
     preset ColorBR = #FDFDFDC8;
     preset Color = #FFFFFFFF;
@@ -734,7 +720,7 @@ class ContactItem : Core::Group
   $rect <20,20,160,60>
   object Views::Text LastNameTxt
   {
-    preset Bounds = <55,2,146,32>;
+    preset Bounds = <39,3,130,33>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "";
     preset Font = Res::ContactFontBold15;
@@ -746,7 +732,7 @@ class ContactItem : Core::Group
   {
     preset StackingPriority = 0;
     preset Layout = Core::Layout[AlignToLeft, ResizeHorz];
-    preset Bounds = <146,2,268,32>;
+    preset Bounds = <129,3,244,33>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "";
     preset Font = Res::ContactFont15;
@@ -757,7 +743,7 @@ class ContactItem : Core::Group
   object Views::Line Line
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Point2 = <272,32>;
+    preset Point2 = <250,32>;
     preset Point1 = <0,32>;
     preset Width = 2;
     preset Color = Res::GreyLight;
@@ -773,10 +759,22 @@ class ContactItem : Core::Group
   object Views::Line Line1
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Point2 = <267,0>;
+    preset Point2 = <250,0>;
     preset Point1 = <0,0>;
     preset Width = 2;
     preset Color = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MeTxt
+  {
+    preset Bounds = <231,10,244,22>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "me";
+    preset Font = Resources::DefaultFont;
+    preset Color = Res::Transparent;
+    preset Visible = true;
   }
 }
 
@@ -824,7 +822,7 @@ class ContactDetailsPage : Core::Group
   $rect <300,50,450,90>
   var Application::ContactEditPage editContact;
 
-  $rect <310,280,490,320>
+  $rect <300,280,480,320>
   slot onTapCall
   {
     Device::Device.SendCallContact( Contact );
@@ -1045,6 +1043,9 @@ class ContactAddPage : Core::Group
   slot onSave
   {
     notifyobservers pure Contact;
+    if ( ToggleButton.Active == true ){
+      Device::Device.MyCard = pure Contact;
+      }
     signal OnSave;
   }
 
@@ -1083,6 +1084,11 @@ class ContactAddPage : Core::Group
     Contact.LastName     = LastNameTxt.String;
     Contact.PhoneNumber  = PhoneNumberTxt.String;
     Contact.NameInitials = Device::Device.Contacts.GetInitials( LastNameTxt.String, FirstNameTxt.String);
+
+
+    if ( ToggleButton.Active == true ){
+      Contact.MyCard       = ToggleButton.Active;
+      }
 
     if ( Contact.LastName == "" &&  Contact.FirstName == "")
       Contact.LastName =  Contact.PhoneNumber;
@@ -1231,6 +1237,22 @@ class ContactAddPage : Core::Group
   {
     attr Bounds = <750,0,970,140>;
   }
+
+  $rect <20,20,160,60>
+  object Components::ToggleButton ToggleButton
+  {
+    preset Bounds = <7,304,42,339>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <42,313,109,328>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::MyCardTxt;
+    preset Font = Resources::FontSmall;
+    preset Color = Res::Grey;
+  }
 }
 
 $rect <270,280,430,320>
@@ -1246,19 +1268,16 @@ class ContactEditPage : Core::Group
     // Always give the ancestor class a chance to process this event.
     super( aState );
 
-    if(Contact)
-    {
+    if(Contact){
 
-    if (Contact.FirstName != FirstNameTxt.String ||
-        Contact.LastName != LastNameTxt.String ||
-        Contact.PhoneNumber !=  NumberTxt.String)
-    {
-      SaveBtn.Enabled = true;
+      if (Contact.FirstName != FirstNameTxt.String ||
+          Contact.LastName != LastNameTxt.String ||
+          Contact.PhoneNumber !=  NumberTxt.String || 
+          ToggleButton.Active != Contact.MyCard ){
+        SaveBtn.Enabled = true;
+      }else
+        SaveBtn.Enabled = false;
     }
-
-    else
-     SaveBtn.Enabled = false;
-     }
      
   }
 
@@ -1270,6 +1289,10 @@ class ContactEditPage : Core::Group
     Contact.PhoneNumber  = NumberTxt.String;
     Contact.NameInitials = Device::Device.Contacts.GetInitials( Contact.LastName, Contact.FirstName );
 
+    if ( Contact.MyCard != ToggleButton.Active){
+     Contact.MyCard = ToggleButton.Active;
+     Device::Device.MyCard = Contact;
+    }
     signal OnSave;
   }
 
@@ -1330,6 +1353,7 @@ class ContactEditPage : Core::Group
       LastNameTxt.String  = Contact.LastName;
       NumberTxt.String    = Contact.PhoneNumber;  
       UserInitials.Initials  = Contact.NameInitials;
+      ToggleButton.Active = Contact.MyCard;
     }
 
   }
@@ -1476,31 +1500,49 @@ class ContactEditPage : Core::Group
   {
     attr Bounds = <750,0,970,140>;
   }
+
+  $rect <20,20,160,60>
+  object Components::ToggleButton ToggleButton
+  {
+    preset Bounds = <7,293,42,328>;
+    preset OnToggle = onFieldModified;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <42,303,109,318>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::MyCardTxt;
+    preset Font = Resources::FontSmall;
+    preset Color = Res::Grey;
+  }
 }
 
 $rect <30,190,210,230>
 $output false
 class CallPage : Application::CallPageBase
 {
+  $rect <300,110,500,150>
+  inherited method Init()
+  {
+    signal Stoper.StartTimer;
+  }
+
   $rect <0,490,200,530>
   inherited property Bounds = <0,0,272,480>;
 
-  $rect <300,150,500,190>
+  $rect <500,50,700,90>
   inherited slot onContactUpdated
   {
     if (  Contact.CallState == Device::CallState.Speaking )
     {
       AddCallBtn.Enabled = true;
       VideoCallBtn.Enabled = true;
+      
     } 
 
     super( sender );
-  }
-
-  $rect <310,430,510,470>
-  inherited slot onDesclineCall
-  {
-    Device::Device.SendEndCall( Contact.PhoneNumber );
   }
 
   $rect <20,20,160,60>
@@ -1685,6 +1727,20 @@ class CallPage : Application::CallPageBase
     DismissDialog( addCall, Res::SlideDownCentered, null, null, null, null, false);
 
     addCall = null;
+  }
+
+  $rect <300,50,500,90>
+  object Core::Timer Stoper
+  {
+    preset OnTrigger = upDateTalkDuration;
+  }
+
+  $rect <500,100,700,140>
+  slot upDateTalkDuration
+  {
+    if (  Contact.CallState == Device::CallState.Speaking ){
+      TimeTxt.String = Contact.GetDuration();
+    }
   }
 }
 
@@ -4443,7 +4499,13 @@ class CallPageBase : Core::Group
   $rect <310,240,510,280>
   slot onDesclineCall
   {
-    Device::Device.ReceiveCallRejected( Contact.PhoneNumber );
+    if ( Contact.CallDirection ==  Device::CallDirection.Outgoing){
+      Device::Device.SendEndCall( Contact.PhoneNumber );
+    }else if ( Contact.CallDirection ==  Device::CallDirection.Incoming){
+      //Device::Device.ReceiveEndCall( Contact.PhoneNumber );
+      Device::Device.SendEndCall( Contact.PhoneNumber );
+    }
+
   }
 
   // Touch screen events
@@ -4584,5 +4646,400 @@ class ContactsAppInsideCall : Application::ContactsApp
   slot onCancel
   {
     postsignal OnCancel;
+  }
+}
+
+$rect <251,70,410,110>
+$output false
+class MyCardItem : Core::Group
+{
+  $rect <230,100,430,140>
+  inherited method Init()
+  {
+    attachobserver onContactUpdated, ^Device::Device.MyCard;
+    postsignal onContactUpdated; 
+
+  }
+
+  $rect <10,500,210,540>
+  inherited property Bounds = <0,0,260,45>;
+
+  $rect <10,100,210,140>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the push button.
+    //
+    // isEnabled  --> the button can react to user inputs.
+    // isSelected --> the button can receive keyboard events.
+    // isPressed  --> the button should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+
+    if ( !isEnabled )
+    {
+      Background.Color = ButtonColor;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color = Res::PressColor;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color =  Res::GreyLight;
+      }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color = ButtonColor;
+    }
+
+
+
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.  
+
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+
+
+  }
+
+  // The property 'Label' specifies the text to display as label in this push button \
+  // widget. The desired font as well as the colors for all individual button states \
+  // have to be specified in the configuration object assigned to the property @Appearance. \
+  // If there is no configuration object associated to this push button widget (the \
+  // property @Appearance is 'null'), no label is displayed.
+  // Per default, the label is displayed centered within the push button area. You \
+  // can modify the alignment of the label as well as its margins by specifying them \
+  // in the configuration object.
+  $rect <580,0,780,40>
+  property string Icon;
+
+  $rect <790,0,990,40>
+  property string Text = "";
+
+  $rect <790,40,990,80>
+  onset Text
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Text == value )
+      return;
+
+    // Remember the property's new value.
+    pure Text = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <990,0,1190,40>
+  property color ButtonColor = Res::White;
+
+  $rect <990,40,1190,80>
+  onset ButtonColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ButtonColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure ButtonColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <1190,0,1390,40>
+  property color IconColor = Res::White;
+
+  $rect <1190,40,1390,80>
+  onset IconColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure IconColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure IconColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+
+  }
+
+  $rect <580,40,780,80>
+  onset Icon
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Icon == value )
+      return;
+
+    // Remember the property's new value.
+    pure Icon = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated the button. Thereupon the method's logic will \
+  // be executed.
+  $rect <370,0,570,40>
+  property slot OnActivate = null;
+
+  $rect <1390,0,1590,40>
+  property color TextColor = Res::Black;
+
+  // State management
+  note group Note5
+  {
+    attr Bounds = <0,60,220,310>;
+  }
+
+  $rect <10,260,210,300>
+  var Views::Text textView;
+
+  // This variable stores the current state of the button.
+  $rect <10,220,210,260>
+  var bool pressed;
+
+  // This variable stores the current state of the button.
+  $rect <10,180,210,220>
+  var bool selected;
+
+  // This variable stores the current state of the button.
+  $rect <10,140,210,180>
+  var bool enabled;
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <460,320,680,450>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <230,320,450,450>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <0,320,220,490>;
+  }
+
+  // This timer object is used to flash the button when the user has tapped it very \
+  // quickly or the button has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <470,360,670,400>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <240,360,440,400>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <470,400,670,440>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the button to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the button is activated.
+    postsignal OnActivate;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <240,400,440,440>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the button via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
+    if ( KeyHandler.Repetition )
+      return;
+
+    // Pressing the key flashes the button for a short period. This is a kind of 
+    // feedback effect. Request the button to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The button is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the button or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the button. This only updates the button to appear pressed or released.
+  $rect <10,440,210,480>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the button or drags the finger inside/outside
+    // the button's area request the button update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the button's area. This activates the button.
+  $rect <10,400,210,440>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the button's area? In such case
+    // the button is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The user interaction has been passed over to the another touch handler
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the button for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The button can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnActivate;
+
+    // The user has tapped the button very quickly. Defer the button activation
+    // to give the user first a short visual feedback that the button has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the button's area.
+  $rect <10,360,210,400>
+  slot onPressTouch
+  {
+    // The button is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the button in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new button interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <230,140,430,180>
+  slot onContactUpdated
+  {
+    if ( Device::Device.MyCard != null ){
+        NameTxt.String  = Device::Device.MyCard.LastName + " " +  Device::Device.MyCard.FirstName;
+        PushButtonSmall1.Text  =  Device::Device.MyCard.NameInitials;
+    }else{
+       NameTxt.String  = "";
+       PushButtonSmall1.Text  =  "";
+        }
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,41>;
+    preset Point3 = <260,41>;
+    preset Point2 = <260,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,260,45>;
+    preset ColorBL = #FDFDFDC8;
+    preset ColorBR = #FDFDFDC8;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text NameTxt
+  {
+    preset Bounds = <59,2,255,32>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::MyCardTxt;
+    preset Font = Res::ContactFontBold15;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line1
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <260,0>;
+    preset Point1 = <0,0>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MyCardTxt
+  {
+    preset Bounds = <59,24,156,44>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::MyCardTxt;
+    preset Font = Res::ContactFont12;
+    preset Color = Res::Grey;
+  }
+
+  $rect <20,20,160,60>
+  object Components::PushButtonSmall1 PushButtonSmall1
+  {
+    preset Bounds = <6,0,56,48>;
+  }
+
+  // Card data
+
+  note group Note4
+  {
+    attr Bounds = <220,60,440,270>;
   }
 }
