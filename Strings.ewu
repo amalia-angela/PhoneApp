@@ -143,3 +143,11 @@ const string videocallTxt = "VideoCall";
 $rect <260,250,460,290>
 $output false
 const string MyCardTxt = "My Card";
+
+$rect <840,150,1040,190>
+$output false
+const string MessagesTxt = "Messages";
+
+$rect <850,190,1050,230>
+$output false
+const string NewMessage = "New Message";

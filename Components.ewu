@@ -3,394 +3,19 @@
 // Components
 note group Note1
 {
-  attr Bounds = <10,0,430,370>;
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <20,90,220,130>
-$output false
-class PushButtonMediumBlue : Templates::PushButton
-{
-  $rect <480,310,680,350>
-  inherited property Bounds = <0,0,50,75>;
-
-  $rect <710,190,910,230>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-    /*
-
-      TO DO:
-
-      Depending on your button design, you have surely added some new views
-      to your button. In the below code you should update the properties of
-      these views. For example, when your button has two images to appear
-      exclusively for released and pressed button state, following can be
-      done:
-
-        imagePressed.Visible  =  isPressed;
-        imageReleased.Visible = !isPressed;
-
-      Depending on the state of the button, you can alternate any property 
-      of your views. You can change their visibility, colors, opacity,
-      bitmaps shown in image views, fonts used to render text, the position
-      and the size the view, ...
-       
-
-      HINT:
-
-      Instead of instantly alternate the views properties you can here also
-      start effects to do this with an animation. Important: To decide when
-      to start an effect you should compare the current state of the button
-      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
-
-      Assuming you have already added to your button component a new effect
-      member, named it 'pressedEffect' and configured it to animate e.g. the
-      opacity of an image within the button. Then following is sufficient to
-      trigger the animation:
-
-        if ( isPressed && !pressed )
-        {
-          pressedEffect.Reversed = false;
-          pressedEffect.Enabled  = true;
-        }
-        else if ( !isPressed && pressed )
-        {
-          pressedEffect.Reversed = true;
-          pressedEffect.Enabled  = true;
-        }
-
-    */
-
-
-    // Update the parameters of the text view (label)
-    if ( IconTxt != null )
-    {
-       var color clr = Res::White; 
-      IconTxt.Font   = Res::IconsFont20;
-      IconTxt.String = Icon;
-      IconTxt.Color  = clr;
-      }
-
-    if ( DescripTxt != null )
-    {
-       var color clr = Res::Blue; 
-      DescripTxt.Font      = Res::ContactFont12;
-      DescripTxt.String = Descrip;
-      DescripTxt.Color     = clr;
-      }
-
-    if ( !isEnabled )
-    {
-      Background.Color = Res::Grey;
-      DescripTxt.Color = Res::Grey;
-       IconTxt.Color   = Res::GreyLight;
-    }                  
-
-    else if ( isPressed )
-    {
-      Background.Color = Res::BlueLight;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = Res::Blue;
-      }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-      Background.Color = Res::Blue;
-    }
-
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <700,150,920,400>;
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <470,150,690,280>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <240,150,460,280>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <10,150,230,320>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <710,310,910,350>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <710,270,910,310>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <710,230,910,270>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <480,190,680,230>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <250,190,450,230>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <480,230,680,270>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,230,450,270>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <20,270,220,310>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <20,230,220,270>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <20,190,220,230>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,50,50>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,50>;
-    preset Point3 = <50,50>;
-    preset Point2 = <50,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <250,10,450,50>
-  property slot OnActivate = null;
-
-  $rect <20,20,160,60>
-  object Views::Text IconTxt
-  {
-    preset Bounds = <1,0,50,50>;
-    preset String = "";
-    preset Font = Res::IconsFont20;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <450,50,650,90>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the property's new value.
-    pure Icon = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <450,10,650,50>
-  property string Icon = "";
-
-  $rect <710,350,910,390>
-  var Views::Text textView;
-
-  $rect <20,20,160,60>
-  object Views::Text DescripTxt
-  {
-    preset Bounds = <0,50,50,75>;
-    preset Font = Res::ContactFont12;
-    preset Color = Res::Blue;
-  }
-
-  $rect <650,10,850,50>
-  property string Descrip = "";
-
-  $rect <650,50,850,90>
-  onset Descrip
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Descrip == value )
-      return;
-
-    // Remember the property's new value.
-    pure Descrip = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
+  attr Bounds = <10,0,450,370>;
 }
 
 // This class implements a 'push button' widget. When the user presses the button, \
 // a signal is sent to the slot method stored in its @OnActivate property.
 $rect <20,50,220,90>
 $output false
-class PushButtonBig : Templates::PushButton
+class ButtonBase70x90 : Templates::PushButton
 {
-  $rect <480,310,680,350>
-  inherited property Bounds = <0,0,70,91>;
+  $rect <0,110,200,150>
+  inherited property Bounds = <0,0,70,90>;
 
-  $rect <710,190,910,230>
+  $rect <20,370,220,410>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -408,43 +33,45 @@ class PushButtonBig : Templates::PushButton
                             FlashTimer.Enabled;
 
 
+    Background.Bitmap = Backgound;
     // Update the parameters of the text view (label)
-    if ( Text != null )
-    {
-       var color clr = InitialsColor; 
-      Text.Font      = Res::TitileFont25;
-      Text.String = Initials;
-      Text.Color     = clr;
+    if ( InitialsTxt != null )
+    { 
+      InitialsTxt.Font   = InitialsFont;
+      InitialsTxt.String = Initials;
+      InitialsTxt.Color  = InitialsColor; 
       }
 
       // Update the parameters of the text view (label)
     if ( DescripTxt != null )
     {
-       var color clr = DescriptColor; 
-      DescripTxt.Font      = Res::ContactFont12;
+      DescripTxt.Font   = DescriptFont;
       DescripTxt.String = Descript;
-      DescripTxt.Color     = clr;
+      DescripTxt.Color  = DescriptColor; 
       }
 
 
     if ( !isEnabled )
     {
-      Background.Color = Res::Grey;
-      DescripTxt.Visible = false;
+      Background.Color  = BackgroundUnabled;
+      DescripTxt.Color  = DescriptUnabled;
+      InitialsTxt.Color = InitialsUnabled;
       //Border.Color     = #CCCCCCFF;
       //Border.Width     = 1;
     }
 
     else if ( isPressed )
     {
-      Background.Color = Res::Grey;
+      Background.Color = BackgoundPressedColor;
+       DescripTxt.Color  = DescriptpPressColor;
+      InitialsTxt.Color = InitialsPressColor;
       //Border.Color     = #000000FF;
      // Border.Width     = 3;
     }
 
     else if ( isSelected )
     {
-      Background.Color =Res::Grey;
+      Background.Color =BackgoundColor;
      // Border.Color     = #444444FF;
      // Border.Width     = 3;
     }
@@ -452,7 +79,7 @@ class PushButtonBig : Templates::PushButton
     // Enabled but not pressed nor selected.
     else
     {
-      Background.Color = Res::Grey;
+      Background.Color = BackgoundColor;
      // Border.Color     = #444444FF;
      // Border.Width     = 1;
     }
@@ -473,19 +100,19 @@ class PushButtonBig : Templates::PushButton
   // State management
   note group Note4
   {
-    attr Bounds = <700,150,920,400>;
+    attr Bounds = <10,330,230,600>;
   }
 
   // Feedback flash effect
   note group Note3
   {
-    attr Bounds = <470,150,690,280>;
+    attr Bounds = <240,470,460,600>;
   }
 
   // Keyboard events
   note group Note2
   {
-    attr Bounds = <240,150,460,280>;
+    attr Bounds = <240,330,460,460>;
   }
 
   // Touch screen events
@@ -495,21 +122,21 @@ class PushButtonBig : Templates::PushButton
   }
 
   // This variable stores the current state of the button.
-  $rect <710,310,910,350>
+  $rect <20,490,220,530>
   var bool pressed;
 
   // This variable stores the current state of the button.
-  $rect <710,270,910,310>
+  $rect <20,450,220,490>
   var bool selected;
 
   // This variable stores the current state of the button.
-  $rect <710,230,910,270>
+  $rect <20,410,220,450>
   var bool enabled;
 
   // This timer object is used to flash the button when the user has tapped it very \
   // quickly or the button has been activated with the keyboard. This is just a visual \
   // feedback effect.
-  $rect <480,190,680,230>
+  $rect <250,510,450,550>
   object Core::Timer FlashTimer
   {
     preset OnTrigger = onFlashTimer;
@@ -520,7 +147,7 @@ class PushButtonBig : Templates::PushButton
   // This key handler reacts to key press events. When the user presses the key specified \
   // in the property 'Filter' of the key handler, the handler is activated and the \
   // method '@onPressKey' is called.
-  $rect <250,190,450,230>
+  $rect <250,370,450,410>
   object Core::KeyPressHandler KeyHandler
   {
     preset OnPress = onPressKey;
@@ -529,7 +156,7 @@ class PushButtonBig : Templates::PushButton
 
   // This internal slot method is called when the '@FlashTimer' is expired. It ends \
   // the short flash feedback effect.
-  $rect <480,230,680,270>
+  $rect <250,550,450,590>
   slot onFlashTimer
   {
     // The feedback flash timer is finished. Request the button to update its
@@ -542,7 +169,7 @@ class PushButtonBig : Templates::PushButton
 
   // This internal slot method is called when the '@KeyHandler' is activated (when \
   // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,230,450,270>
+  $rect <250,410,450,450>
   slot onPressKey
   {
     // Ignore keyboard events when the user is interacting with the button via the
@@ -657,8 +284,139 @@ class PushButtonBig : Templates::PushButton
   $rect <250,10,450,50>
   property slot OnActivate = null;
 
-  $rect <710,350,910,390>
+  $rect <20,530,220,570>
   var Views::Text textView;
+
+  $rect <660,10,860,50>
+  property string Descript = "";
+
+  $rect <660,50,860,90>
+  onset Descript
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Descript == value )
+      return;
+
+    // Remember the property's new value.
+    pure Descript = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <660,90,860,130>
+  property color DescriptColor = Res::Blue;
+
+  $rect <660,130,860,170>
+  onset DescriptColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure DescriptColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure DescriptColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <450,90,650,130>
+  property color InitialsColor = Res::White;
+
+  $rect <450,130,650,170>
+  onset InitialsColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure InitialsColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure InitialsColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
+  $rect <870,90,1070,130>
+  property color BackgoundColor = Res::Grey;
+
+  $rect <870,130,1070,170>
+  onset BackgoundColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure BackgoundColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure BackgoundColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <870,170,1070,210>
+  property color BackgoundPressedColor = Res::GreyLight;
+
+  $rect <870,210,1070,250>
+  onset BackgoundPressedColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure BackgoundPressedColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure BackgoundPressedColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <660,170,860,210>
+  property Resources::Font DescriptFont = Res::ContactFont12;
+
+  $rect <660,210,860,250>
+  onset DescriptFont
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure DescriptFont == value )
+      return;
+
+    // Remember the property's new value.
+    pure DescriptFont = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <450,170,650,210>
+  property Resources::Font InitialsFont = Res::TitileFont25;
+
+  $rect <450,210,650,250>
+  onset InitialsFont
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure InitialsFont == value )
+      return;
+
+    // Remember the property's new value.
+    pure InitialsFont = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <870,10,1070,50>
+  property Resources::Bitmap Backgound = Res::ButtonRoundBig;
+
+  $rect <870,50,1070,90>
+  onset Backgound
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Backgound == value )
+      return;
+
+    // Remember the property's new value.
+    pure Backgound = value;
+
+    InvalidateViewState();
+  }
 
   $rect <20,20,160,60>
   object Views::Image Background
@@ -666,7 +424,6 @@ class PushButtonBig : Templates::PushButton
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,0,70,70>;
     preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundBig;
   }
 
   $rect <20,20,160,60>
@@ -686,940 +443,102 @@ class PushButtonBig : Templates::PushButton
   }
 
   $rect <20,20,160,60>
-  object Views::Text Text
+  object Views::Text InitialsTxt
   {
     preset Bounds = <0,0,70,70>;
+    preset AutoSize = true;
     preset String = "";
     preset Font = Res::IconsFont30;
     preset Color = #FFFFFFFF;
   }
 
-  $rect <240,70,440,110>
-  property color Property;
-
   $rect <20,20,160,60>
   object Views::Text DescripTxt
   {
     preset Bounds = <0,70,70,91>;
+    preset AutoSize = true;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertBottom];
     preset String = "";
     preset Font = Res::ContactFontBold15;
   }
 
-  $rect <870,10,1070,50>
-  property string Descript = "";
+  $rect <870,250,1070,290>
+  property color BackgroundUnabled = Res::Grey;
 
-  $rect <870,50,1070,90>
-  onset Descript
+  $rect <870,290,1070,330>
+  onset BackgroundUnabled
   {
     // The value doesn't change - nothing to do.
-    if ( pure Descript == value )
+    if ( pure BackgroundUnabled == value )
       return;
 
     // Remember the property's new value.
-    pure Descript = value;
+    pure BackgroundUnabled = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <660,250,860,290>
+  property color DescriptUnabled = Res::Grey;
+
+  $rect <660,290,860,330>
+  onset DescriptUnabled
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure DescriptUnabled == value )
+      return;
+
+    // Remember the property's new value.
+    pure DescriptUnabled = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <450,250,650,290>
+  property color InitialsUnabled = Res::Grey;
+
+  $rect <450,290,650,330>
+  onset InitialsUnabled
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure InitialsUnabled == value )
+      return;
+
+    // Remember the property's new value.
+    pure InitialsUnabled = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <660,330,860,370>
+  property color DescriptpPressColor = Res::GreyLight;
+
+  $rect <660,370,860,410>
+  onset DescriptpPressColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure DescriptpPressColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure DescriptpPressColor = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
   }
 
-  $rect <1080,10,1280,50>
-  property color DescriptColor = Res::Blue;
+  $rect <450,330,650,370>
+  property color InitialsPressColor = Res::BlueLight;
 
-  $rect <1080,50,1280,90>
-  onset DescriptColor
+  $rect <450,370,650,410>
+  onset InitialsPressColor
   {
     // The value doesn't change - nothing to do.
-    if ( pure DescriptColor == value )
+    if ( pure InitialsPressColor == value )
       return;
 
     // Remember the property's new value.
-    pure DescriptColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <660,10,860,50>
-  property color InitialsColor = Res::White;
-
-  $rect <660,50,860,90>
-  onset InitialsColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure InitialsColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure InitialsColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <20,170,220,210>
-$output false
-class PushButtonSmall : Templates::PushButton
-{
-  $rect <20,400,220,440>
-  inherited property Bounds = <0,0,25,25>;
-
-  $rect <710,260,910,300>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-
-    // Update the parameters of the text view (label)
-    if ( TextText != null )
-    {
-      var color clr = TextColor; 
-      TextText.Font      = Res::ContactFont12;
-      TextText.String = Text;
-      TextText.Color     = clr;
-      }
-      // Update the parameters of the text view (label)
-    if ( IconTxt != null )
-    {
-      var color clr = IconColor; 
-      IconTxt.Font      = Res::IconsFont20;
-      IconTxt.String = Icon;
-      IconTxt.Color     = clr;
-    }
-
-    if ( !isEnabled )
-    {
-      Background.Color = Res::PressColor;
-      //Border.Color     = #CCCCCCFF;
-      //Border.Width     = 1;
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = ButtonColor;
-      //Border.Color     = #000000FF;
-     // Border.Width     = 3;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = ButtonColor;
-    }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-      Background.Color = ButtonColor;
-    }
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <700,220,920,470>;
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <470,220,690,350>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <240,220,460,350>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <10,220,230,390>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <710,380,910,420>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <710,340,910,380>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <710,300,910,340>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <480,260,680,300>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <250,260,450,300>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <480,300,680,340>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,300,450,340>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <20,340,220,380>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <20,300,220,340>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <20,260,220,300>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <250,40,450,80>
-  onset Text
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Text == value )
-      return;
-
-    // Remember the property's new value.
-    pure Text = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <250,0,450,40>
-  property string Text = "";
-
-  $rect <710,420,910,460>
-  var Views::Text textView;
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <50,0,250,40>
-  property slot OnActivate = null;
-
-  $rect <460,0,660,40>
-  property color ButtonColor = Res::Grey;
-
-  $rect <460,40,660,80>
-  onset ButtonColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <250,90,450,130>
-  property color TextColor = Res::White;
-
-  $rect <250,130,450,170>
-  onset TextColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure TextColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure TextColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <660,0,860,40>
-  property string Icon;
-
-  $rect <660,40,860,80>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the property's new value.
-    pure Icon = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <660,90,860,130>
-  property color IconColor = Res::Grey;
-
-  $rect <660,130,860,170>
-  onset IconColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,25,25>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundSmall;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,25>;
-    preset Point3 = <25,25>;
-    preset Point2 = <25,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text IconTxt
-  {
-    preset Bounds = <0,0,25,25>;
-    preset String = "";
-    preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text TextText
-  {
-    preset Bounds = <0,0,25,25>;
-    preset String = "";
-    preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
-  }
-
-  $reorder Bounds 1
-  $reorder first 1
-  $reorder last 1
-  $reorder keyHandlers 1
-  $reorder buffer 1
-  $reorder dialogStack 1
-  $reorder fadersQueue 1
-  $reorder pendingFader 1
-  $reorder processKeyHandlers 1
-  $reorder updateBufferSlot 1
-  $reorder drawContent 1
-  $reorder recalculateLayout 1
-  $reorder updateComponent 1
-  $reorder OnSetFocus 1
-  $reorder OnGetBuffered 1
-  $reorder OnSetBuffered 1
-  $reorder OnGetEnabled 1
-  $reorder OnSetEnabled 1
-  $reorder OnSetOpacity 1
-  $reorder OnGetEmbedded 1
-  $reorder OnSetEmbedded 1
-  $reorder OnGetAlphaBlended 1
-  $reorder OnSetAlphaBlended 1
-  $reorder OnGetVisible 1
-  $reorder OnSetVisible 1
-  $reorder DrawForeground 1
-  $reorder DrawBackground 1
-  $reorder GetMinimalSize 1
-  $reorder FindActiveDialogByClass 1
-  $reorder FindDialogByClass 1
-  $reorder FindCurrentDialog 1
-  $reorder IsCurrentDialog 1
-  $reorder IsActiveDialog 1
-  $reorder IsDialog 1
-  $reorder GetIndexOfDialog 1
-  $reorder GetDialogAtIndex 1
-  $reorder CountDialogs 1
-  $reorder SwitchToDialog 1
-  $reorder DismissDialog 1
-  $reorder PresentDialog 1
-  $reorder ObtainFocus 1
-  $reorder HasViewState 1
-  $reorder LocalPosition 1
-  $reorder GlobalPosition 1
-  $reorder DispatchEvent 1
-  $reorder BroadcastEventAtPosition 1
-  $reorder BroadcastEvent 1
-  $reorder UpdateLayout 1
-  $reorder UpdateViewState 1
-  $reorder InvalidateLayout 1
-  $reorder InvalidateViewState 1
-  $reorder InvalidateArea 1
-  $reorder GetIndexOfView 1
-  $reorder GetViewAtIndex 1
-  $reorder CountViews 1
-  $reorder FindViewInDirection 1
-  $reorder FindViewWithinArea 1
-  $reorder FindViewAtPosition 1
-  $reorder FindPrevView 1
-  $reorder FindNextView 1
-  $reorder FindSiblingView 1
-  $reorder GetContentArea 1
-  $reorder FadeGroup 1
-  $reorder RestackBehind 1
-  $reorder RestackBack 1
-  $reorder RestackTop 1
-  $reorder Restack 1
-  $reorder RemoveAll 1
-  $reorder Remove 1
-  $reorder AddBehind 1
-  $reorder Add 1
-  $reorder Focus 1
-  $reorder Buffered 1
-  $reorder Enabled 1
-  $reorder Opacity 1
-  $reorder Embedded 1
-  $reorder AlphaBlended 1
-  $reorder Visible 1
-  $reorder Note4 1
-  $reorder Note3 1
-  $reorder Note2 1
-  $reorder Note1 1
-  $reorder pressed 1
-  $reorder selected 1
-  $reorder enabled 1
-  $reorder FlashTimer 1
-  $reorder KeyHandler 1
-  $reorder onFlashTimer 1
-  $reorder onPressKey 1
-  $reorder onEnterLeaveTouch 1
-  $reorder onReleaseTouch 1
-  $reorder onPressTouch 1
-  $reorder OnSetText 1
-  $reorder Text 1
-  $reorder textView 1
-  $reorder OnActivate 1
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <20,220,220,260>
-$output false
-class PushButtonNoBackground : Templates::PushButton
-{
-  $rect <480,310,680,350>
-  inherited property Bounds = <0,0,25,25>;
-
-  $rect <710,190,910,230>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-    /*
-
-      TO DO:
-
-      Depending on your button design, you have surely added some new views
-      to your button. In the below code you should update the properties of
-      these views. For example, when your button has two images to appear
-      exclusively for released and pressed button state, following can be
-      done:
-
-        imagePressed.Visible  =  isPressed;
-        imageReleased.Visible = !isPressed;
-
-      Depending on the state of the button, you can alternate any property 
-      of your views. You can change their visibility, colors, opacity,
-      bitmaps shown in image views, fonts used to render text, the position
-      and the size the view, ...
-       
-
-      HINT:
-
-      Instead of instantly alternate the views properties you can here also
-      start effects to do this with an animation. Important: To decide when
-      to start an effect you should compare the current state of the button
-      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
-
-      Assuming you have already added to your button component a new effect
-      member, named it 'pressedEffect' and configured it to animate e.g. the
-      opacity of an image within the button. Then following is sufficient to
-      trigger the animation:
-
-        if ( isPressed && !pressed )
-        {
-          pressedEffect.Reversed = false;
-          pressedEffect.Enabled  = true;
-        }
-        else if ( !isPressed && pressed )
-        {
-          pressedEffect.Reversed = true;
-          pressedEffect.Enabled  = true;
-        }
-
-    */
-
-
-    // Update the parameters of the text view (label)
-    if ( Text != null )
-    {
-      Text.Font   = Res::IconsFont25;
-      Text.String = Icon;
-      Text.Color  = IconColor;
-      }
-
-
-    if ( !isEnabled )
-    {
-      Background.Color = BackgroundColor;
-      Text.Color       = Res::Grey;
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = BackgroundColor;
-      Text.Color       = IconColorPressed;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = BackgroundColor;
-      }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-     Background.Color = BackgroundColor;
-    }
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <700,150,920,400>;
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <470,150,690,280>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <240,150,460,280>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <10,150,230,320>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <710,310,910,350>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <710,270,910,310>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <710,230,910,270>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <480,190,680,230>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <250,190,450,230>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <480,230,680,270>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,230,450,270>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <20,270,220,310>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <20,230,220,270>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <20,190,220,230>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,25,25>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,25>;
-    preset Point3 = <25,25>;
-    preset Point2 = <25,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <50,0,250,40>
-  property slot OnActivate = null;
-
-  $rect <20,20,160,60>
-  object Views::Text Text
-  {
-    preset Bounds = <0,0,25,25>;
-    preset String = "";
-    preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <250,40,450,80>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the property's new value.
-    pure Icon = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <250,0,450,40>
-  property string Icon = "";
-
-  $rect <710,350,910,390>
-  var Views::Text textView;
-
-  $rect <450,0,650,40>
-  property color IconColor = Res::Blue;
-
-  $rect <450,40,650,80>
-  onset IconColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <650,0,850,40>
-  property color IconColorPressed = Res::BlueLight;
-
-  $rect <650,40,850,80>
-  onset IconColorPressed
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColorPressed == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColorPressed = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <850,0,1050,40>
-  property color BackgroundColor = Res::WhiteTransparent;
-
-  $rect <850,40,1050,80>
-  onset BackgroundColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure BackgroundColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure BackgroundColor = value;
+    pure InitialsPressColor = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
@@ -1627,7 +546,7 @@ class PushButtonNoBackground : Templates::PushButton
 }
 
 // This component implements an editor.
-$rect <229,50,420,90>
+$rect <250,190,441,230>
 $output false
 class SearchEtxt : Templates::TextEditor
 {
@@ -1650,6 +569,9 @@ class SearchEtxt : Templates::TextEditor
       blinkEffect.Enabled = false;
       Caret.Visible       = false;
     }
+
+    Search.Font = IconFont;
+    Search.String = Icon;
   }
 
   // To do:
@@ -2474,7 +1396,7 @@ class SearchEtxt : Templates::TextEditor
   object Core::SlideTouchHandler SlideTouchHandler
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,272,32>;
+    preset Bounds = <0,0,231,32>;
     preset SlideHorz = false;
     preset Friction = 0.05;
   }
@@ -2485,8 +1407,8 @@ class SearchEtxt : Templates::TextEditor
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Point4 = <0,32>;
-    preset Point3 = <272,32>;
-    preset Point2 = <272,0>;
+    preset Point3 = <231,32>;
+    preset Point2 = <231,0>;
     preset Point1 = <0,0>;
     preset OnDrag = onDragTouch;
     preset OnHold = onHoldTouch;
@@ -2499,13 +1421,13 @@ class SearchEtxt : Templates::TextEditor
   object Views::Text Text
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <48,2,272,32>;
+    preset Bounds = <7,3,231,33>;
     preset OnUpdate = updateCaret;
     preset SlideHandler = SlideTouchHandler;
     preset WrapText = true;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "Search\n";
-    preset Font = Resources::FontSmall;
+    preset String = "";
+    preset Font = Res::ContactFont15;
     preset Color = #B9B9B9FD;
   }
 
@@ -2524,16 +1446,74 @@ class SearchEtxt : Templates::TextEditor
   object Views::Text Search
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <11,2,41,27>;
+    preset Bounds = <231,3,261,31>;
     preset WrapText = true;
-    preset String = Res::SerachIconTxt;
-    preset Font = Res::IconsFont25;
     preset Color = #B9B9B9FD;
   }
+
+  $rect <890,40,1090,80>
+  onset Icon
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Icon == value )
+      return;
+
+    // Remember the new string ...
+    pure Icon = value;
+
+    InvalidateViewState();
+  }
+
+  // The property 'String' stores the text of the editor.
+  $rect <890,0,1090,40>
+  property string Icon = Res::SerachIconTxt;
+
+  $rect <890,120,1090,160>
+  onset IconFont
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure IconFont == value )
+      return;
+
+    // Store the new font...
+    pure IconFont = value;
+
+    InvalidateViewState();
+  }
+
+  // The property 'Font' refers to the font object used to display the text. The \
+  // text is determined by the property @String.
+  $rect <890,80,1090,120>
+  property Resources::Font IconFont = Res::IconsFont25;
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler SimpleTouchHandler1;
+
+  // This generic touch handler is used to move the caret.
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler SimpleTouchHandler2
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <231,33>;
+    preset Point3 = <268,33>;
+    preset Point2 = <268,1>;
+    preset Point1 = <231,1>;
+    preset OnPress = onIconPress;
+    preset MaxStrikeCount = 3;
+  }
+
+  $rect <680,360,880,400>
+  slot onIconPress
+  {
+    postsignal OnIconPress;
+  }
+
+  $rect <890,360,1090,400>
+  var slot OnIconPress;
 }
 
 // This component implements an editor.
-$rect <230,90,420,130>
+$rect <251,230,441,270>
 $output false
 class InputEtxt : Templates::TextEditor
 {
@@ -3473,12 +2453,12 @@ class InputEtxt : Templates::TextEditor
 
 // This class implements a 'push button' widget. When the user presses the button, \
 // a signal is sent to the slot method stored in its @OnActivate property.
-$rect <20,260,220,300>
+$rect <240,90,440,130>
 $output false
-class PushButtonDelete : Templates::PushButton
+class Button265x470 : Templates::PushButton
 {
   $rect <480,310,680,350>
-  inherited property Bounds = <6,436,264,469>;
+  inherited property Bounds = <6,436,265,470>;
 
   $rect <710,190,910,230>
   inherited method UpdateViewState()
@@ -3816,1186 +2796,7 @@ class PushButtonDelete : Templates::PushButton
 
 // This class implements a 'push button' widget. When the user presses the button, \
 // a signal is sent to the slot method stored in its @OnActivate property.
-$rect <20,130,220,170>
-$output false
-class PushButtonMediumTrans : Templates::PushButton
-{
-  $rect <490,380,690,420>
-  inherited property Bounds = <0,0,65,92>;
-
-  $rect <720,260,920,300>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-    // Update the parameters of the text view (label)
-    if ( IconTxt != null )
-    {
-       var color clr = IconColor; 
-      IconTxt.Font   = Res::IconsFont25;
-      IconTxt.String = Icon;
-      IconTxt.Color  = clr;
-      }
-
-    // Update the parameters of the text view (label)
-    if ( DescripTxt != null )
-    {
-       var color clr    = DescriptColor; 
-      DescripTxt.Font   = Res::ContactFont12;
-      DescripTxt.String = Descript;
-      DescripTxt.Color  = clr;
-      }
-
-    if ( !isEnabled )
-    {
-      Background.Color = Res::Transparent;
-      DescripTxt.Color = Res::WhiteTransparent;
-      IconTxt.Color    = Res::WhiteTransparent;
-     
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = ButtonColorPressed;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = ButtonColor;
-      }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-      Background.Color = ButtonColor;
-    }
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <710,220,930,470>;
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <480,220,700,350>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <250,220,470,350>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <20,220,240,390>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <720,380,920,420>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <720,340,920,380>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <720,300,920,340>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <490,260,690,300>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <260,260,460,300>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <490,300,690,340>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <260,300,460,340>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <30,340,230,380>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <30,300,230,340>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <30,260,230,300>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,65,65>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium1;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,65>;
-    preset Point3 = <65,65>;
-    preset Point2 = <65,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <90,0,290,40>
-  property slot OnActivate = null;
-
-  $rect <20,20,160,60>
-  object Views::Text IconTxt
-  {
-    preset Bounds = <0,0,65,65>;
-    preset String = "";
-    preset Font = Res::IconsFont20;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <290,40,490,80>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the property's new value.
-    pure Icon = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <290,0,490,40>
-  property string Icon = "";
-
-  $rect <720,420,920,460>
-  var Views::Text textView;
-
-  $rect <20,20,160,60>
-  object Views::Text DescripTxt
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <0,65,65,92>;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-    preset String = "";
-    preset Font = Res::ContactFont12;
-  }
-
-  $rect <710,0,910,40>
-  property string Descript = "";
-
-  $rect <710,40,910,80>
-  onset Descript
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Descript == value )
-      return;
-
-    // Remember the property's new value.
-    pure Descript = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <500,0,700,40>
-  property color ButtonColor = Res::WhiteTransparent;
-
-  $rect <500,40,700,80>
-  onset ButtonColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <280,90,480,130>
-  property color IconColor = Res::White;
-
-  $rect <280,130,480,170>
-  onset IconColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
-  }
-
-  $rect <490,90,700,130>
-  property color ButtonColorPressed = Res::WhiteSemiTransparent;
-
-  $rect <490,130,700,170>
-  onset ButtonColorPressed
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColorPressed == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColorPressed = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <710,90,910,130>
-  property color DescriptColor = Res::White;
-
-  $rect <710,130,910,170>
-  onset DescriptColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure DescriptColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure DescriptColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <230,130,430,170>
-$output false
-class PushButtonMediumRed : Templates::PushButton
-{
-  $rect <480,310,680,350>
-  inherited property Bounds = <0,0,65,65>;
-
-  $rect <710,190,910,230>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-    /*
-
-      TO DO:
-
-      Depending on your button design, you have surely added some new views
-      to your button. In the below code you should update the properties of
-      these views. For example, when your button has two images to appear
-      exclusively for released and pressed button state, following can be
-      done:
-
-        imagePressed.Visible  =  isPressed;
-        imageReleased.Visible = !isPressed;
-
-      Depending on the state of the button, you can alternate any property 
-      of your views. You can change their visibility, colors, opacity,
-      bitmaps shown in image views, fonts used to render text, the position
-      and the size the view, ...
-       
-
-      HINT:
-
-      Instead of instantly alternate the views properties you can here also
-      start effects to do this with an animation. Important: To decide when
-      to start an effect you should compare the current state of the button
-      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
-
-      Assuming you have already added to your button component a new effect
-      member, named it 'pressedEffect' and configured it to animate e.g. the
-      opacity of an image within the button. Then following is sufficient to
-      trigger the animation:
-
-        if ( isPressed && !pressed )
-        {
-          pressedEffect.Reversed = false;
-          pressedEffect.Enabled  = true;
-        }
-        else if ( !isPressed && pressed )
-        {
-          pressedEffect.Reversed = true;
-          pressedEffect.Enabled  = true;
-        }
-
-    */
-
-    if ( !isEnabled )
-    {
-      Background.Color = Res::Red;
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = Res::RedLight;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = Res::Red;
-      }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-       Background.Color = Res::Red;
-    }
-
-
-    // Update the parameters of the text view (label)
-    if ( Text != null )
-    {
-       var color clr = #FFFFFFFF; 
-      Text.Font      = Res::IconsFont25;
-      Text.String = Label;
-      Text.Color     = clr;
-      }
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <700,150,920,400>;
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <470,150,690,280>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <240,150,460,280>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <10,150,230,320>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <710,310,910,350>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <710,270,910,310>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <710,230,910,270>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <480,190,680,230>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <250,190,450,230>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <480,230,680,270>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,230,450,270>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <20,270,220,310>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <20,230,220,270>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <20,190,220,230>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,65,65>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium1;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,65>;
-    preset Point3 = <65,65>;
-    preset Point2 = <65,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <250,10,450,50>
-  property slot OnActivate = null;
-
-  $rect <20,20,160,60>
-  object Views::Text Text
-  {
-    preset Bounds = <0,0,65,65>;
-    preset String = "";
-    preset Font = Res::IconsFont20;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <450,50,650,90>
-  onset Label
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Label == value )
-      return;
-
-    // Remember the property's new value.
-    pure Label = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <450,10,650,50>
-  property string Label = "";
-
-  $rect <710,350,910,390>
-  var Views::Text textView;
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <230,170,430,210>
-$output false
-class KeyPadButtons : Templates::PushButton
-{
-  $rect <90,40,290,80>
-  inherited property Bounds = <0,0,65,65>;
-
-  $rect <690,310,890,350>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-    // Update the parameters of the text view (label)
-    if ( IconTxt != null )
-    {
-       var color clr = IconColor; 
-      IconTxt.Font      = Res::IconsFont25;
-      IconTxt.String = Icon;
-      IconTxt.Color     = clr;
-      }
-
-    // Update the parameters of the text view (label)
-    if ( DescripTxt != null )
-    {
-       var color clr = TextColor; 
-      DescripTxt.Font      = Res::TitileFont25;
-      DescripTxt.String = Text;
-      DescripTxt.Color     = clr;
-      }
-
-
-
-    if ( !isEnabled )
-    {
-      Background.Color = Res::PressColor;
-      IconTxt.Color    = Res::Grey;
-      DescripTxt.Color  = Res::Grey;
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = ButtonColorPressed;
-      IconTxt.Color    = IconColorPressed;
-      DescripTxt.Color  = TextColorPressed;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = ButtonColor;
-      }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-      Background.Color = ButtonColor;
-    }
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <680,270,900,520>;
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <300,0,500,40>
-  property string Icon;
-
-  $rect <690,470,890,510>
-  var Views::Text textView;
-
-  $rect <510,0,710,40>
-  property string Text = "";
-
-  $rect <510,40,710,80>
-  onset Text
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Text == value )
-      return;
-
-    // Remember the property's new value.
-    pure Text = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <720,0,920,40>
-  property color ButtonColor = Res::WhiteTransparent;
-
-  $rect <720,40,920,80>
-  onset ButtonColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <300,90,500,130>
-  property color IconColor = Res::White;
-
-  $rect <300,130,500,170>
-  onset IconColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <450,270,670,400>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <220,270,440,400>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <-10,270,210,440>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <690,430,890,470>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <690,390,890,430>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <690,350,890,390>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <460,310,660,350>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <230,310,430,350>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <460,350,660,390>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <230,350,430,390>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  $rect <300,40,500,80>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the property's new value.
-    pure Icon = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <0,390,200,430>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <0,350,200,390>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <90,0,290,40>
-  property slot OnActivate = null;
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <0,310,200,350>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,65,65>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium1;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,65>;
-    preset Point3 = <65,65>;
-    preset Point2 = <65,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text IconTxt
-  {
-    preset Bounds = <0,0,65,65>;
-    preset String = "";
-    preset Font = Res::IconsFont20;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text DescripTxt
-  {
-    preset Bounds = <0,0,65,65>;
-    preset String = "";
-    preset Font = Res::IconsFont20;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <510,90,710,130>
-  property color TextColor = Res::White;
-
-  $rect <510,130,710,170>
-  onset TextColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure TextColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure TextColor = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
-  }
-
-  $rect <720,90,920,130>
-  property color ButtonColorPressed = Res::WhiteSemiTransparent;
-
-  $rect <720,130,920,170>
-  onset ButtonColorPressed
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColorPressed == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColorPressed = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  $rect <300,180,500,220>
-  property color IconColorPressed = Res::WhiteSemiTransparent;
-
-  $rect <300,220,500,260>
-  onset IconColorPressed
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconColorPressed == value )
-      return;
-
-    // Remember the property's new value.
-    pure IconColorPressed = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
-  }
-
-  $rect <510,180,710,220>
-  property color TextColorPressed = Res::WhiteSemiTransparent;
-
-  $rect <510,220,710,260>
-  onset TextColorPressed
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure TextColorPressed == value )
-      return;
-
-    // Remember the property's new value.
-    pure TextColorPressed = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-
-  }
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <230,210,430,250>
+$rect <240,130,440,170>
 $output false
 class TextButton : Templates::PushButton
 {
@@ -5248,46 +3049,11 @@ class TextButton : Templates::PushButton
   $rect <710,350,910,390>
   var Views::Text textView;
 
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,25>;
-    preset Point3 = <66,25>;
-    preset Point2 = <66,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <0,-4,66,28>;
-    preset Color = #FFFFFF00;
-  }
-
   // The property 'OnActivate' can refer to a slot method, which will receive a signal \
   // as soon as the user has activated the button. Thereupon the method's logic will \
   // be executed.
   $rect <80,0,280,40>
   property slot OnActivate = null;
-
-  $rect <20,20,160,60>
-  object Views::Text TextTxt
-  {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,66,25>;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-    preset String = "";
-    preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
-  }
 
   $rect <480,40,680,80>
   onset TextColor
@@ -5363,6 +3129,41 @@ class TextButton : Templates::PushButton
   // in the configuration object.
   $rect <880,0,1080,40>
   property color BackgoundColor = Res::Transparent;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <0,-4,66,28>;
+    preset Color = #FFFFFF00;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,25>;
+    preset Point3 = <66,25>;
+    preset Point2 = <66,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text TextTxt
+  {
+    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,66,25>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "";
+    preset Font = Res::IconsFont25;
+    preset Color = #FFFFFFFF;
+  }
 
   $reorder Bounds 1
   $reorder first 1
@@ -5459,17 +3260,14 @@ class TextButton : Templates::PushButton
   $reorder OnSetText 1
   $reorder Text 1
   $reorder textView 1
-  $reorder TouchHandler 1
-  $reorder Background 1
   $reorder OnActivate 1
-  $reorder TextTxt 1
 }
 
 // This class implements a 'push button' widget. When the user presses the button, \
 // a signal is sent to the slot method stored in its @OnActivate property.
-$rect <230,250,430,290>
+$rect <240,50,440,90>
 $output false
-class NavBarButtons : Templates::PushButton
+class NavBarButton64x40 : Templates::PushButton
 {
   $rect <470,440,670,480>
   inherited property Bounds = <0,0,68,40>;
@@ -5976,14 +3774,14 @@ class NavBarButtons : Templates::PushButton
 // This approach follows the Model-View-Controller (MVC) programming paradigm. Here \
 // the toggle button represents the 'View' and 'Controller' and the property referred \
 // via 'Outlet' can be seen as a part of the 'Model'.
-$rect <20,310,220,350>
+$rect <250,290,440,330>
 $output false
 class ToggleButton : Templates::ToggleButton
 {
-  $rect <480,310,680,350>
+  $rect <470,340,670,380>
   inherited property Bounds = <0,0,35,35>;
 
-  $rect <710,190,910,230>
+  $rect <700,220,900,260>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -6003,8 +3801,15 @@ class ToggleButton : Templates::ToggleButton
     var bool isChecked  = Active;
 
     //knob depending on the button's state.
-    if      ( isChecked )  Knob.Color = Res::Blue;
-    else if ( !isChecked)  Knob.Color = Res::Transparent;
+    if      ( isChecked ){
+      Knob.Color = IconSelectedColor;
+      Background.Color = BackgroundSelectedColor;
+      }
+
+    else if ( !isChecked) {
+     Knob.Color = IconColor;
+     Background.Color = BackgroundColor;
+     }
 
     // Remember the current state. Next time when the UpdateViewState() is called
     // you can compare the 'old' state with the 'new' state and perform more
@@ -6019,53 +3824,53 @@ class ToggleButton : Templates::ToggleButton
   // Controller events
   note group Note5
   {
-    attr Bounds = <240,290,460,380>;
+    attr Bounds = <230,320,450,410>;
   }
 
   // State management
   note group Note4
   {
-    attr Bounds = <700,150,920,400>;
+    attr Bounds = <690,180,910,430>;
   }
 
   // Feedback flash effect
   note group Note3
   {
-    attr Bounds = <470,150,690,280>;
+    attr Bounds = <460,180,680,310>;
   }
 
   // Keyboard events
   note group Note2
   {
-    attr Bounds = <240,150,460,280>;
+    attr Bounds = <230,180,450,310>;
   }
 
   // Touch screen events
   note group Note1
   {
-    attr Bounds = <10,150,230,320>;
+    attr Bounds = <0,180,220,350>;
   }
 
   // This variable stores the current state of the button.
-  $rect <710,350,910,390>
+  $rect <700,380,900,420>
   var bool checked;
 
   // This variable stores the current state of the button.
-  $rect <710,310,910,350>
+  $rect <700,340,900,380>
   var bool pressed;
 
   // This variable stores the current state of the button.
-  $rect <710,270,910,310>
+  $rect <700,300,900,340>
   var bool selected;
 
   // This variable stores the current state of the button.
-  $rect <710,230,910,270>
+  $rect <700,260,900,300>
   var bool enabled;
 
   // This timer object is used to flash the button when the user has tapped it very \
   // quickly or the button has been activated with the keyboard. This is just a visual \
   // feedback effect.
-  $rect <480,190,680,230>
+  $rect <470,220,670,260>
   object Core::Timer FlashTimer
   {
     preset OnTrigger = onFlashTimer;
@@ -6076,7 +3881,7 @@ class ToggleButton : Templates::ToggleButton
   // This key handler reacts to key press events. When the user presses the key specified \
   // in the property 'Filter' of the key handler, the handler is activated and the \
   // method '@onPressKey' is called.
-  $rect <250,190,450,230>
+  $rect <240,220,440,260>
   object Core::KeyPressHandler KeyHandler
   {
     preset OnPress = onPressKey;
@@ -6086,7 +3891,7 @@ class ToggleButton : Templates::ToggleButton
   // This slot method will receive a signal, if the value of the property assigned \
   // to @Outlet has been changed by another widget or by the application logic. In \
   // response to this notification, the widget will update itself.
-  $rect <250,330,450,370>
+  $rect <240,360,440,400>
   slot onOutlet
   {
     // Read the current value of the associated property and update accordingly
@@ -6097,7 +3902,7 @@ class ToggleButton : Templates::ToggleButton
 
   // This internal slot method is called when the '@FlashTimer' is expired. It ends \
   // the short flash feedback effect.
-  $rect <480,230,680,270>
+  $rect <470,260,670,300>
   slot onFlashTimer
   {
     // The feedback flash timer is finished. Request the button to update its
@@ -6120,7 +3925,7 @@ class ToggleButton : Templates::ToggleButton
 
   // This internal slot method is called when the '@KeyHandler' is activated (when \
   // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,230,450,270>
+  $rect <240,260,440,300>
   slot onPressKey
   {
     // Ignore keyboard events when the user is interacting with the button via the
@@ -6164,7 +3969,7 @@ class ToggleButton : Templates::ToggleButton
 
   // This internal slot method is called when the user drags the finger while pressing \
   // the button. This only updates the button to appear pressed or released.
-  $rect <20,270,220,310>
+  $rect <10,300,210,340>
   slot onEnterLeaveTouch
   {
     // Every time the user touches the button or drags the finger inside/outside
@@ -6175,7 +3980,7 @@ class ToggleButton : Templates::ToggleButton
 
   // This internal slot method is called when the user releases the touch screen \
   // after touching the button's area. This activates the button.
-  $rect <20,230,220,270>
+  $rect <10,260,210,300>
   slot onReleaseTouch
   {
     // Did the user moved the finger outside the button's area? In such case
@@ -6213,7 +4018,7 @@ class ToggleButton : Templates::ToggleButton
   }
 
   // This internal slot method is called when the user touches the button's area.
-  $rect <20,190,220,230>
+  $rect <10,220,210,260>
   slot onPressTouch
   {
     // The button is still performing the feedback flash effect from the preceding
@@ -6238,7 +4043,7 @@ class ToggleButton : Templates::ToggleButton
     }
   }
 
-  $rect <450,50,650,90>
+  $rect <260,40,460,80>
   onset Outlet
   {
     // Check if the new outlet differs from the currently used outlet
@@ -6261,7 +4066,7 @@ class ToggleButton : Templates::ToggleButton
       postsignal onOutlet;
   }
 
-  $rect <250,50,450,90>
+  $rect <60,40,260,80>
   onset Active
   {
     // Check if the given value differs from the current value
@@ -6279,7 +4084,7 @@ class ToggleButton : Templates::ToggleButton
   // as soon as the user has toggled the button. Thereupon the method's logic will \
   // be executed. In the associated slot method you can evaluate the current value \
   // of the property @Active.
-  $rect <650,10,850,50>
+  $rect <460,0,660,40>
   property slot OnToggle = null;
 
   // The property 'Outlet' can refer to any other 'bool' property the widget should \
@@ -6290,13 +4095,13 @@ class ToggleButton : Templates::ToggleButton
   // This approach follows the Model-View-Controller (MVC) programming paradigm. \
   // Here the toggle button represents the 'View' and 'Controller' and the property \
   // referred via 'Outlet' can be seen as a part of the 'Model'.
-  $rect <450,10,650,50>
+  $rect <260,0,460,40>
   property ^bool Outlet = null;
 
   // The property 'Active' stores the current state of the toggle button. As long \
   // as the property is 'false', the widget should appear in switched-off state. \
   // As long as the property is 'true', the widget should appear in switched-on state.
-  $rect <250,10,450,50>
+  $rect <60,0,260,40>
   property bool Active = false;
 
   $rect <20,20,160,60>
@@ -6331,329 +4136,25 @@ class ToggleButton : Templates::ToggleButton
     preset String = Res::CheckIcon;
     preset Font = Res::IconsFont20;
   }
-}
-
-// This class implements a 'push button' widget. When the user presses the button, \
-// a signal is sent to the slot method stored in its @OnActivate property.
-$rect <230,290,430,330>
-$output false
-class PushButtonSmall1 : Templates::PushButton
-{
-  $rect <20,400,220,440>
-  inherited property Bounds = <0,0,50,50>;
-
-  $rect <710,260,910,300>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-
-
-    // Update the parameters of the text view (label)
-    if ( TextText != null )
-    {
-      var color clr = TextColor; 
-      TextText.Font      = Res::ContactFont12;
-      TextText.String = Text;
-      TextText.Color     = clr;
-      }
-      // Update the parameters of the text view (label)
-    if ( IconTxt != null )
-    {
-      var color clr = IconColor; 
-      IconTxt.Font      = Res::IconsFont20;
-      IconTxt.String = Icon;
-      IconTxt.Color     = clr;
-    }
-
-    if ( !isEnabled )
-    {
-      Background.Color = Res::PressColor;
-      //Border.Color     = #CCCCCCFF;
-      //Border.Width     = 1;
-    }
-
-    else if ( isPressed )
-    {
-      Background.Color = ButtonColor;
-      //Border.Color     = #000000FF;
-     // Border.Width     = 3;
-    }
-
-    else if ( isSelected )
-    {
-      Background.Color = ButtonColor;
-    }
-
-    // Enabled but not pressed nor selected.
-    else
-    {
-      Background.Color = ButtonColor;
-    }
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
-
-
-  }
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <700,220,920,470>;
-  }
-
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <470,220,690,350>;
-  }
-
-  // Keyboard events
-  note group Note2
-  {
-    attr Bounds = <240,220,460,350>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <10,220,230,390>;
-  }
-
-  // This variable stores the current state of the button.
-  $rect <710,380,910,420>
-  var bool pressed;
-
-  // This variable stores the current state of the button.
-  $rect <710,340,910,380>
-  var bool selected;
-
-  // This variable stores the current state of the button.
-  $rect <710,300,910,340>
-  var bool enabled;
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <480,260,680,300>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This key handler reacts to key press events. When the user presses the key specified \
-  // in the property 'Filter' of the key handler, the handler is activated and the \
-  // method '@onPressKey' is called.
-  $rect <250,260,450,300>
-  object Core::KeyPressHandler KeyHandler
-  {
-    preset OnPress = onPressKey;
-    preset Filter = Core::KeyCode.Enter;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <480,300,680,340>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // This internal slot method is called when the '@KeyHandler' is activated (when \
-  // the user has pressed the key specified in the property 'Filter' of the key handler).
-  $rect <250,300,450,340>
-  slot onPressKey
-  {
-    // Ignore keyboard events when the user is interacting with the button via the
-    // touch screen.
-    if ( TouchHandler.Down )
-      return;
-
-    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
-    if ( KeyHandler.Repetition )
-      return;
-
-    // Pressing the key flashes the button for a short period. This is a kind of 
-    // feedback effect. Request the button to update its appearance accordingly.
-    // The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // The button is still performing the feedback flash effect from the preceding
-    // tap/key event. This can occur when the user taps the button or presses the
-    // key in a very rapid succession. Thus complete this preceding tap (simulate
-    // the timer expiration) before starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-
-    // Start the feedback flash effect.
-    FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user drags the finger while pressing \
-  // the button. This only updates the button to appear pressed or released.
-  $rect <20,340,220,380>
-  slot onEnterLeaveTouch
-  {
-    // Every time the user touches the button or drags the finger inside/outside
-    // the button's area request the button update its appearance. The update will
-    // occur in the UpdateViewState() method.
-    InvalidateViewState();
-  }
-
-  // This internal slot method is called when the user releases the touch screen \
-  // after touching the button's area. This activates the button.
-  $rect <20,300,220,340>
-  slot onReleaseTouch
-  {
-    // Did the user moved the finger outside the button's area? In such case
-    // the button is not activated.
-    if ( !TouchHandler.Inside )
-      return;
-
-    // The user interaction has been passed over to the another touch handler
-    if ( TouchHandler.AutoDeflected )
-      return;
-
-    // The user has pressed and held the button for longer time. This was enough
-    // long to give a visual 'press' feedback to the user. The button can be
-    // activated immediately.
-    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
-      postsignal OnActivate;
-
-    // The user has tapped the button very quickly. Defer the button activation
-    // to give the user first a short visual feedback that the button has been
-    // pressed.
-    else
-      FlashTimer.Enabled = true;
-  }
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <20,260,220,300>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
-    {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
-    }
-  }
-
-  $rect <250,40,450,80>
-  onset Text
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Text == value )
-      return;
-
-    // Remember the property's new value.
-    pure Text = value;
-
-    // ... and trigger the component to update its actual state.
-    InvalidateViewState();
-  }
-
-  // The property 'Label' specifies the text to display as label in this push button \
-  // widget. The desired font as well as the colors for all individual button states \
-  // have to be specified in the configuration object assigned to the property @Appearance. \
-  // If there is no configuration object associated to this push button widget (the \
-  // property @Appearance is 'null'), no label is displayed.
-  // Per default, the label is displayed centered within the push button area. You \
-  // can modify the alignment of the label as well as its margins by specifying them \
-  // in the configuration object.
-  $rect <250,0,450,40>
-  property string Text = "";
-
-  $rect <710,420,910,460>
-  var Views::Text textView;
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <80,0,250,40>
-  property slot OnActivate = null;
-
-  $rect <460,0,660,40>
-  property color ButtonColor = Res::Grey;
-
-  $rect <460,40,660,80>
-  onset ButtonColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure ButtonColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure ButtonColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <250,90,450,130>
-  property color TextColor = Res::White;
-
-  $rect <250,130,450,170>
-  onset TextColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure TextColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure TextColor = value;
-
-    InvalidateViewState();
-  }
 
   $rect <660,0,860,40>
-  property string Icon;
+  property color BackgroundColor = Res::GreyLight;
 
   $rect <660,40,860,80>
-  onset Icon
+  onset BackgroundColor
   {
     // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
+    if ( pure BackgroundColor == value )
       return;
 
     // Remember the property's new value.
-    pure Icon = value;
+    pure BackgroundColor = value;
 
     InvalidateViewState();
   }
 
   $rect <660,90,860,130>
-  property color IconColor = Res::Grey;
+  property color IconColor = Res::Transparent;
 
   $rect <660,130,860,170>
   onset IconColor
@@ -6668,143 +4169,192 @@ class PushButtonSmall1 : Templates::PushButton
     InvalidateViewState();
   }
 
-  $rect <20,20,160,60>
-  object Views::Image Background
+  $rect <860,90,1060,130>
+  property color IconSelectedColor = Res::Blue;
+
+  $rect <860,130,1060,170>
+  onset IconSelectedColor
   {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    // The value doesn't change - nothing to do.
+    if ( pure IconSelectedColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure IconSelectedColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <860,0,1060,40>
+  property color BackgroundSelectedColor = Res::Blue;
+
+  $rect <860,40,1060,80>
+  onset BackgroundSelectedColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure BackgroundSelectedColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure BackgroundSelectedColor = value;
+
+    InvalidateViewState();
+  }
+}
+
+$rect <20,130,220,170>
+$output false
+class Button50x75 : Components::ButtonBase70x90
+{
+  $rect <20,120,220,160>
+  inherited property Bounds = <0,0,50,75>;
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
     preset Bounds = <0,0,50,50>;
-    preset Color = #FFFFFFFF;
-    preset Bitmap = Res::ButtonRoundMedium;
   }
 
   $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,50>;
-    preset Point3 = <50,50>;
-    preset Point2 = <50,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text IconTxt
+  inherited object InitialsTxt
   {
     preset Bounds = <0,0,50,50>;
-    preset String = "";
-    preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
   }
 
   $rect <20,20,160,60>
-  object Views::Text TextText
+  inherited object DescripTxt
   {
-    preset Bounds = <0,0,50,50>;
-    preset String = "";
-    preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
+    preset Bounds = <0,50,50,75>;
+  }
+}
+
+$rect <20,90,220,130>
+$output false
+class Button65x90 : Components::ButtonBase70x90
+{
+  $rect <30,150,230,190>
+  inherited property Bounds = <0,0,65,90>;
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Bounds = <0,0,65,65>;
   }
 
-  $reorder Bounds 1
-  $reorder first 1
-  $reorder last 1
-  $reorder keyHandlers 1
-  $reorder buffer 1
-  $reorder dialogStack 1
-  $reorder fadersQueue 1
-  $reorder pendingFader 1
-  $reorder processKeyHandlers 1
-  $reorder updateBufferSlot 1
-  $reorder drawContent 1
-  $reorder recalculateLayout 1
-  $reorder updateComponent 1
-  $reorder OnSetFocus 1
-  $reorder OnGetBuffered 1
-  $reorder OnSetBuffered 1
-  $reorder OnGetEnabled 1
-  $reorder OnSetEnabled 1
-  $reorder OnSetOpacity 1
-  $reorder OnGetEmbedded 1
-  $reorder OnSetEmbedded 1
-  $reorder OnGetAlphaBlended 1
-  $reorder OnSetAlphaBlended 1
-  $reorder OnGetVisible 1
-  $reorder OnSetVisible 1
-  $reorder DrawForeground 1
-  $reorder DrawBackground 1
-  $reorder GetMinimalSize 1
-  $reorder FindActiveDialogByClass 1
-  $reorder FindDialogByClass 1
-  $reorder FindCurrentDialog 1
-  $reorder IsCurrentDialog 1
-  $reorder IsActiveDialog 1
-  $reorder IsDialog 1
-  $reorder GetIndexOfDialog 1
-  $reorder GetDialogAtIndex 1
-  $reorder CountDialogs 1
-  $reorder SwitchToDialog 1
-  $reorder DismissDialog 1
-  $reorder PresentDialog 1
-  $reorder ObtainFocus 1
-  $reorder HasViewState 1
-  $reorder LocalPosition 1
-  $reorder GlobalPosition 1
-  $reorder DispatchEvent 1
-  $reorder BroadcastEventAtPosition 1
-  $reorder BroadcastEvent 1
-  $reorder UpdateLayout 1
-  $reorder UpdateViewState 1
-  $reorder InvalidateLayout 1
-  $reorder InvalidateViewState 1
-  $reorder InvalidateArea 1
-  $reorder GetIndexOfView 1
-  $reorder GetViewAtIndex 1
-  $reorder CountViews 1
-  $reorder FindViewInDirection 1
-  $reorder FindViewWithinArea 1
-  $reorder FindViewAtPosition 1
-  $reorder FindPrevView 1
-  $reorder FindNextView 1
-  $reorder FindSiblingView 1
-  $reorder GetContentArea 1
-  $reorder FadeGroup 1
-  $reorder RestackBehind 1
-  $reorder RestackBack 1
-  $reorder RestackTop 1
-  $reorder Restack 1
-  $reorder RemoveAll 1
-  $reorder Remove 1
-  $reorder AddBehind 1
-  $reorder Add 1
-  $reorder Focus 1
-  $reorder Buffered 1
-  $reorder Enabled 1
-  $reorder Opacity 1
-  $reorder Embedded 1
-  $reorder AlphaBlended 1
-  $reorder Visible 1
-  $reorder Note4 1
-  $reorder Note3 1
-  $reorder Note2 1
-  $reorder Note1 1
-  $reorder pressed 1
-  $reorder selected 1
-  $reorder enabled 1
-  $reorder FlashTimer 1
-  $reorder KeyHandler 1
-  $reorder onFlashTimer 1
-  $reorder onPressKey 1
-  $reorder onEnterLeaveTouch 1
-  $reorder onReleaseTouch 1
-  $reorder onPressTouch 1
-  $reorder OnSetText 1
-  $reorder Text 1
-  $reorder textView 1
-  $reorder OnActivate 1
+  $rect <20,20,160,60>
+  inherited object InitialsTxt
+  {
+    preset Bounds = <0,0,65,65>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object DescripTxt
+  {
+    preset Bounds = <0,65,65,90>;
+  }
+}
+
+$rect <20,210,220,250>
+$output false
+class SButton65x65 : Components::ButtonBase70x90
+{
+  $rect <20,160,220,200>
+  inherited property Bounds = <0,0,65,65>;
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Bounds = <0,0,65,65>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object InitialsTxt
+  {
+    preset Bounds = <0,0,65,65>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object DescripTxt
+  {
+    preset Visible = false;
+  }
+}
+
+$rect <20,250,220,290>
+$output false
+class SButton50x50 : Components::ButtonBase70x90
+{
+  $rect <10,130,210,170>
+  inherited property Bounds = <0,0,50,50>;
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Bounds = <0,0,50,50>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object InitialsTxt
+  {
+    preset Bounds = <0,0,50,50>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object DescripTxt
+  {
+    preset Visible = false;
+  }
+}
+
+$rect <20,290,220,330>
+$output false
+class SButton25x25 : Components::ButtonBase70x90
+{
+  $rect <10,110,210,150>
+  inherited property Bounds = <0,0,25,25>;
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Bounds = <0,0,25,25>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object InitialsTxt
+  {
+    preset Bounds = <0,0,25,25>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object DescripTxt
+  {
+    preset Visible = false;
+  }
+}
+
+$rect <20,170,220,210>
+$output false
+class Button40x55 : Components::ButtonBase70x90
+{
+  $rect <-10,130,190,170>
+  inherited property Bounds = <0,0,92,55>;
+
+  $rect <20,20,160,60>
+  inherited object Background
+  {
+    preset Bounds = <26,0,66,40>;
+    preset Bitmap = Res::ButtonRoundSmall;
+  }
+
+  $rect <20,20,160,60>
+  inherited object InitialsTxt
+  {
+    preset Bounds = <26,0,66,40>;
+  }
+
+  $rect <20,20,160,60>
+  inherited object DescripTxt
+  {
+    preset Bounds = <0,40,92,55>;
+  }
 }

@@ -58,7 +58,7 @@ note group Fonts
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <10,490,210,530>
+$rect <670,810,870,850>
 $output false
 autoobject Effects::SlideTransition SlideDownCentered
 {
@@ -83,7 +83,7 @@ autoobject Effects::SlideTransition SlideDownCentered
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <10,450,210,490>
+$rect <670,770,870,810>
 $output false
 autoobject Effects::SlideTransition SlideUpCentered
 {
@@ -109,7 +109,7 @@ autoobject Effects::SlideTransition SlideUpCentered
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <10,410,210,450>
+$rect <670,730,870,770>
 $output false
 autoobject Effects::SlideTransition SlideRightCentered
 {
@@ -174,7 +174,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a, 0xe649, 0xe61c, 0xe15b,0xe88e, 0xe5d2, 0xe5ca;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a, 0xe649, 0xe61c, 0xe15b,0xe88e, 0xe5d2, 0xe5ca, 0xe745, 0xe163, 0xe5e1, 0xe5e0;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -182,11 +182,11 @@ resource Resources::Font IconsFont25
   attr fontrowdistance RowDistance;
 }
 
-$rect <440,323,640,363>
+$rect <1100,643,1300,683>
 $output false
 const color BlueLight = #7C8FFFF4;
 
-$rect <241,360,441,400>
+$rect <901,680,1101,720>
 $output false
 const color Grey = #BCBCBCFD;
 
@@ -202,7 +202,7 @@ $rect <880,90,1050,130>
 $output false
 const string KeypadTxt = "\xe31a";
 
-$rect <441,360,641,400>
+$rect <1101,680,1301,720>
 $output false
 const color GreyLight = #F0F0F0FD;
 
@@ -210,7 +210,7 @@ $rect <880,130,1050,170>
 $output false
 const string SpeakerTxt = "\xe050";
 
-$rect <241,560,441,600>
+$rect <901,880,1101,920>
 $output false
 const color Black = #181818FF;
 
@@ -246,7 +246,7 @@ resource Resources::Font IconsFont30
   attr fontheight Height = 40;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe5ca;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe5ca, 0xe0ca, 0xe745, 0xe163, 0xe5e1;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -263,7 +263,7 @@ note group Note6
 // Effects
 note group Note7
 {
-  attr Bounds = <0,280,220,630>;
+  attr Bounds = <660,600,880,950>;
 }
 
 $rect <1070,40,1270,80>
@@ -274,7 +274,7 @@ resource Resources::Font IconsFont20
   attr fontheight Height = 20;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca, 0xe745, 0xe836, 0xe163, 0xe5e1;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -298,15 +298,15 @@ resource Resources::Font TitileFont25
   attr fontrowdistance RowDistance;
 }
 
-$rect <441,520,641,560>
+$rect <1101,840,1301,880>
 $output false
 const color WhiteTransparent = #FFFFFF26;
 
-$rect <241,400,441,440>
+$rect <901,720,1101,760>
 $output false
 const color Red = #B5280FFF;
 
-$rect <240,320,440,360>
+$rect <900,640,1100,680>
 $output false
 const color Blue = #1B0BFFFF;
 
@@ -325,10 +325,10 @@ const string SpeakeroffTxt = "\xe04e";
 // Colors
 note group Note8
 {
-  attr Bounds = <230,280,650,630>;
+  attr Bounds = <890,600,1310,950>;
 }
 
-$rect <441,400,641,440>
+$rect <1101,720,1301,760>
 $output false
 const color RedLight = #E83C32EE;
 
@@ -348,30 +348,30 @@ resource Resources::Font ContactFont12
   attr fontrowdistance RowDistance;
 }
 
-$rect <441,480,641,520>
+$rect <1101,800,1301,840>
 $output false
 const color WhiteSemiTransparent = #FFFFFF73;
 
-$rect <241,480,441,520>
+$rect <901,800,1101,840>
 $output false
 const color White = #FFFFFFF9;
 
-$rect <241,440,441,480>
+$rect <901,760,1101,800>
 $output false
 const color Green = #129915FF;
 
-$rect <441,440,641,480>
+$rect <1101,760,1301,800>
 $output false
 const color GreenDark = #0C6B0EFF;
 
-$rect <241,520,441,560>
+$rect <901,840,1101,880>
 $output false
 const color Transparent = #FFFFFF00;
 
 // Bitmaps
 note group Note5
 {
-  attr Bounds = <0,0,220,269>;
+  attr Bounds = <0,0,220,400>;
 }
 
 $rect <10,90,210,130>
@@ -433,7 +433,7 @@ resource Resources::Bitmap ButtonRoundMedium1
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <10,330,210,370>
+$rect <670,650,870,690>
 $output false
 autoobject Effects::FadeInOutTransition FadeInOutCentered
 {
@@ -458,7 +458,7 @@ autoobject Effects::FadeInOutTransition FadeInOutCentered
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <10,370,210,410>
+$rect <670,690,870,730>
 $output false
 autoobject Effects::SlideTransition SlideLeftCentered
 {
@@ -475,7 +475,7 @@ $rect <700,492,870,532>
 $output false
 const string BackspaceTxt = "\xe14a";
 
-$rect <441,560,641,600>
+$rect <1101,880,1301,920>
 $output false
 const color PressColor = #F8F8F8D5;
 
@@ -527,7 +527,7 @@ resource Resources::Bitmap SearchButton
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <10,530,210,570>
+$rect <670,850,870,890>
 $output false
 autoobject Effects::SlideTransition SlideUpCenteredLimit
 {
@@ -537,7 +537,7 @@ autoobject Effects::SlideTransition SlideUpCenteredLimit
   preset Direction = Core::Direction.Top;
 }
 
-$rect <1060,140,1240,180>
+$rect <1060,140,1260,180>
 $output false
 const string MissedCallTxt = "\xe0e4";
 
@@ -545,6 +545,66 @@ $rect <1060,180,1260,220>
 $output false
 const string IncomingCallTxt = "\xe0b5";
 
-$rect <1070,220,1270,260>
+$rect <1060,220,1260,260>
 $output false
 const string CheckIcon = "\xe5ca";
+
+$rect <1070,300,1270,340>
+$output false
+const string ChatIcon = "\xe0ca";
+
+$rect <10,270,210,310>
+$output false
+resource Resources::Bitmap ChatRight
+{
+  attr bitmapfile FileName = .\Res\chatright.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <11,317,211,357>
+$output false
+resource Resources::Bitmap ChatLeft
+{
+  attr bitmapfile FileName = .\Res\chatleft.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1070,340,1270,380>
+$output false
+const string WriteIcon = "\xe745";
+
+$rect <1070,380,1270,420>
+$output false
+const string PointIcon = "\xe836";
+
+$rect <1070,420,1270,460>
+$output false
+const string SendIcon = "\xe163";
+
+$rect <1070,460,1270,500>
+$output false
+const string ForwardIcon = "\xe5e1";
+
+$rect <1280,40,1480,80>
+$output false
+resource Resources::Font IconsFont12
+{
+  attr fontname FontName = Material Icons;
+  attr fontheight Height = 12;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca, 0xe745, 0xe836, 0xe163, 0xe5e1;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
