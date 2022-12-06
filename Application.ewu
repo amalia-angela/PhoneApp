@@ -2571,17 +2571,79 @@ class Application : Core::Root
   $rect <500,0,700,40>
   var Device::DeviceClass deviceInstance = Device::Device;
 
-  $rect <20,20,160,60>
-  object Application::ContactsApp ContactsApp
-  {
-    preset Bounds = <0,0,272,480>;
-  }
-
   $rect <320,120,490,160>
   var Application::CallPageBase ongoingPage = null;
 
   $rect <490,120,690,160>
   var Device::HistoryContact historyContact = null;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,272,486>;
+    preset ColorBL = #F5F5F5FF;
+    preset ColorTR = #FFFFFFFF;
+    preset ColorTL = #E7E7E7FF;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Footer
+  {
+    preset Bounds = <0,420,272,480>;
+    preset ColorBL = #94949496;
+    preset ColorBR = #B9B9B9AD;
+    preset ColorTR = #C3C3C3B0;
+    preset ColorTL = #CDCDCDDA;
+    preset Color = #C3C3C386;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton50x50 Contacts
+  {
+    preset Bounds = <53,425,103,475>;
+    preset Initials = Res::CallTxt;
+    preset OnActivate = onContact;
+    preset BackgoundColor = Res::GreenDark;
+    preset BackgoundPressedColor = Res::Green;
+    preset InitialsFont = Res::IconsFont25;
+    preset Backgound = Res::SuqareButton;
+    preset InitialsPressColor = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton50x50 Messeges
+  {
+    preset Bounds = <170,425,220,475>;
+    preset Initials = Res::MessageIconTxt;
+    preset OnActivate = onMessages;
+    preset BackgoundColor = Res::GreenDark;
+    preset InitialsFont = Res::IconsFont25;
+    preset Backgound = Res::SuqareButton;
+    preset InitialsPressColor = Res::GreyLight;
+  }
+
+  $rect <290,240,490,280>
+  slot onContact
+  {
+    contactApp = new Application::ContactsApp;
+    //onback
+    PresentDialog( contactApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <290,200,490,240>
+  slot onMessages
+  {
+    messageApp = new Application::MessagesPage;
+    //onback dismiss dialog
+    PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <490,200,690,240>
+  var Application::ContactsApp contactApp;
+
+  $rect <490,240,690,280>
+  var Application::MessagesPage messageApp;
 }
 
 $rect <250,500,390,540>
@@ -3645,6 +3707,7 @@ class FavContactItem : Application::ContactItem
   object Components::SButton25x25 RemoveButton
   {
     preset Bounds = <-25,5,0,30>;
+    preset Initials = Res::RemoveTxt;
     preset OnActivate = onShowDelete;
     preset BackgoundColor = Res::Red;
     preset BackgoundPressedColor = Res::RedLight;
@@ -5763,17 +5826,20 @@ class MessegeItem : Core::Group
   $rect <230,190,430,230>
   slot onContactUpdated
   {
-    if ( Contact != null ){
-        NameTxt.String  = pure Contact.LastName + " "  + pure Contact.FirstName;
-        MessageTxt.String = "last message";
-        UserIcon.Text  = pure Contact.NameInitials;
-        TimeTxt.String = "l.m. time";
-    }else{
-       NameTxt.String  = "";
-       UserIcon.Text  =  "";
-       MessageTxt.String = "";
-       TimeTxt.String = "";
-        }
+    if ( Contact != null )
+    {
+      NameTxt.String    = pure Contact.LastName + " "  + pure Contact.FirstName;
+      MessageTxt.String = "last message";
+      UserIcon.Initials = pure Contact.NameInitials;
+      TimeTxt.String    = "l.m. time";
+    }
+    else
+    {
+      NameTxt.String     = "";
+      UserIcon.Initials  = "";
+      MessageTxt.String  = "";
+      TimeTxt.String     = "";
+    }
   }
 
   $rect <20,20,160,60>
@@ -5900,12 +5966,14 @@ class MessegeItem : Core::Group
   $rect <180,690,320,730>
   slot onAnimate
   {
+    /*
     CheckButton.Bounds.x    = EditEffect.Value - 25;
     UserIcon.Bounds.x = EditEffect.Value + 6;
     NameTxt.Bounds.x     = EditEffect.Value + 55;
     MessageTxt.Bounds.x    = EditEffect.Value + 146;
     TimeTxt.Bounds.x        = EditEffect.Value + 55;
     ForwardButton.Bounds.x      = EditEffect.Value + 55;
+    */
   }
 
   $rect <10,540,210,580>
@@ -6360,6 +6428,8 @@ class ChatBubble : Core::Group
   {
     super( aState );
 
+    return;
+
     var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
     var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
     var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
@@ -6565,7 +6635,8 @@ class ChatBubble : Core::Group
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <10,0,232,50>;
-    preset Bitmap = Res::ChatLeft;
+    preset Color = #FF3AECFF;
+    preset Bitmap = Res::ChatRight;
     preset Embedded = true;
     preset NoEdgesLimit = <222,0>;
   }
@@ -6596,7 +6667,7 @@ class ChatBubble : Core::Group
 
 $rect <450,490,650,530>
 $output false
-class Component : Core::Group
+class MainPage : Core::Group
 {
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
@@ -6732,6 +6803,10 @@ class Component : Core::Group
   object Views::Rectangle Background
   {
     preset Bounds = <0,0,272,486>;
+    preset ColorBL = #F5F5F5FF;
+    preset ColorTR = #FFFFFFFF;
+    preset ColorTL = #E7E7E7FF;
+    preset Color = #FFFFFFFF;
   }
 
   $rect <20,20,160,60>
@@ -6750,6 +6825,7 @@ class Component : Core::Group
   {
     preset Bounds = <53,425,103,475>;
     preset Initials = Res::CallTxt;
+    preset OnActivate = onContact;
     preset BackgoundColor = Res::GreenDark;
     preset BackgoundPressedColor = Res::Green;
     preset InitialsFont = Res::IconsFont25;
@@ -6762,11 +6838,34 @@ class Component : Core::Group
   {
     preset Bounds = <170,425,220,475>;
     preset Initials = Res::MessageIconTxt;
+    preset OnActivate = onMessages;
     preset BackgoundColor = Res::GreenDark;
     preset InitialsFont = Res::IconsFont25;
     preset Backgound = Res::SuqareButton;
     preset InitialsPressColor = Res::GreyLight;
   }
+
+  $rect <290,0,490,40>
+  slot onContact
+  {
+    contactApp = new Application::ContactsApp;
+    //onback
+    PresentDialog( contactApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <290,40,490,80>
+  slot onMessages
+  {
+    messageApp = new Application::MessagesPage;
+    //onback dismiss dialog
+    PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <490,0,690,40>
+  var Application::ContactsApp contactApp;
+
+  $rect <490,40,690,80>
+  var Application::MessagesPage messageApp;
 }
 
 // Application

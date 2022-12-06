@@ -371,7 +371,7 @@ const color Transparent = #FFFFFF00;
 // Bitmaps
 note group Note5
 {
-  attr Bounds = <0,0,220,400>;
+  attr Bounds = <0,0,220,420>;
 }
 
 $rect <10,90,210,130>
@@ -559,7 +559,7 @@ resource Resources::Bitmap ChatRight
 {
   attr bitmapfile FileName = .\Res\chatright.png;
   attr bitmapformat Format = Alpha8;
-  attr framesize FrameSize;
+  attr framesize FrameSize = <48,48>;
   attr framedelay FrameDelay;
   attr bitmapdithering Dithering = Auto;
   attr bitmapmode Mode = Default;
