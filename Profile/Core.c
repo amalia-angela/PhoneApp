@@ -9494,6 +9494,21 @@ __declspec( naked ) void CoreTimer__Trigger( void* _this )
   }
 }
 
+/* The slot method 'StartTimer' will re-start the timer if a signal is sent to this 
+   slot method. The timer will start with the interval specified in @Begin. After 
+   the interval is elapsed, the timer continue running with the interval defined 
+   in @Period. */
+void CoreTimer_StartTimer( CoreTimer _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Enabled )
+    CoreTimer_OnSetEnabled( _this, 0 );
+
+  CoreTimer_OnSetEnabled( _this, 1 );
+}
+
 /* Variants derived from the class : 'Core::Timer' */
 EW_DEFINE_CLASS_VARIANTS( CoreTimer )
 EW_END_OF_CLASS_VARIANTS( CoreTimer )

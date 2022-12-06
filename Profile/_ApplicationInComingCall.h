@@ -43,8 +43,8 @@
 #endif
 
 #include "_ApplicationCallPageBase.h"
-#include "_ComponentsPushButtonBig.h"
-#include "_ComponentsPushButtonMediumTrans.h"
+#include "_ComponentsButton65x90.h"
+#include "_ComponentsButtonBase70x90.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -111,7 +111,7 @@
 
 /* Deklaration of class : 'Application::IncomingCall' */
 EW_DEFINE_FIELDS( ApplicationIncomingCall, ApplicationCallPageBase )
-  EW_OBJECT  ( AcceptButton,    ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( AcceptButton,    ComponentsButton65x90 )
 EW_END_OF_FIELDS( ApplicationIncomingCall )
 
 /* Virtual Method Table (VMT) for the class : 'Application::IncomingCall' */

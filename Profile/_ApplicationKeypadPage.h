@@ -43,7 +43,7 @@
 #endif
 
 #include "_ComponentsInputEtxt.h"
-#include "_ComponentsKeyPadButtons.h"
+#include "_ComponentsSButton65x65.h"
 #include "_ComponentsTextButton.h"
 #include "_CoreGroup.h"
 #include "_ViewsRectangle.h"
@@ -102,22 +102,22 @@ EW_DEFINE_FIELDS( ApplicationKeypadPage, CoreGroup )
   EW_PROPERTY( OnHide,          XSlot )
   EW_PROPERTY( OnEditTextChanged, XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( callbtn,         ComponentsKeyPadButtons )
-  EW_OBJECT  ( BtnErase,        ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn1,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn3,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn2,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn4,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn6,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn5,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn7,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn9,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn8,            ComponentsKeyPadButtons )
-  EW_OBJECT  ( btnstar,         ComponentsKeyPadButtons )
-  EW_OBJECT  ( btnDiez,         ComponentsKeyPadButtons )
-  EW_OBJECT  ( btn0,            ComponentsKeyPadButtons )
+  EW_OBJECT  ( callbtn,         ComponentsSButton65x65 )
+  EW_OBJECT  ( btn1,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn3,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn2,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn4,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn6,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn5,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn7,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn9,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btn8,            ComponentsSButton65x65 )
+  EW_OBJECT  ( btnstar,         ComponentsSButton65x65 )
+  EW_OBJECT  ( btnDiez,         ComponentsSButton65x65 )
+  EW_OBJECT  ( btn0,            ComponentsSButton65x65 )
   EW_OBJECT  ( InputEtxt,       ComponentsInputEtxt )
   EW_OBJECT  ( HideBtn,         ComponentsTextButton )
+  EW_OBJECT  ( BtnErase,        ComponentsSButton65x65 )
   EW_PROPERTY( BackgoundColor,  XColor )
   EW_PROPERTY( HideCall,        XBool )
   EW_PROPERTY( HideFunction,    XBool )

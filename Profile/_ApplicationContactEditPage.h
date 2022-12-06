@@ -42,10 +42,11 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ComponentsButton265x470.h"
+#include "_ComponentsButtonBase70x90.h"
 #include "_ComponentsInputEtxt.h"
-#include "_ComponentsPushButtonBig.h"
-#include "_ComponentsPushButtonDelete.h"
-#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsSButton25x25.h"
+#include "_ComponentsToggleButton.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
@@ -113,7 +114,7 @@ EW_DEFINE_FIELDS( ApplicationContactEditPage, CoreGroup )
   EW_PROPERTY( OnClose,         XSlot )
   EW_PROPERTY( OnDelete,        XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( DeleteBtn,       ComponentsPushButtonDelete )
+  EW_OBJECT  ( DeleteBtn,       ComponentsButton265x470 )
   EW_OBJECT  ( NumberTxt,       ComponentsInputEtxt )
   EW_OBJECT  ( Line4,           ViewsLine )
   EW_OBJECT  ( MobileTxt,       ViewsText )
@@ -122,9 +123,11 @@ EW_DEFINE_FIELDS( ApplicationContactEditPage, CoreGroup )
   EW_OBJECT  ( Line2,           ViewsLine )
   EW_OBJECT  ( LastNameTxt,     ComponentsInputEtxt )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( UserInitials,    ComponentsPushButtonBig )
-  EW_OBJECT  ( CloseBtn,        ComponentsPushButtonNoBackground )
-  EW_OBJECT  ( SaveBtn,         ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( UserInitials,    ComponentsButtonBase70x90 )
+  EW_OBJECT  ( CloseBtn,        ComponentsSButton25x25 )
+  EW_OBJECT  ( SaveBtn,         ComponentsSButton25x25 )
+  EW_OBJECT  ( ToggleButton,    ComponentsToggleButton )
+  EW_OBJECT  ( Text,            ViewsText )
 EW_END_OF_FIELDS( ApplicationContactEditPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactEditPage' */

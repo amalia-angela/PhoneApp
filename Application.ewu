@@ -216,14 +216,14 @@ class ContactsPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop];
     preset Bounds = <236,141,262,167>;
-    preset Initials = Res::Uptxt;
+    preset Icon = Res::Uptxt;
     preset OnActivate = onUpPress;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
   $rect <20,20,160,60>
@@ -232,14 +232,14 @@ class ContactsPage : Core::Group
     preset Layout = Core::Layout[AlignToRight, AlignToTop];
     preset Bounds = <210,141,236,167>;
     preset Enabled = true;
-    preset Initials = Res::DownTxt;
+    preset Icon = Res::DownTxt;
     preset OnActivate = onDownPress;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
   $rect <20,20,160,60>
@@ -266,14 +266,14 @@ class ContactsPage : Core::Group
   {
     preset Bounds = <242,12,272,42>;
     preset Enabled = true;
-    preset Initials = Res::PlusIconTxt;
+    preset Icon = Res::PlusIconTxt;
     preset OnActivate = onAddPress;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
   $rect <680,80,890,120>
@@ -458,7 +458,7 @@ class ContactItem : Core::Group
     if ( Contact == null ){
       FirstNameTxt.String = "";
       LastNameTxt.String = "";
-      PrfofilButton.Initials = "";
+      PrfofilButton.Icon = "";
     }else{
       if ( pure Contact.LastName == "")
         LastNameTxt.String = pure Contact.FirstName;
@@ -466,7 +466,7 @@ class ContactItem : Core::Group
         FirstNameTxt.String = pure Contact.FirstName;
         LastNameTxt.String  = pure Contact.LastName;
        }
-      PrfofilButton.Initials  = pure Contact.NameInitials;
+      PrfofilButton.Icon  = pure Contact.NameInitials;
 
     if (  Device::Device.MyCard != null )
     {
@@ -773,7 +773,7 @@ class ContactItem : Core::Group
     preset Bounds = <6,4,31,29>;
     preset DescriptColor = Res::White;
     preset DescriptFont = Res::ContactFont15;
-    preset InitialsFont = Res::ContactFont15;
+    preset IconFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -907,7 +907,7 @@ class ContactDetailsPage : Core::Group
     {
       ContactName.String =       pure Contact.LastName + " "  + pure Contact.FirstName;
       NumberTxt.String = pure Contact.PhoneNumber;   
-      UserInitialsBtn.Initials =  pure Contact.NameInitials;
+      UserInitialsBtn.Icon =  pure Contact.NameInitials;
       FavoritTxt.Visible  =  pure Contact.Favorite ? true : false;  
     }
 
@@ -965,12 +965,12 @@ class ContactDetailsPage : Core::Group
   object Components::Button50x75 CallBtn
   {
     preset Bounds = <51,145,101,220>;
-    preset Initials = Res::CallTxt;
+    preset Icon = Res::CallTxt;
     preset OnActivate = onTapCall;
     preset Descript = Strings::callTxt;
     preset BackgoundColor = Res::Blue;
-    preset BackgoundPressedColor = Res::BlueLight;
-    preset InitialsFont = Res::IconsFont20;
+    preset BackgoundColorPressed = Res::BlueLight;
+    preset IconFont = Res::IconsFont20;
     preset Backgound = Res::ButtonRoundMedium;
   }
 
@@ -979,11 +979,11 @@ class ContactDetailsPage : Core::Group
   {
     preset Bounds = <111,145,161,220>;
     preset Enabled = true;
-    preset Initials = Res::VideoCallTxt;
+    preset Icon = Res::VideoCallTxt;
     preset Descript = Strings::VideoTxt;
     preset BackgoundColor = Res::Blue;
-    preset BackgoundPressedColor = Res::BlueLight;
-    preset InitialsFont = Res::IconsFont20;
+    preset BackgoundColorPressed = Res::BlueLight;
+    preset IconFont = Res::IconsFont20;
     preset Backgound = Res::ButtonRoundMedium;
   }
 
@@ -992,11 +992,11 @@ class ContactDetailsPage : Core::Group
   {
     preset Bounds = <171,145,221,220>;
     preset Enabled = true;
-    preset Initials = Res::MessageIconTxt;
+    preset Icon = Res::MessageIconTxt;
     preset Descript = Strings::messageTxt;
     preset BackgoundColor = Res::Blue;
-    preset BackgoundPressedColor = Res::BlueLight;
-    preset InitialsFont = Res::IconsFont20;
+    preset BackgoundColorPressed = Res::BlueLight;
+    preset IconFont = Res::IconsFont20;
     preset Backgound = Res::ButtonRoundMedium;
   }
 
@@ -1021,12 +1021,12 @@ class ContactDetailsPage : Core::Group
   object Components::SButton25x25 EditBtn
   {
     preset Bounds = <240,4,265,29>;
-    preset Initials = Res::EditIconTxt;
+    preset Icon = Res::EditIconTxt;
     preset OnActivate = onTapEdit;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -1034,12 +1034,12 @@ class ContactDetailsPage : Core::Group
   object Components::SButton25x25 BackBtn
   {
     preset Bounds = <7,4,32,29>;
-    preset Initials = Res::BackIconTxt;
+    preset Icon = Res::BackIconTxt;
     preset OnActivate = onBack;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -1257,34 +1257,34 @@ class ContactAddPage : Core::Group
   {
     preset Bounds = <240,4,265,29>;
     preset Enabled = false;
-    preset Initials = Res::CkeckIconTxt;
+    preset Icon = Res::CkeckIconTxt;
     preset OnActivate = onSave;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
   $rect <20,20,160,60>
   object Components::SButton25x25 CloseButton
   {
     preset Bounds = <7,4,32,29>;
-    preset Initials = Res::CloseIconTxt;
+    preset Icon = Res::CloseIconTxt;
     preset OnActivate = onClose;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
   $rect <530,270,730,310>
   slot onFieldChanged
   {
-    UserInitials.Initials = Device::Device.Contacts.GetInitials( LastNameTxt.String, FirstNameTxt.String );
+    UserInitials.Icon = Device::Device.Contacts.GetInitials( LastNameTxt.String, FirstNameTxt.String );
     InvalidateViewState();
   }
 
@@ -1408,7 +1408,7 @@ class ContactEditPage : Core::Group
       FirstNameTxt.String = Contact.FirstName;
       LastNameTxt.String  = Contact.LastName;
       NumberTxt.String    = Contact.PhoneNumber;  
-      UserInitials.Initials  = Contact.NameInitials;
+      UserInitials.Icon  = Contact.NameInitials;
       ToggleButton.Active = Contact.MyCard;
     }
 
@@ -1523,7 +1523,7 @@ class ContactEditPage : Core::Group
   object Components::ButtonBase70x90 UserInitials
   {
     preset Bounds = <99,29,169,120>;
-    preset Initials = "";
+    preset Icon = "";
     preset Descript = Strings::AddPhototTxt;
   }
 
@@ -1531,12 +1531,12 @@ class ContactEditPage : Core::Group
   object Components::SButton25x25 CloseBtn
   {
     preset Bounds = <7,4,32,29>;
-    preset Initials = Res::CloseIconTxt;
+    preset Icon = Res::CloseIconTxt;
     preset OnActivate = onClose;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -1545,21 +1545,21 @@ class ContactEditPage : Core::Group
   {
     preset Bounds = <240,4,265,29>;
     preset Enabled = false;
-    preset Initials = Res::CkeckIconTxt;
+    preset Icon = Res::CkeckIconTxt;
     preset OnActivate = onSave;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
-    preset DescriptUnabled = Res::Grey;
+    preset BackgroundColorEnabled = Res::Transparent;
+    preset DescriptColorEnabled = Res::Grey;
   }
 
   $rect <530,330,730,370>
   slot onFieldModified
   {
-    UserInitials.Initials = Device::Device.Contacts.GetInitials( Contact.LastName, Contact.FirstName );
+    UserInitials.Icon = Device::Device.Contacts.GetInitials( Contact.LastName, Contact.FirstName );
     InvalidateViewState();
   }
 
@@ -1628,7 +1628,7 @@ class CallPage : Application::CallPageBase
     Device::Device.Speaker =! Device::Device.Speaker;
 
     SpeakerBtn.BackgoundColor = Device::Device.Speaker ? Res::White : Res::WhiteTransparent;
-    SpeakerBtn.InitialsColor  = Device::Device.Speaker ? Res::Black : Res::White ;
+    SpeakerBtn.IconColor  = Device::Device.Speaker ? Res::Black : Res::White ;
   }
 
   $rect <500,480,700,520>
@@ -1639,7 +1639,7 @@ class CallPage : Application::CallPageBase
     Device::Device.Microphone = ! Device::Device.Microphone;
 
     MuteBtn.BackgoundColor = Device::Device.Microphone ? Res::White : Res::WhiteTransparent;
-    MuteBtn.InitialsColor   = Device::Device.Microphone ? Res::Black : Res::White;
+    MuteBtn.IconColor   = Device::Device.Microphone ? Res::Black : Res::White;
   }
 
   // Touch screen events
@@ -1689,14 +1689,14 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 ContactsBtn
   {
     preset Bounds = <182,240,247,332>;
-    preset Initials = Res::UserIconTxt;
+    preset Icon = Res::UserIconTxt;
     preset OnActivate = onContactsPress;
     preset Descript = Strings::contactsTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::PressColor;
+    preset BackgoundColorPressed = Res::PressColor;
     preset DescriptFont = Res::ContactFont12;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -1705,16 +1705,16 @@ class CallPage : Application::CallPageBase
   {
     preset Bounds = <104,241,169,333>;
     preset Enabled = false;
-    preset Initials = Res::VideoCallTxt;
+    preset Icon = Res::VideoCallTxt;
     preset OnActivate = onVideoCallPress;
     preset Descript = Strings::videocallTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::PressColor;
+    preset BackgoundColorPressed = Res::PressColor;
     preset DescriptFont = Res::ContactFont12;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset BackgroundUnabled = Res::WhiteSemiTransparent;
+    preset BackgroundColorEnabled = Res::WhiteSemiTransparent;
   }
 
   $rect <20,20,160,60>
@@ -1722,30 +1722,30 @@ class CallPage : Application::CallPageBase
   {
     preset Bounds = <26,242,91,334>;
     preset Enabled = false;
-    preset Initials = Res::PlusIconTxt;
+    preset Icon = Res::PlusIconTxt;
     preset OnActivate = onAddCallPress;
     preset Descript = Strings::addcallTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::PressColor;
+    preset BackgoundColorPressed = Res::PressColor;
     preset DescriptFont = Res::ContactFont12;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset BackgroundUnabled = Res::WhiteSemiTransparent;
+    preset BackgroundColorEnabled = Res::WhiteSemiTransparent;
   }
 
   $rect <20,20,160,60>
   object Components::Button65x90 SpeakerBtn
   {
     preset Bounds = <182,147,247,239>;
-    preset Initials = Res::SpeakerTxt;
+    preset Icon = Res::SpeakerTxt;
     preset OnActivate = onSpeakerPress;
     preset Descript = Strings::speakerTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::PressColor;
+    preset BackgoundColorPressed = Res::PressColor;
     preset DescriptFont = Res::ContactFont12;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -1753,14 +1753,14 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 KeyPadBtn
   {
     preset Bounds = <104,148,169,240>;
-    preset Initials = Res::KeypadTxt;
+    preset Icon = Res::KeypadTxt;
     preset OnActivate = onKeypadPress;
     preset Descript = Strings::keypadTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::PressColor;
+    preset BackgoundColorPressed = Res::PressColor;
     preset DescriptFont = Res::ContactFont12;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -1768,14 +1768,14 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 MuteBtn
   {
     preset Bounds = <26,149,91,241>;
-    preset Initials = Res::MicOffTxt;
+    preset Icon = Res::MicOffTxt;
     preset OnActivate = onMicPress;
     preset Descript = Strings::muteTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::PressColor;
+    preset BackgoundColorPressed = Res::PressColor;
     preset DescriptFont = Res::ContactFont12;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -2056,7 +2056,7 @@ class KeypadPage : Core::Group
       InputEtxt.String = InputEtxt.String.remove( InputEtxt.String.length-1, 1);
     else if ( b != null )
     {
-      InputEtxt.String += b.Initials;
+      InputEtxt.String += b.Icon;
     }
 
     signal OnEditTextChanged;        
@@ -2103,11 +2103,11 @@ class KeypadPage : Core::Group
   object Components::SButton65x65 callbtn
   {
     preset Bounds = <104,340,169,405>;
-    preset Initials = Res::CallTxt;
+    preset Icon = Res::CallTxt;
     preset OnActivate = onCallPress;
     preset BackgoundColor = Res::GreenDark;
-    preset BackgoundPressedColor = Res::Green;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Green;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -2115,181 +2115,181 @@ class KeypadPage : Core::Group
   object Components::SButton65x65 btn1
   {
     preset Bounds = <39,80,104,145>;
-    preset Initials = "1";
+    preset Icon = "1";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn3
   {
     preset Bounds = <169,80,234,145>;
-    preset Initials = "3";
+    preset Icon = "3";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn2
   {
     preset Bounds = <104,80,169,145>;
-    preset Initials = "2";
+    preset Icon = "2";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn4
   {
     preset Bounds = <39,145,104,210>;
-    preset Initials = "4";
+    preset Icon = "4";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn6
   {
     preset Bounds = <169,145,234,210>;
-    preset Initials = "6";
+    preset Icon = "6";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn5
   {
     preset Bounds = <104,145,169,210>;
-    preset Initials = "5";
+    preset Icon = "5";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn7
   {
     preset Bounds = <39,210,104,275>;
-    preset Initials = "7";
+    preset Icon = "7";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn9
   {
     preset Bounds = <169,210,234,275>;
-    preset Initials = "9";
+    preset Icon = "9";
     preset OnActivate = onButtonsPress;
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn8
   {
     preset Bounds = <104,210,169,275>;
-    preset Initials = "8";
+    preset Icon = "8";
     preset OnActivate = onButtonsPress;
     preset Descript = "8";
     preset DescriptColor = Res::White;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btnstar
   {
     preset Bounds = <39,275,104,340>;
-    preset Initials = "*";
+    preset Icon = "*";
     preset OnActivate = onButtonsPress;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btnDiez
   {
     preset Bounds = <169,275,234,340>;
-    preset Initials = "#";
+    preset Icon = "#";
     preset OnActivate = onButtonsPress;
     preset Descript = "#";
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
   object Components::SButton65x65 btn0
   {
     preset Bounds = <104,275,169,340>;
-    preset Initials = "0";
+    preset Icon = "0";
     preset OnActivate = onButtonsPress;
     preset Descript = "0";
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::GreyLight;
-    preset BackgoundPressedColor = Res::Grey;
+    preset BackgoundColorPressed = Res::Grey;
     preset DescriptFont = Res::ContactFont15;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 
   $rect <20,20,160,60>
@@ -2327,17 +2327,17 @@ class KeypadPage : Core::Group
   object Components::SButton65x65 BtnErase
   {
     preset Bounds = <169,340,234,405>;
-    preset Initials = Res::BackspaceTxt;
+    preset Icon = Res::BackspaceTxt;
     preset OnActivate = onButtonsPress;
     preset Descript = "#";
     preset DescriptColor = Res::Black;
-    preset InitialsColor = Res::Black;
+    preset IconColor = Res::Black;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
     preset DescriptFont = Res::ContactFont15;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
-    preset InitialsPressColor = Res::Black;
+    preset IconColorPressed = Res::Black;
   }
 }
 
@@ -2602,25 +2602,25 @@ class Application : Core::Root
   object Components::SButton50x50 Contacts
   {
     preset Bounds = <53,425,103,475>;
-    preset Initials = Res::CallTxt;
+    preset Icon = Res::CallTxt;
     preset OnActivate = onContact;
     preset BackgoundColor = Res::GreenDark;
-    preset BackgoundPressedColor = Res::Green;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Green;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::SuqareButton;
-    preset InitialsPressColor = Res::GreyLight;
+    preset IconColorPressed = Res::GreyLight;
   }
 
   $rect <20,20,160,60>
   object Components::SButton50x50 Messeges
   {
     preset Bounds = <170,425,220,475>;
-    preset Initials = Res::MessageIconTxt;
+    preset Icon = Res::MessageIconTxt;
     preset OnActivate = onMessages;
     preset BackgoundColor = Res::GreenDark;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::SuqareButton;
-    preset InitialsPressColor = Res::GreyLight;
+    preset IconColorPressed = Res::GreyLight;
   }
 
   $rect <290,240,490,280>
@@ -2726,11 +2726,7 @@ class KeypadInsideCall : Application::KeypadPage
   }
 
   $rect <20,20,160,60>
-  inherited object BtnErase
-  {
-    preset InitialsColor = Res::White;
-    preset InitialsPressColor = Res::Grey;
-  }
+  inherited object BtnErase;
 
   $reorder BackgroundSmall 16
 }
@@ -2832,7 +2828,23 @@ $variant Simulation
 vclass ApplicationSimulation : Application::Application
 {
   $rect <290,0,490,40>
-  inherited property Bounds = <0,0,272,480>;
+  inherited property Bounds = <0,0,912,704>;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <367,217,517,267>;
+    preset OnActivate = Slot;
+    preset Label = "Caption";
+    preset Appearance = WidgetSet::PushButton_Medium;
+  }
+
+  $rect <940,200,1140,240>
+  slot Slot
+  {
+    DismissDialog( this, Res::SlideDownCentered, null, null, null, null, false );
+
+  }
 }
 
 $rect <1010,90,1260,130>
@@ -2888,13 +2900,13 @@ class IncomingCall : Application::CallPageBase
   object Components::Button65x90 AcceptButton
   {
     preset Bounds = <171,340,236,432>;
-    preset Initials = Res::CallTxt;
+    preset Icon = Res::CallTxt;
     preset OnActivate = onAcceptCall;
     preset Descript = Strings::acceptTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::GreenDark;
-    preset BackgoundPressedColor = Res::Green;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Green;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -3081,12 +3093,12 @@ class FavoritesPage : Core::Group
   {
     preset Bounds = <11,12,41,42>;
     preset Enabled = true;
-    preset Initials = Res::PlusIconTxt;
+    preset Icon = Res::PlusIconTxt;
     preset OnActivate = onAddPress;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -3621,13 +3633,13 @@ class FavContactItem : Application::ContactItem
 
     if ( EditMode )
     {
-      InfoButton.Initials = Res::MenuTxt;
-      InfoButton.InitialsColor = Res::Grey; 
+      InfoButton.Icon = Res::MenuTxt;
+      InfoButton.IconColor = Res::Grey; 
     }
     else
     {
-      InfoButton.Initials = Res::InfoTxt;
-      InfoButton.InitialsColor = Res::Blue;
+      InfoButton.Icon = Res::InfoTxt;
+      InfoButton.IconColor = Res::Blue;
       
       if ( DeleteEffect.Enabled || DeleteEffect.Value == DeleteEffect.Value2 )
       {
@@ -3707,10 +3719,10 @@ class FavContactItem : Application::ContactItem
   object Components::SButton25x25 RemoveButton
   {
     preset Bounds = <-25,5,0,30>;
-    preset Initials = Res::RemoveTxt;
+    preset Icon = Res::RemoveTxt;
     preset OnActivate = onShowDelete;
     preset BackgoundColor = Res::Red;
-    preset BackgoundPressedColor = Res::RedLight;
+    preset BackgoundColorPressed = Res::RedLight;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -3730,12 +3742,12 @@ class FavContactItem : Application::ContactItem
   {
     preset Layout = Core::Layout[ResizeHorz, ResizeVert];
     preset Bounds = <217,5,242,30>;
-    preset Initials = Res::InfoTxt;
+    preset Icon = Res::InfoTxt;
     preset OnActivate = onInfo;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::WhiteSemiTransparent;
-    preset InitialsFont = Res::IconsFont20;
+    preset BackgoundColorPressed = Res::WhiteSemiTransparent;
+    preset IconFont = Res::IconsFont20;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -4258,12 +4270,12 @@ class RecentItm : Core::Group
   {
     preset Layout = Core::Layout[ResizeHorz, ResizeVert];
     preset Bounds = <225,2,250,27>;
-    preset Initials = Res::InfoTxt;
+    preset Icon = Res::InfoTxt;
     preset OnActivate = onInfo;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -4272,13 +4284,13 @@ class RecentItm : Core::Group
   {
     preset Bounds = <0,17,25,42>;
     preset AlphaBlended = true;
-    preset Initials = "";
-    preset InitialsColor = Res::Grey;
+    preset Icon = "";
+    preset IconColor = Res::Grey;
     preset BackgoundColor = Res::WhiteTransparent;
-    preset BackgoundPressedColor = Res::WhiteTransparent;
-    preset InitialsFont = Res::IconsFont20;
+    preset BackgoundColorPressed = Res::WhiteTransparent;
+    preset IconFont = Res::IconsFont20;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::WhiteTransparent;
+    preset BackgroundColorEnabled = Res::WhiteTransparent;
   }
 
   // Design
@@ -4291,11 +4303,11 @@ class RecentItm : Core::Group
   object Components::SButton25x25 RemoveButton
   {
     preset Bounds = <-25,11,0,36>;
-    preset Initials = Res::RemoveTxt;
+    preset Icon = Res::RemoveTxt;
     preset OnActivate = onShowDelete;
     preset BackgoundColor = Res::Red;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundSmall;
   }
 
@@ -4469,9 +4481,9 @@ class RecentItm : Core::Group
       FirstNameTxt.String = pure ContactHistory.FirstName;
       
       if ( pure ContactHistory.CallDirection == Device::CallDirection.Incoming )
-        PushButtonSmall.Initials = Res::IncomingCallTxt;
+        PushButtonSmall.Icon = Res::IncomingCallTxt;
       else
-        PushButtonSmall.Initials = Res::OutgoingCallTxt;
+        PushButtonSmall.Icon = Res::OutgoingCallTxt;
       
       CallTypeTxt.String  = pure ContactHistory.GetCallDirection();
       TimeTxt.String      = pure ContactHistory.GetTimeOfCall();
@@ -4499,7 +4511,7 @@ class RecentDetailsPage : Application::ContactDetailsPage
   {
     if ( pure HistoryContact != null )
     {
-      UserInitialsBtn.Initials =  pure HistoryContact.NameInitials;
+      UserInitialsBtn.Icon =  pure HistoryContact.NameInitials;
       ContactName.String        = pure HistoryContact.LastName + " " + pure HistoryContact.FirstName;
       NumberTxt.String          = pure HistoryContact.PhoneNumber; 
       
@@ -4643,7 +4655,7 @@ class CallPageBase : Core::Group
     if ( pure Contact != null )
     {
       ContactNameTxt.String  = pure Contact.LastName + " "  + pure Contact.FirstName;
-      UserInitials.Initials = pure Contact.NameInitials; 
+      UserInitials.Icon = pure Contact.NameInitials; 
     }
     //if not display number and hide UserInitials
     else
@@ -4693,13 +4705,13 @@ class CallPageBase : Core::Group
   object Components::Button65x90 DesclineButton
   {
     preset Bounds = <36,340,101,432>;
-    preset Initials = Res::EndCallTxt;
+    preset Icon = Res::EndCallTxt;
     preset OnActivate = onDesclineCall;
     preset Descript = Strings::declineTxt;
     preset DescriptColor = Res::White;
     preset BackgoundColor = Res::Red;
-    preset BackgoundPressedColor = Res::RedLight;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::RedLight;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::ButtonRoundMedium1;
   }
 
@@ -5136,10 +5148,10 @@ class MyCardItem : Core::Group
   {
     if ( Device::Device.MyCard != null ){
         NameTxt.String  = Device::Device.MyCard.LastName + " " +  Device::Device.MyCard.FirstName;
-        PushButtonSmall1.Initials  =  Device::Device.MyCard.NameInitials;
+        PushButtonSmall1.Icon  =  Device::Device.MyCard.NameInitials;
     }else{
        NameTxt.String  = "";
-       PushButtonSmall1.Initials  =  "";
+       PushButtonSmall1.Icon  =  "";
         }
   }
 
@@ -5215,7 +5227,7 @@ class MyCardItem : Core::Group
 // Messages
 note group Note1
 {
-  attr Bounds = <430,50,910,390>;
+  attr Bounds = <430,40,910,380>;
 }
 
 $rect <440,90,640,130>
@@ -5482,12 +5494,17 @@ class MessagesPage : Core::Group
   $rect <520,170,690,210>
   slot onAdd
   {
-    //open chat page
     VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
 
-    DismissDialog ( create, Res::SlideDownCentered, null, null, null, null, false );
-                               
+    chat = new Application::Chat; 
+    chat.Contact = create.Contact;
+    chat.OnBack  = onBack;
+
+
+    DismissDialog ( create, Res::SlideDownCentered, null, null, null, null, false );                            
     create = null;
+
+    SwitchToDialog( chat, Res::SlideUpCenteredLimit, null, null, null, null, null, null, null, null, false );
 
   }
 
@@ -5495,13 +5512,13 @@ class MessagesPage : Core::Group
   object Components::SButton25x25 SButton25x25
   {
     preset Bounds = <239,15,264,40>;
-    preset Initials = Res::WriteIcon;
+    preset Icon = Res::WriteIcon;
     preset OnActivate = onCreatePressed;
-    preset InitialsColor = Res::Blue;
+    preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont20;
-    preset BackgroundUnabled = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont20;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
   // Touch screen events
@@ -5514,6 +5531,17 @@ class MessagesPage : Core::Group
   note group Note2
   {
     attr Bounds = <770,0,1040,200>;
+  }
+
+  $rect <300,170,480,210>
+  var Application::Chat chat = null;
+
+  $rect <550,210,690,250>
+  slot onBack
+  {
+    DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );
+    chat = null;
+
   }
 }
 
@@ -5830,13 +5858,13 @@ class MessegeItem : Core::Group
     {
       NameTxt.String    = pure Contact.LastName + " "  + pure Contact.FirstName;
       MessageTxt.String = "last message";
-      UserIcon.Initials = pure Contact.NameInitials;
+      UserIcon.Icon = pure Contact.NameInitials;
       TimeTxt.String    = "l.m. time";
     }
     else
     {
       NameTxt.String     = "";
-      UserIcon.Initials  = "";
+      UserIcon.Icon  = "";
       MessageTxt.String  = "";
       TimeTxt.String     = "";
     }
@@ -6048,15 +6076,15 @@ class MessegeItem : Core::Group
   object Components::SButton25x25 SButton25x25
   {
     preset Bounds = <251,-3,276,22>;
-    preset Initials = Res::ForwardIcon;
-    preset InitialsColor = Res::Grey;
+    preset Icon = Res::ForwardIcon;
+    preset IconColor = Res::Grey;
     preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont12;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont12;
     preset Backgound = Res::ButtonRoundSmall;
-    preset BackgroundUnabled = Res::Transparent;
-    preset InitialsUnabled = Res::GreyLight;
-    preset InitialsPressColor = Res::Grey;
+    preset BackgroundColorEnabled = Res::Transparent;
+    preset IconColorEnabled = Res::GreyLight;
+    preset IconColorPressed = Res::Grey;
   }
 }
 
@@ -6211,41 +6239,6 @@ class Chat : Core::Group
     */
   }
 
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Bounds = <0,0,272,480>;
-    preset Color = Res::White;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Header
-  {
-    preset Bounds = <0,0,272,60>;
-    preset Color = Res::PressColor;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line Line
-  {
-    preset Point2 = <272,60>;
-    preset Point1 = <0,60>;
-    preset Color = Res::Grey;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton25x25 BackBtn
-  {
-    preset Bounds = <7,4,32,29>;
-    preset Initials = Res::BackIconTxt;
-    preset OnActivate = onBack;
-    preset InitialsColor = Res::Blue;
-    preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont20;
-    preset BackgroundUnabled = Res::Transparent;
-  }
-
   $rect <300,40,500,80>
   slot onBack
   {
@@ -6253,25 +6246,13 @@ class Chat : Core::Group
 
   }
 
-  $rect <20,20,160,60>
-  object Components::SButton25x25 BackBtn1
-  {
-    preset Bounds = <241,4,266,29>;
-    preset Initials = Res::CallTxt;
-    preset OnActivate = onCall;
-    preset InitialsColor = Res::Blue;
-    preset BackgoundColor = Res::Transparent;
-    preset BackgoundPressedColor = Res::Transparent;
-    preset InitialsFont = Res::IconsFont20;
-    preset BackgroundUnabled = Res::Transparent;
-  }
-
   $rect <500,90,700,130>
   slot onUser
   {
     detailsPage = new Application::ContactDetailsPage;
 
-    detailsPage.OnBack = onCloseDetailsPage;
+    detailsPage.OnBack  = onCloseDetailsPage;
+    detailsPage.Contact = Contact;
 
     SwitchToDialog( detailsPage, Res::SlideUpCentered, null, null, null, null, null,
                                null, null, null, false );
@@ -6284,24 +6265,6 @@ class Chat : Core::Group
     Device::Device.SendCallContact( Contact );
   }
 
-  $rect <20,20,160,60>
-  object Components::Button40x55 Button40x55
-  {
-    preset Bounds = <90,5,182,60>;
-    preset OnActivate = onUser;
-    preset Descript = "name";
-    preset DescriptColor = Res::Black;
-    preset Backgound = Res::ButtonRoundMedium;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SearchEtxt SearchEtxt
-  {
-    preset Bounds = <3,435,269,467>;
-    preset String = "Message...";
-    preset Icon = Res::SendIcon;
-  }
-
   $rect <500,40,700,80>
   var slot OnBack;
 
@@ -6312,6 +6275,7 @@ class Chat : Core::Group
   slot onCloseDetailsPage
   {
     DismissDialog( detailsPage, Res::SlideDownCentered, null, null, null, null, false );
+    detailsPage = null;
   }
 
   // Displayed contact info
@@ -6349,9 +6313,36 @@ class Chat : Core::Group
     if ( pure Contact != null )
     {
       Button40x55.Descript = pure Contact.LastName;  
-      Button40x55.Initials =  pure Contact.NameInitials;
-    }
+      Button40x55.Icon     =  pure Contact.NameInitials;
+      if ( pure Contact.Messages != null )
+      {
+        var Application::ChatBubble chatBubble = new Application::ChatBubble;;
+        var Device::Message message            = pure Contact.Messages.head;
 
+        while ( message != null )
+        { 
+          if ( message.Sender == Device::Device.MyCard )
+          {
+            chatBubble.LeftAligned  = false;
+            chatBubble.BubbleColor  = Res::Blue;
+            chatBubble.Message      = message.Message;
+            chatBubble.MessageColor = Res::White; 
+          }
+          else if ( message.Receiver == Device::Device.MyCard ) 
+          {
+            chatBubble.LeftAligned  = true;
+            chatBubble.BubbleColor  = Res::White;
+            chatBubble.Message      = message.Message;
+            chatBubble.MessageColor = Res::Black; 
+          }
+
+          chatBubble.Embedded = true;                            
+          Add( chatBubble, nrOfItem );
+          Outline.EnsureVisible( chatBubble, true, null, null );
+          nrOfItem ++; 
+        }
+       }
+      }
   }
 
   $rect <790,50,980,90>
@@ -6363,306 +6354,151 @@ class Chat : Core::Group
     attr Bounds = <290,0,760,400>;
   }
 
+  $rect <300,240,500,280>
+  slot onSend
+  {
+    if (( SearchEtxt.String != "Message...") || (SearchEtxt.String != ""))
+    {
+      //Device::Device.SendMessage( Contact, SearchEtxt.String );
+
+      var Application::ChatBubble chatBubble = new Application::ChatBubble;
+
+      chatBubble.LeftAligned  = false;
+      chatBubble.BubbleColor  = Res::Blue;
+      chatBubble.Message      = SearchEtxt.String;
+      chatBubble.MessageColor = Res::White;
+
+      chatBubble.Embedded = true;                            
+      Add( chatBubble, nrOfItem );
+      Outline.EnsureVisible( chatBubble, true, null, null );
+      nrOfItem ++; 
+      
+      var Device::Message message = new Device::Message;
+      message.Sender = Device::Device.MyCard;
+      message.Receiver = Contact;
+      message.TimeSent = (new Core::Time).CurrentTime;
+      message.Message = SearchEtxt.String;
+
+      Contact.Messages.Add( message );
+    }
+
+
+  }
+
   $rect <20,20,160,60>
   object Core::Outline Outline
   {
-    preset Bounds = <0,69,275,435>;
+    preset Bounds = <0,69,272,435>;
+    preset SlideHandler = SlideTouchHandler;
     preset Formation = Core::Formation.TopToBottom;
   }
 
   $rect <20,20,160,60>
-  object Application::ChatBubble ChatBubble
+  object Core::SlideTouchHandler SlideTouchHandler
   {
-    preset Bounds = <3,69,275,119>;
-    preset LeftAligned = false;
-    preset Message = "Right chat";
-    preset BubbleColor = Res::Blue;
-    preset MessageColor = Res::White;
+    preset Bounds = <2,71,274,433>;
+    preset SlideHorz = false;
   }
 
   $rect <20,20,160,60>
-  object Application::ChatBubble ChatBubble1
+  object Views::Rectangle Background
   {
-    preset Bounds = <3,215,275,265>;
-  }
-}
-
-$rect <480,250,640,290>
-$output false
-class ChatBubble : Core::Group
-{
-  $rect <0,60,200,100>
-  inherited property Bounds = <0,0,272, 50>;
-
-  $rect <20,410,220,450>
-  inherited method UpdateLayout()
-  {
-    // Always invoke the inherited method.
-    super( aSize );
-
-    /*
-
-      HINT:
-
-      This method exists for sophisticated layout calculation. Please note, that in 
-      most cases it is completely sufficient to use the views property 'Layout' to
-      determine how the view should behave when the component is resized.
-
-    */
-
-    /*
-
-      TO DO:
-
-      Put here the code to calculate new position and size of enclosed views. The
-      current (new) size of the component itself is passed in the parameter aSize.
-      For example:
-
-        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
-
-    */
+    preset Bounds = <0,0,272,480>;
+    preset Color = Res::White;
   }
 
-  $rect <20,370,220,410>
-  inherited method UpdateViewState()
+  $rect <20,20,160,60>
+  object Views::Rectangle Header
   {
-    super( aState );
-
-    return;
-
-    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
-    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
-    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
-                            FlashTimer.Enabled;
-                            
-    MessageTxt.String = Message;
-    MessageTxt.Color = MessageColor;
-    ChatBubble.Color = BubbleColor;
-    if ( !LeftAligned ){
-
-      ChatBubble.Bitmap = Res::ChatRight;
-      ChatBubble.Bounds = <30,0,262,50>;
-      MessageTxt.Bounds = <27,6,252,36>;
-
-    }
-
-                            
-    if ( !isEnabled){
-      ChatBubble.Color = Res::GreyLight;
-      MessageTxt.Color = Res::GreyLight;
-       
-    } else if ( isPressed ){
-    // egy szurke layer kene rajojjon
-      ChatBubble.Color = BubbleColor;
-      MessageTxt.Color = MessageColor;
-      
-    }else if ( isSelected ){
-      ChatBubble.Color = BubbleColor;
-      MessageTxt.Color = MessageColor;
-    }else{
-      ChatBubble.Color = BubbleColor;
-      MessageTxt.Color = MessageColor;
-    }
-
-
-    enabled  = isEnabled;
-    selected = isSelected;
-    pressed  = isPressed;
+    preset Bounds = <0,0,272,60>;
+    preset Color = Res::PressColor;
   }
 
-  $rect <300,0,500,40>
-  property bool LeftAligned = true;
-
-  $rect <300,40,500,80>
-  onset LeftAligned
+  $rect <20,20,160,60>
+  object Views::Line Line
   {
-    // The value doesn't change - nothing to do.
-    if ( pure LeftAligned == value )
-      return;
-
-    // Remember the property's new value.
-    pure LeftAligned = value;
-
-    InvalidateViewState();
+    preset Point2 = <272,60>;
+    preset Point1 = <0,60>;
+    preset Color = Res::Grey;
   }
 
-  $rect <300,80,500,120>
-  onget LeftAligned
+  $rect <20,20,160,60>
+  object Components::SButton25x25 BackBtn
   {
-    return pure LeftAligned;
+    preset Bounds = <7,4,32,29>;
+    preset Icon = Res::BackIconTxt;
+    preset OnActivate = onBack;
+    preset IconColor = Res::Blue;
+    preset BackgoundColor = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont20;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
-  $rect <505,0,705,40>
-  property string Message = "Left chat";
-
-  $rect <505,40,705,80>
-  onset Message
+  $rect <20,20,160,60>
+  object Components::SearchEtxt SearchEtxt
   {
-    // The value doesn't change - nothing to do.
-    if ( pure Message == value )
-      return;
-
-    // Remember the property's new value.
-    pure Message = value;
-
-    InvalidateViewState();
+    preset Bounds = <3,435,269,467>;
+    preset String = "Message...";
+    preset Icon = Res::SendIcon;
+    preset OnIcon = onSend;
   }
 
-  $rect <505,80,705,120>
-  onget Message
+  $rect <20,20,160,60>
+  object Components::SButton25x25 BackBtn1
   {
-    return pure Message;
+    preset Bounds = <241,4,266,29>;
+    preset Icon = Res::CallTxt;
+    preset OnActivate = onCall;
+    preset IconColor = Res::Blue;
+    preset BackgoundColor = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont20;
+    preset BackgroundColorEnabled = Res::Transparent;
   }
 
-  $rect <710,0,910,40>
-  property color BubbleColor = Res::White;
-
-  $rect <710,40,910,80>
-  onset BubbleColor
+  $rect <20,20,160,60>
+  object Components::Button40x55 Button40x55
   {
-    // The value doesn't change - nothing to do.
-    if ( pure BubbleColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure BubbleColor = value;
-
-    InvalidateViewState();
+    preset Bounds = <90,5,182,60>;
+    preset OnActivate = onUser;
+    preset Descript = "name";
+    preset DescriptColor = Res::Black;
+    preset Backgound = Res::ButtonRoundMedium;
   }
 
-  $rect <710,80,910,120>
-  onget BubbleColor
+  $rect <440,480,640,520>
+  slot example
   {
-    return pure BubbleColor;
-  }
+    /*EDIT: Ok I got this figured out...]
 
-  $rect <910,0,1110,40>
-  property color MessageColor = Res::Black;
+    var Core::View view = null;
 
-  $rect <910,40,1110,80>
-  onset MessageColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure MessageColor == value )
-      return;
+    // disable SimpleTouchHandler for all views
+    var Application::ActiveModeBlock block;
+    var int32 viewcount = Outline.CountViews();
+    var int32 i;
 
-    // Remember the property's new value.
-    pure MessageColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <910,80,1110,120>
-  onget MessageColor
-  {
-    return pure MessageColor;
-  }
-
-  $rect <20,470,220,510>
-  var bool enabled;
-
-  $rect <20,550,220,590>
-  var bool pressed;
-
-  $rect <20,510,220,550>
-  var bool selected;
-
-  // This internal slot method is called when the user touches the button's area.
-  $rect <250,420,450,460>
-  slot onPressTouch
-  {
-    // The button is still performing the feedback flash effect from the preceding
-    // tap. This can occur when the user taps the button in a very rapid succession. 
-    // Thus complete this preceding tap (simulate the timer expiration) before 
-    // starting a new button interaction.
-    if ( FlashTimer.Enabled )
+    for(i = 1; i < viewcount-1; i = i+1) // skip Left and RightSpacer!
     {
-      postsignal OnActivate;
-      FlashTimer.Enabled = false;
+       view = Outline.GetViewAtIndex(i);
+       block = (Application::ActiveModeBlock)view;
+       block.SimpleTouchHandler.Enabled = false;
     }
+
+    // Enable SimpleTouchHandler for current view   
+    var int32 idx = ((SlideTouchHandler.Offset.x * -1) / block.Bounds.w)+1;
+    view = Outline.GetViewAtIndex(idx);       
+    block = (Application::ActiveModeBlock)view;                             
+    block.SimpleTouchHandler.Enabled = true;      */
+
+    //    https://ask.embedded-wizard.de/5106/identifying-component-which-programmatically-added-outline?show=5106#q5106
+
+
   }
 
-  // Feedback flash effect
-  note group Note3
-  {
-    attr Bounds = <240,480,460,620>;
-  }
-
-  // This timer object is used to flash the button when the user has tapped it very \
-  // quickly or the button has been activated with the keyboard. This is just a visual \
-  // feedback effect.
-  $rect <250,530,450,570>
-  object Core::Timer FlashTimer
-  {
-    preset OnTrigger = onFlashTimer;
-    preset Period = 0;
-    preset Begin = 50;
-  }
-
-  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
-  // the short flash feedback effect.
-  $rect <250,570,450,610>
-  slot onFlashTimer
-  {
-    // The feedback flash timer is finished. Request the button to update its
-    // appearance. The update will occur in the UpdateViewState() method.
-    InvalidateViewState();
-
-    // With the end of the feedback flash effect the button is activated.
-    postsignal OnActivate;
-  }
-
-  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
-  // as soon as the user has activated the button. Thereupon the method's logic will \
-  // be executed.
-  $rect <250,380,450,420>
-  property slot OnActivate = null;
-
-  // State management
-  note group Note4
-  {
-    attr Bounds = <10,330,230,600>;
-  }
-
-  // Touch screen events
-  note group Note1
-  {
-    attr Bounds = <240,330,460,470>;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Frame ChatBubble
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <10,0,232,50>;
-    preset Color = #FF3AECFF;
-    preset Bitmap = Res::ChatRight;
-    preset Embedded = true;
-    preset NoEdgesLimit = <222,0>;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <10,36>;
-    preset Point3 = <232,36>;
-    preset Point2 = <232,6>;
-    preset Point1 = <10,6>;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text MessageTxt
-  {
-    preset Bounds = <20,6,225,36>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-    preset String = "Left text";
-    preset Font = Resources::DefaultFont;
-  }
+  $rect <520,240,720,280>
+  var int32 nrOfItem = 0;
 }
 
 $rect <450,490,650,530>
@@ -6824,25 +6660,25 @@ class MainPage : Core::Group
   object Components::SButton50x50 Contacts
   {
     preset Bounds = <53,425,103,475>;
-    preset Initials = Res::CallTxt;
+    preset Icon = Res::CallTxt;
     preset OnActivate = onContact;
     preset BackgoundColor = Res::GreenDark;
-    preset BackgoundPressedColor = Res::Green;
-    preset InitialsFont = Res::IconsFont25;
+    preset BackgoundColorPressed = Res::Green;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::SuqareButton;
-    preset InitialsPressColor = Res::GreyLight;
+    preset IconColorPressed = Res::GreyLight;
   }
 
   $rect <20,20,160,60>
   object Components::SButton50x50 Messeges
   {
     preset Bounds = <170,425,220,475>;
-    preset Initials = Res::MessageIconTxt;
+    preset Icon = Res::MessageIconTxt;
     preset OnActivate = onMessages;
     preset BackgoundColor = Res::GreenDark;
-    preset InitialsFont = Res::IconsFont25;
+    preset IconFont = Res::IconsFont25;
     preset Backgound = Res::SuqareButton;
-    preset InitialsPressColor = Res::GreyLight;
+    preset IconColorPressed = Res::GreyLight;
   }
 
   $rect <290,0,490,40>
@@ -6872,4 +6708,117 @@ class MainPage : Core::Group
 note group Note2
 {
   attr Bounds = <430,400,910,590>;
+}
+
+$rect <480,250,640,290>
+$output false
+class ChatBubble : Core::Group
+{
+  $rect <10,70,210,110>
+  inherited property Bounds = <0,0,272, 50>;
+
+  $rect <10,110,210,150>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    Frame.Color = BubbleColor;
+    Text.String = Message;
+    Text.Color  = MessageColor;
+
+    if ( LeftAligned == false )
+    {
+       Frame.Bitmap = Res::ChatRight;
+       Frame.Bounds = <30,0,262,50>;
+       Text.Bounds = <27,6,252,36>; 
+    }
+    else
+    {
+      Frame.Bitmap = Res::ChatLeft;
+    }
+
+    Frame.Color = BubbleColor;
+    Text.String = Message;
+    Text.Color  = MessageColor;
+  }
+
+  $rect <300,0,500,40>
+  property bool LeftAligned = true;
+
+  $rect <300,40,500,80>
+  onset LeftAligned
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure LeftAligned == value )
+      return;
+
+    // Remember the property's new value.
+    pure LeftAligned = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <505,0,705,40>
+  property string Message = "Left chat";
+
+  $rect <505,40,705,80>
+  onset Message
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Message == value )
+      return;
+
+    // Remember the property's new value.
+    pure Message = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <710,0,910,40>
+  property color BubbleColor = Res::White;
+
+  $rect <710,40,910,80>
+  onset BubbleColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure BubbleColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure BubbleColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <500,90,700,130>
+  property color MessageColor = Res::Black;
+
+  $rect <500,130,700,170>
+  onset MessageColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure MessageColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure MessageColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Frame Frame
+  {
+    preset Bounds = <5,0,220,50>;
+    preset Bitmap = Res::ChatLeft;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <10,4,216,36>;
+    preset String = "Text";
+    preset Font = Resources::DefaultFont;
+  }
 }

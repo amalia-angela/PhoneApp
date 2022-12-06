@@ -109,7 +109,7 @@ $rect <280,100,480,140>
 profile Simulation : Tara.WebGL.RGBA8888
 {
   attr Verbose = false;
-  attr ScreenSize = <272,480>;
+  attr ScreenSize = <600,600>;
   attr Optimization = High;
   attr ApplicationClass = Application::Application;
   attr CleanOutputDirectories = false;

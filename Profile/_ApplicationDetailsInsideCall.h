@@ -43,9 +43,9 @@
 #endif
 
 #include "_ApplicationContactDetailsPage.h"
-#include "_ComponentsPushButtonBig.h"
-#include "_ComponentsPushButtonMediumBlue.h"
-#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsButton50x75.h"
+#include "_ComponentsButtonBase70x90.h"
+#include "_ComponentsSButton25x25.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"

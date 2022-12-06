@@ -42,9 +42,10 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ComponentsButtonBase70x90.h"
 #include "_ComponentsInputEtxt.h"
-#include "_ComponentsPushButtonBig.h"
-#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsSButton25x25.h"
+#include "_ComponentsToggleButton.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
@@ -118,10 +119,12 @@ EW_DEFINE_FIELDS( ApplicationContactAddPage, CoreGroup )
   EW_OBJECT  ( Line2,           ViewsLine )
   EW_OBJECT  ( LastNameTxt,     ComponentsInputEtxt )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( UserInitials,    ComponentsPushButtonBig )
+  EW_OBJECT  ( UserInitials,    ComponentsButtonBase70x90 )
   EW_OBJECT  ( TitleTxt,        ViewsText )
-  EW_OBJECT  ( SaveBtn,         ComponentsPushButtonNoBackground )
-  EW_OBJECT  ( CloseButton,     ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( SaveBtn,         ComponentsSButton25x25 )
+  EW_OBJECT  ( CloseButton,     ComponentsSButton25x25 )
+  EW_OBJECT  ( ToggleButton,    ComponentsToggleButton )
+  EW_OBJECT  ( Text,            ViewsText )
 EW_END_OF_FIELDS( ApplicationContactAddPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactAddPage' */

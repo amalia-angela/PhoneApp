@@ -44,7 +44,7 @@
 
 #include "_ApplicationKeypadPage.h"
 #include "_ComponentsInputEtxt.h"
-#include "_ComponentsKeyPadButtons.h"
+#include "_ComponentsSButton65x65.h"
 #include "_ComponentsTextButton.h"
 #include "_ViewsRectangle.h"
 

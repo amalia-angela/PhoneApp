@@ -42,7 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsSButton25x25.h"
 #include "_ComponentsTextButton.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
@@ -126,7 +126,7 @@ EW_DEFINE_FIELDS( ApplicationFavoritesPage, CoreGroup )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
   EW_OBJECT  ( TitleTxt1,       ViewsText )
-  EW_OBJECT  ( PlusButton,      ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( PlusButton,      ComponentsSButton25x25 )
   EW_OBJECT  ( TextButton,      ComponentsTextButton )
   EW_PROPERTY( EditMode,        XBool )
 EW_END_OF_FIELDS( ApplicationFavoritesPage )

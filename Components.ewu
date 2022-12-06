@@ -37,9 +37,9 @@ class ButtonBase70x90 : Templates::PushButton
     // Update the parameters of the text view (label)
     if ( InitialsTxt != null )
     { 
-      InitialsTxt.Font   = InitialsFont;
-      InitialsTxt.String = Initials;
-      InitialsTxt.Color  = InitialsColor; 
+      InitialsTxt.Font   = IconFont;
+      InitialsTxt.String = Icon;
+      InitialsTxt.Color  = IconColor; 
       }
 
       // Update the parameters of the text view (label)
@@ -53,18 +53,18 @@ class ButtonBase70x90 : Templates::PushButton
 
     if ( !isEnabled )
     {
-      Background.Color  = BackgroundUnabled;
-      DescripTxt.Color  = DescriptUnabled;
-      InitialsTxt.Color = InitialsUnabled;
+      Background.Color  = BackgroundColorEnabled;
+      DescripTxt.Color  = DescriptColorEnabled;
+      InitialsTxt.Color = IconColorEnabled;
       //Border.Color     = #CCCCCCFF;
       //Border.Width     = 1;
     }
 
     else if ( isPressed )
     {
-      Background.Color = BackgoundPressedColor;
-       DescripTxt.Color  = DescriptpPressColor;
-      InitialsTxt.Color = InitialsPressColor;
+      Background.Color = BackgoundColorPressed;
+       DescripTxt.Color  = DescriptColorPressed;
+      InitialsTxt.Color = IconColorPressed;
       //Border.Color     = #000000FF;
      // Border.Width     = 3;
     }
@@ -254,14 +254,14 @@ class ButtonBase70x90 : Templates::PushButton
   }
 
   $rect <450,50,650,90>
-  onset Initials
+  onset Icon
   {
     // The value doesn't change - nothing to do.
-    if ( pure Initials == value )
+    if ( pure Icon == value )
       return;
 
     // Remember the property's new value.
-    pure Initials = value;
+    pure Icon = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
@@ -276,7 +276,7 @@ class ButtonBase70x90 : Templates::PushButton
   // can modify the alignment of the label as well as its margins by specifying them \
   // in the configuration object.
   $rect <450,10,650,50>
-  property string Initials = "";
+  property string Icon = "";
 
   // The property 'OnActivate' can refer to a slot method, which will receive a signal \
   // as soon as the user has activated the button. Thereupon the method's logic will \
@@ -322,17 +322,17 @@ class ButtonBase70x90 : Templates::PushButton
   }
 
   $rect <450,90,650,130>
-  property color InitialsColor = Res::White;
+  property color IconColor = Res::White;
 
   $rect <450,130,650,170>
-  onset InitialsColor
+  onset IconColor
   {
     // The value doesn't change - nothing to do.
-    if ( pure InitialsColor == value )
+    if ( pure IconColor == value )
       return;
 
     // Remember the property's new value.
-    pure InitialsColor = value;
+    pure IconColor = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
@@ -355,17 +355,17 @@ class ButtonBase70x90 : Templates::PushButton
   }
 
   $rect <870,170,1070,210>
-  property color BackgoundPressedColor = Res::GreyLight;
+  property color BackgoundColorPressed = Res::GreyLight;
 
   $rect <870,210,1070,250>
-  onset BackgoundPressedColor
+  onset BackgoundColorPressed
   {
     // The value doesn't change - nothing to do.
-    if ( pure BackgoundPressedColor == value )
+    if ( pure BackgoundColorPressed == value )
       return;
 
     // Remember the property's new value.
-    pure BackgoundPressedColor = value;
+    pure BackgoundColorPressed = value;
 
     InvalidateViewState();
   }
@@ -387,17 +387,17 @@ class ButtonBase70x90 : Templates::PushButton
   }
 
   $rect <450,170,650,210>
-  property Resources::Font InitialsFont = Res::TitileFont25;
+  property Resources::Font IconFont = Res::TitileFont25;
 
   $rect <450,210,650,250>
-  onset InitialsFont
+  onset IconFont
   {
     // The value doesn't change - nothing to do.
-    if ( pure InitialsFont == value )
+    if ( pure IconFont == value )
       return;
 
     // Remember the property's new value.
-    pure InitialsFont = value;
+    pure IconFont = value;
 
     InvalidateViewState();
   }
@@ -463,82 +463,82 @@ class ButtonBase70x90 : Templates::PushButton
   }
 
   $rect <870,250,1070,290>
-  property color BackgroundUnabled = Res::Grey;
+  property color BackgroundColorEnabled = Res::Grey;
 
   $rect <870,290,1070,330>
-  onset BackgroundUnabled
+  onset BackgroundColorEnabled
   {
     // The value doesn't change - nothing to do.
-    if ( pure BackgroundUnabled == value )
+    if ( pure BackgroundColorEnabled == value )
       return;
 
     // Remember the property's new value.
-    pure BackgroundUnabled = value;
+    pure BackgroundColorEnabled = value;
 
     InvalidateViewState();
   }
 
   $rect <660,250,860,290>
-  property color DescriptUnabled = Res::Grey;
+  property color DescriptColorEnabled = Res::Grey;
 
   $rect <660,290,860,330>
-  onset DescriptUnabled
+  onset DescriptColorEnabled
   {
     // The value doesn't change - nothing to do.
-    if ( pure DescriptUnabled == value )
+    if ( pure DescriptColorEnabled == value )
       return;
 
     // Remember the property's new value.
-    pure DescriptUnabled = value;
+    pure DescriptColorEnabled = value;
 
     InvalidateViewState();
   }
 
   $rect <450,250,650,290>
-  property color InitialsUnabled = Res::Grey;
+  property color IconColorEnabled = Res::Grey;
 
   $rect <450,290,650,330>
-  onset InitialsUnabled
+  onset IconColorEnabled
   {
     // The value doesn't change - nothing to do.
-    if ( pure InitialsUnabled == value )
+    if ( pure IconColorEnabled == value )
       return;
 
     // Remember the property's new value.
-    pure InitialsUnabled = value;
+    pure IconColorEnabled = value;
 
     InvalidateViewState();
   }
 
   $rect <660,330,860,370>
-  property color DescriptpPressColor = Res::GreyLight;
+  property color DescriptColorPressed = Res::GreyLight;
 
   $rect <660,370,860,410>
-  onset DescriptpPressColor
+  onset DescriptColorPressed
   {
     // The value doesn't change - nothing to do.
-    if ( pure DescriptpPressColor == value )
+    if ( pure DescriptColorPressed == value )
       return;
 
     // Remember the property's new value.
-    pure DescriptpPressColor = value;
+    pure DescriptColorPressed = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
   }
 
   $rect <450,330,650,370>
-  property color InitialsPressColor = Res::BlueLight;
+  property color IconColorPressed = Res::BlueLight;
 
   $rect <450,370,650,410>
-  onset InitialsPressColor
+  onset IconColorPressed
   {
     // The value doesn't change - nothing to do.
-    if ( pure InitialsPressColor == value )
+    if ( pure IconColorPressed == value )
       return;
 
     // Remember the property's new value.
-    pure InitialsPressColor = value;
+    pure IconColorPressed = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
@@ -1391,6 +1391,65 @@ class SearchEtxt : Templates::TextEditor
     preset Bitmap = Res::SearchButton;
   }
 
+  $rect <890,40,1090,80>
+  onset Icon
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Icon == value )
+      return;
+
+    // Remember the new string ...
+    pure Icon = value;
+
+    InvalidateViewState();
+  }
+
+  // The property 'String' stores the text of the editor.
+  $rect <890,0,1090,40>
+  property string Icon = Res::SerachIconTxt;
+
+  $rect <890,120,1090,160>
+  onset IconFont
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure IconFont == value )
+      return;
+
+    // Store the new font...
+    pure IconFont = value;
+
+    InvalidateViewState();
+  }
+
+  // The property 'Font' refers to the font object used to display the text. The \
+  // text is determined by the property @String.
+  $rect <890,80,1090,120>
+  property Resources::Font IconFont = Res::IconsFont25;
+
+  $rect <680,360,880,400>
+  slot onRelease
+  {
+    trace "pressed";
+
+    InvalidateViewState();
+
+    if ( !SimpleTouchHandler2.AutoDeflected )
+      postsignal OnIcon;
+  }
+
+  // This generic touch handler is used to move the caret.
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler SimpleTouchHandler2
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <231,33>;
+    preset Point3 = <268,33>;
+    preset Point2 = <268,1>;
+    preset Point1 = <231,1>;
+    preset OnRelease = onRelease;
+    preset MaxStrikeCount = 3;
+  }
+
   // This slide gesture handler is used to scroll the text content.
   $rect <20,20,160,60>
   object Core::SlideTouchHandler SlideTouchHandler
@@ -1451,65 +1510,8 @@ class SearchEtxt : Templates::TextEditor
     preset Color = #B9B9B9FD;
   }
 
-  $rect <890,40,1090,80>
-  onset Icon
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Icon == value )
-      return;
-
-    // Remember the new string ...
-    pure Icon = value;
-
-    InvalidateViewState();
-  }
-
-  // The property 'String' stores the text of the editor.
-  $rect <890,0,1090,40>
-  property string Icon = Res::SerachIconTxt;
-
-  $rect <890,120,1090,160>
-  onset IconFont
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure IconFont == value )
-      return;
-
-    // Store the new font...
-    pure IconFont = value;
-
-    InvalidateViewState();
-  }
-
-  // The property 'Font' refers to the font object used to display the text. The \
-  // text is determined by the property @String.
-  $rect <890,80,1090,120>
-  property Resources::Font IconFont = Res::IconsFont25;
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler SimpleTouchHandler1;
-
-  // This generic touch handler is used to move the caret.
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler SimpleTouchHandler2
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <231,33>;
-    preset Point3 = <268,33>;
-    preset Point2 = <268,1>;
-    preset Point1 = <231,1>;
-    preset OnPress = onIconPress;
-    preset MaxStrikeCount = 3;
-  }
-
-  $rect <680,360,880,400>
-  slot onIconPress
-  {
-    postsignal OnIconPress;
-  }
-
-  $rect <890,360,1090,400>
-  var slot OnIconPress;
+  $rect <880,360,1080,400>
+  property slot OnIcon = null;
 }
 
 // This component implements an editor.

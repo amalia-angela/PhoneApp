@@ -34,11 +34,11 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x000000B4, /* ratio 55.56 % */
+  0x000000D4, /* ratio 52.83 % */
   0xB8000900, 0x38160452, 0x12040000, 0xA10E229C, 0xCAE022C2, 0x24581C39, 0x0B89B8D9,
   0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xAE092289, 0x88B29838, 0xA12D8B86,
-  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0x0725B1E2, 0x14B71B73,
-  0x2848E87D, 0x11286941, 0x00080C22, 0x00000000
+  0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0xACA5B1E2, 0x14B6459C,
+  0x2848E87D, 0x093F6941, 0x2CAA42D6, 0x1B73C72A, 0x8844A1C3, 0x00002030, 0x00000000
 };
 
 /* User defined constant: 'Res::CallTxt' */
@@ -410,5 +410,29 @@ void ResSlideUpCenteredLimit__Init( EffectsSlideTransition _this )
 /* Table with links to derived variants of the auto object : 'Res::SlideUpCenteredLimit' */
 EW_DEFINE_AUTOOBJECT_VARIANTS( ResSlideUpCenteredLimit )
 EW_END_OF_AUTOOBJECT_VARIANTS( ResSlideUpCenteredLimit )
+
+/* User defined constant: 'Res::IncomingCallTxt' */
+const XStringRes ResIncomingCallTxt = { _StringsDefault0, 0x005A };
+
+/* User defined constant: 'Res::CheckIcon' */
+const XStringRes ResCheckIcon = { _StringsDefault0, 0x005E };
+
+/* User defined constant: 'Res::WriteIcon' */
+const XStringRes ResWriteIcon = { _StringsDefault0, 0x0062 };
+
+/* User defined constant: 'Res::ForwardIcon' */
+const XStringRes ResForwardIcon = { _StringsDefault0, 0x0066 };
+
+/* Include a file containing the font resource : 'Res::IconsFont12' */
+#include "_ResIconsFont12.h"
+
+/* Table with links to derived variants of the font resource : 'Res::IconsFont12' */
+EW_RES_WITHOUT_VARIANTS( ResIconsFont12 )
+
+/* Include a file containing the bitmap resource : 'Res::SuqareButton' */
+#include "_ResSuqareButton.h"
+
+/* Table with links to derived variants of the bitmap resource : 'Res::SuqareButton' */
+EW_RES_WITHOUT_VARIANTS( ResSuqareButton )
 
 /* Embedded Wizard */

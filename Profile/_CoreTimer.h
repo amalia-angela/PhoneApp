@@ -106,6 +106,12 @@ void CoreTimer__Trigger( void* _this );
 /* The following define announces the presence of the method Core::Timer.Trigger(). */
 #define _CoreTimer__Trigger_
 
+/* The slot method 'StartTimer' will re-start the timer if a signal is sent to this 
+   slot method. The timer will start with the interval specified in @Begin. After 
+   the interval is elapsed, the timer continue running with the interval defined 
+   in @Period. */
+void CoreTimer_StartTimer( CoreTimer _this, XObject sender );
+
 #ifdef __cplusplus
   }
 #endif

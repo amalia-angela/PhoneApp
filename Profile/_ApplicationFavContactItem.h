@@ -43,7 +43,7 @@
 #endif
 
 #include "_ApplicationContactItem.h"
-#include "_ComponentsPushButtonSmall.h"
+#include "_ComponentsSButton25x25.h"
 #include "_ComponentsTextButton.h"
 #include "_CoreKeyPressHandler.h"
 #include "_CoreSimpleTouchHandler.h"
@@ -114,9 +114,9 @@ EW_DEFINE_FIELDS( ApplicationFavContactItem, ApplicationContactItem )
   EW_PROPERTY( OnInfo,          XSlot )
   EW_OBJECT  ( EditEffect,      EffectsInt32Effect )
   EW_OBJECT  ( DeleteEffect,    EffectsInt32Effect )
-  EW_OBJECT  ( RemoveButton,    ComponentsPushButtonSmall )
+  EW_OBJECT  ( RemoveButton,    ComponentsSButton25x25 )
   EW_OBJECT  ( DeleteButton,    ComponentsTextButton )
-  EW_OBJECT  ( InfoButton,      ComponentsPushButtonSmall )
+  EW_OBJECT  ( InfoButton,      ComponentsSButton25x25 )
   EW_PROPERTY( EditMode,        XBool )
 EW_END_OF_FIELDS( ApplicationFavContactItem )
 

@@ -42,7 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ComponentsPushButtonSmall.h"
+#include "_ComponentsSButton25x25.h"
 #include "_CoreGroup.h"
 #include "_CoreKeyPressHandler.h"
 #include "_CoreSimpleTouchHandler.h"
@@ -111,10 +111,10 @@ EW_DEFINE_FIELDS( ApplicationContactItem, CoreGroup )
   EW_OBJECT  ( LastNameTxt,     ViewsText )
   EW_OBJECT  ( FirstNameTxt,    ViewsText )
   EW_OBJECT  ( Line,            ViewsLine )
-  EW_OBJECT  ( PrfofilButton,   ComponentsPushButtonSmall )
+  EW_OBJECT  ( PrfofilButton,   ComponentsSButton25x25 )
   EW_OBJECT  ( Line1,           ViewsLine )
+  EW_OBJECT  ( MeTxt,           ViewsText )
   EW_PROPERTY( ButtonColor,     XColor )
-  EW_PROPERTY( IconColor,       XColor )
   EW_PROPERTY( TextColor,       XColor )
   EW_VARIABLE( enabled,         XBool )
   EW_VARIABLE( selected,        XBool )

@@ -45,6 +45,7 @@
 #include "_TemplatesDeviceClass.h"
 #include "_TemplatesPushButton.h"
 #include "_TemplatesTextEditor.h"
+#include "_TemplatesToggleButton.h"
 
 #ifdef __cplusplus
   }

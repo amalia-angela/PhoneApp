@@ -42,9 +42,8 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ComponentsInputEtxt.h"
-#include "_ComponentsPushButtonNoBackground.h"
-#include "_ComponentsPushButtonSmall.h"
+#include "_ApplicationMyCardItem.h"
+#include "_ComponentsSButton25x25.h"
 #include "_ComponentsSearchEtxt.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
@@ -121,15 +120,13 @@ EW_DEFINE_FIELDS( ApplicationContactsPage, CoreGroup )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
-  EW_OBJECT  ( UpButton,        ComponentsPushButtonNoBackground )
-  EW_OBJECT  ( DownButton,      ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( UpButton,        ComponentsSButton25x25 )
+  EW_OBJECT  ( DownButton,      ComponentsSButton25x25 )
   EW_OBJECT  ( SearchExt,       ComponentsSearchEtxt )
   EW_OBJECT  ( TitleTxt,        ViewsText )
-  EW_OBJECT  ( PlusButton,      ComponentsPushButtonNoBackground )
-  EW_OBJECT  ( MyCardTxt,       ViewsText )
-  EW_OBJECT  ( PushButtonSmall, ComponentsPushButtonSmall )
+  EW_OBJECT  ( PlusButton,      ComponentsSButton25x25 )
   EW_OBJECT  ( TextEditor1,     TemplatesTextEditor )
-  EW_OBJECT  ( InputEtxt,       ComponentsInputEtxt )
+  EW_OBJECT  ( MyCardItem,      ApplicationMyCardItem )
 EW_END_OF_FIELDS( ApplicationContactsPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsPage' */
@@ -222,6 +219,14 @@ void ApplicationContactsPage_onContactActivated( ApplicationContactsPage _this,
 
 /* Wrapper function for the virtual method : 'Application::ContactsPage.onContactActivated()' */
 void ApplicationContactsPage__onContactActivated( void* _this, XObject sender );
+
+/* 'C' function for method : 'Application::ContactsPage.onMYCardUpdate()' */
+void ApplicationContactsPage_onMYCardUpdate( ApplicationContactsPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::ContactsPage.onMyCardPress()' */
+void ApplicationContactsPage_onMyCardPress( ApplicationContactsPage _this, XObject 
+  sender );
 
 #ifdef __cplusplus
   }

@@ -146,7 +146,6 @@ class Contact
 }
 
 // Contact
-
 note group Note2
 {
   attr Bounds = <300,0,810,360>;
@@ -713,6 +712,7 @@ class DeviceClass : Templates::DeviceClass
       contact.FirstName = aPhoneNumber;
       contact.PhoneNumber = aPhoneNumber;
       contact.NameInitials = Contacts.GetInitials( aPhoneNumber, "" ); 
+      //Contacts.AddLast( contact );
     }
 
     var Device::Message msg = new Device::Message;
@@ -722,7 +722,7 @@ class DeviceClass : Templates::DeviceClass
     msg.TimeSent = ( new Core::Time).CurrentTime;
     msg.Message  = aMessageContent;
 
-    MyCard.Messages.Add( msg );
+    contact.Messages.Add( msg );
   }
 
   $rect <670,190,870,230>
@@ -735,7 +735,7 @@ class DeviceClass : Templates::DeviceClass
     msg.TimeSent = ( new Core::Time).CurrentTime;
     msg.Message  = aMessageContent;
 
-    MyCard.Messages.Add( msg );
+    aContact.Messages.Add( msg );
 
     Device::PhoneServer.SendMessage( aContact.PhoneNumber, aMessageContent );
 
@@ -1790,7 +1790,6 @@ class Message
 }
 
 // Messages
-// 
 
 note group Note5
 {

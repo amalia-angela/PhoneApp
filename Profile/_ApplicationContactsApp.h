@@ -42,7 +42,7 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ComponentsNavBarButtons.h"
+#include "_ComponentsNavBarButton64x40.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
@@ -100,10 +100,10 @@
 EW_DEFINE_FIELDS( ApplicationContactsApp, CoreGroup )
   EW_OBJECT  ( Outline,         CoreGroup )
   EW_OBJECT  ( Rectangle,       ViewsRectangle )
-  EW_OBJECT  ( NavBarButtons,   ComponentsNavBarButtons )
-  EW_OBJECT  ( NavBarButtons1,  ComponentsNavBarButtons )
-  EW_OBJECT  ( NavBarButtons2,  ComponentsNavBarButtons )
-  EW_OBJECT  ( NavBarButtons3,  ComponentsNavBarButtons )
+  EW_OBJECT  ( NavBarButtons,   ComponentsNavBarButton64x40 )
+  EW_OBJECT  ( NavBarButtons1,  ComponentsNavBarButton64x40 )
+  EW_OBJECT  ( NavBarButtons2,  ComponentsNavBarButton64x40 )
+  EW_OBJECT  ( NavBarButtons3,  ComponentsNavBarButton64x40 )
   EW_OBJECT  ( Line,            ViewsLine )
   EW_PROPERTY( SelectedPage,    XInt32 )
 EW_END_OF_FIELDS( ApplicationContactsApp )

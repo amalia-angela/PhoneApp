@@ -28,6 +28,7 @@
 #include "_TemplatesDeviceClass.h"
 #include "_TemplatesPushButton.h"
 #include "_TemplatesTextEditor.h"
+#include "_TemplatesToggleButton.h"
 #include "Templates.h"
 
 /* Initializer for the class 'Templates::PushButton' */
@@ -90,6 +91,67 @@ EW_DEFINE_CLASS( TemplatesPushButton, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _.V
   CoreGroup_Remove,
   CoreGroup_Add,
 EW_END_OF_CLASS( TemplatesPushButton )
+
+/* Initializer for the class 'Templates::ToggleButton' */
+void TemplatesToggleButton__Init( TemplatesToggleButton _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( TemplatesToggleButton );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( TemplatesToggleButton );
+}
+
+/* Re-Initializer for the class 'Templates::ToggleButton' */
+void TemplatesToggleButton__ReInit( TemplatesToggleButton _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_.Super );
+}
+
+/* Finalizer method for the class 'Templates::ToggleButton' */
+void TemplatesToggleButton__Done( TemplatesToggleButton _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_.Super );
+}
+
+/* Variants derived from the class : 'Templates::ToggleButton' */
+EW_DEFINE_CLASS_VARIANTS( TemplatesToggleButton )
+EW_END_OF_CLASS_VARIANTS( TemplatesToggleButton )
+
+/* Virtual Method Table (VMT) for the class : 'Templates::ToggleButton' */
+EW_DEFINE_CLASS( TemplatesToggleButton, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, 
+                 _.VMT, "Templates::ToggleButton" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetBuffered,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_FindSiblingView,
+  CoreGroup_RestackTop,
+  CoreGroup_Restack,
+  CoreGroup_Remove,
+  CoreGroup_Add,
+EW_END_OF_CLASS( TemplatesToggleButton )
 
 /* Initializer for the class 'Templates::TextEditor' */
 void TemplatesTextEditor__Init( TemplatesTextEditor _this, XObject aLink, XHandle aArg )

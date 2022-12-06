@@ -84,6 +84,12 @@ EW_DECLARE_BITMAP_RES( ResButtonRoundMedium1 )
 /* Bitmap resource : 'Res::SearchButton' */
 EW_DECLARE_BITMAP_RES( ResSearchButton )
 
+/* Font resource : 'Res::IconsFont12' */
+EW_DECLARE_FONT_RES( ResIconsFont12 )
+
+/* Bitmap resource : 'Res::SuqareButton' */
+EW_DECLARE_BITMAP_RES( ResSuqareButton )
+
 /* Forward declaration of the class Effects::FadeInOutTransition */
 #ifndef _EffectsFadeInOutTransition_
   EW_DECLARE_CLASS( EffectsFadeInOutTransition )
@@ -309,6 +315,18 @@ extern const XStringRes ResMenuTxt;
    run with other configuration (e.g. other timing parameters), create a copy of 
    this object and adapt its properties accordingly. */
 EW_DECLARE_AUTOOBJECT( ResSlideUpCenteredLimit, EffectsSlideTransition )
+
+/* User defined constant: 'Res::IncomingCallTxt' */
+extern const XStringRes ResIncomingCallTxt;
+
+/* User defined constant: 'Res::CheckIcon' */
+extern const XStringRes ResCheckIcon;
+
+/* User defined constant: 'Res::WriteIcon' */
+extern const XStringRes ResWriteIcon;
+
+/* User defined constant: 'Res::ForwardIcon' */
+extern const XStringRes ResForwardIcon;
 
 #ifdef __cplusplus
   }

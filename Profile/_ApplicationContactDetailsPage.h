@@ -42,9 +42,9 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ComponentsPushButtonBig.h"
-#include "_ComponentsPushButtonMediumBlue.h"
-#include "_ComponentsPushButtonNoBackground.h"
+#include "_ComponentsButton50x75.h"
+#include "_ComponentsButtonBase70x90.h"
+#include "_ComponentsSButton25x25.h"
 #include "_CoreGroup.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
@@ -122,13 +122,13 @@ EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
   EW_OBJECT  ( NumberTxt,       ViewsText )
   EW_OBJECT  ( MobileTxt,       ViewsText )
   EW_OBJECT  ( Line1,           ViewsLine )
-  EW_OBJECT  ( CallBtn,         ComponentsPushButtonMediumBlue )
-  EW_OBJECT  ( VideoCallBtn,    ComponentsPushButtonMediumBlue )
-  EW_OBJECT  ( PushButtonMediumBlue2, ComponentsPushButtonMediumBlue )
+  EW_OBJECT  ( CallBtn,         ComponentsButton50x75 )
+  EW_OBJECT  ( VideoCallBtn,    ComponentsButton50x75 )
+  EW_OBJECT  ( PushButtonMediumBlue2, ComponentsButton50x75 )
   EW_OBJECT  ( ContactName,     ViewsText )
-  EW_OBJECT  ( UserInitialsBtn, ComponentsPushButtonBig )
-  EW_OBJECT  ( EditBtn,         ComponentsPushButtonNoBackground )
-  EW_OBJECT  ( BackBtn,         ComponentsPushButtonNoBackground )
+  EW_OBJECT  ( UserInitialsBtn, ComponentsButtonBase70x90 )
+  EW_OBJECT  ( EditBtn,         ComponentsSButton25x25 )
+  EW_OBJECT  ( BackBtn,         ComponentsSButton25x25 )
   EW_OBJECT  ( FavoritTxt,      ViewsText )
 EW_END_OF_FIELDS( ApplicationContactDetailsPage )
 

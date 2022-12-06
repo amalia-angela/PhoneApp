@@ -620,3 +620,15 @@ resource Resources::Bitmap SuqareButton
   attr bitmapdithering Dithering = Auto;
   attr bitmapmode Mode = Default;
 }
+
+$rect <220,300,420,340>
+$output false
+resource Resources::Bitmap iphoneCase
+{
+  attr bitmapfile FileName = .\Res\iphone.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}

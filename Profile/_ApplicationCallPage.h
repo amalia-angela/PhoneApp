@@ -44,8 +44,9 @@
 
 #include "_ApplicationCallPageBase.h"
 #include "_ApplicationKeypadInsideCall.h"
-#include "_ComponentsPushButtonBig.h"
-#include "_ComponentsPushButtonMediumTrans.h"
+#include "_ComponentsButton65x90.h"
+#include "_ComponentsButtonBase70x90.h"
+#include "_CoreTimer.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
@@ -126,13 +127,14 @@
 EW_DEFINE_FIELDS( ApplicationCallPage, ApplicationCallPageBase )
   EW_VARIABLE( contactsPage,    ApplicationContactsInsideCall )
   EW_VARIABLE( addCall,         ApplicationContactsAppInsideCall )
-  EW_OBJECT  ( ContactsBtn,     ComponentsPushButtonMediumTrans )
-  EW_OBJECT  ( VideoCallBtn,    ComponentsPushButtonMediumTrans )
-  EW_OBJECT  ( AddCallBtn,      ComponentsPushButtonMediumTrans )
-  EW_OBJECT  ( SpeakerBtn,      ComponentsPushButtonMediumTrans )
-  EW_OBJECT  ( KeyPadBtn,       ComponentsPushButtonMediumTrans )
-  EW_OBJECT  ( MuteBtn,         ComponentsPushButtonMediumTrans )
+  EW_OBJECT  ( ContactsBtn,     ComponentsButton65x90 )
+  EW_OBJECT  ( VideoCallBtn,    ComponentsButton65x90 )
+  EW_OBJECT  ( AddCallBtn,      ComponentsButton65x90 )
+  EW_OBJECT  ( SpeakerBtn,      ComponentsButton65x90 )
+  EW_OBJECT  ( KeyPadBtn,       ComponentsButton65x90 )
+  EW_OBJECT  ( MuteBtn,         ComponentsButton65x90 )
   EW_OBJECT  ( Keypad,          ApplicationKeypadInsideCall )
+  EW_OBJECT  ( Stoper,          CoreTimer )
 EW_END_OF_FIELDS( ApplicationCallPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::CallPage' */
@@ -171,6 +173,11 @@ EW_DEFINE_METHODS( ApplicationCallPage, ApplicationCallPageBase )
   EW_METHOD( onContactUpdated,  void )( ApplicationCallPage _this, XObject sender )
 EW_END_OF_METHODS( ApplicationCallPage )
 
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationCallPage_Init( ApplicationCallPage _this, XHandle aArg );
+
 /* 'C' function for method : 'Application::CallPage.onContactUpdated()' */
 void ApplicationCallPage_onContactUpdated( ApplicationCallPage _this, XObject sender );
 
@@ -203,6 +210,10 @@ void ApplicationCallPage_onKeypadEdit( ApplicationCallPage _this, XObject sender
 
 /* 'C' function for method : 'Application::CallPage.onCancel1()' */
 void ApplicationCallPage_onCancel1( ApplicationCallPage _this, XObject sender );
+
+/* 'C' function for method : 'Application::CallPage.upDateTalkDuration()' */
+void ApplicationCallPage_upDateTalkDuration( ApplicationCallPage _this, XObject 
+  sender );
 
 #ifdef __cplusplus
   }
