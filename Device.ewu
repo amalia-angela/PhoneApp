@@ -140,9 +140,13 @@ class Contact
     // Remember the property's new value.
     pure MyCard = value;
   }
+
+  $rect <0,350,200,390>
+  var Device::MessagesList Messages;
 }
 
-// Data
+// Contact
+
 note group Note2
 {
   attr Bounds = <300,0,810,360>;
@@ -520,7 +524,7 @@ class DeviceClass : Templates::DeviceClass
     {
       historyContact.LastName = aPhoneNumber;
       historyContact.PhoneNumber = aPhoneNumber;
-    }
+    } 
     else
     {
       contact.CopyDataTo( historyContact );
@@ -594,27 +598,6 @@ class DeviceClass : Templates::DeviceClass
       Ongoing.Remove( aContact );
      }
     //esetleg ha megszakad a vonal akkor tegye be fail
-
-
-  }
-
-  $rect <430,0,630,40>
-  property string MyCardNumber = "";
-
-  $rect <430,40,630,80>
-  onset MyCardNumber
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure MyCardNumber == value )
-      return;
-
-    pure MyCardNumber = value;
-
-    if ( pure MyCardNumber != "" )
-    {
-
-      signal Device::PhoneServer.PollServerData.StartTimer;
-    }
 
 
   }
@@ -716,6 +699,48 @@ class DeviceClass : Templates::DeviceClass
     notifyobservers ^MyCard;
 
     trace MyCard.FirstName + MyCard.LastName + MyCard.PhoneNumber;
+  }
+
+  $rect <460,190,660,230>
+  method void ReceiveMessage( arg string aPhoneNumber, arg string aMessageContent )
+  {
+    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+
+    if ( contact == null )
+    {
+      contact = new Device::Contact;
+      
+      contact.FirstName = aPhoneNumber;
+      contact.PhoneNumber = aPhoneNumber;
+      contact.NameInitials = Contacts.GetInitials( aPhoneNumber, "" ); 
+    }
+
+    var Device::Message msg = new Device::Message;
+
+    msg.Sender   = contact;
+    msg.Receiver = MyCard;
+    msg.TimeSent = ( new Core::Time).CurrentTime;
+    msg.Message  = aMessageContent;
+
+    MyCard.Messages.Add( msg );
+  }
+
+  $rect <670,190,870,230>
+  method void SendMessage( arg Device::Contact aContact, arg string aMessageContent )
+  {
+    var Device::Message msg = new Device::Message;
+
+    msg.Sender   = MyCard;
+    msg.Receiver = aContact;
+    msg.TimeSent = ( new Core::Time).CurrentTime;
+    msg.Message  = aMessageContent;
+
+    MyCard.Messages.Add( msg );
+
+    Device::PhoneServer.SendMessage( aContact.PhoneNumber, aMessageContent );
+
+
+
   }
 }
 
@@ -1260,16 +1285,19 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string senderID;
     var string phoneNumber;
-    var string message;
     var string url;
+    var string message;
+    var string messageContent;
+
 
     senderID = Device::Device.MyCard.PhoneNumber;
     phoneNumber = "";
     message = "";
+    messageContent = "";
     url = "http://localhost/php-files/contacts/receive/"+senderID+"/"; 
 
     $if !$prototyper
-    native ( url, phoneNumber, message )
+    native ( url, phoneNumber, message, messageContent )
     {
       let req = new XMLHttpRequest();
       req.open('GET', url, false);
@@ -1279,6 +1307,7 @@ class PhoneServerClass : Templates::DeviceClass
           let json    = JSON.parse(req.response);
           phoneNumber = json.sender;
           message     = json.message;
+          messageContent = json.content;
         }
       };
       req.send();
@@ -1304,9 +1333,14 @@ class PhoneServerClass : Templates::DeviceClass
     {
       Device::Device.ReceiveEndCall( phoneNumber );
     }
-
-
-
+    else if ( message == "message" )
+    {
+       Device::Device.ReceiveMessage( phoneNumber, messageContent );
+    }
+    else
+    {
+      trace "Unknown message from server";
+    }
 
 
 
@@ -1437,7 +1471,7 @@ class PhoneServerClass : Templates::DeviceClass
 
     var string senderID = Device::Device.MyCard.PhoneNumber;
 
-    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
+    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
     $if !$prototyper
     native ( url, result )
     {
@@ -1466,7 +1500,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID = Device::Device.MyCard.PhoneNumber;
 
-    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1495,7 +1529,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string url;
     var string result;
     var string senderID = Device::Device.MyCard.PhoneNumber;
-    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/reject/";
+    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
 
     $if !$prototyper
     native ( url, result )
@@ -1524,7 +1558,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string url;
     var string result;
     var string senderID = Device::Device.MyCard.PhoneNumber;
-    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
+    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1554,7 +1588,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID = Device::Device.MyCard.PhoneNumber;
 
-    url = "http://localhost/php-files/contacts/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
     trace url;
     $if !$prototyper
     native ( url, result )
@@ -1570,6 +1604,35 @@ class PhoneServerClass : Templates::DeviceClass
       req.send();
     }
     $endif
+    trace result;
+    if ( result == "" )
+      return true;
+      
+    return false;
+  }
+
+  $rect <440,180,640,220>
+  method bool SendMessage( arg string aReceiverNumber, arg string aMessage )
+  {
+    var string result;
+    var string url;
+    var string senderID = Device::Device.MyCard.PhoneNumber;
+
+    url = "http://localhost/php-files/contacts/message/send/"+senderID+"/"+aReceiverNumber+"/message/"+aMessage+"/"; 
+
+    $if !$prototyper
+    native ( result )
+    {
+      var req = new XMLHttpRequest();
+      req.open("GET", url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+    }
+    $endif
+
     trace result;
     if ( result == "" )
       return true;
@@ -1627,5 +1690,197 @@ class PhoneServerCallInfo
     // TO DO:
     // 
     // Now you can handle the alternation of the property.
+  }
+}
+
+$rect <860,100,1060,140>
+$output false
+class Message
+{
+  $rect <10,20,210,60>
+  var Device::Message next;
+
+  $rect <10,170,210,210>
+  property string Message = "";
+
+  $rect <210,170,410,210>
+  onset Message
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Message == value )
+      return;
+
+    // Remember the property's new value.
+    pure Message = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,130,210,170>
+  property Device::Contact Sender;
+
+  $rect <210,130,410,170>
+  onset Sender
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Sender == value )
+      return;
+
+    // Remember the property's new value.
+    pure Sender = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,90,210,130>
+  property Device::Contact Receiver;
+
+  $rect <210,90,410,130>
+  onset Receiver
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Receiver == value )
+      return;
+
+    // Remember the property's new value.
+    pure Receiver = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,210,210,250>
+  property Core::Time TimeSent;
+
+  $rect <210,210,410,250>
+  onset TimeSent
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure TimeSent == value )
+      return;
+
+    // Remember the property's new value.
+    pure TimeSent = value;
+
+    notifyobservers this;
+  }
+
+  $rect <420,210,620,250>
+  method string GetTimeOfCall()
+  {
+    var Core::TimeSpan time = new Core::TimeSpan;
+    if ( TimeSent == null )
+      return "";
+
+    time = (new Core::Time).CurrentTime.Difference( TimeSent );
+    if ( time.TotalHours < 24)
+      return TimeSent.Format( "%H:%M %p" );
+
+    if ( TimeSent.Day < (new Core::Time).CurrentTime.Day)
+      return TimeSent.Format( "%w" );
+      
+    else
+      return TimeSent.Format( "%d:%m:%y" );
+  }
+
+  $rect <470,30,670,70>
+  method void TraceMessage()
+  {
+    trace Receiver.FirstName + " " + Sender.FirstName + " " + Message ;
+  }
+}
+
+// Messages
+// 
+
+note group Note5
+{
+  attr Bounds = <820,0,1130,360>;
+}
+
+$rect <830,50,1030,90>
+$output false
+class MessagesList
+{
+  $rect <0,0,200,40>
+  var Device::Message head = null;
+
+  $rect <0,90,200,130>
+  method void Add( arg Device::Message aMessage )
+  {
+    var Device::Message mes = new Device::Message;
+    mes = aMessage;
+
+    if ( head ==  null )
+    {  
+      head = mes; 
+    }  
+    else
+    {
+      // add contact after the last node
+      var Device::Message lastNode = head;
+      while ( lastNode.next != null )
+      {
+        lastNode = lastNode.next;
+      }
+
+      lastNode.next = mes;
+    }
+
+    NoOfItems +=1;
+
+  }
+
+  $rect <0,130,200,170>
+  method void Remove( arg Device::Message aMessage )
+  {
+    var Device::Message mes = head;
+    var Device::Message prev = null;
+
+    if (( mes != null) && ( mes == aMessage ))
+    {
+      head = mes;
+      NoOfItems -= 1;
+    }
+     
+    else
+    {
+      while ((mes != null) && (mes != aMessage))
+      {
+        prev = mes;
+        mes = mes.next;
+       }
+       prev.next = mes.next;
+       NoOfItems -= 1;
+    }
+  }
+
+  $rect <0,200,200,240>
+  method void TraceMessages()
+  {
+    var Device::Message elem = head;
+
+    while ( elem != null )
+    {
+      elem.TraceMessage();
+      elem = elem.next;
+    }
+
+  }
+
+  $rect <210,0,410,40>
+  property int32 NoOfItems = 0;
+
+  $rect <210,40,410,80>
+  onset NoOfItems
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NoOfItems == value )
+      return;
+
+    // Remember the property's new value.
+    pure NoOfItems = value;
+
+    notifyobservers ^NoOfItems;
+
   }
 }
