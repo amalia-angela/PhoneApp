@@ -62,10 +62,22 @@
 #define _CoreOutline_
 #endif
 
+/* Forward declaration of the class Core::SlideTouchHandler */
+#ifndef _CoreSlideTouchHandler_
+  EW_DECLARE_CLASS( CoreSlideTouchHandler )
+#define _CoreSlideTouchHandler_
+#endif
+
 /* Forward declaration of the class Core::View */
 #ifndef _CoreView_
   EW_DECLARE_CLASS( CoreView )
 #define _CoreView_
+#endif
+
+/* Forward declaration of the class Effects::PointEffect */
+#ifndef _EffectsPointEffect_
+  EW_DECLARE_CLASS( EffectsPointEffect )
+#define _EffectsPointEffect_
 #endif
 
 /* Forward declaration of the class Graphics::Canvas */
@@ -108,6 +120,11 @@
    outlines appear as semitransparent rectangles. This allows you to interact with 
    the outlines during the design time. */
 EW_DEFINE_FIELDS( CoreOutline, CoreRectView )
+  EW_VARIABLE( scrollEffect,    EffectsPointEffect )
+  EW_PROPERTY( SlideHandler,    CoreSlideTouchHandler )
+  EW_VARIABLE( onDoneScroll,    XSlot )
+  EW_PROPERTY( ScrollOffset,    XPoint )
+  EW_PROPERTY( Formation,       XEnum )
 EW_END_OF_FIELDS( CoreOutline )
 
 /* Virtual Method Table (VMT) for the class : 'Core::Outline' */
@@ -159,6 +176,51 @@ void CoreOutline_Draw( CoreOutline _this, GraphicsCanvas aCanvas, XRect aClip, X
 
 /* 'C' function for method : 'Core::Outline.OnSetBounds()' */
 void CoreOutline_OnSetBounds( CoreOutline _this, XRect value );
+
+/* 'C' function for method : 'Core::Outline.onFinishScrollSlot()' */
+void CoreOutline_onFinishScrollSlot( CoreOutline _this, XObject sender );
+
+/* 'C' function for method : 'Core::Outline.onSlideSlot()' */
+void CoreOutline_onSlideSlot( CoreOutline _this, XObject sender );
+
+/* 'C' function for method : 'Core::Outline.onStartSlideSlot()' */
+void CoreOutline_onStartSlideSlot( CoreOutline _this, XObject sender );
+
+/* 'C' function for method : 'Core::Outline.OnSetSlideHandler()' */
+void CoreOutline_OnSetSlideHandler( CoreOutline _this, CoreSlideTouchHandler value );
+
+/* 'C' function for method : 'Core::Outline.OnSetScrollOffset()' */
+void CoreOutline_OnSetScrollOffset( CoreOutline _this, XPoint value );
+
+/* 'C' function for method : 'Core::Outline.OnSetFormation()' */
+void CoreOutline_OnSetFormation( CoreOutline _this, XEnum value );
+
+/* The method EnsureVisible() scrolls the content of the outline until the given 
+   view aView is partially or fully within the outline boundary area @Bounds. The 
+   respective mode is determined by the parameter aFullyVisible.
+   This scroll operation can optionally be animated by an effect passed in the parameter 
+   aAnimationEffect. If aAnimationEffect == null, no animation is used and the scrolling 
+   is executed immediately. After the operation is done, a signal is sent to the 
+   optional slot method specified in the parameter aOnDoneScroll.
+   Please note, calling the method EnsureVisible() while an animation is running 
+   will terminate it abruptly without the slot method aOnDoneScroll being notified. 
+   More flexible approach to stop an activate animation is to use the method @StopScrollEffect(). 
+   Whether an animation is currently running can be queried by using the method 
+   @IsScrollEffectActive(). */
+void CoreOutline_EnsureVisible( CoreOutline _this, CoreView aView, XBool aFullyVisible, 
+  EffectsPointEffect aAnimationEffect, XSlot aOnDoneScroll );
+
+/* The method GetContentArea() determines a rectangular area occupied by the views 
+   embedded within the outline. The additional parameter aFilter can be used to 
+   limit the operation to special views only, e.g. to visible and touchable views.
+   If there are no views complying the filter condition, the method returns an empty 
+   area.
+   Please note, this method is limited to the views embedded within the outline. 
+   Other sibling views not belonging to the outline are simply ignored. */
+XRect CoreOutline_GetContentArea( CoreOutline _this, XSet aFilter );
+
+/* Default onget method for the property 'ScrollOffset' */
+XPoint CoreOutline_OnGetScrollOffset( CoreOutline _this );
 
 #ifdef __cplusplus
   }

@@ -141,8 +141,21 @@ class Contact
     pure MyCard = value;
   }
 
-  $rect <0,350,200,390>
-  var Device::MessagesList Messages;
+  $rect <0,340,200,380>
+  property Device::MessagesList MessagesList = null;
+
+  $rect <200,340,400,380>
+  onset MessagesList
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure MessagesList == value )
+      return;
+
+    // Remember the property's new value.
+    pure MessagesList = value;
+
+    notifyobservers this;
+  }
 }
 
 // Contact
@@ -472,8 +485,8 @@ class DeviceClass : Templates::DeviceClass
     var Device::HistoryContact historyContact = new Device::HistoryContact;
     aContact.CopyDataTo( historyContact );
 
-    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
-    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.TimeOfCall    = (new Core::Time).CurrentTime;
+    historyContact.CallState     = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
     Ongoing.AddLast( historyContact );
@@ -496,7 +509,7 @@ class DeviceClass : Templates::DeviceClass
     //contact not found in contact list, than save it by number
     if ( contact == null )
     {
-      historyContact.LastName = aPhoneNumber;
+      historyContact.LastName    = aPhoneNumber;
       historyContact.PhoneNumber = aPhoneNumber;
     }
     else
@@ -504,8 +517,8 @@ class DeviceClass : Templates::DeviceClass
       contact.CopyDataTo( historyContact );
     }
 
-    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
-    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.TimeOfCall    = (new Core::Time).CurrentTime;
+    historyContact.CallState     = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Incoming;
 
     Ongoing.AddLast( historyContact );
@@ -529,8 +542,8 @@ class DeviceClass : Templates::DeviceClass
       contact.CopyDataTo( historyContact );
     }
 
-    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
-    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.TimeOfCall    = (new Core::Time).CurrentTime;
+    historyContact.CallState     = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
     Ongoing.AddLast( historyContact );
@@ -574,7 +587,7 @@ class DeviceClass : Templates::DeviceClass
     else if ( historyContact.CallState == Device::CallState.Speaking )
     {
       historyContact.CallState = Device::CallState.EndCall;
-      historyContact.EndTime = (new Core::Time).CurrentTime;
+      historyContact.EndTime   = (new Core::Time).CurrentTime;
       Device::PhoneServer.EndCall( historyContact.PhoneNumber );
     } 
 
@@ -667,7 +680,7 @@ class DeviceClass : Templates::DeviceClass
     else if ( historyContact.CallState == Device::CallState.Speaking )
     {
       historyContact.CallState = Device::CallState.EndCall;
-      historyContact.EndTime = (new Core::Time).CurrentTime;
+      historyContact.EndTime   = (new Core::Time).CurrentTime;
     } 
 
 
@@ -697,7 +710,7 @@ class DeviceClass : Templates::DeviceClass
 
     notifyobservers ^MyCard;
 
-    trace MyCard.FirstName + MyCard.LastName + MyCard.PhoneNumber;
+    trace "MyCard: " + MyCard.FirstName + MyCard.LastName + MyCard.PhoneNumber;
   }
 
   $rect <460,190,660,230>
@@ -709,8 +722,8 @@ class DeviceClass : Templates::DeviceClass
     {
       contact = new Device::Contact;
       
-      contact.FirstName = aPhoneNumber;
-      contact.PhoneNumber = aPhoneNumber;
+      contact.FirstName    = aPhoneNumber;
+      contact.PhoneNumber  = aPhoneNumber;
       contact.NameInitials = Contacts.GetInitials( aPhoneNumber, "" ); 
       //Contacts.AddLast( contact );
     }
@@ -722,7 +735,7 @@ class DeviceClass : Templates::DeviceClass
     msg.TimeSent = ( new Core::Time).CurrentTime;
     msg.Message  = aMessageContent;
 
-    contact.Messages.Add( msg );
+    //contact.Messages.Add( msg );
   }
 
   $rect <670,190,870,230>
@@ -735,12 +748,47 @@ class DeviceClass : Templates::DeviceClass
     msg.TimeSent = ( new Core::Time).CurrentTime;
     msg.Message  = aMessageContent;
 
-    aContact.Messages.Add( msg );
+    //var Device::MessagesList message = new Device::MessagesList;
+
+    //aContact.MessagesList.Add( msg );
 
     Device::PhoneServer.SendMessage( aContact.PhoneNumber, aMessageContent );
 
 
 
+  }
+
+  $rect <450,250,650,290>
+  method void SendHold( arg Device::Contact aContact )
+  {
+    var Device::HistoryContact historyContact = new Device::HistoryContact;
+    aContact.CopyDataTo( historyContact );
+
+    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
+    historyContact.CallState = Device::CallState.Dialing;
+    historyContact.CallDirection = Device::CallDirection.Outgoing;
+
+    Ongoing.AddLast( historyContact );
+
+    // if call fails
+    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
+    {
+      historyContact.CallState = Device::CallState.Fail;
+      History.AddFirst( historyContact );
+      Ongoing.Remove( historyContact );
+    }
+  }
+
+  $rect <660,250,860,290>
+  method void ReceiveHold( arg string aPhoneNumber )
+  {
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+
+    if ( historyContact.CallState == Device::CallState.Speaking )
+    {
+      historyContact.CallState = Device::CallState.Hold;
+      historyContact.EndTime = (new Core::Time).CurrentTime;
+    }
   }
 }
 
@@ -1315,7 +1363,7 @@ class PhoneServerClass : Templates::DeviceClass
      // console.log("OUT" + phoneNumber); 
     }
     $endif
-    //trace url + " " + message + " " + phoneNumber ;
+    trace url + " " + message + " " + phoneNumber + " " + messageContent ;
     if ( message == "call")
     {
       Device::Device.ReceiveCall( phoneNumber );
@@ -1337,9 +1385,9 @@ class PhoneServerClass : Templates::DeviceClass
     {
        Device::Device.ReceiveMessage( phoneNumber, messageContent );
     }
-    else
+    else if ( message == "hold" )
     {
-      trace "Unknown message from server";
+       Device::Device.ReceiveMessage( phoneNumber, messageContent );
     }
 
 
@@ -1640,6 +1688,35 @@ class PhoneServerClass : Templates::DeviceClass
     return false;
   }
 
+  $rect <650,180,850,220>
+  method bool SendHold( arg string aReceiverNumber )
+  {
+    var string url;
+    var string result;
+    var string senderID = Device::Device.MyCard.PhoneNumber;
+    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
+
+    $if !$prototyper
+    native ( url, result )
+    {
+      var req = new XMLHttpRequest();
+      req.open("GET", url, false);
+      req.onload = function() {
+        if (req.status == 200) {
+            console.log(req.status);
+            result = req.responseText;
+        }};
+        
+      req.send();
+    }
+    $endif
+
+    if ( result == "" )
+      return true;
+      
+    return false;
+  }
+
   $reorder askServerData 3
 }
 
@@ -1790,7 +1867,6 @@ class Message
 }
 
 // Messages
-
 note group Note5
 {
   attr Bounds = <820,0,1130,360>;
@@ -1806,12 +1882,10 @@ class MessagesList
   $rect <0,90,200,130>
   method void Add( arg Device::Message aMessage )
   {
-    var Device::Message mes = new Device::Message;
-    mes = aMessage;
 
     if ( head ==  null )
     {  
-      head = mes; 
+      head = aMessage; 
     }  
     else
     {
@@ -1822,7 +1896,7 @@ class MessagesList
         lastNode = lastNode.next;
       }
 
-      lastNode.next = mes;
+      lastNode.next = aMessage;
     }
 
     NoOfItems +=1;
@@ -1881,5 +1955,18 @@ class MessagesList
 
     notifyobservers ^NoOfItems;
 
+  }
+
+  $rect <0,250,200,290>
+  method Device::Message GetLastMessage()
+  {
+    var Device::Message msg = head;
+
+    while ( msg.next !=null )
+    {
+      msg = msg.next;
+    }
+
+    return msg;
   }
 }

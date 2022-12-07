@@ -293,6 +293,7 @@ class ContactsPage : Core::Group
       detailsPage.OnBack   = onCloseContact;
       detailsPage.OnDelete = onDeleteContact;
       detailsPage.Contact  = itemView.Contact;
+      detailsPage.OnMessage = onTapMessage;
       
       SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null,
                                null, null, null, false );
@@ -338,6 +339,16 @@ class ContactsPage : Core::Group
        }
     }
   }
+
+  $rect <300,480,480,520>
+  slot onTapMessage
+  {
+    postsignal OnMessage;
+     
+  }
+
+  $rect <480,480,640,520>
+  property slot OnMessage;
 }
 
 // Contacts
@@ -810,14 +821,14 @@ class ContactDetailsPage : Core::Group
   $rect <450,50,630,90>
   slot onTapEdit
   {
-    editContact = new Application::ContactEditPage;
+    editPage = new Application::ContactEditPage;
 
-    editContact.OnSave   = onSaveEdit;
-    editContact.OnClose  = onCancelEdit;
-    editContact.Contact  = Contact;
-    editContact.OnDelete = onDelete;
+    editPage.OnSave   = onSaveEdit;
+    editPage.OnClose  = onCancelEdit;
+    editPage.Contact  = Contact;
+    editPage.OnDelete = onDelete;
 
-    SwitchToDialog( editContact, Res::FadeInOutCentered, null, null, null, null, null,
+    SwitchToDialog( editPage, Res::FadeInOutCentered, null, null, null, null, null,
                                null, null, null, false );
      
 
@@ -835,14 +846,14 @@ class ContactDetailsPage : Core::Group
   slot onDelete
   {
     signal OnDelete;
-    DismissDialog( editContact, Res::FadeInOutCentered, null, null, null, null, false);
+    DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);
   }
 
   $rect <460,220,620,260>
   property slot OnDelete;
 
   $rect <300,50,450,90>
-  var Application::ContactEditPage editContact;
+  var Application::ContactEditPage editPage;
 
   $rect <300,280,480,320>
   slot onTapCall
@@ -853,26 +864,26 @@ class ContactDetailsPage : Core::Group
   $rect <460,90,620,130>
   slot onSaveEdit
   {
-    DismissDialog( editContact, Res::FadeInOutCentered, null, null, null, null, false);
+    DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);
   }
 
   $rect <460,130,620,170>
   slot onCancelEdit
   {
-    DismissDialog( editContact, Res::FadeInOutCentered, null, null, null, null, false);
+    DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);
   }
 
   // Touch screen events
   note group Note
   {
-    attr Bounds = <290,0,760,340>;
+    attr Bounds = <290,0,760,430>;
   }
 
   $rect <460,180,620,220>
   property slot OnBack;
 
   $rect <300,180,460,220>
-  slot onBack
+  slot onBackHome
   {
     signal OnBack;
   }
@@ -978,13 +989,14 @@ class ContactDetailsPage : Core::Group
   object Components::Button50x75 VideoCallBtn
   {
     preset Bounds = <111,145,161,220>;
-    preset Enabled = true;
+    preset Enabled = false;
     preset Icon = Res::VideoCallTxt;
     preset Descript = Strings::VideoTxt;
     preset BackgoundColor = Res::Blue;
     preset BackgoundColorPressed = Res::BlueLight;
     preset IconFont = Res::IconsFont20;
     preset Backgound = Res::ButtonRoundMedium;
+    preset IconColorEnabled = Res::GreyLight;
   }
 
   $rect <20,20,160,60>
@@ -993,6 +1005,7 @@ class ContactDetailsPage : Core::Group
     preset Bounds = <171,145,221,220>;
     preset Enabled = true;
     preset Icon = Res::MessageIconTxt;
+    preset OnActivate = onTapMessage;
     preset Descript = Strings::messageTxt;
     preset BackgoundColor = Res::Blue;
     preset BackgoundColorPressed = Res::BlueLight;
@@ -1035,7 +1048,7 @@ class ContactDetailsPage : Core::Group
   {
     preset Bounds = <7,4,32,29>;
     preset Icon = Res::BackIconTxt;
-    preset OnActivate = onBack;
+    preset OnActivate = onBackHome;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
     preset BackgoundColorPressed = Res::Transparent;
@@ -1052,6 +1065,16 @@ class ContactDetailsPage : Core::Group
     preset Color = Res::Grey;
     preset Visible = false;
   }
+
+  $rect <300,320,480,360>
+  slot onTapMessage
+  {
+    postsignal OnMessage;
+     
+  }
+
+  $rect <480,320,640,360>
+  property slot OnMessage;
 }
 
 $rect <40,290,200,330>
@@ -1862,14 +1885,14 @@ class DetailsInsideCall : Application::ContactDetailsPage
   $rect <490,20,690,60>
   inherited slot onTapEdit
   {
-    editContact = new Application::ContactEditPage;
+    editPage = new Application::ContactEditPage;
 
-    editContact.OnSave  = onSaveEdit;
-    editContact.OnClose = onCancelEdit;
-    editContact.Contact = Contact;
-    editContact.OnDelete = onDelete;
+    editPage.OnSave  = onSaveEdit;
+    editPage.OnClose = onCancelEdit;
+    editPage.Contact = Contact;
+    editPage.OnDelete = onDelete;
 
-    SwitchToDialog( editContact, Res::FadeInOutCentered, null, null, null, null, null,
+    SwitchToDialog( editPage, Res::FadeInOutCentered, null, null, null, null, null,
                                null, null, null, false );
      
 
@@ -1878,7 +1901,7 @@ class DetailsInsideCall : Application::ContactDetailsPage
   }
 
   $rect <290,20,490,60>
-  inherited var editContact;
+  inherited var editPage;
 
   $rect <20,20,160,60>
   inherited object Background
@@ -2342,7 +2365,7 @@ class KeypadPage : Core::Group
 }
 
 // This is the root component of the entire GUI application.
-$rect <170,80,370,120>
+$rect <130,80,330,120>
 $output false
 class ContactsApp : Core::Group
 {
@@ -2444,6 +2467,7 @@ class ContactsApp : Core::Group
       case 2: 
       {
         var Core::Group contacts = new Application::ContactsPage;
+       
         Outline.SwitchToDialog( contacts, null, null, null, null, null, null, null, null, null,false );
       }
       case 3: 
@@ -2479,8 +2503,14 @@ class Application : Core::Root
   $rect <290,40,490,80>
   inherited method Init()
   {
+    postsignal onStrat;
+
     attachobserver onCallState, ^Device::Device.Ongoing.NoOfItems;
+
     postsignal onCallState;
+
+
+     
 
 
 
@@ -2577,56 +2607,11 @@ class Application : Core::Root
   $rect <490,120,690,160>
   var Device::HistoryContact historyContact = null;
 
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Bounds = <0,0,272,486>;
-    preset ColorBL = #F5F5F5FF;
-    preset ColorTR = #FFFFFFFF;
-    preset ColorTL = #E7E7E7FF;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Footer
-  {
-    preset Bounds = <0,420,272,480>;
-    preset ColorBL = #94949496;
-    preset ColorBR = #B9B9B9AD;
-    preset ColorTR = #C3C3C3B0;
-    preset ColorTL = #CDCDCDDA;
-    preset Color = #C3C3C386;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton50x50 Contacts
-  {
-    preset Bounds = <53,425,103,475>;
-    preset Icon = Res::CallTxt;
-    preset OnActivate = onContact;
-    preset BackgoundColor = Res::GreenDark;
-    preset BackgoundColorPressed = Res::Green;
-    preset IconFont = Res::IconsFont25;
-    preset Backgound = Res::SuqareButton;
-    preset IconColorPressed = Res::GreyLight;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton50x50 Messeges
-  {
-    preset Bounds = <170,425,220,475>;
-    preset Icon = Res::MessageIconTxt;
-    preset OnActivate = onMessages;
-    preset BackgoundColor = Res::GreenDark;
-    preset IconFont = Res::IconsFont25;
-    preset Backgound = Res::SuqareButton;
-    preset IconColorPressed = Res::GreyLight;
-  }
-
   $rect <290,240,490,280>
   slot onContact
   {
     contactApp = new Application::ContactsApp;
+
     //onback
     PresentDialog( contactApp, null, null, null, null, null, null, null, null, false );
   }
@@ -2635,15 +2620,24 @@ class Application : Core::Root
   slot onMessages
   {
     messageApp = new Application::MessagesPage;
+
     //onback dismiss dialog
     PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
   }
 
-  $rect <490,200,690,240>
+  $rect <490,240,690,280>
   var Application::ContactsApp contactApp;
 
-  $rect <490,240,690,280>
+  $rect <490,200,690,240>
   var Application::MessagesPage messageApp;
+
+  $rect <290,320,490,360>
+  slot onStrat
+  {
+    var Application::MainPage page = new Application::MainPage;
+
+    PresentDialog( page, null, null, null, null, null, null, null, null, false );
+  }
 }
 
 $rect <250,500,390,540>
@@ -2827,23 +2821,32 @@ $rect <1010,47,1210,87>
 $variant Simulation
 vclass ApplicationSimulation : Application::Application
 {
-  $rect <290,0,490,40>
-  inherited property Bounds = <0,0,912,704>;
+  $rect <920,20,1120,60>
+  inherited property Bounds = <0,0,354,686>;
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton PushButton
+  object Views::Image Image
   {
-    preset Bounds = <367,217,517,267>;
-    preset OnActivate = Slot;
-    preset Label = "Caption";
-    preset Appearance = WidgetSet::PushButton_Medium;
+    preset Bounds = <-196,0,644,859>;
+    preset ColorBL = #A8A8A8FF;
+    preset ColorBR = #E0E0E0FF;
+    preset ColorTR = #C7C7C7FF;
+    preset Color = Res::Grey;
+    preset Bitmap = Res::iphoneCase;
   }
 
-  $rect <940,200,1140,240>
-  slot Slot
+  $rect <20,20,160,60>
+  object Components::SButton65x65 SButton65x65
   {
-    DismissDialog( this, Res::SlideDownCentered, null, null, null, null, false );
-
+    preset Bounds = <145,598,210,663>;
+    preset Icon = Res::circel;
+    preset OnActivate = onStrat;
+    preset IconColor = #E7E7E7FF;
+    preset BackgoundColor = #A9A9A9FF;
+    preset BackgoundColorPressed = Res::Grey;
+    preset IconFont = Res::IconsFont65;
+    preset Backgound = Res::ButtonRoundMedium1;
+    preset IconColorEnabled = Res::GreyLight;
   }
 }
 
@@ -3716,17 +3719,6 @@ class FavContactItem : Application::ContactItem
   }
 
   $rect <20,20,160,60>
-  object Components::SButton25x25 RemoveButton
-  {
-    preset Bounds = <-25,5,0,30>;
-    preset Icon = Res::RemoveTxt;
-    preset OnActivate = onShowDelete;
-    preset BackgoundColor = Res::Red;
-    preset BackgoundColorPressed = Res::RedLight;
-    preset Backgound = Res::ButtonRoundSmall;
-  }
-
-  $rect <20,20,160,60>
   object Components::TextButton DeleteButton
   {
     preset Bounds = <250,0,316,32>;
@@ -3800,6 +3792,18 @@ class FavContactItem : Application::ContactItem
     attr Bounds = <340,60,800,320>;
   }
 
+  $rect <20,20,160,60>
+  object Components::SButton25x25 RemoveButton
+  {
+    preset Bounds = <-25,5,0,30>;
+    preset Icon = Res::RemoveTxt;
+    preset OnActivate = onShowDelete;
+    preset BackgoundColor = Res::Red;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont25;
+    preset Backgound = Res::ButtonRoundSmall;
+  }
+
   $reorder EditEffect 11
   $reorder onAnimate 11
   $reorder EditMode 11
@@ -3810,7 +3814,6 @@ class FavContactItem : Application::ContactItem
   $reorder OnDelete 11
   $reorder onInfo 11
   $reorder OnInfo 11
-  $reorder RemoveButton 5
   $reorder DeleteButton 5
   $reorder InfoButton 5
 }
@@ -5227,13 +5230,21 @@ class MyCardItem : Core::Group
 // Messages
 note group Note1
 {
-  attr Bounds = <430,40,910,380>;
+  attr Bounds = <430,50,910,390>;
 }
 
-$rect <440,90,640,130>
+$rect <440,100,640,140>
 $output false
 class MessagesPage : Core::Group
 {
+  $rect <990,40,1190,80>
+  inherited method Init()
+  {
+    attachobserver onNoOfContactsChanged, ^Device::Device.Contacts.NoOfItems;
+    postsignal onNoOfContactsChanged;
+
+  }
+
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
 
@@ -5399,11 +5410,11 @@ class MessagesPage : Core::Group
   $rect <20,20,160,60>
   object Core::VerticalList VerticalList
   {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <3,122,272,466>;
     preset OnLoadItem = OnLoadItem;
     preset SlideHandler = SlideTouchHandler;
     preset ItemHeight = 45;
-    preset NoOfItems = 10;
     preset ItemClass = Application::MessegeItem;
   }
 
@@ -5420,42 +5431,23 @@ class MessagesPage : Core::Group
   $rect <780,40,980,80>
   slot OnLoadItem
   {
-    /*
+    // Get the number of the item to load.
+    var int32 itemNo = VerticalList.Item;
 
-      Hint:
-
-      - The code below demonstrates a simple usage of the list component.
-
-      - The list component creates and manages automatically view item instances of
-        the class specified in its property 'ItemClass'. In this example it is the
-        class 'Views::Text'.
-
-      - When you change the 'ItemClass' property you will also need to replace
-        accordingly all 'Views::Text' occurrences in the below code.
-
-      - You will also need to adapt the initialization of the 'itemView'.
-
-    */
-
-    // Get the number of the item to load. The list component takes care of the
-    // creation of the corresponding item view. Just access it ...
-    var int32       itemNo   = VerticalList.Item;
-    var Views::Text itemView = (Views::Text)VerticalList.View;
-
-    // The implementation of this slot method does not match the item class
-    // specified in the associated list component. Or the slot method is not
-    // called in context of the OnLoadItem list operation. 
-    if ( itemView == null )
+    var Device::Contact contact = Device::Device.Contacts.GetContact( itemNo );
+    var Application::MessegeItem messageItem = (Application::MessegeItem)VerticalList.View;
+                                                  
+    if ( messageItem == null )
       return;
 
-    // Configure the item view ...
-    itemView.String = "Item #" + string( itemNo );
-    itemView.Font   = Resources::FontMedium;
-    itemView.Color  = #FFFFFFFF;
+    messageItem.Contact    = contact;
+    messageItem.OnActivate = onAdd1;
+    //itemView.OnActivate = onCreatePressed;
 
     // Ensure that the item has correct size. The position of the item will be
     // managed by the list component.
-    itemView.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+    messageItem.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+
   }
 
   $rect <300,40,480,80>
@@ -5494,17 +5486,9 @@ class MessagesPage : Core::Group
   $rect <520,170,690,210>
   slot onAdd
   {
-    VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
-
-    chat = new Application::Chat; 
-    chat.Contact = create.Contact;
-    chat.OnBack  = onBack;
-
+    postsignal onAdd1;
 
     DismissDialog ( create, Res::SlideDownCentered, null, null, null, null, false );                            
-    create = null;
-
-    SwitchToDialog( chat, Res::SlideUpCenteredLimit, null, null, null, null, null, null, null, null, false );
 
   }
 
@@ -5533,19 +5517,39 @@ class MessagesPage : Core::Group
     attr Bounds = <770,0,1040,200>;
   }
 
-  $rect <300,170,480,210>
+  $rect <310,210,490,250>
   var Application::Chat chat = null;
 
-  $rect <550,210,690,250>
+  $rect <530,250,690,290>
   slot onBack
   {
     DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );
     chat = null;
 
   }
+
+  $rect <980,80,1190,120>
+  slot onNoOfContactsChanged
+  {
+    VerticalList.NoOfItems = Device::Device.Contacts.NoOfItems;
+
+  }
+
+  $rect <490,210,690,250>
+  slot onAdd1
+  {
+    VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
+
+    chat = new Application::Chat; 
+    chat.Contact = create.Contact;
+    chat.OnBack  = onBack;
+
+    SwitchToDialog( chat, Res::SlideUpCenteredLimit, null, null, null, null, null, null, null, null, false );
+
+  }
 }
 
-$rect <460,130,640,170>
+$rect <460,140,640,180>
 $output false
 class MessegeItem : Core::Group
 {
@@ -5856,17 +5860,22 @@ class MessegeItem : Core::Group
   {
     if ( Contact != null )
     {
-      NameTxt.String    = pure Contact.LastName + " "  + pure Contact.FirstName;
-      MessageTxt.String = "last message";
-      UserIcon.Icon = pure Contact.NameInitials;
-      TimeTxt.String    = "l.m. time";
-    }
-    else
-    {
-      NameTxt.String     = "";
-      UserIcon.Icon  = "";
-      MessageTxt.String  = "";
-      TimeTxt.String     = "";
+      if ( Contact.MessagesList != null )
+      {
+        NameTxt.String    = pure Contact.LastName + " "  + pure Contact.FirstName;
+        MessageTxt.String = pure Contact.MessagesList.GetLastMessage().Message;//"last message";
+        UserIcon.Icon = pure Contact.NameInitials;
+        TimeTxt.String    = pure Contact.MessagesList.GetLastMessage().TimeSent.String;//"l.m. time";
+      }
+      else
+      {
+        TouchHandler.Enabled = false;
+        NameTxt.Visible = false; 
+        UserIcon.Visible = false; 
+        MessageTxt.Visible = false; 
+        TimeTxt.Visible = false;
+        SButton25x25.Visible = false;  
+      }
     }
   }
 
@@ -6088,7 +6097,7 @@ class MessegeItem : Core::Group
   }
 }
 
-$rect <460,170,640,210>
+$rect <460,180,640,220>
 $output false
 class ContactsList1 : Application::ContactsList
 {
@@ -6105,7 +6114,7 @@ class ContactsList1 : Application::ContactsList
   }
 }
 
-$rect <460,210,640,250>
+$rect <460,220,640,260>
 $output false
 class Chat : Core::Group
 {
@@ -6314,10 +6323,10 @@ class Chat : Core::Group
     {
       Button40x55.Descript = pure Contact.LastName;  
       Button40x55.Icon     =  pure Contact.NameInitials;
-      if ( pure Contact.Messages != null )
+      if ( pure Contact.MessagesList != null )
       {
         var Application::ChatBubble chatBubble = new Application::ChatBubble;;
-        var Device::Message message            = pure Contact.Messages.head;
+        var Device::Message message            = pure Contact.MessagesList.head;
 
         while ( message != null )
         { 
@@ -6370,7 +6379,7 @@ class Chat : Core::Group
 
       chatBubble.Embedded = true;                            
       Add( chatBubble, nrOfItem );
-      Outline.EnsureVisible( chatBubble, true, null, null );
+      Outline.EnsureVisible( chatBubble, false, null, null );
       nrOfItem ++; 
       
       var Device::Message message = new Device::Message;
@@ -6379,7 +6388,7 @@ class Chat : Core::Group
       message.TimeSent = (new Core::Time).CurrentTime;
       message.Message = SearchEtxt.String;
 
-      Contact.Messages.Add( message );
+      //Contact.MessagesList.Add( message );
     }
 
 
@@ -6467,7 +6476,7 @@ class Chat : Core::Group
     preset Backgound = Res::ButtonRoundMedium;
   }
 
-  $rect <440,480,640,520>
+  $rect <320,320,520,360>
   slot example
   {
     /*EDIT: Ok I got this figured out...]
@@ -6638,6 +6647,7 @@ class MainPage : Core::Group
   $rect <20,20,160,60>
   object Views::Rectangle Background
   {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <0,0,272,486>;
     preset ColorBL = #F5F5F5FF;
     preset ColorTR = #FFFFFFFF;
@@ -6648,6 +6658,7 @@ class MainPage : Core::Group
   $rect <20,20,160,60>
   object Views::Rectangle Footer
   {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <0,420,272,480>;
     preset ColorBL = #94949496;
     preset ColorBR = #B9B9B9AD;
@@ -6659,6 +6670,7 @@ class MainPage : Core::Group
   $rect <20,20,160,60>
   object Components::SButton50x50 Contacts
   {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <53,425,103,475>;
     preset Icon = Res::CallTxt;
     preset OnActivate = onContact;
@@ -6672,6 +6684,7 @@ class MainPage : Core::Group
   $rect <20,20,160,60>
   object Components::SButton50x50 Messeges
   {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <170,425,220,475>;
     preset Icon = Res::MessageIconTxt;
     preset OnActivate = onMessages;
@@ -6710,7 +6723,7 @@ note group Note2
   attr Bounds = <430,400,910,590>;
 }
 
-$rect <480,250,640,290>
+$rect <480,260,640,300>
 $output false
 class ChatBubble : Core::Group
 {
@@ -6723,28 +6736,40 @@ class ChatBubble : Core::Group
     // Always invoke the inherited method.
     super( aState );
 
-    Frame.Color = BubbleColor;
-    Text.String = Message;
-    Text.Color  = MessageColor;
-
+    return; 
     if ( LeftAligned == false )
     {
        Frame.Bitmap = Res::ChatRight;
-       Frame.Bounds = <30,0,262,50>;
-       Text.Bounds = <27,6,252,36>; 
+       
+       Text.Alignment = Views::TextAlignment[AlignHorzRight];
+       Text.Bounds = <20,6,252,36>; 
+       
+       Frame.Bounds.x = 272 - Text.Bounds.x - Text.Bounds.w;
+       Frame.Bounds.y = 0;
+       Frame.Bounds.w = Text.Bounds.w + 5;
+       Frame.Bounds.h = Text.Bounds.h + 5;  
     }
     else
     {
       Frame.Bitmap = Res::ChatLeft;
+
+      Frame.Bounds.x = 5;
+      Frame.Bounds.y = 0;
+      Frame.Bounds.w = Text.Bounds.w + 5;
+      Frame.Bounds.h = Text.Bounds.h + 5;
     }
+
 
     Frame.Color = BubbleColor;
     Text.String = Message;
     Text.Color  = MessageColor;
+
+    Bounds.h = Frame.Bounds.h;
+    Bounds.w = 272;
   }
 
   $rect <300,0,500,40>
-  property bool LeftAligned = true;
+  property bool LeftAligned = false;
 
   $rect <300,40,500,80>
   onset LeftAligned
@@ -6760,7 +6785,7 @@ class ChatBubble : Core::Group
   }
 
   $rect <505,0,705,40>
-  property string Message = "Left chat";
+  property string Message = "Left chat fvhjukfk fkjhfiy\nhgdytiyt\ndcjtgdt";
 
   $rect <505,40,705,80>
   onset Message
@@ -6812,13 +6837,53 @@ class ChatBubble : Core::Group
   {
     preset Bounds = <5,0,220,50>;
     preset Bitmap = Res::ChatLeft;
+    preset NoEdgesLimit = <220,0>;
   }
 
   $rect <20,20,160,60>
   object Views::Text Text
   {
-    preset Bounds = <10,4,216,36>;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <12,6,203,30>;
+    preset Padding = 2;
+    preset OnUpdate = onUpdateText;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft];
     preset String = "Text";
     preset Font = Resources::DefaultFont;
+  }
+
+  $rect <10,200,210,240>
+  slot onUpdateText
+  {
+    if ( LeftAligned == false )
+    {
+       Frame.Bitmap = Res::ChatRight;
+       
+       Text.Alignment = Views::TextAlignment[AlignHorzRight];
+       Text.Bounds = <20,6,252,36>; 
+       
+       Frame.Bounds.x = 272 - Text.Bounds.x - Text.Bounds.w;
+       Frame.Bounds.y = 0;
+       Frame.Bounds.w = Text.Bounds.w + 5;
+       Frame.Bounds.h = Text.Bounds.h + 5;  
+    }
+    else
+    {
+      Frame.Bitmap = Res::ChatLeft;
+
+      Frame.Bounds.x = 5;
+      Frame.Bounds.y = 0;
+      Frame.Bounds.w = Text.Bounds.w + 5;
+      Frame.Bounds.h = Text.Bounds.h + 5;
+    }
+
+
+    Frame.Color = BubbleColor;
+    Text.String = Message;
+    Text.Color  = MessageColor;
+
+    Bounds.h = Frame.Bounds.h;
+    Bounds.w = 272;
   }
 }

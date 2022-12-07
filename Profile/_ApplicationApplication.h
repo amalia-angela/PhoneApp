@@ -42,10 +42,8 @@
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ComponentsSButton50x50.h"
 #include "_CoreRoot.h"
 #include "_CoreTimer.h"
-#include "_ViewsRectangle.h"
 
 /* Forward declaration of the class Application::Application */
 #ifndef _ApplicationApplication_
@@ -57,18 +55,6 @@
 #ifndef _ApplicationCallPageBase_
   EW_DECLARE_CLASS( ApplicationCallPageBase )
 #define _ApplicationCallPageBase_
-#endif
-
-/* Forward declaration of the class Application::ContactsApp */
-#ifndef _ApplicationContactsApp_
-  EW_DECLARE_CLASS( ApplicationContactsApp )
-#define _ApplicationContactsApp_
-#endif
-
-/* Forward declaration of the class Application::MessagesPage */
-#ifndef _ApplicationMessagesPage_
-  EW_DECLARE_CLASS( ApplicationMessagesPage )
-#define _ApplicationMessagesPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -137,12 +123,6 @@ EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
   EW_VARIABLE( deviceInstance,  DeviceDeviceClass )
   EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
   EW_VARIABLE( historyContact,  DeviceHistoryContact )
-  EW_VARIABLE( contactApp,      ApplicationContactsApp )
-  EW_VARIABLE( messageApp,      ApplicationMessagesPage )
-  EW_OBJECT  ( Background,      ViewsRectangle )
-  EW_OBJECT  ( Footer,          ViewsRectangle )
-  EW_OBJECT  ( Contacts,        ComponentsSButton50x50 )
-  EW_OBJECT  ( Messeges,        ComponentsSButton50x50 )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */
@@ -188,11 +168,8 @@ void ApplicationApplication_Init( ApplicationApplication _this, XHandle aArg );
 /* 'C' function for method : 'Application::Application.onCallState()' */
 void ApplicationApplication_onCallState( ApplicationApplication _this, XObject sender );
 
-/* 'C' function for method : 'Application::Application.onContact()' */
-void ApplicationApplication_onContact( ApplicationApplication _this, XObject sender );
-
-/* 'C' function for method : 'Application::Application.onMessages()' */
-void ApplicationApplication_onMessages( ApplicationApplication _this, XObject sender );
+/* 'C' function for method : 'Application::Application.onStrat()' */
+void ApplicationApplication_onStrat( ApplicationApplication _this, XObject sender );
 
 #ifdef __cplusplus
   }

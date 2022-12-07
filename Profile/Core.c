@@ -56,6 +56,7 @@
 #include "_EffectsEffectTimerClass.h"
 #include "_EffectsFader.h"
 #include "_EffectsFaderTask.h"
+#include "_EffectsPointEffect.h"
 #include "_EffectsShowHideTransition.h"
 #include "_EffectsTransition.h"
 #include "_GraphicsCanvas.h"
@@ -68,7 +69,7 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x00000480, /* ratio 47.57 % */
+  0x000004A0, /* ratio 46.62 % */
   0xB8005300, 0x000A8452, 0x00CA0034, 0x0EC00100, 0x01093480, 0x800859DC, 0x1137800C,
   0x737450E7, 0x8A1D0011, 0xE9B22262, 0xC50CF1C8, 0x7E19188F, 0x23510844, 0x3A729343,
   0x070001D6, 0x03164D80, 0xC88C1E0B, 0x30C422D0, 0x34624600, 0xC74C70C9, 0x46493436,
@@ -84,34 +85,35 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
   0x6148569F, 0x007390E4, 0x45221044, 0x20684A23, 0xA629935E, 0x4A1183C1, 0xE4505504,
   0x5FD93551, 0x1E38D1D3, 0x54CC0087, 0xE4334D93, 0x46444524, 0x469314CD, 0x6178AD10,
   0x048D9243, 0x7D404591, 0x4E459C54, 0x8296C74E, 0x9C5951B0, 0x19659391, 0x1957519C,
-  0x2E429235, 0x6D8426CC, 0xDC4431A0, 0xC4591D7D, 0x690A92D0, 0x0C8291F4, 0x001AC41A,
-  0x90200028, 0x17DA1453, 0x4140951E, 0x21501234, 0x432539AD, 0x95A47443, 0x0A50000E,
-  0x1A616BA1, 0x681316A5, 0x9B4009E9, 0xDC19C1CF, 0x49D52B9C, 0xEDC29E11, 0x81831EA9,
-  0x46E9DA0E, 0x50EA1D1D, 0xCA323CA2, 0x41DC7163, 0x9444692A, 0x5D594A5A, 0x000955CC,
-  0x047D4FA7, 0x05366CEA, 0x00000004, 0x00000000
+  0x2E429235, 0x6D81B6CC, 0x053431A0, 0x6706578F, 0x21468750, 0xF51210C4, 0x7926B64D,
+  0x4246CC3A, 0xA5AA1A4E, 0xBA4068D5, 0x7A7F1F05, 0x72D1457D, 0x50C8EDF7, 0x69B63A8C,
+  0x910492D3, 0x569CDC15, 0x9DD14722, 0x27A7AA45, 0xC5027C00, 0xE67F4591, 0x878F2857,
+  0xA29148FE, 0x575A311C, 0xB5A28F62, 0x0E54A492, 0xC28CE3A8, 0x48E44519, 0x97553923,
+  0xA6C9EA4B, 0x591F7C25, 0x014D9B3A, 0x00000001, 0x00000000
 };
 
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
 {
-  0x0000038A, /* ratio 50.77 % */
-  0xB8007D00, 0x000A8452, 0x00CA0034, 0x4DA00100, 0x0E740042, 0x80037802, 0x520042CC,
-  0x68A43A1E, 0x000A21E7, 0x01A62E29, 0x9BA2E730, 0x862F1089, 0xE571D001, 0x56003648,
-  0x5300018A, 0x2791C321, 0x29410E19, 0x000EA1E7, 0xEC3CAD3F, 0x98E47119, 0x30013498,
-  0x64B23001, 0xA2001744, 0x505818EE, 0x0F86CDA2, 0x68A42223, 0x8A906191, 0xBC863F60,
-  0xCA24D249, 0xB6570C88, 0x66549A64, 0x2F38ABD2, 0x53D8A4EE, 0x43A0CFE1, 0x0A451A53,
-  0x94D36973, 0xA06EA350, 0xD5E1106A, 0x5A474929, 0x62906ABC, 0x1147001D, 0xF4824432,
-  0x009AC5A4, 0x4A8CFE7A, 0xB4DFEA82, 0xB522EB49, 0x51E2E798, 0x2A4F278A, 0x61511A3C,
-  0xD8770057, 0xB179556A, 0xB18548E3, 0x6C246303, 0x986222F5, 0x6C321F8A, 0xE471E00C,
-  0x5A57948B, 0x64599B7E, 0x4530D059, 0x1A6D24AF, 0xAC87EA65, 0x3D8EBE1F, 0x86683672,
-  0x66C61FB6, 0xC3229118, 0x527B4792, 0x6C930984, 0x4F0C92C4, 0x7AD93803, 0x03A8E03E,
-  0xB8BE1B79, 0x286961E4, 0x525429CD, 0x77D9C949, 0xC1645E59, 0x330011A7, 0x839606B9,
-  0x1297710C, 0x96817142, 0xA9334A13, 0x0C4A5D81, 0x5A11449D, 0xD7143E0C, 0xD62D1719,
-  0x411D48DC, 0xCD198008, 0x4E90E451, 0x1404F93C, 0x58B44700, 0x0070001C, 0xBC0DDBA0,
-  0x88DA54F5, 0x9D579517, 0xD43D9072, 0x21E4521E, 0x661AD255, 0x8351787D, 0x0006A149,
-  0x69264089, 0x296C84DE, 0x0A8DC718, 0x0850A63D, 0x23D089F8, 0x47DA3F00, 0x291795A2,
-  0x5E96D274, 0x925B4972, 0x24192D2B, 0xF51D6C6C, 0x50057E25, 0x32000315, 0x550047E0,
-  0x6827E025, 0x00000040, 0x00000000
+  0x00000404, /* ratio 48.64 % */
+  0xB8009B00, 0x800AC452, 0x00CA0034, 0xC40003B8, 0x1A730041, 0xE0037002, 0x123A000D,
+  0x88745211, 0x89424D11, 0x6800C311, 0x19E1D1F3, 0x022A7200, 0x8E0003A8, 0x1D298B44,
+  0x1328C422, 0x168A44A2, 0x29247E69, 0x001923E6, 0x74FE153F, 0x002670C8, 0x76251A8F,
+  0xC9E0092C, 0xD8008BCA, 0xD0A8A43C, 0x789510A1, 0x4ABD6800, 0xA651CA90, 0xB52E1524,
+  0x94801438, 0x8A31118F, 0x0D60031C, 0x5D16AF00, 0x229000A2, 0x38874DA3, 0x69143AA1,
+  0x84488007, 0x94F64552, 0xC4AA755A, 0x2A532A21, 0xB18001D4, 0x31298541, 0x522B6422,
+  0x6987932A, 0x0AD0B801, 0x22C0C7E0, 0x0E163D5E, 0x5923D50B, 0x66156789, 0xC016DB5E,
+  0x2335BADC, 0x93A955E2, 0x8187DFAF, 0x9A660C01, 0x986221D4, 0xFE3B191F, 0xE521F918,
+  0x232E00A8, 0xAB59BCCC, 0xC1A1CF8F, 0x140B1C7E, 0x7D954EF5, 0x2BB6BE15, 0x896D227B,
+  0x1722FFB6, 0x6F70BC8C, 0x0651BF00, 0xB1E00C6F, 0x8E00C97A, 0xB50CC65B, 0xD01D8039,
+  0xFE9E8EBF, 0x20C3B4F5, 0x5DB4FDD5, 0xB77D376C, 0x897D0017, 0xE66EDB97, 0x625BE779,
+  0x19070DEB, 0x36DD9354, 0x71F572DF, 0xA27E4576, 0x47C4B449, 0x85000079, 0x84D9AA7A,
+  0xFD146DC4, 0x047A9844, 0x4F10A43A, 0x9427553E, 0x66954544, 0xA91B81D8, 0x1F1A93D4,
+  0x5E53A5B1, 0x50A4F53A, 0x14392752, 0x65087A94, 0x66439D57, 0x491167A8, 0x18B7020F,
+  0xF938477B, 0xDDF64B94, 0x214A5F90, 0x4A94A912, 0x11471D0E, 0x75490A5B, 0x45B74720,
+  0x396CD6E4, 0x72242449, 0x92745116, 0x845A6897, 0x01775226, 0x0A53C710, 0x0850A4B1,
+  0x25B0899C, 0x577A5D00, 0x7E765424, 0x7E9ED144, 0x97DE09F2, 0x65F9A922, 0x0002648D,
+  0x7C0556A8, 0x32000316, 0x67C04670, 0x6A267025, 0x00000040, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -131,19 +133,20 @@ static const XStringRes _Const000C = { _StringsDefault0, 0x0161 };
 static const XStringRes _Const000D = { _StringsDefault0, 0x0172 };
 static const XStringRes _Const000E = { _StringsDefault0, 0x018C };
 static const XRect _Const000F = {{ -8, -8 }, { 9, 9 }};
-static const XRect _Const0010 = {{ 0, 0 }, { 170, 120 }};
-static const XStringRes _Const0011 = { _StringsDefault0, 0x01BF };
-static const XStringRes _Const0012 = { _StringsDefault0, 0x0201 };
+static const XStringRes _Const0010 = { _StringsDefault0, 0x01BF };
+static const XStringRes _Const0011 = { _StringsDefault0, 0x01DA };
+static const XStringRes _Const0012 = { _StringsDefault0, 0x01FE };
 static const XStringRes _Const0013 = { _StringsDefault1, 0x0002 };
-static const XStringRes _Const0014 = { _StringsDefault1, 0x0040 };
-static const XStringRes _Const0015 = { _StringsDefault1, 0x007B };
-static const XStringRes _Const0016 = { _StringsDefault1, 0x0096 };
-static const XStringRes _Const0017 = { _StringsDefault1, 0x00BA };
-static const XStringRes _Const0018 = { _StringsDefault1, 0x010C };
-static const XStringRes _Const0019 = { _StringsDefault1, 0x0163 };
-static const XStringRes _Const001A = { _StringsDefault1, 0x019A };
-static const XStringRes _Const001B = { _StringsDefault1, 0x01BC };
-static const XStringRes _Const001C = { _StringsDefault1, 0x01C1 };
+static const XRect _Const0014 = {{ 0, 0 }, { 170, 120 }};
+static const XStringRes _Const0015 = { _StringsDefault1, 0x004F };
+static const XStringRes _Const0016 = { _StringsDefault1, 0x0091 };
+static const XStringRes _Const0017 = { _StringsDefault1, 0x00D0 };
+static const XStringRes _Const0018 = { _StringsDefault1, 0x010E };
+static const XStringRes _Const0019 = { _StringsDefault1, 0x0149 };
+static const XStringRes _Const001A = { _StringsDefault1, 0x01A0 };
+static const XStringRes _Const001B = { _StringsDefault1, 0x01D7 };
+static const XStringRes _Const001C = { _StringsDefault1, 0x01F9 };
+static const XStringRes _Const001D = { _StringsDefault1, 0x01FE };
 
 #ifndef EW_DONT_CHECK_INDEX
   /* This function is used to check the indices when accessing an array.
@@ -2555,8 +2558,12 @@ void CoreGroup_recalculateLayout( CoreGroup _this )
   XBool formLayout = 0;
   XRect formBounds = _Const0001;
   XRect formBounds2 = _Const0001;
+  XPoint formOffset = _Const0000;
+  XEnum formMode = CoreFormationNone;
+  XEnum formMode2 = CoreFormationNone;
   CoreView view = _this->last;
   CoreOutline form = 0;
+  CoreView lastView = 0;
 
   while ( view != 0 )
   {
@@ -2567,7 +2574,12 @@ void CoreGroup_recalculateLayout( CoreGroup _this )
     }
 
     if ( formLayout && (( view->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
+    {
       formLayout = 0;
+
+      if ( EwCastObject( view, CoreOutline )->Formation != CoreFormationNone )
+        view->viewState = view->viewState | CoreViewStateUpdateLayout;
+    }
 
     view = view->prev;
   }
@@ -2585,13 +2597,88 @@ void CoreGroup_recalculateLayout( CoreGroup _this )
 
   while ( view != 0 )
   {
+    if (( lastView == 0 ) && ( formMode != formMode2 ))
+    {
+      CoreView viewI = view;
+      XInt32 rowH = 0;
+      XInt32 rowW = EwGetRectW( formBounds );
+      XInt32 colH = EwGetRectH( formBounds );
+      XInt32 colW = 0;
+      XPoint viewS = _Const0000;
+
+      do
+        if ((( viewI->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
+          viewI = 0;
+        else
+          if ((( viewI->viewState & ( CoreViewStateEmbedded | CoreViewStateVisible )) 
+              == ( CoreViewStateEmbedded | CoreViewStateVisible )))
+          {
+            viewS = EwGetRectSize( CoreView__GetExtent( viewI ));
+
+            if (( formMode2 == CoreFormationLeftToRight ) || ( formMode2 == CoreFormationRightToLeft ))
+              rowW = rowW - viewS.X;
+
+            if (( formMode2 == CoreFormationTopToBottom ) || ( formMode2 == CoreFormationBottomToTop ))
+              colH = colH - viewS.Y;
+
+            if (( lastView == 0 ) || (( rowW >= 0 ) && ( colH >= 0 )))
+            {
+              lastView = viewI;
+              viewI = viewI->next;
+
+              if ((( formMode2 == CoreFormationLeftToRight ) || ( formMode2 == CoreFormationRightToLeft )) 
+                  && ( viewS.Y > rowH ))
+                rowH = viewS.Y;
+
+              if ((( formMode2 == CoreFormationTopToBottom ) || ( formMode2 == CoreFormationBottomToTop )) 
+                  && ( viewS.X > colW ))
+                colW = viewS.X;
+            }
+            else
+              viewI = 0;
+          }
+          else
+            viewI = viewI->next;
+      while ( viewI != 0 );
+
+      if ( lastView == 0 )
+        lastView = ((CoreView)form );
+
+      formBounds2 = formBounds;
+
+      switch ( formMode )
+      {
+        case CoreFormationLeftToRight_TopToBottom :
+        case CoreFormationRightToLeft_TopToBottom :
+          formBounds2.Point2.Y = ( formBounds2.Point1.Y + rowH );
+        break;
+
+        case CoreFormationLeftToRight_BottomToTop :
+        case CoreFormationRightToLeft_BottomToTop :
+          formBounds2.Point1.Y = ( formBounds2.Point2.Y - rowH );
+        break;
+
+        case CoreFormationTopToBottom_LeftToRight :
+        case CoreFormationBottomToTop_LeftToRight :
+          formBounds2.Point2.X = ( formBounds2.Point1.X + colW );
+        break;
+
+        case CoreFormationTopToBottom_RightToLeft :
+        case CoreFormationBottomToTop_RightToLeft :
+          formBounds2.Point1.X = ( formBounds2.Point2.X - colW );
+        break;
+
+        default :; 
+      }
+    }
+
     if ((( view->viewState & CoreViewStateEmbedded ) == CoreViewStateEmbedded ))
     {
       if (( view->layoutContext != 0 ) && ( view->layoutContext->outline != form ))
         view->layoutContext = 0;
 
-      if ((( view->layoutContext == 0 ) && formLayout ) && ( view->Layout != ( CoreLayoutAlignToLeft 
-          | CoreLayoutAlignToTop )))
+      if ((( view->layoutContext == 0 ) && formLayout ) && (( view->Layout != ( 
+          CoreLayoutAlignToLeft | CoreLayoutAlignToTop )) || ( formMode2 != CoreFormationNone )))
         CoreView__initLayoutContext( view, formBounds2, form );
     }
 
@@ -2601,7 +2688,38 @@ void CoreGroup_recalculateLayout( CoreGroup _this )
         CoreView__ArrangeView( view, groupBounds, CoreFormationNone );
 
       if ( formLayout && (( view->viewState & CoreViewStateEmbedded ) == CoreViewStateEmbedded ))
-        CoreView__ArrangeView( view, formBounds2, CoreFormationNone );
+      {
+        XPoint size = CoreView__ArrangeView( view, EwMoveRectPos( formBounds2, formOffset ), 
+          formMode2 );
+
+        if ((( view->viewState & CoreViewStateVisible ) == CoreViewStateVisible ))
+        {
+          XPoint ofs = _Const0000;
+
+          switch ( formMode2 )
+          {
+            case CoreFormationLeftToRight :
+              ofs.X = size.X;
+            break;
+
+            case CoreFormationRightToLeft :
+              ofs.X = -size.X;
+            break;
+
+            case CoreFormationTopToBottom :
+              ofs.Y = size.Y;
+            break;
+
+            case CoreFormationBottomToTop :
+              ofs.Y = -size.Y;
+            break;
+
+            default :; 
+          }
+
+          formOffset = EwMovePointPos( formOffset, ofs );
+        }
+      }
     }
 
     if ((( view->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
@@ -2612,13 +2730,72 @@ void CoreGroup_recalculateLayout( CoreGroup _this )
       if ( formLayout )
       {
         view->viewState = view->viewState & ~CoreViewStateUpdateLayout;
-        formBounds = form->Super1.Bounds;
+        formBounds = EwMoveRectPos( form->Super1.Bounds, form->ScrollOffset );
         formBounds2 = formBounds;
+        formOffset = _Const0000;
+        formMode = form->Formation;
+        formMode2 = formMode;
         formLayout = (XBool)!EwIsRectEmpty( formBounds );
+        lastView = 0;
+
+        switch ( formMode )
+        {
+          case CoreFormationLeftToRight_TopToBottom :
+          case CoreFormationLeftToRight_BottomToTop :
+            formMode2 = CoreFormationLeftToRight;
+          break;
+
+          case CoreFormationRightToLeft_TopToBottom :
+          case CoreFormationRightToLeft_BottomToTop :
+            formMode2 = CoreFormationRightToLeft;
+          break;
+
+          case CoreFormationTopToBottom_LeftToRight :
+          case CoreFormationTopToBottom_RightToLeft :
+            formMode2 = CoreFormationTopToBottom;
+          break;
+
+          case CoreFormationBottomToTop_LeftToRight :
+          case CoreFormationBottomToTop_RightToLeft :
+            formMode2 = CoreFormationBottomToTop;
+          break;
+
+          default :; 
+        }
       }
 
       if ( formLayout )
         CoreGroup__InvalidateArea( _this, form->Super1.Bounds );
+    }
+
+    if ( view == lastView )
+    {
+      switch ( formMode )
+      {
+        case CoreFormationLeftToRight_TopToBottom :
+        case CoreFormationRightToLeft_TopToBottom :
+          formOffset = EwNewPoint( 0, formOffset.Y + EwGetRectH( formBounds2 ));
+        break;
+
+        case CoreFormationLeftToRight_BottomToTop :
+        case CoreFormationRightToLeft_BottomToTop :
+          formOffset = EwNewPoint( 0, formOffset.Y - EwGetRectH( formBounds2 ));
+        break;
+
+        case CoreFormationTopToBottom_LeftToRight :
+        case CoreFormationBottomToTop_LeftToRight :
+          formOffset = EwNewPoint( formOffset.X + EwGetRectW( formBounds2 ), 0 );
+        break;
+
+        case CoreFormationTopToBottom_RightToLeft :
+        case CoreFormationBottomToTop_RightToLeft :
+          formOffset = EwNewPoint( formOffset.X - EwGetRectW( formBounds2 ), 0 );
+        break;
+
+        default :; 
+      }
+
+      lastView = 0;
     }
 
     view = view->next;
@@ -2789,6 +2966,15 @@ __declspec( naked ) void CoreGroup__OnSetOpacity( void* _this, XInt32 value )
     mov eax, DWORD PTR [ eax ]
     jmp      DWORD PTR [ eax + 104 ]
   }
+}
+
+/* 'C' function for method : 'Core::Group.OnSetEmbedded()' */
+void CoreGroup_OnSetEmbedded( CoreGroup _this, XBool value )
+{
+  if ( value )
+    CoreView__ChangeViewState( _this, CoreViewStateEmbedded, 0 );
+  else
+    CoreView__ChangeViewState( _this, 0, CoreViewStateEmbedded );
 }
 
 /* 'C' function for method : 'Core::Group.OnSetAlphaBlended()' */
@@ -6268,6 +6454,7 @@ void CoreOutline__Init( CoreOutline _this, XObject aLink, XHandle aArg )
   /* ... and initialize objects, variables, properties, etc. */
   _this->Super2.viewState = CoreViewStateAlphaBlended | CoreViewStateIsOutline | 
   CoreViewStateVisible;
+  _this->Formation = CoreFormationNone;
 }
 
 /* Re-Initializer for the class 'Core::Outline' */
@@ -6358,7 +6545,7 @@ void CoreOutline_OnSetBounds( CoreOutline _this, XRect value )
 
   if (( resize && ( oldSize.X > 0 )) && ( oldSize.Y > 0 ))
   {
-    XRect bounds = _this->Super1.Bounds;
+    XRect bounds = EwMoveRectPos( _this->Super1.Bounds, _this->ScrollOffset );
     CoreView view = _this->Super2.next;
 
     while (( view != 0 ) && !(( view->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
@@ -6368,8 +6555,8 @@ void CoreOutline_OnSetBounds( CoreOutline _this, XRect value )
         if (( view->layoutContext != 0 ) && ( view->layoutContext->outline != _this ))
           view->layoutContext = 0;
 
-        if (( view->layoutContext == 0 ) && ( view->Layout != ( CoreLayoutAlignToLeft 
-            | CoreLayoutAlignToTop )))
+        if (( view->layoutContext == 0 ) && (( view->Layout != ( CoreLayoutAlignToLeft 
+            | CoreLayoutAlignToTop )) || ( _this->Formation != CoreFormationNone )))
           CoreView__initLayoutContext( view, bounds, _this );
       }
 
@@ -6394,13 +6581,286 @@ void CoreOutline_OnSetBounds( CoreOutline _this, XRect value )
   }
 }
 
+/* 'C' function for method : 'Core::Outline.onFinishScrollSlot()' */
+void CoreOutline_onFinishScrollSlot( CoreOutline _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  _this->scrollEffect->Outlet = EwNullRef;
+  _this->scrollEffect->Super1.privateOnFinished = EwNullSlot;
+  _this->scrollEffect = 0;
+  EwSignal( _this->onDoneScroll, ((XObject)_this ));
+}
+
+/* 'C' function for method : 'Core::Outline.onSlideSlot()' */
+void CoreOutline_onSlideSlot( CoreOutline _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreOutline_OnSetScrollOffset( _this, _this->SlideHandler->Offset );
+}
+
+/* 'C' function for method : 'Core::Outline.onStartSlideSlot()' */
+void CoreOutline_onStartSlideSlot( CoreOutline _this, XObject sender )
+{
+  XRect area;
+  XPoint origin;
+  XPoint offset;
+  XPoint minOffset;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->scrollEffect != 0 )
+  {
+    EffectsEffect_OnSetEnabled((EffectsEffect)_this->scrollEffect, 0 );
+    _this->scrollEffect->Outlet = EwNullRef;
+    _this->scrollEffect->Super1.privateOnFinished = EwNullSlot;
+    _this->scrollEffect = 0;
+  }
+
+  area = CoreOutline_GetContentArea( _this, CoreViewStateVisible );
+  origin = _this->Super1.Bounds.Point1;
+
+  if ( EwGetRectW( area ) <= 0 )
+  {
+    area.Point1.X = origin.X;
+    area.Point2.X = origin.X;
+  }
+
+  if ( EwGetRectH( area ) <= 0 )
+  {
+    area.Point1.Y = origin.Y;
+    area.Point2.Y = origin.Y;
+  }
+
+  if ( area.Point1.X > origin.X )
+    area.Point1.X = origin.X;
+
+  if ( area.Point1.Y > origin.Y )
+    area.Point1.Y = origin.Y;
+
+  offset = EwMovePointNeg( area.Point1, _this->Super1.Bounds.Point1 );
+  minOffset = EwMovePointNeg( EwGetRectSize( _this->Super1.Bounds ), EwGetRectSize( 
+  area ));
+
+  if ( minOffset.X > 0 )
+    minOffset.X = 0;
+
+  if ( minOffset.Y > 0 )
+    minOffset.Y = 0;
+
+  _this->SlideHandler->Offset = _this->ScrollOffset;
+  _this->SlideHandler->MinOffset = EwMovePointNeg( EwMovePointPos( _this->ScrollOffset, 
+  minOffset ), offset );
+  _this->SlideHandler->MaxOffset = EwMovePointNeg( _this->ScrollOffset, offset );
+}
+
+/* 'C' function for method : 'Core::Outline.OnSetSlideHandler()' */
+void CoreOutline_OnSetSlideHandler( CoreOutline _this, CoreSlideTouchHandler value )
+{
+  if ( value == _this->SlideHandler )
+    return;
+
+  if (( value != 0 ) && ( value->privateOnSlide.Object != 0 ))
+  {
+    EwTrace( "%s%*%s", EwLoadString( &_Const0010 ), value, EwLoadString( &_Const0011 ));
+
+    {
+      EwThrow( EwLoadString( &_Const0012 ));
+      return;
+    }
+  }
+
+  if ( _this->SlideHandler != 0 )
+  {
+    _this->SlideHandler->privateOnStart = EwNullSlot;
+    _this->SlideHandler->privateOnSlide = EwNullSlot;
+  }
+
+  _this->SlideHandler = value;
+
+  if ( value != 0 )
+  {
+    value->privateOnStart = EwNewSlot( _this, CoreOutline_onStartSlideSlot );
+    value->privateOnSlide = EwNewSlot( _this, CoreOutline_onSlideSlot );
+  }
+}
+
+/* 'C' function for method : 'Core::Outline.OnSetScrollOffset()' */
+void CoreOutline_OnSetScrollOffset( CoreOutline _this, XPoint value )
+{
+  XPoint offset = EwMovePointNeg( value, _this->ScrollOffset );
+  CoreView view;
+
+  if ( !EwCompPoint( offset, _Const0000 ))
+    return;
+
+  _this->ScrollOffset = value;
+  view = _this->Super2.next;
+
+  while (( view != 0 ) && !(( view->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
+  {
+    if ((( view->viewState & CoreViewStateEmbedded ) == CoreViewStateEmbedded ))
+    {
+      XBool tmp = (( view->viewState & CoreViewStateFastReshape ) == CoreViewStateFastReshape );
+      CoreView__MoveView( view, offset, tmp );
+    }
+
+    view = view->next;
+  }
+
+  if ( _this->Super2.Owner != 0 )
+    CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+}
+
+/* 'C' function for method : 'Core::Outline.OnSetFormation()' */
+void CoreOutline_OnSetFormation( CoreOutline _this, XEnum value )
+{
+  if ( value == _this->Formation )
+    return;
+
+  _this->Formation = value;
+
+  if ( _this->Super2.Owner != 0 )
+  {
+    _this->Super2.viewState = _this->Super2.viewState | CoreViewStateUpdateLayout;
+    _this->Super2.Owner->Super2.viewState = _this->Super2.Owner->Super2.viewState 
+    | CoreViewStatePendingLayout;
+    EwPostSignal( EwNewSlot( _this->Super2.Owner, CoreGroup_updateComponent ), ((XObject)_this ));
+  }
+}
+
+/* The method EnsureVisible() scrolls the content of the outline until the given 
+   view aView is partially or fully within the outline boundary area @Bounds. The 
+   respective mode is determined by the parameter aFullyVisible.
+   This scroll operation can optionally be animated by an effect passed in the parameter 
+   aAnimationEffect. If aAnimationEffect == null, no animation is used and the scrolling 
+   is executed immediately. After the operation is done, a signal is sent to the 
+   optional slot method specified in the parameter aOnDoneScroll.
+   Please note, calling the method EnsureVisible() while an animation is running 
+   will terminate it abruptly without the slot method aOnDoneScroll being notified. 
+   More flexible approach to stop an activate animation is to use the method @StopScrollEffect(). 
+   Whether an animation is currently running can be queried by using the method 
+   @IsScrollEffectActive(). */
+void CoreOutline_EnsureVisible( CoreOutline _this, CoreView aView, XBool aFullyVisible, 
+  EffectsPointEffect aAnimationEffect, XSlot aOnDoneScroll )
+{
+  XRect r;
+  XRect bounds;
+  XRect inter;
+  XPoint ofs;
+
+  if ( aView == 0 )
+    return;
+
+  if (( aView->Owner != _this->Super2.Owner ) || !(( aView->viewState & CoreViewStateEmbedded ) 
+      == CoreViewStateEmbedded ))
+  {
+    EwThrow( EwLoadString( &_Const0013 ));
+    return;
+  }
+
+  r = CoreView__GetExtent( aView );
+  bounds = _this->Super1.Bounds;
+  inter = EwIntersectRect( r, bounds );
+
+  if (( !aFullyVisible && !EwIsRectEmpty( inter )) || ( aFullyVisible && !EwCompRect( 
+      inter, r )))
+  {
+    EwSignal( aOnDoneScroll, ((XObject)_this ));
+    return;
+  }
+
+  ofs = _Const0000;
+
+  if ( r.Point2.X > bounds.Point2.X )
+    ofs.X = ( r.Point2.X - bounds.Point2.X );
+
+  if ( r.Point2.Y > bounds.Point2.Y )
+    ofs.Y = ( r.Point2.Y - bounds.Point2.Y );
+
+  if ( ofs.X > ( r.Point1.X - bounds.Point1.X ))
+    ofs.X = ( r.Point1.X - bounds.Point1.X );
+
+  if ( ofs.Y > ( r.Point1.Y - bounds.Point1.Y ))
+    ofs.Y = ( r.Point1.Y - bounds.Point1.Y );
+
+  if ( _this->scrollEffect != 0 )
+  {
+    EffectsEffect_OnSetEnabled((EffectsEffect)_this->scrollEffect, 0 );
+    _this->scrollEffect->Outlet = EwNullRef;
+    _this->scrollEffect->Super1.privateOnFinished = EwNullSlot;
+    _this->onDoneScroll = EwNullSlot;
+  }
+
+  _this->scrollEffect = aAnimationEffect;
+
+  if ( _this->scrollEffect == 0 )
+  {
+    CoreOutline_OnSetScrollOffset( _this, EwMovePointNeg( _this->ScrollOffset, ofs ));
+    EwSignal( aOnDoneScroll, ((XObject)_this ));
+  }
+  else
+  {
+    EffectsEffect_OnSetEnabled((EffectsEffect)_this->scrollEffect, 0 );
+    EffectsEffect_OnSetNoOfCycles((EffectsEffect)_this->scrollEffect, 1 );
+    _this->scrollEffect->Outlet = EwNewRef( _this, CoreOutline_OnGetScrollOffset, 
+    CoreOutline_OnSetScrollOffset );
+    _this->scrollEffect->Value1 = _this->ScrollOffset;
+    _this->scrollEffect->Value2 = EwMovePointNeg( _this->ScrollOffset, ofs );
+    _this->scrollEffect->Super1.privateOnFinished = EwNewSlot( _this, CoreOutline_onFinishScrollSlot );
+    EffectsEffect_OnSetReversed((EffectsEffect)_this->scrollEffect, 0 );
+    EffectsEffect_OnSetEnabled((EffectsEffect)_this->scrollEffect, 1 );
+    _this->onDoneScroll = aOnDoneScroll;
+  }
+}
+
+/* The method GetContentArea() determines a rectangular area occupied by the views 
+   embedded within the outline. The additional parameter aFilter can be used to 
+   limit the operation to special views only, e.g. to visible and touchable views.
+   If there are no views complying the filter condition, the method returns an empty 
+   area.
+   Please note, this method is limited to the views embedded within the outline. 
+   Other sibling views not belonging to the outline are simply ignored. */
+XRect CoreOutline_GetContentArea( CoreOutline _this, XSet aFilter )
+{
+  CoreView view = _this->Super2.next;
+  XRect area = _Const0001;
+  XSet notFilter = CoreViewStateDialog;
+
+  if ((( aFilter & CoreViewStateDialog ) == CoreViewStateDialog ))
+    notFilter = 0;
+
+  aFilter = aFilter | CoreViewStateEmbedded;
+
+  while (( view != 0 ) && !(( view->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
+  {
+    if ( EwSetContains( view->viewState, aFilter ) && ( !notFilter || !EwSetContains( 
+        view->viewState, notFilter )))
+      area = EwUnionRect( area, CoreView__GetExtent( view ));
+
+    view = view->next;
+  }
+
+  return area;
+}
+
+/* Default onget method for the property 'ScrollOffset' */
+XPoint CoreOutline_OnGetScrollOffset( CoreOutline _this )
+{
+  return _this->ScrollOffset;
+}
+
 /* Variants derived from the class : 'Core::Outline' */
 EW_DEFINE_CLASS_VARIANTS( CoreOutline )
 EW_END_OF_CLASS_VARIANTS( CoreOutline )
 
 /* Virtual Method Table (VMT) for the class : 'Core::Outline' */
-EW_DEFINE_CLASS( CoreOutline, CoreRectView, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, 
-                 "Core::Outline" )
+EW_DEFINE_CLASS( CoreOutline, CoreRectView, scrollEffect, onDoneScroll, ScrollOffset, 
+                 ScrollOffset, ScrollOffset, ScrollOffset, "Core::Outline" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreOutline_Draw,
@@ -6426,7 +6886,7 @@ void CoreVerticalList__Init( CoreVerticalList _this, XObject aLink, XHandle aArg
   _this->_.VMT = EW_CLASS( CoreVerticalList );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0010 );
+  CoreRectView__OnSetBounds( _this, _Const0014 );
   _this->invalidTail = -1;
   _this->validTail = -1;
   _this->Item = -1;
@@ -6707,7 +7167,7 @@ void CoreVerticalList_RestackTop( CoreVerticalList _this, CoreView aView )
   EW_UNUSED_ARG( aView );
 
   {
-    EwThrow( EwLoadString( &_Const0011 ));
+    EwThrow( EwLoadString( &_Const0015 ));
     return;
   }
 }
@@ -6734,7 +7194,7 @@ void CoreVerticalList_Restack( CoreVerticalList _this, CoreView aView, XInt32 aO
   EW_UNUSED_ARG( aView );
 
   {
-    EwThrow( EwLoadString( &_Const0012 ));
+    EwThrow( EwLoadString( &_Const0016 ));
     return;
   }
 }
@@ -6754,7 +7214,7 @@ void CoreVerticalList_Remove( CoreVerticalList _this, CoreView aView )
   EW_UNUSED_ARG( aView );
 
   {
-    EwThrow( EwLoadString( &_Const0013 ));
+    EwThrow( EwLoadString( &_Const0017 ));
     return;
   }
 }
@@ -6781,7 +7241,7 @@ void CoreVerticalList_Add( CoreVerticalList _this, CoreView aView, XInt32 aOrder
   EW_UNUSED_ARG( aView );
 
   {
-    EwThrow( EwLoadString( &_Const0014 ));
+    EwThrow( EwLoadString( &_Const0018 ));
     return;
   }
 }
@@ -6993,10 +7453,10 @@ void CoreVerticalList_OnSetSlideHandler( CoreVerticalList _this, CoreSlideTouchH
 
   if (( value != 0 ) && ( value->privateOnSlide.Object != 0 ))
   {
-    EwTrace( "%s%*%s", EwLoadString( &_Const0015 ), value, EwLoadString( &_Const0016 ));
+    EwTrace( "%s%*%s", EwLoadString( &_Const0010 ), value, EwLoadString( &_Const0011 ));
 
     {
-      EwThrow( EwLoadString( &_Const0017 ));
+      EwThrow( EwLoadString( &_Const0012 ));
       return;
     }
   }
@@ -8582,7 +9042,7 @@ void CoreKeyPressHandler_Init( CoreKeyPressHandler _this, XHandle aArg )
 
   if ( group == 0 )
   {
-    EwThrow( EwLoadString( &_Const0018 ));
+    EwThrow( EwLoadString( &_Const0019 ));
     return;
   }
 
@@ -8958,7 +9418,7 @@ void CoreTaskQueue_CancelTask( CoreTaskQueue _this, CoreTask aTask )
 
   if ( aTask->queue != _this )
   {
-    EwThrow( EwLoadString( &_Const0019 ));
+    EwThrow( EwLoadString( &_Const001A ));
     return;
   }
 
@@ -9006,7 +9466,7 @@ void CoreTaskQueue_ScheduleTask( CoreTaskQueue _this, CoreTask aTask, XBool aWit
 
   if ( aTask->queue != 0 )
   {
-    EwThrow( EwLoadString( &_Const001A ));
+    EwThrow( EwLoadString( &_Const001B ));
     return;
   }
 
@@ -10024,7 +10484,7 @@ XString CoreTime_Format( CoreTime _this, XString aFormat )
 
         case 'I' :
           if (( _this->Hour % 12 ) == 0 )
-            result = EwConcatString( result, EwLoadString( &_Const001B ));
+            result = EwConcatString( result, EwLoadString( &_Const001C ));
           else
             result = EwConcatString( result, EwNewStringInt( _this->Hour % 12, 2 
             * leadingZeros, 10 ));
@@ -10068,7 +10528,7 @@ XString CoreTime_Format( CoreTime _this, XString aFormat )
         break;
 
         case '%' :
-          result = EwConcatString( result, EwLoadString( &_Const001C ));
+          result = EwConcatString( result, EwLoadString( &_Const001D ));
         break;
 
         case 'j' :

@@ -113,10 +113,11 @@
 
 /* Deklaration of class : 'Application::ContactDetailsPage' */
 EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
-  EW_VARIABLE( editContact,     ApplicationContactEditPage )
+  EW_VARIABLE( editPage,        ApplicationContactEditPage )
   EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnDelete,        XSlot )
   EW_PROPERTY( OnBack,          XSlot )
+  EW_PROPERTY( OnMessage,       XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( Line2,           ViewsLine )
   EW_OBJECT  ( NumberTxt,       ViewsText )
@@ -194,8 +195,8 @@ void ApplicationContactDetailsPage_onSaveEdit( ApplicationContactDetailsPage _th
 void ApplicationContactDetailsPage_onCancelEdit( ApplicationContactDetailsPage _this, 
   XObject sender );
 
-/* 'C' function for method : 'Application::ContactDetailsPage.onBack()' */
-void ApplicationContactDetailsPage_onBack( ApplicationContactDetailsPage _this, 
+/* 'C' function for method : 'Application::ContactDetailsPage.onBackHome()' */
+void ApplicationContactDetailsPage_onBackHome( ApplicationContactDetailsPage _this, 
   XObject sender );
 
 /* 'C' function for method : 'Application::ContactDetailsPage.OnSetContact()' */
@@ -208,6 +209,10 @@ void ApplicationContactDetailsPage_onContactUpdated( ApplicationContactDetailsPa
 
 /* Wrapper function for the virtual method : 'Application::ContactDetailsPage.onContactUpdated()' */
 void ApplicationContactDetailsPage__onContactUpdated( void* _this, XObject sender );
+
+/* 'C' function for method : 'Application::ContactDetailsPage.onTapMessage()' */
+void ApplicationContactDetailsPage_onTapMessage( ApplicationContactDetailsPage _this, 
+  XObject sender );
 
 #ifdef __cplusplus
   }

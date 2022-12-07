@@ -84,6 +84,12 @@ EW_DECLARE_BITMAP_RES( ResButtonRoundMedium1 )
 /* Bitmap resource : 'Res::SearchButton' */
 EW_DECLARE_BITMAP_RES( ResSearchButton )
 
+/* Bitmap resource : 'Res::ChatRight' */
+EW_DECLARE_BITMAP_RES( ResChatRight )
+
+/* Bitmap resource : 'Res::ChatLeft' */
+EW_DECLARE_BITMAP_RES( ResChatLeft )
+
 /* Font resource : 'Res::IconsFont12' */
 EW_DECLARE_FONT_RES( ResIconsFont12 )
 
@@ -324,6 +330,9 @@ extern const XStringRes ResCheckIcon;
 
 /* User defined constant: 'Res::WriteIcon' */
 extern const XStringRes ResWriteIcon;
+
+/* User defined constant: 'Res::SendIcon' */
+extern const XStringRes ResSendIcon;
 
 /* User defined constant: 'Res::ForwardIcon' */
 extern const XStringRes ResForwardIcon;

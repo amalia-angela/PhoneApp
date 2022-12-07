@@ -97,6 +97,7 @@
    direction. The slot method @ReverseEffect can also be used to switch the playback 
    direction. */
 EW_DEFINE_FIELDS( EffectsPointEffect, EffectsEffect )
+  EW_PROPERTY( Outlet,          XRef )
   EW_VARIABLE( Value,           XPoint )
   EW_PROPERTY( Value2,          XPoint )
   EW_PROPERTY( Value1,          XPoint )

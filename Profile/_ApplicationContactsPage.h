@@ -228,6 +228,10 @@ void ApplicationContactsPage_onMYCardUpdate( ApplicationContactsPage _this, XObj
 void ApplicationContactsPage_onMyCardPress( ApplicationContactsPage _this, XObject 
   sender );
 
+/* 'C' function for method : 'Application::ContactsPage.onTapMessage()' */
+void ApplicationContactsPage_onTapMessage( ApplicationContactsPage _this, XObject 
+  sender );
+
 #ifdef __cplusplus
   }
 #endif
