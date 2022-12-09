@@ -1,6 +1,6 @@
 ﻿$version 11.00
 
-$rect <20,130,200,170>
+$rect <30,80,210,120>
 $output false
 class ContactsPage : Core::Group
 {
@@ -216,7 +216,7 @@ class ContactsPage : Core::Group
   {
     preset Layout = Core::Layout[AlignToRight, AlignToTop];
     preset Bounds = <236,141,262,167>;
-    preset Icon = Res::Uptxt;
+    preset Icon = Res::UpIcon;
     preset OnActivate = onUpPress;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -232,7 +232,7 @@ class ContactsPage : Core::Group
     preset Layout = Core::Layout[AlignToRight, AlignToTop];
     preset Bounds = <210,141,236,167>;
     preset Enabled = true;
-    preset Icon = Res::DownTxt;
+    preset Icon = Res::DownIcon;
     preset OnActivate = onDownPress;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -266,7 +266,7 @@ class ContactsPage : Core::Group
   {
     preset Bounds = <242,12,272,42>;
     preset Enabled = true;
-    preset Icon = Res::PlusIconTxt;
+    preset Icon = Res::PlusIcon;
     preset OnActivate = onAddPress;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -293,7 +293,6 @@ class ContactsPage : Core::Group
       detailsPage.OnBack   = onCloseContact;
       detailsPage.OnDelete = onDeleteContact;
       detailsPage.Contact  = itemView.Contact;
-      detailsPage.OnMessage = onTapMessage;
       
       SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null,
                                null, null, null, false );
@@ -354,10 +353,10 @@ class ContactsPage : Core::Group
 // Contacts
 note group Note
 {
-  attr Bounds = <0,50,410,590>;
+  attr Bounds = <10,0,420,540>;
 }
 
-$rect <41,170,200,210>
+$rect <51,120,210,160>
 $output false
 class ContactItem : Core::Group
 {
@@ -811,7 +810,7 @@ class ContactItem : Core::Group
   }
 }
 
-$rect <40,210,200,250>
+$rect <50,160,210,200>
 $output false
 class ContactDetailsPage : Core::Group
 {
@@ -828,7 +827,7 @@ class ContactDetailsPage : Core::Group
     editPage.Contact  = Contact;
     editPage.OnDelete = onDelete;
 
-    SwitchToDialog( editPage, Res::FadeInOutCentered, null, null, null, null, null,
+    SwitchToDialog( editPage, Res::SlideLeftCentered, null, null, null, null, null,
                                null, null, null, false );
      
 
@@ -870,7 +869,8 @@ class ContactDetailsPage : Core::Group
   $rect <460,130,620,170>
   slot onCancelEdit
   {
-    DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);
+    DismissDialog( chat, Res::FadeInOutCentered, null, null, null, null, false);DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);
+    chat = null;
   }
 
   // Touch screen events
@@ -976,7 +976,7 @@ class ContactDetailsPage : Core::Group
   object Components::Button50x75 CallBtn
   {
     preset Bounds = <51,145,101,220>;
-    preset Icon = Res::CallTxt;
+    preset Icon = Res::CallIcon;
     preset OnActivate = onTapCall;
     preset Descript = Strings::callTxt;
     preset BackgoundColor = Res::Blue;
@@ -990,7 +990,7 @@ class ContactDetailsPage : Core::Group
   {
     preset Bounds = <111,145,161,220>;
     preset Enabled = false;
-    preset Icon = Res::VideoCallTxt;
+    preset Icon = Res::VideoCallIcon;
     preset Descript = Strings::VideoTxt;
     preset BackgoundColor = Res::Blue;
     preset BackgoundColorPressed = Res::BlueLight;
@@ -1004,7 +1004,7 @@ class ContactDetailsPage : Core::Group
   {
     preset Bounds = <171,145,221,220>;
     preset Enabled = true;
-    preset Icon = Res::MessageIconTxt;
+    preset Icon = Res::MessageIcon;
     preset OnActivate = onTapMessage;
     preset Descript = Strings::messageTxt;
     preset BackgoundColor = Res::Blue;
@@ -1034,7 +1034,7 @@ class ContactDetailsPage : Core::Group
   object Components::SButton25x25 EditBtn
   {
     preset Bounds = <240,4,265,29>;
-    preset Icon = Res::EditIconTxt;
+    preset Icon = Res::EditIcon;
     preset OnActivate = onTapEdit;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -1047,7 +1047,7 @@ class ContactDetailsPage : Core::Group
   object Components::SButton25x25 BackBtn
   {
     preset Bounds = <7,4,32,29>;
-    preset Icon = Res::BackIconTxt;
+    preset Icon = Res::BackIcon;
     preset OnActivate = onBackHome;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -1060,29 +1060,56 @@ class ContactDetailsPage : Core::Group
   object Views::Text FavoritTxt
   {
     preset Bounds = <60,233,84,263>;
-    preset String = Res::HeartTxt;
+    preset String = Res::HeartIcon;
     preset Font = Res::IconsFont20;
     preset Color = Res::Grey;
     preset Visible = false;
   }
 
-  $rect <300,320,480,360>
+  $rect <490,330,670,370>
   slot onTapMessage
   {
-    postsignal OnMessage;
+    chat = new Application::Chat;
+
+    chat.Contact = Contact;
+    chat.OnBack  = onBack;
+
+
+
+    SwitchToDialog( chat, Res::FadeInOutCentered, null, null, null, null, null,
+                               null, null, null, false );
+     
      
   }
 
-  $rect <480,320,640,360>
-  property slot OnMessage;
+  $rect <290,330,490,370>
+  var Application::Chat chat = null;
+
+  $rect <510,370,670,410>
+  slot onBack
+  {
+    DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);DismissDialog( editPage, Res::FadeInOutCentered, null, null, null, null, false);
+  }
 }
 
-$rect <40,290,200,330>
+$rect <50,240,210,280>
 $output false
 class ContactAddPage : Core::Group
 {
   $rect <0,450,200,490>
   inherited property Bounds = <0,0,272,440>;
+
+  $rect <760,100,960,140>
+  inherited method UpdateLayout()
+  {
+    super(aSize);
+
+    LastNameTxt.Bounds.origin = <3,191>;
+    FirstNameTxt.Bounds.origin = <3, 224>;
+    PhoneNumberTxt.Bounds.origin = <3, 257>;
+
+    Background.Bounds = Bounds.orect;
+  }
 
   $rect <760,50,960,90>
   inherited method UpdateViewState()
@@ -1246,6 +1273,7 @@ class ContactAddPage : Core::Group
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <3,191,269,223>;
     preset OnChange = onFieldChanged;
+    preset Alignment = Views::TextAlignment[];
     preset String = "";
     preset Color = Res::Black;
     preset Placeholder = "Last Name";
@@ -1280,7 +1308,7 @@ class ContactAddPage : Core::Group
   {
     preset Bounds = <240,4,265,29>;
     preset Enabled = false;
-    preset Icon = Res::CkeckIconTxt;
+    preset Icon = Res::CkeckIcon;
     preset OnActivate = onSave;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -1294,7 +1322,7 @@ class ContactAddPage : Core::Group
   object Components::SButton25x25 CloseButton
   {
     preset Bounds = <7,4,32,29>;
-    preset Icon = Res::CloseIconTxt;
+    preset Icon = Res::CloseIcon;
     preset OnActivate = onClose;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -1334,7 +1362,7 @@ class ContactAddPage : Core::Group
   }
 }
 
-$rect <40,250,200,290>
+$rect <50,200,210,240>
 $output false
 class ContactEditPage : Core::Group
 {
@@ -1554,7 +1582,7 @@ class ContactEditPage : Core::Group
   object Components::SButton25x25 CloseBtn
   {
     preset Bounds = <7,4,32,29>;
-    preset Icon = Res::CloseIconTxt;
+    preset Icon = Res::CloseIcon;
     preset OnActivate = onClose;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -1568,7 +1596,7 @@ class ContactEditPage : Core::Group
   {
     preset Bounds = <240,4,265,29>;
     preset Enabled = false;
-    preset Icon = Res::CkeckIconTxt;
+    preset Icon = Res::CkeckIcon;
     preset OnActivate = onSave;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -1611,7 +1639,7 @@ class ContactEditPage : Core::Group
   }
 }
 
-$rect <230,380,390,420>
+$rect <240,330,400,370>
 $output false
 class CallPage : Application::CallPageBase
 {
@@ -1712,7 +1740,7 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 ContactsBtn
   {
     preset Bounds = <182,240,247,332>;
-    preset Icon = Res::UserIconTxt;
+    preset Icon = Res::UserIcon;
     preset OnActivate = onContactsPress;
     preset Descript = Strings::contactsTxt;
     preset DescriptColor = Res::White;
@@ -1728,7 +1756,7 @@ class CallPage : Application::CallPageBase
   {
     preset Bounds = <104,241,169,333>;
     preset Enabled = false;
-    preset Icon = Res::VideoCallTxt;
+    preset Icon = Res::VideoCallIcon;
     preset OnActivate = onVideoCallPress;
     preset Descript = Strings::videocallTxt;
     preset DescriptColor = Res::White;
@@ -1745,7 +1773,7 @@ class CallPage : Application::CallPageBase
   {
     preset Bounds = <26,242,91,334>;
     preset Enabled = false;
-    preset Icon = Res::PlusIconTxt;
+    preset Icon = Res::PlusIcon;
     preset OnActivate = onAddCallPress;
     preset Descript = Strings::addcallTxt;
     preset DescriptColor = Res::White;
@@ -1761,7 +1789,7 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 SpeakerBtn
   {
     preset Bounds = <182,147,247,239>;
-    preset Icon = Res::SpeakerTxt;
+    preset Icon = Res::SpeakerIcon;
     preset OnActivate = onSpeakerPress;
     preset Descript = Strings::speakerTxt;
     preset DescriptColor = Res::White;
@@ -1776,7 +1804,7 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 KeyPadBtn
   {
     preset Bounds = <104,148,169,240>;
-    preset Icon = Res::KeypadTxt;
+    preset Icon = Res::KeypadIcon;
     preset OnActivate = onKeypadPress;
     preset Descript = Strings::keypadTxt;
     preset DescriptColor = Res::White;
@@ -1791,7 +1819,7 @@ class CallPage : Application::CallPageBase
   object Components::Button65x90 MuteBtn
   {
     preset Bounds = <26,149,91,241>;
-    preset Icon = Res::MicOffTxt;
+    preset Icon = Res::MicOffIcon;
     preset OnActivate = onMicPress;
     preset Descript = Strings::muteTxt;
     preset DescriptColor = Res::White;
@@ -1828,6 +1856,7 @@ class CallPage : Application::CallPageBase
   $rect <20,20,160,60>
   object Application::KeypadInsideCall Keypad
   {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
     preset Bounds = <0,518,272,958>;
     preset HideFunction = false;
     preset HideCall = true;
@@ -1875,7 +1904,7 @@ class CallPage : Application::CallPageBase
   }
 }
 
-$rect <250,460,390,500>
+$rect <260,410,400,450>
 $output false
 class DetailsInsideCall : Application::ContactDetailsPage
 {
@@ -1980,7 +2009,7 @@ class DetailsInsideCall : Application::ContactDetailsPage
   }
 }
 
-$rect <210,260,390,300>
+$rect <220,210,400,250>
 $output false
 class KeypadPage : Core::Group
 {
@@ -2126,7 +2155,7 @@ class KeypadPage : Core::Group
   object Components::SButton65x65 callbtn
   {
     preset Bounds = <104,340,169,405>;
-    preset Icon = Res::CallTxt;
+    preset Icon = Res::CallIcon;
     preset OnActivate = onCallPress;
     preset BackgoundColor = Res::GreenDark;
     preset BackgoundColorPressed = Res::Green;
@@ -2350,7 +2379,7 @@ class KeypadPage : Core::Group
   object Components::SButton65x65 BtnErase
   {
     preset Bounds = <169,340,234,405>;
-    preset Icon = Res::BackspaceTxt;
+    preset Icon = Res::BackspaceIcon;
     preset OnActivate = onButtonsPress;
     preset Descript = "#";
     preset DescriptColor = Res::Black;
@@ -2365,7 +2394,7 @@ class KeypadPage : Core::Group
 }
 
 // This is the root component of the entire GUI application.
-$rect <130,80,330,120>
+$rect <140,30,340,70>
 $output false
 class ContactsApp : Core::Group
 {
@@ -2394,7 +2423,7 @@ class ContactsApp : Core::Group
   object Components::NavBarButton64x40 NavBarButtons
   {
     preset Bounds = <0,440,68,480>;
-    preset Icon = Res::HeartTxt;
+    preset Icon = Res::HeartIcon;
     preset Descript = Strings::FavoritesTxt;
     preset Outlet = ^SelectedPage;
   }
@@ -2403,7 +2432,7 @@ class ContactsApp : Core::Group
   object Components::NavBarButton64x40 NavBarButtons1
   {
     preset Bounds = <68,440,136,480>;
-    preset Icon = Res::CallTxt;
+    preset Icon = Res::CallIcon;
     preset Descript = Strings::RecentTxt;
     preset OutletSelector = 1;
     preset Outlet = ^SelectedPage;
@@ -2413,7 +2442,7 @@ class ContactsApp : Core::Group
   object Components::NavBarButton64x40 NavBarButtons2
   {
     preset Bounds = <136,440,204,480>;
-    preset Icon = Res::UserIconTxt;
+    preset Icon = Res::UserIcon;
     preset Descript = Strings::ContactsTxtx;
     preset OutletSelector = 2;
     preset Outlet = ^SelectedPage;
@@ -2423,7 +2452,7 @@ class ContactsApp : Core::Group
   object Components::NavBarButton64x40 NavBarButtons3
   {
     preset Bounds = <204,440,272,480>;
-    preset Icon = Res::KeypadTxt;
+    preset Icon = Res::KeypadIcon;
     preset Descript = Strings::KeypadTxt;
     preset OutletSelector = 3;
     preset Outlet = ^SelectedPage;
@@ -2503,7 +2532,7 @@ class Application : Core::Root
   $rect <290,40,490,80>
   inherited method Init()
   {
-    postsignal onStrat;
+    postsignal onSplashScreen;
 
     attachobserver onCallState, ^Device::Device.Ongoing.NoOfItems;
 
@@ -2632,7 +2661,27 @@ class Application : Core::Root
   var Application::MessagesPage messageApp;
 
   $rect <290,320,490,360>
-  slot onStrat
+  slot onSplashScreen
+  {
+    splashScreen = new Application::SplashScreen;
+    splashScreen.OnStart = onCloseSplash;
+
+    PresentDialog( splashScreen, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <290,360,490,400>
+  slot onCloseSplash
+  {
+    DismissDialog( splashScreen, null, null, null, null, null, false );
+
+    postsignal onStart;
+  }
+
+  $rect <490,320,690,360>
+  var Application::SplashScreen splashScreen;
+
+  $rect <300,420,500,460>
+  slot onStart
   {
     var Application::MainPage page = new Application::MainPage;
 
@@ -2640,7 +2689,7 @@ class Application : Core::Root
   }
 }
 
-$rect <250,500,390,540>
+$rect <260,450,400,490>
 $output false
 class KeypadInsideCall : Application::KeypadPage
 {
@@ -2725,7 +2774,7 @@ class KeypadInsideCall : Application::KeypadPage
   $reorder BackgroundSmall 16
 }
 
-$rect <250,420,390,460>
+$rect <260,370,400,410>
 $output false
 class ContactsInsideCall : Application::ContactsPage
 {
@@ -2822,12 +2871,12 @@ $variant Simulation
 vclass ApplicationSimulation : Application::Application
 {
   $rect <920,20,1120,60>
-  inherited property Bounds = <0,0,354,686>;
+  inherited property Bounds = <0,0,315,630>;
 
   $rect <20,20,160,60>
   object Views::Image Image
   {
-    preset Bounds = <-196,0,644,859>;
+    preset Bounds = <-264,-113,576,746>;
     preset ColorBL = #A8A8A8FF;
     preset ColorBR = #E0E0E0FF;
     preset ColorTR = #C7C7C7FF;
@@ -2836,18 +2885,16 @@ vclass ApplicationSimulation : Application::Application
   }
 
   $rect <20,20,160,60>
-  object Components::SButton65x65 SButton65x65
+  object Core::SimpleTouchHandler SimpleTouchHandler
   {
-    preset Bounds = <145,598,210,663>;
-    preset Icon = Res::circel;
-    preset OnActivate = onStrat;
-    preset IconColor = #E7E7E7FF;
-    preset BackgoundColor = #A9A9A9FF;
-    preset BackgoundColorPressed = Res::Grey;
-    preset IconFont = Res::IconsFont65;
-    preset Backgound = Res::ButtonRoundMedium1;
-    preset IconColorEnabled = Res::GreyLight;
+    preset Point4 = <122,556>;
+    preset Point3 = <189,556>;
+    preset Point2 = <189,612>;
+    preset Point1 = <122,612>;
+    preset OnPress = onStart;
   }
+
+  $reorder Image 5
 }
 
 $rect <1010,90,1260,130>
@@ -2864,7 +2911,7 @@ note group Note4
   attr Bounds = <990,0,1280,200>;
 }
 
-$rect <230,340,390,380>
+$rect <240,290,400,330>
 $output false
 class IncomingCall : Application::CallPageBase
 {
@@ -2903,7 +2950,7 @@ class IncomingCall : Application::CallPageBase
   object Components::Button65x90 AcceptButton
   {
     preset Bounds = <171,340,236,432>;
-    preset Icon = Res::CallTxt;
+    preset Icon = Res::CallIcon;
     preset OnActivate = onAcceptCall;
     preset Descript = Strings::acceptTxt;
     preset DescriptColor = Res::White;
@@ -2949,7 +2996,7 @@ autoobject Effects::SlideTransition SlideUpCentered
   preset Direction = Core::Direction.Top;
 }
 
-$rect <210,130,390,170>
+$rect <220,80,400,120>
 $output false
 class FavoritesPage : Core::Group
 {
@@ -3096,7 +3143,7 @@ class FavoritesPage : Core::Group
   {
     preset Bounds = <11,12,41,42>;
     preset Enabled = true;
-    preset Icon = Res::PlusIconTxt;
+    preset Icon = Res::PlusIcon;
     preset OnActivate = onAddPress;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -3188,7 +3235,7 @@ class FavoritesPage : Core::Group
   }
 }
 
-$rect <20,380,200,420>
+$rect <30,330,210,370>
 $output false
 class RecentPage : Core::Group
 {
@@ -3511,7 +3558,7 @@ class RecentPage : Core::Group
   }
 }
 
-$rect <230,210,390,250>
+$rect <240,160,400,200>
 $output false
 class ContactsList : Application::ContactsInsideCall
 {
@@ -3589,7 +3636,7 @@ class ContactsList : Application::ContactsInsideCall
   }
 }
 
-$rect <230,170,389,210>
+$rect <240,120,399,160>
 $output false
 class FavContactItem : Application::ContactItem
 {
@@ -3636,12 +3683,12 @@ class FavContactItem : Application::ContactItem
 
     if ( EditMode )
     {
-      InfoButton.Icon = Res::MenuTxt;
+      InfoButton.Icon = Res::MenuIcon;
       InfoButton.IconColor = Res::Grey; 
     }
     else
     {
-      InfoButton.Icon = Res::InfoTxt;
+      InfoButton.Icon = Res::InfoIcon;
       InfoButton.IconColor = Res::Blue;
       
       if ( DeleteEffect.Enabled || DeleteEffect.Value == DeleteEffect.Value2 )
@@ -3734,7 +3781,7 @@ class FavContactItem : Application::ContactItem
   {
     preset Layout = Core::Layout[ResizeHorz, ResizeVert];
     preset Bounds = <217,5,242,30>;
-    preset Icon = Res::InfoTxt;
+    preset Icon = Res::InfoIcon;
     preset OnActivate = onInfo;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -3796,7 +3843,7 @@ class FavContactItem : Application::ContactItem
   object Components::SButton25x25 RemoveButton
   {
     preset Bounds = <-25,5,0,30>;
-    preset Icon = Res::RemoveTxt;
+    preset Icon = Res::RemoveIcon;
     preset OnActivate = onShowDelete;
     preset BackgoundColor = Res::Red;
     preset BackgoundColorPressed = Res::Transparent;
@@ -3818,7 +3865,7 @@ class FavContactItem : Application::ContactItem
   $reorder InfoButton 5
 }
 
-$rect <41,420,200,460>
+$rect <51,370,210,410>
 $output false
 class RecentItm : Core::Group
 {
@@ -3943,7 +3990,7 @@ class RecentItm : Core::Group
   // can modify the alignment of the label as well as its margins by specifying them \
   // in the configuration object.
   $rect <10,108,159,148>
-  property string Icon = Res::OutgoingCallTxt;
+  property string Icon = Res::OutgoingCallIcon;
 
   $rect <170,110,320,150>
   property string Text = "";
@@ -4273,7 +4320,7 @@ class RecentItm : Core::Group
   {
     preset Layout = Core::Layout[ResizeHorz, ResizeVert];
     preset Bounds = <225,2,250,27>;
-    preset Icon = Res::InfoTxt;
+    preset Icon = Res::InfoIcon;
     preset OnActivate = onInfo;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -4306,7 +4353,7 @@ class RecentItm : Core::Group
   object Components::SButton25x25 RemoveButton
   {
     preset Bounds = <-25,11,0,36>;
-    preset Icon = Res::RemoveTxt;
+    preset Icon = Res::RemoveIcon;
     preset OnActivate = onShowDelete;
     preset BackgoundColor = Res::Red;
     preset BackgoundColorPressed = Res::Transparent;
@@ -4484,9 +4531,9 @@ class RecentItm : Core::Group
       FirstNameTxt.String = pure ContactHistory.FirstName;
       
       if ( pure ContactHistory.CallDirection == Device::CallDirection.Incoming )
-        PushButtonSmall.Icon = Res::IncomingCallTxt;
+        PushButtonSmall.Icon = Res::IncomingCallIcon;
       else
-        PushButtonSmall.Icon = Res::OutgoingCallTxt;
+        PushButtonSmall.Icon = Res::OutgoingCallIcon;
       
       CallTypeTxt.String  = pure ContactHistory.GetCallDirection();
       TimeTxt.String      = pure ContactHistory.GetTimeOfCall();
@@ -4505,7 +4552,7 @@ class RecentItm : Core::Group
   property Device::HistoryContact ContactHistory = null;
 }
 
-$rect <40,460,200,500>
+$rect <50,410,210,450>
 $output false
 class RecentDetailsPage : Application::ContactDetailsPage
 {
@@ -4644,7 +4691,7 @@ class RecentDetailsPage : Application::ContactDetailsPage
   }
 }
 
-$rect <210,300,390,340>
+$rect <220,250,400,290>
 $output false
 class CallPageBase : Core::Group
 {
@@ -4708,7 +4755,7 @@ class CallPageBase : Core::Group
   object Components::Button65x90 DesclineButton
   {
     preset Bounds = <36,340,101,432>;
-    preset Icon = Res::EndCallTxt;
+    preset Icon = Res::EndCallIcon;
     preset OnActivate = onDesclineCall;
     preset Descript = Strings::declineTxt;
     preset DescriptColor = Res::White;
@@ -4777,7 +4824,7 @@ class CallPageBase : Core::Group
   }
 }
 
-$rect <250,540,390,580>
+$rect <260,490,400,530>
 $output false
 class ContactsAppInsideCall : Application::ContactsApp
 {
@@ -4832,7 +4879,7 @@ class ContactsAppInsideCall : Application::ContactsApp
   }
 }
 
-$rect <40,330,199,370>
+$rect <50,280,209,320>
 $output false
 class MyCardItem : Core::Group
 {
@@ -5230,17 +5277,17 @@ class MyCardItem : Core::Group
 // Messages
 note group Note1
 {
-  attr Bounds = <430,50,910,390>;
+  attr Bounds = <430,0,910,340>;
 }
 
-$rect <440,100,640,140>
+$rect <440,50,640,90>
 $output false
 class MessagesPage : Core::Group
 {
   $rect <990,40,1190,80>
   inherited method Init()
   {
-    attachobserver onNoOfContactsChanged, ^Device::Device.Contacts.NoOfItems;
+    attachobserver onNoOfContactsChanged, ^Device::Device.MessageHistory.IsUpdate;
     postsignal onNoOfContactsChanged;
 
   }
@@ -5375,57 +5422,6 @@ class MessagesPage : Core::Group
     */
   }
 
-  $rect <20,20,160,60>
-  object Views::Rectangle Rectangle
-  {
-    preset Bounds = <0,0,272,480>;
-  }
-
-  $rect <20,20,160,60>
-  object Components::TextButton TextButton
-  {
-    preset Bounds = <11,15,59,40>;
-    preset Text = Strings::EditTxt;
-    preset OnActivate = onEdit;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text TitleTxt
-  {
-    preset Bounds = <11,40,264,80>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = Strings::MessagesTxt;
-    preset Font = Res::TitileFont32;
-    preset Color = Res::Black;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SearchEtxt SearchExt
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToRight, AlignToTop, ResizeHorz];
-    preset Bounds = <3,80,269,112>;
-    preset Color = Res::Grey;
-  }
-
-  $rect <20,20,160,60>
-  object Core::VerticalList VerticalList
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <3,122,272,466>;
-    preset OnLoadItem = OnLoadItem;
-    preset SlideHandler = SlideTouchHandler;
-    preset ItemHeight = 45;
-    preset ItemClass = Application::MessegeItem;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SlideTouchHandler SlideTouchHandler
-  {
-    preset StackingPriority = -1;
-    preset Bounds = <0,122,272,466>;
-    preset SlideHorz = false;
-  }
-
   // This method is called by 'VerticalList' every time the list loads or updates \
   // an item.
   $rect <780,40,980,80>
@@ -5434,19 +5430,17 @@ class MessagesPage : Core::Group
     // Get the number of the item to load.
     var int32 itemNo = VerticalList.Item;
 
-    var Device::Contact contact = Device::Device.Contacts.GetContact( itemNo );
+    var Device::Contact          contact     = Device::Device.MessageHistory.GetContact( itemNo );
     var Application::MessegeItem messageItem = (Application::MessegeItem)VerticalList.View;
                                                   
     if ( messageItem == null )
       return;
 
     messageItem.Contact    = contact;
-    messageItem.OnActivate = onAdd1;
-    //itemView.OnActivate = onCreatePressed;
+    messageItem.OnActivate = onOpenChat;
 
-    // Ensure that the item has correct size. The position of the item will be
-    // managed by the list component.
     messageItem.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+
 
   }
 
@@ -5461,48 +5455,35 @@ class MessagesPage : Core::Group
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
   }
 
-  $rect <480,90,670,130>
-  slot onCreatePressed
+  $rect <480,90,690,130>
+  slot onAddContact
   {
-    create = new Application::ContactsList1;
+    addPage = new Application::ContactsList1;
 
-    create.OnCancel      = onClose;
-    create.OnAddFav      = onAdd;
-    create.Contact = new Device::Contact;
+    addPage.OnCancel = onCloseAdd;
+    addPage.OnAddFav = onAdd;
+    addPage.Contact  = new Device::Contact;
 
-    SwitchToDialog( create, Res::SlideUpCenteredLimit, null, null, null, null, null, null, null, null, false );
+    SwitchToDialog( addPage, Res::SlideUpCenteredLimit, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <300,90,480,130>
-  var Application::ContactsList1 create = null;
+  var Application::ContactsList1 addPage = null;
 
-  $rect <520,130,690,170>
-  slot onClose
+  $rect <500,170,690,210>
+  slot onCloseAdd
   {
-    DismissDialog( create, Res::SlideDownCentered, null, null, null, null, false );
-
+    DismissDialog( addPage, Res::SlideDownCentered, null, null, null, null, false );
+    addPage = null;
   }
 
-  $rect <520,170,690,210>
+  $rect <500,130,690,170>
   slot onAdd
   {
-    postsignal onAdd1;
+    Device::Device.MessageHistory.AddFirst( addPage.Contact );
 
-    DismissDialog ( create, Res::SlideDownCentered, null, null, null, null, false );                            
-
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton25x25 SButton25x25
-  {
-    preset Bounds = <239,15,264,40>;
-    preset Icon = Res::WriteIcon;
-    preset OnActivate = onCreatePressed;
-    preset IconColor = Res::Blue;
-    preset BackgoundColor = Res::Transparent;
-    preset BackgoundColorPressed = Res::Transparent;
-    preset IconFont = Res::IconsFont20;
-    preset BackgroundColorEnabled = Res::Transparent;
+    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
+    postsignal onCloseAdd;
   }
 
   // Touch screen events
@@ -5517,10 +5498,10 @@ class MessagesPage : Core::Group
     attr Bounds = <770,0,1040,200>;
   }
 
-  $rect <310,210,490,250>
+  $rect <300,210,480,250>
   var Application::Chat chat = null;
 
-  $rect <530,250,690,290>
+  $rect <520,250,690,290>
   slot onBack
   {
     DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );
@@ -5531,25 +5512,93 @@ class MessagesPage : Core::Group
   $rect <980,80,1190,120>
   slot onNoOfContactsChanged
   {
-    VerticalList.NoOfItems = Device::Device.Contacts.NoOfItems;
-
+    VerticalList.NoOfItems = Device::Device.MessageHistory.NoOfItems;
+    
   }
 
-  $rect <490,210,690,250>
-  slot onAdd1
+  $rect <480,210,690,250>
+  slot onOpenChat
   {
-    VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
+    var Application::MessegeItem itemView = (Application::MessegeItem)sender;
 
-    chat = new Application::Chat; 
-    chat.Contact = create.Contact;
-    chat.OnBack  = onBack;
+    if ( itemView != null )
+    {
+      chat = new Application::Chat; 
 
-    SwitchToDialog( chat, Res::SlideUpCenteredLimit, null, null, null, null, null, null, null, null, false );
+      chat.Contact = itemView.Contact;
+      chat.OnBack  = onBack;
 
+      SwitchToDialog( chat, Res::SlideUpCentered, null, null, null, null, null, null, null, null, false );
+    }
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,272,480>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::VerticalList VerticalList
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <0,122,272,466>;
+    preset OnLoadItem = OnLoadItem;
+    preset SlideHandler = SlideTouchHandler;
+    preset ItemHeight = 45;
+    preset ItemClass = Application::MessegeItem;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset StackingPriority = -1;
+    preset Bounds = <0,122,272,466>;
+    preset SlideHorz = false;
+    preset Enabled = false;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SearchEtxt SearchExt
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToRight, AlignToTop, ResizeHorz];
+    preset Bounds = <3,80,269,112>;
+    preset Color = Res::Grey;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text TitleTxt
+  {
+    preset Bounds = <11,40,264,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::MessagesTxt;
+    preset Font = Res::TitileFont32;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton25x25 createBtn
+  {
+    preset Bounds = <239,15,264,40>;
+    preset Icon = Res::WriteIcon;
+    preset OnActivate = onAddContact;
+    preset IconColor = Res::Blue;
+    preset BackgoundColor = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset IconFont = Res::IconsFont20;
+    preset BackgroundColorEnabled = Res::Transparent;
+  }
+
+  $rect <20,20,160,60>
+  object Components::TextButton editBtn
+  {
+    preset Bounds = <11,15,59,40>;
+    preset Text = Strings::EditTxt;
+    preset OnActivate = onEdit;
   }
 }
 
-$rect <460,140,640,180>
+$rect <460,90,640,130>
 $output false
 class MessegeItem : Core::Group
 {
@@ -5860,120 +5909,27 @@ class MessegeItem : Core::Group
   {
     if ( Contact != null )
     {
-      if ( Contact.MessagesList != null )
+      NameTxt.String    = pure Contact.LastName + " "  + pure Contact.FirstName;
+      UserIcon.Icon     = pure Contact.NameInitials;
+      if ( Contact.MessagesList.head != null )
       {
-        NameTxt.String    = pure Contact.LastName + " "  + pure Contact.FirstName;
-        MessageTxt.String = pure Contact.MessagesList.GetLastMessage().Message;//"last message";
-        UserIcon.Icon = pure Contact.NameInitials;
-        TimeTxt.String    = pure Contact.MessagesList.GetLastMessage().TimeSent.String;//"l.m. time";
-      }
-      else
+        MessageTxt.String    = pure Contact.MessagesList.GetLastMessage().Message;//"last message";    
+        TimeTxt.String       = pure Contact.MessagesList.GetLastMessage().TimeSent.String;//"l.m. time";
+        SButton25x25.Visible = true;  
+      } 
+      else 
       {
-        TouchHandler.Enabled = false;
-        NameTxt.Visible = false; 
-        UserIcon.Visible = false; 
-        MessageTxt.Visible = false; 
-        TimeTxt.Visible = false;
+        MessageTxt.String    = "";    
+        TimeTxt.String       = "";
         SButton25x25.Visible = false;  
       }
     }
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,44>;
-    preset Point3 = <269,44>;
-    preset Point2 = <269,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Bounds = <0,0,269,45>;
-    preset ColorBL = #FDFDFDC8;
-    preset ColorBR = #FDFDFDC8;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line Line2
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Point2 = <269,45>;
-    preset Point1 = <50,44>;
-    preset Width = 2;
-    preset Color = Res::GreyLight;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text NameTxt
-  {
-    preset Bounds = <56,2,232,24>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = "name";
-    preset Font = Res::ContactFontBold15;
-    preset Color = Res::Black;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Line Line1
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Point2 = <269,0>;
-    preset Point1 = <50,0>;
-    preset Width = 2;
-    preset Color = Res::GreyLight;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text MessageTxt
-  {
-    preset Bounds = <56,24,269,44>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = Strings::messageTxt;
-    preset Font = Res::ContactFont12;
-    preset Color = Res::Grey;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton50x50 UserIcon
-  {
-    preset Bounds = <0,0,50,48>;
-    preset Backgound = Res::ButtonRoundMedium;
   }
 
   // Card data
   note group Note4
   {
     attr Bounds = <220,60,440,310>;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text TimeTxt
-  {
-    preset Bounds = <235,3,258,15>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
-    preset String = "Time ";
-    preset Font = Resources::DefaultFont;
-    preset Color = Res::Grey;
-  }
-
-  $rect <20,20,160,60>
-  object Components::ToggleButton CheckButton
-  {
-    preset Bounds = <-39,7,-4,42>;
-    preset BackgroundColor = Res::GreyLight;
-    preset IconSelectedColor = Res::White;
   }
 
   $rect <790,130,990,170>
@@ -6082,9 +6038,35 @@ class MessegeItem : Core::Group
   property slot OnCheck;
 
   $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,269,45>;
+    preset ColorBL = #FDFDFDC8;
+    preset ColorBR = #FDFDFDC8;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,44>;
+    preset Point3 = <269,44>;
+    preset Point2 = <269,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
   object Components::SButton25x25 SButton25x25
   {
     preset Bounds = <251,-3,276,22>;
+    preset Visible = false;
     preset Icon = Res::ForwardIcon;
     preset IconColor = Res::Grey;
     preset BackgoundColor = Res::Transparent;
@@ -6095,9 +6077,75 @@ class MessegeItem : Core::Group
     preset IconColorEnabled = Res::GreyLight;
     preset IconColorPressed = Res::Grey;
   }
+
+  $rect <20,20,160,60>
+  object Views::Text TimeTxt
+  {
+    preset Bounds = <235,3,258,15>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset String = "Time ";
+    preset Font = Resources::DefaultFont;
+    preset Color = Res::Grey;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line2
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <269,45>;
+    preset Point1 = <50,44>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text MessageTxt
+  {
+    preset Bounds = <56,24,269,44>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::messageTxt;
+    preset Font = Res::ContactFont12;
+    preset Color = Res::Grey;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text NameTxt
+  {
+    preset Bounds = <56,2,232,24>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "name";
+    preset Font = Res::ContactFontBold15;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton50x50 UserIcon
+  {
+    preset Bounds = <0,0,50,48>;
+    preset Backgound = Res::ButtonRoundMedium;
+  }
+
+  $rect <20,20,160,60>
+  object Components::ToggleButton CheckButton
+  {
+    preset Bounds = <-39,7,-4,42>;
+    preset BackgroundColor = Res::GreyLight;
+    preset IconSelectedColor = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Line Line1
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Point2 = <269,0>;
+    preset Point1 = <50,0>;
+    preset Width = 2;
+    preset Color = Res::GreyLight;
+  }
 }
 
-$rect <460,180,640,220>
+$rect <460,130,640,170>
 $output false
 class ContactsList1 : Application::ContactsList
 {
@@ -6114,10 +6162,17 @@ class ContactsList1 : Application::ContactsList
   }
 }
 
-$rect <460,220,640,260>
+$rect <460,170,640,210>
 $output false
 class Chat : Core::Group
 {
+  $rect <1000,50,1200,90>
+  inherited method Init()
+  {
+    attachobserver onMessageUpdate, ^Device::Device.MessageHistory.IsUpdate;
+    postsignal onMessageUpdate;
+  }
+
   $rect <10,500,210,540>
   inherited property Bounds = <0,0,272,480>;
 
@@ -6260,7 +6315,7 @@ class Chat : Core::Group
   {
     detailsPage = new Application::ContactDetailsPage;
 
-    detailsPage.OnBack  = onCloseDetailsPage;
+    detailsPage.OnBack  = onCloseUser;
     detailsPage.Contact = Contact;
 
     SwitchToDialog( detailsPage, Res::SlideUpCentered, null, null, null, null, null,
@@ -6268,7 +6323,7 @@ class Chat : Core::Group
 
   }
 
-  $rect <300,180,500,220>
+  $rect <500,180,700,220>
   slot onCall
   {
     Device::Device.SendCallContact( Contact );
@@ -6281,7 +6336,7 @@ class Chat : Core::Group
   var Application::ContactDetailsPage detailsPage = null;
 
   $rect <530,130,730,170>
-  slot onCloseDetailsPage
+  slot onCloseUser
   {
     DismissDialog( detailsPage, Res::SlideDownCentered, null, null, null, null, false );
     detailsPage = null;
@@ -6323,35 +6378,7 @@ class Chat : Core::Group
     {
       Button40x55.Descript = pure Contact.LastName;  
       Button40x55.Icon     =  pure Contact.NameInitials;
-      if ( pure Contact.MessagesList != null )
-      {
-        var Application::ChatBubble chatBubble = new Application::ChatBubble;;
-        var Device::Message message            = pure Contact.MessagesList.head;
-
-        while ( message != null )
-        { 
-          if ( message.Sender == Device::Device.MyCard )
-          {
-            chatBubble.LeftAligned  = false;
-            chatBubble.BubbleColor  = Res::Blue;
-            chatBubble.Message      = message.Message;
-            chatBubble.MessageColor = Res::White; 
-          }
-          else if ( message.Receiver == Device::Device.MyCard ) 
-          {
-            chatBubble.LeftAligned  = true;
-            chatBubble.BubbleColor  = Res::White;
-            chatBubble.Message      = message.Message;
-            chatBubble.MessageColor = Res::Black; 
-          }
-
-          chatBubble.Embedded = true;                            
-          Add( chatBubble, nrOfItem );
-          Outline.EnsureVisible( chatBubble, true, null, null );
-          nrOfItem ++; 
-        }
-       }
-      }
+    }
   }
 
   $rect <790,50,980,90>
@@ -6363,35 +6390,25 @@ class Chat : Core::Group
     attr Bounds = <290,0,760,400>;
   }
 
-  $rect <300,240,500,280>
+  $rect <500,230,700,270>
   slot onSend
   {
-    if (( SearchEtxt.String != "Message...") || (SearchEtxt.String != ""))
+    //Device::PhoneServer.SendMessage( "012", "hello" );
+
+
+    if ( SearchEtxt.String != "")
     {
-      //Device::Device.SendMessage( Contact, SearchEtxt.String );
-
-      var Application::ChatBubble chatBubble = new Application::ChatBubble;
-
-      chatBubble.LeftAligned  = false;
-      chatBubble.BubbleColor  = Res::Blue;
-      chatBubble.Message      = SearchEtxt.String;
-      chatBubble.MessageColor = Res::White;
-
-      chatBubble.Embedded = true;                            
-      Add( chatBubble, nrOfItem );
-      Outline.EnsureVisible( chatBubble, false, null, null );
-      nrOfItem ++; 
-      
-      var Device::Message message = new Device::Message;
-      message.Sender = Device::Device.MyCard;
-      message.Receiver = Contact;
-      message.TimeSent = (new Core::Time).CurrentTime;
-      message.Message = SearchEtxt.String;
-
-      //Contact.MessagesList.Add( message );
+      Device::Device.SendMessage( Contact, SearchEtxt.String );
     }
 
 
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,272,480>;
+    preset Color = Res::White;
   }
 
   $rect <20,20,160,60>
@@ -6407,13 +6424,6 @@ class Chat : Core::Group
   {
     preset Bounds = <2,71,274,433>;
     preset SlideHorz = false;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Bounds = <0,0,272,480>;
-    preset Color = Res::White;
   }
 
   $rect <20,20,160,60>
@@ -6435,7 +6445,7 @@ class Chat : Core::Group
   object Components::SButton25x25 BackBtn
   {
     preset Bounds = <7,4,32,29>;
-    preset Icon = Res::BackIconTxt;
+    preset Icon = Res::BackIcon;
     preset OnActivate = onBack;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -6448,7 +6458,7 @@ class Chat : Core::Group
   object Components::SearchEtxt SearchEtxt
   {
     preset Bounds = <3,435,269,467>;
-    preset String = "Message...";
+    preset String = "...";
     preset Icon = Res::SendIcon;
     preset OnIcon = onSend;
   }
@@ -6457,7 +6467,7 @@ class Chat : Core::Group
   object Components::SButton25x25 BackBtn1
   {
     preset Bounds = <241,4,266,29>;
-    preset Icon = Res::CallTxt;
+    preset Icon = Res::CallIcon;
     preset OnActivate = onCall;
     preset IconColor = Res::Blue;
     preset BackgoundColor = Res::Transparent;
@@ -6476,38 +6486,41 @@ class Chat : Core::Group
     preset Backgound = Res::ButtonRoundMedium;
   }
 
-  $rect <320,320,520,360>
-  slot example
-  {
-    /*EDIT: Ok I got this figured out...]
-
-    var Core::View view = null;
-
-    // disable SimpleTouchHandler for all views
-    var Application::ActiveModeBlock block;
-    var int32 viewcount = Outline.CountViews();
-    var int32 i;
-
-    for(i = 1; i < viewcount-1; i = i+1) // skip Left and RightSpacer!
-    {
-       view = Outline.GetViewAtIndex(i);
-       block = (Application::ActiveModeBlock)view;
-       block.SimpleTouchHandler.Enabled = false;
-    }
-
-    // Enable SimpleTouchHandler for current view   
-    var int32 idx = ((SlideTouchHandler.Offset.x * -1) / block.Bounds.w)+1;
-    view = Outline.GetViewAtIndex(idx);       
-    block = (Application::ActiveModeBlock)view;                             
-    block.SimpleTouchHandler.Enabled = true;      */
-
-    //    https://ask.embedded-wizard.de/5106/identifying-component-which-programmatically-added-outline?show=5106#q5106
-
-
-  }
-
-  $rect <520,240,720,280>
+  $rect <1020,130,1220,170>
   var int32 nrOfItem = 0;
+
+  $rect <790,180,990,220>
+  slot onMessageUpdate
+  {
+    if ( pure Contact != null )
+    {
+      if ( pure Contact.MessagesList.head != null )
+      {
+        var Application::ChatItem chatItem = new Application::ChatItem;
+        var Device::Message         message    = pure Contact.MessagesList.head;
+
+        if ( message.Sender == Device::Device.MyCard )
+        {
+          chatItem.LeftAligned  = false;
+          chatItem.BubbleColor  = Res::Blue;
+          chatItem.Message      = message.Message;
+          chatItem.MessageColor = Res::White; 
+        }
+        else if ( message.Receiver == Device::Device.MyCard )
+        {
+          chatItem.LeftAligned  = true;
+          chatItem.BubbleColor  = Res::White;
+          chatItem.Message      = message.Message;
+          chatItem.MessageColor = Res::Black; 
+        }
+
+        chatItem.Embedded = true;                            
+        Add( chatItem, nrOfItem );
+        Outline.EnsureVisible( chatItem, true, null, null );
+        nrOfItem ++; 
+      }
+    }
+  }
 }
 
 $rect <450,490,650,530>
@@ -6644,56 +6657,6 @@ class MainPage : Core::Group
     */
   }
 
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <0,0,272,486>;
-    preset ColorBL = #F5F5F5FF;
-    preset ColorTR = #FFFFFFFF;
-    preset ColorTL = #E7E7E7FF;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Footer
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <0,420,272,480>;
-    preset ColorBL = #94949496;
-    preset ColorBR = #B9B9B9AD;
-    preset ColorTR = #C3C3C3B0;
-    preset ColorTL = #CDCDCDDA;
-    preset Color = #C3C3C386;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton50x50 Contacts
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <53,425,103,475>;
-    preset Icon = Res::CallTxt;
-    preset OnActivate = onContact;
-    preset BackgoundColor = Res::GreenDark;
-    preset BackgoundColorPressed = Res::Green;
-    preset IconFont = Res::IconsFont25;
-    preset Backgound = Res::SuqareButton;
-    preset IconColorPressed = Res::GreyLight;
-  }
-
-  $rect <20,20,160,60>
-  object Components::SButton50x50 Messeges
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <170,425,220,475>;
-    preset Icon = Res::MessageIconTxt;
-    preset OnActivate = onMessages;
-    preset BackgoundColor = Res::GreenDark;
-    preset IconFont = Res::IconsFont25;
-    preset Backgound = Res::SuqareButton;
-    preset IconColorPressed = Res::GreyLight;
-  }
-
   $rect <290,0,490,40>
   slot onContact
   {
@@ -6715,6 +6678,100 @@ class MainPage : Core::Group
 
   $rect <490,40,690,80>
   var Application::MessagesPage messageApp;
+
+  $rect <290,110,490,150>
+  slot onSettings
+  {
+    addPage = new Application::ContactAddPage;
+
+    addPage.Bounds.h = 480;
+
+    addPage.Contact = new Device::Contact;
+    addPage.OnClose = onClose;
+    addPage.OnSave  = onSave;
+
+    PresentDialog( addPage, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <500,110,700,150>
+  var Application::ContactAddPage addPage = null;
+
+  $rect <310,150,490,190>
+  slot onClose
+  {
+    DismissDialog( addPage, null, null, null, null, null, false );
+    addPage = null;
+  }
+
+  $rect <310,190,490,230>
+  slot onSave
+  {
+    Device::Device.MyCard = addPage.Contact;
+    postsignal onClose;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Bounds = <0,0,272,480>;
+    preset Color = #FFFFFFFF;
+    preset Bitmap = Res::background;
+  }
+
+  $rect <20,20,160,60>
+  object Components::Button50x75 Button50x77
+  {
+    preset Bounds = <3,4,53,79>;
+    preset Icon = Res::SettingsIcon;
+    preset OnActivate = onSettings;
+    preset Descript = "Settings";
+    preset DescriptColor = Res::Grey;
+    preset BackgoundColorPressed = #AAAAAAFF;
+    preset DescriptFont = Res::ContactFont12;
+    preset IconFont = Res::IconsFont25;
+    preset Backgound = Res::SuqareButton;
+    preset DescriptColorPressed = Res::Grey;
+    preset IconColorPressed = Res::PressColor;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Footer
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <0,420,272,480>;
+    preset ColorBL = #94949496;
+    preset ColorBR = #B9B9B9AD;
+    preset ColorTR = #C3C3C3B0;
+    preset ColorTL = #CDCDCDDA;
+    preset Color = #79797986;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton50x50 Contacts
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <53,425,103,475>;
+    preset Icon = Res::CallIcon;
+    preset OnActivate = onContact;
+    preset BackgoundColor = Res::GreenDark;
+    preset BackgoundColorPressed = Res::Green;
+    preset IconFont = Res::IconsFont25;
+    preset Backgound = Res::SuqareButton;
+    preset IconColorPressed = Res::GreyLight;
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton50x50 Messeges
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <170,425,220,475>;
+    preset Icon = Res::MessageIcon;
+    preset OnActivate = onMessages;
+    preset BackgoundColor = Res::GreenDark;
+    preset IconFont = Res::IconsFont25;
+    preset Backgound = Res::SuqareButton;
+    preset IconColorPressed = Res::GreyLight;
+  }
 }
 
 // Application
@@ -6723,53 +6780,43 @@ note group Note2
   attr Bounds = <430,400,910,590>;
 }
 
-$rect <480,260,640,300>
+$rect <480,210,640,250>
 $output false
-class ChatBubble : Core::Group
+class ChatItem : Core::Group
 {
-  $rect <10,70,210,110>
+  $rect <90,120,290,160>
   inherited property Bounds = <0,0,272, 50>;
 
-  $rect <10,110,210,150>
+  $rect <300,110,500,150>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
     super( aState );
 
-    return; 
     if ( LeftAligned == false )
     {
-       Frame.Bitmap = Res::ChatRight;
-       
-       Text.Alignment = Views::TextAlignment[AlignHorzRight];
-       Text.Bounds = <20,6,252,36>; 
-       
-       Frame.Bounds.x = 272 - Text.Bounds.x - Text.Bounds.w;
-       Frame.Bounds.y = 0;
-       Frame.Bounds.w = Text.Bounds.w + 5;
-       Frame.Bounds.h = Text.Bounds.h + 5;  
-    }
-    else
+      Frame.Bitmap = Res::ChatRight;
+      Text.Layout = Core::Layout[AlignToRight, AlignToTop];
+      Frame.Layout = Core::Layout[AlignToRight, AlignToTop];
+      Text.Bounds.x= 272 - Text.GetContentArea().x - 50;
+      Text.Bounds.y = 10;
+      }
+    else if ( LeftAligned == true )
     {
       Frame.Bitmap = Res::ChatLeft;
-
-      Frame.Bounds.x = 5;
-      Frame.Bounds.y = 0;
-      Frame.Bounds.w = Text.Bounds.w + 5;
-      Frame.Bounds.h = Text.Bounds.h + 5;
+      Text.Bounds.x = 15;
+      Text.Bounds.y = 10;
     }
-
 
     Frame.Color = BubbleColor;
     Text.String = Message;
     Text.Color  = MessageColor;
+    Text.Alignment = Views::TextAlignment[AlignHorzLeft];
 
-    Bounds.h = Frame.Bounds.h;
-    Bounds.w = 272;
   }
 
   $rect <300,0,500,40>
-  property bool LeftAligned = false;
+  property bool LeftAligned = true;
 
   $rect <300,40,500,80>
   onset LeftAligned
@@ -6785,7 +6832,7 @@ class ChatBubble : Core::Group
   }
 
   $rect <505,0,705,40>
-  property string Message = "Left chat fvhjukfk fkjhfiy\nhgdytiyt\ndcjtgdt";
+  property string Message = "hei";
 
   $rect <505,40,705,80>
   onset Message
@@ -6835,7 +6882,8 @@ class ChatBubble : Core::Group
   $rect <20,20,160,60>
   object Views::Frame Frame
   {
-    preset Bounds = <5,0,220,50>;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <34,60,239,150>;
     preset Bitmap = Res::ChatLeft;
     preset NoEdgesLimit = <220,0>;
   }
@@ -6844,10 +6892,13 @@ class ChatBubble : Core::Group
   object Views::Text Text
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <12,6,203,30>;
+    preset Bounds = <186,9,202,21>;
     preset Padding = 2;
+    preset Ellipsis = true;
     preset OnUpdate = onUpdateText;
     preset AutoSize = true;
+    preset WrapWidth = 220;
+    preset WrapText = true;
     preset Alignment = Views::TextAlignment[AlignHorzLeft];
     preset String = "Text";
     preset Font = Resources::DefaultFont;
@@ -6858,32 +6909,97 @@ class ChatBubble : Core::Group
   {
     if ( LeftAligned == false )
     {
-       Frame.Bitmap = Res::ChatRight;
-       
-       Text.Alignment = Views::TextAlignment[AlignHorzRight];
-       Text.Bounds = <20,6,252,36>; 
-       
-       Frame.Bounds.x = 272 - Text.Bounds.x - Text.Bounds.w;
-       Frame.Bounds.y = 0;
-       Frame.Bounds.w = Text.Bounds.w + 5;
-       Frame.Bounds.h = Text.Bounds.h + 5;  
+      Frame.Bounds = Text.GetContentArea() * <10,10>;
+      Frame.Bounds.h += 10;
+      //Frame.NoEdgesLimit = <220,0>;
+      Bounds.h = Frame.Bounds.y2;
     }
-    else
+    else if ( LeftAligned == true )
     {
-      Frame.Bitmap = Res::ChatLeft;
-
-      Frame.Bounds.x = 5;
-      Frame.Bounds.y = 0;
-      Frame.Bounds.w = Text.Bounds.w + 5;
-      Frame.Bounds.h = Text.Bounds.h + 5;
+      Frame.Bounds = Text.GetContentArea() * <10,10>;
+      Frame.Bounds.h += 10;
+      Frame.Layout = Core::Layout[AlignToRight, AlignToTop];
+     
+      //Frame.NoEdgesLimit.x = 20;
+      Bounds.h = Frame.Bounds.y2;
     }
+    trace "done";
 
-
-    Frame.Color = BubbleColor;
-    Text.String = Message;
-    Text.Color  = MessageColor;
-
-    Bounds.h = Frame.Bounds.h;
-    Bounds.w = 272;
   }
+}
+
+$rect <670,490,870,530>
+$output false
+class SplashScreen : Core::Group
+{
+  $rect <320,460,520,500>
+  inherited property Bounds = <0,0,272,480>;
+
+  // To do:
+  // 
+  // - Adjust the visible size of your component (the thick blue border).
+  // 
+  // - The simplest way to compose the appearance of the component is to use the \
+  // 'Views' and 'Widget Sets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To implement the interface of the component use the 'Property' template from \
+  // the Gallery folder 'Chora'.
+  // 
+  // - To store values use the 'Variable' and 'Array' templates available in the \
+  // Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - In the method 'UpdateViewState()' you can put code to update the state of \
+  // views enclosed in your component.
+  // 
+  // - In the method 'UpdateLayout()' you can put code to perform sophisticated layout \
+  // calculation for enclosed views.
+  note legend Note1
+  {
+    attr Bounds = <580,620,1360,940>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,272,480>;
+    preset ColorBL = #5E5E5EFF;
+    preset ColorBR = #000000FF;
+    preset ColorTL = #F0F0F0FF;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Bounds = <101,205,171,275>;
+    preset Bitmap = Res::logog;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler SimpleTouchHandler
+  {
+    preset Point4 = <1,0>;
+    preset Point3 = <272,0>;
+    preset Point2 = <271,480>;
+    preset Point1 = <0,480>;
+    preset OnPress = Slot;
+  }
+
+  $rect <298,241,498,281>
+  slot Slot
+  {
+    postsignal OnStart;
+  }
+
+  $rect <490,240,690,280>
+  var slot OnStart;
 }

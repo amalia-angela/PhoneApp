@@ -2,39 +2,39 @@
 
 $rect <880,328,1050,368>
 $output false
-const string CallTxt = "\xe0b0";
+const string CallIcon = "\xe0b0";
 
 $rect <700,170,870,210>
 $output false
-const string MessageIconTxt = "\xe253";
+const string MessageIcon = "\xe253";
 
 $rect <700,330,870,370>
 $output false
-const string BackIconTxt = "\xe5e0";
+const string BackIcon = "\xe5e0";
 
 $rect <700,290,870,330>
 $output false
-const string EditIconTxt = "\xe3c9";
+const string EditIcon = "\xe3c9";
 
 $rect <700,210,870,250>
 $output false
-const string UserIconTxt = "\xe853";
+const string UserIcon = "\xe853";
 
 $rect <700,250,870,290>
 $output false
-const string PlusIconTxt = "\xe145";
+const string PlusIcon = "\xe145";
 
 $rect <700,370,870,410>
 $output false
-const string SerachIconTxt = "\xe8b6";
+const string SerachIcon = "\xe8b6";
 
 $rect <700,410,870,450>
 $output false
-const string CkeckIconTxt = "\xe876";
+const string CkeckIcon = "\xe876";
 
 $rect <700,450,870,490>
 $output false
-const string CloseIconTxt = "\xe5cd";
+const string CloseIcon = "\xe5cd";
 
 // Fonts
 note group Fonts
@@ -62,6 +62,10 @@ $rect <670,810,870,850>
 $output false
 autoobject Effects::SlideTransition SlideDownCentered
 {
+  preset MarginBottom = 75;
+  preset MarginRight = 21;
+  preset MarginTop = 75;
+  preset MarginLeft = 21;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Bottom;
@@ -87,6 +91,10 @@ $rect <670,770,870,810>
 $output false
 autoobject Effects::SlideTransition SlideUpCentered
 {
+  preset MarginBottom = 75;
+  preset MarginRight = 21;
+  preset MarginTop = 75;
+  preset MarginLeft = 0;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Top;
@@ -113,6 +121,10 @@ $rect <670,730,870,770>
 $output false
 autoobject Effects::SlideTransition SlideRightCentered
 {
+  preset MarginBottom = 75;
+  preset MarginRight = 0;
+  preset MarginTop = 75;
+  preset MarginLeft = 21;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Right;
@@ -174,7 +186,7 @@ resource Resources::Font IconsFont25
   attr fontheight Height = 25;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a, 0xe649, 0xe61c, 0xe15b,0xe88e, 0xe5d2, 0xe5ca, 0xe745, 0xe163, 0xe5e1, 0xe5e0, 0xe253, 0xe836;
+  attr fontranges Ranges = 0xe02b, 0xe029, 0xe31a, 0xe050, 0xe04b, 0xe145, 0xe853, 0xe0b1, 0xe3c9, 0xe5e0, 0xe8b6, 0xe876, 0xe5cd, 0xe5ce, 0xe5cf, 0xe02b, 0xe04e, 0xe0b0, 0xe14a, 0xe649, 0xe61c, 0xe15b,0xe88e, 0xe5d2, 0xe5ca, 0xe745, 0xe163, 0xe5e1, 0xe5e0, 0xe253, 0xe836, 0xe8b8;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -192,15 +204,15 @@ const color Grey = #BCBCBCFD;
 
 $rect <700,90,870,130>
 $output false
-const string MicTxt = "\xe029";
+const string MicIcon = "\xe029";
 
 $rect <700,130,870,170>
 $output false
-const string MicOffTxt = "\xe02b";
+const string MicOffIcon = "\xe02b";
 
 $rect <880,90,1050,130>
 $output false
-const string KeypadTxt = "\xe31a";
+const string KeypadIcon = "\xe31a";
 
 $rect <1101,680,1301,720>
 $output false
@@ -208,7 +220,7 @@ const color GreyLight = #F0F0F0FD;
 
 $rect <880,130,1050,170>
 $output false
-const string SpeakerTxt = "\xe050";
+const string SpeakerIcon = "\xe050";
 
 $rect <901,880,1101,920>
 $output false
@@ -216,7 +228,7 @@ const color Black = #181818FF;
 
 $rect <880,210,1050,250>
 $output false
-const string EndCallTxt = "\xe0b1";
+const string EndCallIcon = "\xe0b1";
 
 $rect <240,80,440,120>
 $output false
@@ -236,7 +248,7 @@ resource Resources::Font TitileFont29
 
 $rect <880,170,1050,210>
 $output false
-const string VideoCallTxt = "\xe04b";
+const string VideoCallIcon = "\xe04b";
 
 $rect <670,40,870,80>
 $output false
@@ -246,7 +258,7 @@ resource Resources::Font IconsFont30
   attr fontheight Height = 40;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe5ca, 0xe0ca, 0xe745, 0xe163, 0xe5e1, 0xe836;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe5ca, 0xe0ca, 0xe745, 0xe163, 0xe5e1, 0xe836, 0xe8b8;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -274,7 +286,7 @@ resource Resources::Font IconsFont20
   attr fontheight Height = 20;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca, 0xe745, 0xe836, 0xe163, 0xe5e1, 0xe836;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca, 0xe745, 0xe836, 0xe163, 0xe5e1, 0xe836,0xe8b8;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -312,15 +324,15 @@ const color Blue = #1B0BFFFF;
 
 $rect <1060,90,1230,130>
 $output false
-const string DownTxt = "\xe5cf";
+const string DownIcon = "\xe5cf";
 
 $rect <880,370,1050,410>
 $output false
-const string Uptxt = "\xe5ce";
+const string UpIcon = "\xe5ce";
 
 $rect <880,450,1050,490>
 $output false
-const string SpeakeroffTxt = "\xe04e";
+const string SpeakeroffIcon = "\xe04e";
 
 // Colors
 note group Note8
@@ -437,6 +449,7 @@ $rect <670,650,870,690>
 $output false
 autoobject Effects::FadeInOutTransition FadeInOutCentered
 {
+  preset MarginLeft = 21;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
 }
@@ -462,6 +475,10 @@ $rect <670,690,870,730>
 $output false
 autoobject Effects::SlideTransition SlideLeftCentered
 {
+  preset MarginBottom = 75;
+  preset MarginRight = 21;
+  preset MarginTop = 75;
+  preset MarginLeft = 0;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Left;
@@ -469,35 +486,31 @@ autoobject Effects::SlideTransition SlideLeftCentered
 
 $rect <879,493,1049,533>
 $output false
-const string HeartTxt = "\xe87d";
+const string HeartIcon = "\xe87d";
 
 $rect <700,492,870,532>
 $output false
-const string BackspaceTxt = "\xe14a";
+const string BackspaceIcon = "\xe14a";
 
 $rect <1101,880,1301,920>
 $output false
 const color PressColor = #F8F8F8D5;
 
-$rect <880,532,1050,572>
-$output false
-const string IncomingCalltxt = "\xe649";
-
 $rect <700,532,870,572>
 $output false
-const string OutgoingCallTxt = "\xe0b2";
+const string OutgoingCallIcon = "\xe0b2";
 
 $rect <880,250,1050,290>
 $output false
-const string RemoveTxt = "\xe15b";
+const string RemoveIcon = "\xe15b";
 
 $rect <880,410,1050,450>
 $output false
-const string InfoTxt = "\xe88e";
+const string InfoIcon = "\xe88e";
 
 $rect <880,290,1050,330>
 $output false
-const string MenuTxt = "\xe5d2";
+const string MenuIcon = "\xe5d2";
 
 $rect <9,209,209,249>
 $output false
@@ -531,7 +544,10 @@ $rect <670,850,870,890>
 $output false
 autoobject Effects::SlideTransition SlideUpCenteredLimit
 {
+  preset MarginBottom = 75;
+  preset MarginRight = 21;
   preset MarginTop = 40;
+  preset MarginLeft = 0;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Top;
@@ -539,11 +555,11 @@ autoobject Effects::SlideTransition SlideUpCenteredLimit
 
 $rect <1060,140,1260,180>
 $output false
-const string MissedCallTxt = "\xe0e4";
+const string MissedCallIcon = "\xe0e4";
 
 $rect <1060,180,1260,220>
 $output false
-const string IncomingCallTxt = "\xe0b5";
+const string IncomingCallIcon = "\xe0b5";
 
 $rect <1060,220,1260,260>
 $output false
@@ -601,7 +617,7 @@ resource Resources::Font IconsFont12
   attr fontheight Height = 12;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca, 0xe745, 0xe836, 0xe163, 0xe5e1, 0xe836;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe04b, 0xe0b0, 0xe87d, 0xe31a, 0xe14a, 0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe0b5, 0xe0e4, 0xe0b2,0xe5ca, 0xe745, 0xe836, 0xe163, 0xe5e1, 0xe836,0xe8b8;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -625,8 +641,8 @@ $rect <220,300,420,340>
 $output false
 resource Resources::Bitmap iphoneCase
 {
-  attr bitmapfile FileName = .\Res\iphonee.png;
-  attr bitmapformat Format = Alpha8;
+  attr bitmapfile FileName = .\Res\pinkIphone.png;
+  attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
   attr bitmapdithering Dithering = Auto;
@@ -635,7 +651,7 @@ resource Resources::Bitmap iphoneCase
 
 $rect <1280,310,1480,350>
 $output false
-const string circel = "\xe836";
+const string CircleIcon = "\xe836";
 
 $rect <1280,90,1480,130>
 $output false
@@ -645,10 +661,38 @@ resource Resources::Font IconsFont65
   attr fontheight Height = 65;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe5ca, 0xe0ca, 0xe745, 0xe163, 0xe5e1, 0xe836;
+  attr fontranges Ranges = 0xe0b0, 0xe253, 0xe853, 0xe145, 0xe5e0, 0xe3c9, 0xe8b6, 0xe876, 0xe5cd, 0xe14a,0xe649, 0xe61c,0xe15b, 0xe88e, 0xe5d2, 0xe5ca, 0xe0ca, 0xe745, 0xe163, 0xe5e1, 0xe836,0xe8b8;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
   attr fontkerning Kerning = true;
   attr fontrowdistance RowDistance;
+}
+
+$rect <1276,257,1476,297>
+$output false
+const string SettingsIcon = "\xe8b8";
+
+$rect <220,340,420,380>
+$output false
+resource Resources::Bitmap background
+{
+  attr bitmapfile FileName = .\Res\backgound.jpg;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <230,380,430,420>
+$output false
+resource Resources::Bitmap logog
+{
+  attr bitmapfile FileName = .\Res\logo.png;
+  attr bitmapformat Format = Alpha8;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
 }

@@ -141,21 +141,8 @@ class Contact
     pure MyCard = value;
   }
 
-  $rect <0,340,200,380>
-  property Device::MessagesList MessagesList = null;
-
-  $rect <200,340,400,380>
-  onset MessagesList
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure MessagesList == value )
-      return;
-
-    // Remember the property's new value.
-    pure MessagesList = value;
-
-    notifyobservers this;
-  }
+  $rect <-7,359,193,399>
+  object Device::MessagesList MessagesList;
 }
 
 // Contact
@@ -483,6 +470,7 @@ class DeviceClass : Templates::DeviceClass
   method void SendCallContact( arg Device::Contact aContact )
   {
     var Device::HistoryContact historyContact = new Device::HistoryContact;
+
     aContact.CopyDataTo( historyContact );
 
     historyContact.TimeOfCall    = (new Core::Time).CurrentTime;
@@ -492,9 +480,10 @@ class DeviceClass : Templates::DeviceClass
     Ongoing.AddLast( historyContact );
 
     // if call fails
-    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
+    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ))
     {
       historyContact.CallState = Device::CallState.Fail;
+      
       History.AddFirst( historyContact );
       Ongoing.Remove( historyContact );
     }
@@ -503,7 +492,7 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,210,200,250>
   method void ReceiveCall( arg string aPhoneNumber )
   {
-    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::Contact contact               = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
 
     //contact not found in contact list, than save it by number
@@ -529,12 +518,12 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,230,400,270>
   method void SendCallNumber( arg string aPhoneNumber )
   {
-    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+    var Device::Contact contact               = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
 
     if ( contact == null )
     {
-      historyContact.LastName = aPhoneNumber;
+      historyContact.LastName    = aPhoneNumber;
       historyContact.PhoneNumber = aPhoneNumber;
     } 
     else
@@ -549,9 +538,10 @@ class DeviceClass : Templates::DeviceClass
     Ongoing.AddLast( historyContact );
 
     /// if call fails
-    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
+    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ))
     {
       historyContact.CallState = Device::CallState.Missed;
+      
       History.AddFirst( historyContact );
       Ongoing.Remove( historyContact );
     }
@@ -561,7 +551,7 @@ class DeviceClass : Templates::DeviceClass
   $rect <210,490,410,530>
   object Device::ContactList Ongoing;
 
-  $rect <10,570,210,610>
+  $rect <500,490,700,530>
   method int32 GetNewID()
   {
     LastID +=1;
@@ -569,7 +559,7 @@ class DeviceClass : Templates::DeviceClass
     return LastID;
   }
 
-  $rect <210,570,410,610>
+  $rect <700,490,900,530>
   var int32 LastID = 0;
 
   $rect <200,350,400,390>
@@ -580,7 +570,7 @@ class DeviceClass : Templates::DeviceClass
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
        historyContact.CallState = Device::CallState.Cancelled; 
-       trace "cancelled";
+       
        Device::PhoneServer.CancelledCall( historyContact.PhoneNumber ); 
     }  
       
@@ -588,6 +578,7 @@ class DeviceClass : Templates::DeviceClass
     {
       historyContact.CallState = Device::CallState.EndCall;
       historyContact.EndTime   = (new Core::Time).CurrentTime;
+      
       Device::PhoneServer.EndCall( historyContact.PhoneNumber );
     } 
 
@@ -606,6 +597,7 @@ class DeviceClass : Templates::DeviceClass
     if( !Device::PhoneServer.AnswerCall( aContact.PhoneNumber ))
     {
       aContact.CallState = Device::CallState.Missed;
+      
       History.AddFirst( aContact );
       Ongoing.Remove( aContact );
      }
@@ -621,17 +613,6 @@ class DeviceClass : Templates::DeviceClass
 
     historyContact.CallState = Device::CallState.Speaking;
     historyContact.StartTime = (new Core::Time).CurrentTime;
-
-    /*
-    if( !Device::PhoneServer.AnswerCall( historyContact.PhoneNumber ))
-    {
-      historyContact.CallState = Device::CallState.Missed;
-      History.AddFirst( historyContact );
-      Ongoing.Remove( historyContact );
-     }
-     */
-    //esetleg ha megszakad a vonal akkor tegye be fail
-
 
   }
 
@@ -689,7 +670,7 @@ class DeviceClass : Templates::DeviceClass
 
   }
 
-  $rect <220,0,420,40>
+  $rect <880,-10,1080,30>
   var Device::PhoneServerClass server = Device::PhoneServer;
 
   $rect <900,100,1100,140>
@@ -716,41 +697,57 @@ class DeviceClass : Templates::DeviceClass
   $rect <460,190,660,230>
   method void ReceiveMessage( arg string aPhoneNumber, arg string aMessageContent )
   {
-    var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
 
-    if ( contact == null )
+    var Device::Contact cont = MessageHistory.FindByPhoneNumber( aPhoneNumber );
+    if ( cont == null )
     {
-      contact = new Device::Contact;
+      var Device::Contact contact = Contacts.FindByPhoneNumber( aPhoneNumber );
+      if ( contact == null )
+      {
+        contact = new Device::Contact;
       
-      contact.FirstName    = aPhoneNumber;
-      contact.PhoneNumber  = aPhoneNumber;
-      contact.NameInitials = Contacts.GetInitials( aPhoneNumber, "" ); 
-      //Contacts.AddLast( contact );
+        contact.FirstName    = aPhoneNumber;
+        contact.PhoneNumber  = aPhoneNumber;
+        contact.NameInitials = Contacts.GetInitials( aPhoneNumber, "" ); 
+       }
+       cont = contact;
     }
 
-    var Device::Message msg = new Device::Message;
+    var Device::Message message = new Device::Message;
 
-    msg.Sender   = contact;
-    msg.Receiver = MyCard;
-    msg.TimeSent = ( new Core::Time).CurrentTime;
-    msg.Message  = aMessageContent;
+    message.Sender   = cont;
+    message.Receiver = MyCard;
+    message.TimeSent = ( new Core::Time).CurrentTime;
+    message.Message  = aMessageContent;
 
-    //contact.Messages.Add( msg );
+    cont.MessagesList.Add( message );
+
+    //if ( cont != null )
+    //{
+    // MessageHistory.Remove( contact );
+    //}
+    MessageHistory.AddFirst( contact );
   }
 
   $rect <670,190,870,230>
   method void SendMessage( arg Device::Contact aContact, arg string aMessageContent )
   {
-    var Device::Message msg = new Device::Message;
+    var Device::Message message = new Device::Message;
 
-    msg.Sender   = MyCard;
-    msg.Receiver = aContact;
-    msg.TimeSent = ( new Core::Time).CurrentTime;
-    msg.Message  = aMessageContent;
+    message.Sender   = MyCard;
+    message.Receiver = aContact;
+    message.TimeSent = ( new Core::Time).CurrentTime;
+    message.Message  = aMessageContent;
 
-    //var Device::MessagesList message = new Device::MessagesList;
+    aContact.MessagesList.Add( message );
 
-    //aContact.MessagesList.Add( msg );
+    var Device::Contact contact = MessageHistory.FindByID( aContact );
+
+    if ( contact != null )
+    {
+      MessageHistory.Remove( aContact );
+    }
+    MessageHistory.AddFirst( aContact );
 
     Device::PhoneServer.SendMessage( aContact.PhoneNumber, aMessageContent );
 
@@ -790,6 +787,9 @@ class DeviceClass : Templates::DeviceClass
       historyContact.EndTime = (new Core::Time).CurrentTime;
     }
   }
+
+  $rect <10,570,210,610>
+  object Device::ContactList MessageHistory;
 }
 
 $rect <20,80,250,120>
@@ -903,6 +903,40 @@ vclass DeviceSimulation : Device::DeviceClass
     CreateContactFav( "Humphrey", "George", "0737678772");
 
     Contacts.insertionSort();
+
+    //postsignal Message;
+  }
+
+  $rect <40,275,240,315>
+  slot Message
+  {
+    var Device::Message msg = new Device::Message;
+
+    var Device::Contact cont = new Device::Contact;
+
+    cont.FirstName = "smith";
+    cont.LastName = "noah";
+    cont.PhoneNumber = "12";
+    cont.NameInitials ="sn";
+
+    var Device::Contact cont1 = new Device::Contact;
+
+    cont1.FirstName = "amy";
+    cont1.LastName = "bruce";
+    cont1.PhoneNumber = "22";
+    cont1.NameInitials ="ab";
+
+
+    msg.Sender = cont;
+    msg.Receiver = cont1;
+    msg.Message = "hello";
+
+    cont1.MessagesList.Add( msg );
+
+
+
+
+    Device::Device.MessageHistory.AddFirst( cont1 );
   }
 }
 
@@ -1112,6 +1146,7 @@ class ContactList
     }
 
     NoOfItems +=1;
+    IsUpdate = !IsUpdate;
 
   }
 
@@ -1137,6 +1172,7 @@ class ContactList
        prev.next = elem.next;
        NoOfItems -= 1;
     }
+    IsUpdate = !IsUpdate;
   }
 
   $rect <0,290,200,330>
@@ -1282,16 +1318,19 @@ class ContactList
   $rect <0,210,200,250>
   method Device::Contact FindByID( arg Device::Contact aContact )
   {
-    var Device::ContactListElement elem = head;
-
-    while ( elem.next != null )
+    if ( head != null )
     {
-      if ( elem.Data.ID == aContact.ID )
-        return elem.Data;
-        
-      elem = elem.next;
-    }
+      var Device::ContactListElement elem = head;
 
+
+      while ( elem.next != null )
+      {
+        if ( elem.Data.ID == aContact.ID )
+          return elem.Data;
+        
+        elem = elem.next;
+      }
+    }
     return null;
   }
 
@@ -1307,6 +1346,31 @@ class ContactList
     head = elem;
 
     NoOfItems += 1;
+
+    IsUpdate = !IsUpdate;
+  }
+
+  $rect <380,160,580,200>
+  property bool IsUpdate = false;
+
+  $rect <380,200,580,240>
+  onset IsUpdate
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure IsUpdate == value )
+      return;
+
+    // Remember the property's new value.
+    pure IsUpdate = value;
+
+    notifyobservers ^IsUpdate;
+
+  }
+
+  $rect <380,240,580,280>
+  onget IsUpdate
+  {
+    return pure IsUpdate;
   }
 }
 
@@ -1331,39 +1395,40 @@ class PhoneServerClass : Templates::DeviceClass
   $rect <440,0,640,40>
   slot askServerData
   {
+    var string url;
     var string senderID;
     var string phoneNumber;
-    var string url;
     var string message;
     var string messageContent;
 
 
-    senderID = Device::Device.MyCard.PhoneNumber;
-    phoneNumber = "";
-    message = "";
+    senderID       = Device::Device.MyCard.PhoneNumber;
+    phoneNumber    = "";
+    message        = "";
     messageContent = "";
-    url = "http://localhost/php-files/contacts/receive/"+senderID+"/"; 
+    url            = "http://localhost/php-files/contacts/receive/"+senderID+"/"; 
 
     $if !$prototyper
     native ( url, phoneNumber, message, messageContent )
     {
       let req = new XMLHttpRequest();
-      req.open('GET', url, false);
+      
+      req.open( "GET", url, false );
+      
       req.onload = function() {
-        if (req.status == 200) {
+        if ( req.status == 200 ) {
           
-          let json    = JSON.parse(req.response);
-          phoneNumber = json.sender;
-          message     = json.message;
+          let json       = JSON.parse( req.response );
+          phoneNumber    = json.sender;
+          message        = json.message;
           messageContent = json.content;
         }
       };
-      req.send();
       
-     // console.log("OUT" + phoneNumber); 
+      req.send();
     }
     $endif
-    trace url + " " + message + " " + phoneNumber + " " + messageContent ;
+    trace "sent message. " + " result: " +message + " url: " + url;
     if ( message == "call")
     {
       Device::Device.ReceiveCall( phoneNumber );
@@ -1385,10 +1450,7 @@ class PhoneServerClass : Templates::DeviceClass
     {
        Device::Device.ReceiveMessage( phoneNumber, messageContent );
     }
-    else if ( message == "hold" )
-    {
-       Device::Device.ReceiveMessage( phoneNumber, messageContent );
-    }
+
 
 
 
@@ -1516,24 +1578,29 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string url;
     var string result;
+    var string senderID;
 
-    var string senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
 
-    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
     $if !$prototyper
     native ( url, result )
     {
       var req = new XMLHttpRequest();
-      req.open("GET", url, false);
+      
+      req.open( "GET", url, false );
+      
       req.onload = function() {
-        if (req.status == 200) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log( req.status );
             result = req.responseText;
         }};
         
       req.send();
     }
     $endif
+
+
     trace result;
     if ( result == "" )
       return true;
@@ -1546,18 +1613,21 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string url;
     var string result;
-    var string senderID = Device::Device.MyCard.PhoneNumber;
+    var string senderID;
 
-    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
     native ( url, result )
     {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET", url, false); 
+      
+      xhr.open( "GET", url, false ); 
+      
       xhr.onload = function() {
-        if (xhr.readyState === 4) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log(req.status );
             result = req.responseText;
         }};
       
@@ -1576,17 +1646,21 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string url;
     var string result;
-    var string senderID = Device::Device.MyCard.PhoneNumber;
-    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
+    var string senderID;
+
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
 
     $if !$prototyper
     native ( url, result )
     {
       var req = new XMLHttpRequest();
-      req.open("GET", url, false);
+      
+      req.open( "GET", url, false );
+      
       req.onload = function() {
-        if (req.status == 200) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log( req.status );
             result = req.responseText;
         }};
         
@@ -1605,22 +1679,27 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string url;
     var string result;
-    var string senderID = Device::Device.MyCard.PhoneNumber;
-    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
+    var string senderID;
+
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
 
     $if !$prototyper
     native ( url, result )
     {
-      var req = new XMLHttpRequest();
-      req.open("GET", url, false);
+      var req = new XMLHttpRequest(); 
+      
+      req.open( "GET", url, false );
+      
       req.onload = function() {
-        if (req.status == 200) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log( req.status );
             result = req.responseText;
         }};
         
       req.send();
     }
+
     $endif
     trace result;
     if ( result == "" )
@@ -1634,23 +1713,27 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string url;
     var string result;
-    var string senderID = Device::Device.MyCard.PhoneNumber;
+    var string senderID;
 
-    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
-    trace url;
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+
     $if !$prototyper
     native ( url, result )
     {
       var req = new XMLHttpRequest();
-      req.open("GET", url, false);
+      
+      req.open( "GET", url, false );
+      
       req.onload = function() {
-        if (req.status == 200) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log( req.status );
             result = req.responseText;
         }};
         
       req.send();
     }
+
     $endif
     trace result;
     if ( result == "" )
@@ -1664,24 +1747,29 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string result;
     var string url;
-    var string senderID = Device::Device.MyCard.PhoneNumber;
+    var string senderID;
 
-    url = "http://localhost/php-files/contacts/message/send/"+senderID+"/"+aReceiverNumber+"/message/"+aMessage+"/"; 
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/message/send/"+senderID+"/"+aReceiverNumber+"/message/"+aMessage+"/"; 
 
     $if !$prototyper
-    native ( result )
+    native ( url, result )
     {
       var req = new XMLHttpRequest();
+      
       req.open("GET", url, false);
+      
       req.onload = function() {
-        if (req.status == 200) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log( req.status );
             result = req.responseText;
         }};
+        
+        req.send();
     }
     $endif
 
-    trace result;
+    trace "sent message. " + " result: " +result + " url: " + url;
     if ( result == "" )
       return true;
       
@@ -1693,17 +1781,21 @@ class PhoneServerClass : Templates::DeviceClass
   {
     var string url;
     var string result;
-    var string senderID = Device::Device.MyCard.PhoneNumber;
-    url = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
+    var string senderID;
+
+    senderID = Device::Device.MyCard.PhoneNumber;
+    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
 
     $if !$prototyper
     native ( url, result )
     {
       var req = new XMLHttpRequest();
-      req.open("GET", url, false);
+      
+      req.open( "GET", url, false );
+      
       req.onload = function() {
-        if (req.status == 200) {
-            console.log(req.status);
+        if ( req.status == 200 ) {
+            console.log( req.status );
             result = req.responseText;
         }};
         
@@ -1882,7 +1974,6 @@ class MessagesList
   $rect <0,90,200,130>
   method void Add( arg Device::Message aMessage )
   {
-
     if ( head ==  null )
     {  
       head = aMessage; 
@@ -1961,12 +2052,14 @@ class MessagesList
   method Device::Message GetLastMessage()
   {
     var Device::Message msg = head;
-
-    while ( msg.next !=null )
+    if ( msg != null )
     {
-      msg = msg.next;
-    }
+      while ( msg.next !=null )
+      {
+        msg = msg.next;
+      }
 
+    }
     return msg;
   }
 }

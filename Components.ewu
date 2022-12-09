@@ -457,7 +457,7 @@ class ButtonBase70x90 : Templates::PushButton
   {
     preset Bounds = <0,70,70,91>;
     preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertBottom];
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "";
     preset Font = Res::ContactFontBold15;
   }
@@ -1406,7 +1406,7 @@ class SearchEtxt : Templates::TextEditor
 
   // The property 'String' stores the text of the editor.
   $rect <890,0,1090,40>
-  property string Icon = Res::SerachIconTxt;
+  property string Icon = Res::SerachIcon;
 
   $rect <890,120,1090,160>
   onset IconFont
