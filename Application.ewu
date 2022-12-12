@@ -5987,7 +5987,6 @@ class MessegeItem : Core::Group
   $rect <180,690,320,730>
   slot onAnimate
   {
-
     CheckButton.Bounds.x    = EditEffect.Value - 30 ;
     UserIcon.Bounds.x = EditEffect.Value;
     NameTxt.Bounds.x     = EditEffect.Value + 56;
@@ -6823,6 +6822,7 @@ class MainPage : Core::Group
     preset Icon = Res::MessageIcon;
     preset OnActivate = onMessages;
     preset BackgoundColor = Res::GreenDark;
+    preset BackgoundColorPressed = Res::Green;
     preset IconFont = Res::IconsFont25;
     preset Backgound = Res::SuqareButton;
     preset IconColorPressed = Res::GreyLight;
