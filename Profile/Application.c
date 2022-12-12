@@ -29,7 +29,7 @@
 #include "_ApplicationCallPage.h"
 #include "_ApplicationCallPageBase.h"
 #include "_ApplicationChat.h"
-#include "_ApplicationChatBubble.h"
+#include "_ApplicationChatItem.h"
 #include "_ApplicationContactAddPage.h"
 #include "_ApplicationContactDetailsPage.h"
 #include "_ApplicationContactEditPage.h"
@@ -53,6 +53,7 @@
 #include "_ApplicationRecentDetailsPage.h"
 #include "_ApplicationRecentItm.h"
 #include "_ApplicationRecentPage.h"
+#include "_ApplicationSplashScreen.h"
 #include "_ComponentsButton265x470.h"
 #include "_ComponentsButton40x55.h"
 #include "_ComponentsButton50x75.h"
@@ -89,6 +90,7 @@
 #include "_ResourcesFont.h"
 #include "_TemplatesTextEditor.h"
 #include "_ViewsFrame.h"
+#include "_ViewsImage.h"
 #include "_ViewsLine.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
@@ -103,7 +105,7 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x0000035A, /* ratio 55.48 % */
+  0x00000386, /* ratio 55.88 % */
   0xB8000B00, 0x800DA452, 0x3E120032, 0x04045818, 0x60001580, 0x8001B800, 0x001C8006,
   0x11900066, 0x0045E371, 0x58021238, 0x80087048, 0x00DC0037, 0x0C2003A0, 0x012B3180,
   0xD2E95438, 0x0484C220, 0x084C3A18, 0x93936181, 0x4800C400, 0x41CD8003, 0xD4012999,
@@ -118,9 +120,10 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
   0x45443008, 0xE72D6855, 0x491A4300, 0xB8501334, 0x47970439, 0x13D00192, 0xC52DB241,
   0xD9287252, 0xE0724006, 0x425F56E5, 0x19A4300A, 0xE4511A6D, 0xFC001410, 0x45735094,
   0x4391C470, 0x1E24C1D2, 0x9561BC00, 0x61048010, 0xD8001C57, 0x7610E419, 0x64848859,
-  0x0121D811, 0xFDD86D00, 0xC70024F4, 0x4C10C8ED, 0x5496EA0A, 0x50002E72, 0x25099966,
-  0x311250C0, 0x0024E421, 0x007425A6, 0xE5A18543, 0x213F4125, 0xD5561584, 0x99A6751D,
-  0x90880606, 0x34C17A19, 0xC92C4B9F, 0x7851E129, 0x489224C4, 0x00000101, 0x00000000
+  0x0121D811, 0xFDD86D00, 0xC70024F4, 0x4C10C8ED, 0x5496EA0A, 0x50002E72, 0x1D099966,
+  0x686150C0, 0x43006425, 0x52299A67, 0x27D5258C, 0x7D580018, 0x53432527, 0x4B12C51C,
+  0x2467262A, 0x34301600, 0x9944421F, 0x008AE441, 0x1AA8A7CC, 0x6907CE8C, 0xC1ADF372,
+  0x1A9652E8, 0x4784A695, 0xA6D311E1, 0xE436F104, 0x10012261, 0x00000010, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -184,216 +187,227 @@ static const XRect _Const0038 = {{ 100, 78 }, { 170, 169 }};
 static const XRect _Const0039 = {{ 86, 7 }, { 186, 37 }};
 static const XRect _Const003A = {{ 7, 304 }, { 42, 339 }};
 static const XRect _Const003B = {{ 42, 313 }, { 109, 328 }};
-static const XRect _Const003C = {{ 5, 398 }, { 263, 431 }};
-static const XRect _Const003D = {{ 7, 244 }, { 265, 273 }};
-static const XStringRes _Const003E = { _StringsDefault0, 0x0052 };
-static const XPoint _Const003F = { 264, 239 };
-static const XPoint _Const0040 = { 6, 239 };
-static const XRect _Const0041 = {{ 6, 207 }, { 264, 240 }};
-static const XPoint _Const0042 = { 263, 206 };
-static const XPoint _Const0043 = { 5, 206 };
-static const XRect _Const0044 = {{ 2, 174 }, { 268, 206 }};
-static const XStringRes _Const0045 = { _StringsDefault0, 0x005F };
-static const XPoint _Const0046 = { 263, 173 };
-static const XPoint _Const0047 = { 5, 173 };
-static const XRect _Const0048 = {{ 2, 141 }, { 268, 173 }};
-static const XStringRes _Const0049 = { _StringsDefault0, 0x006C };
-static const XPoint _Const004A = { 263, 140 };
-static const XPoint _Const004B = { 5, 140 };
-static const XRect _Const004C = {{ 99, 29 }, { 169, 120 }};
-static const XRect _Const004D = {{ 7, 293 }, { 42, 328 }};
-static const XRect _Const004E = {{ 42, 303 }, { 109, 318 }};
-static const XRect _Const004F = {{ 0, 0 }, { 272, 480 }};
-static const XRect _Const0050 = {{ 104, 374 }, { 169, 466 }};
-static const XRect _Const0051 = {{ 182, 240 }, { 247, 332 }};
-static const XRect _Const0052 = {{ 104, 241 }, { 169, 333 }};
-static const XRect _Const0053 = {{ 26, 242 }, { 91, 334 }};
-static const XRect _Const0054 = {{ 182, 147 }, { 247, 239 }};
-static const XRect _Const0055 = {{ 104, 148 }, { 169, 240 }};
-static const XRect _Const0056 = {{ 26, 149 }, { 91, 241 }};
-static const XRect _Const0057 = {{ 0, 518 }, { 272, 958 }};
-static const XPoint _Const0058 = { 0, 30 };
-static const XPoint _Const0059 = { 264, 311 };
-static const XPoint _Const005A = { 6, 311 };
-static const XRect _Const005B = {{ 18, 282 }, { 262, 311 }};
-static const XRect _Const005C = {{ 6, 256 }, { 264, 289 }};
-static const XRect _Const005D = {{ 50, 161 }, { 100, 236 }};
-static const XRect _Const005E = {{ 110, 161 }, { 160, 236 }};
-static const XRect _Const005F = {{ 170, 161 }, { 220, 236 }};
-static const XRect _Const0060 = {{ 10, 114 }, { 267, 144 }};
-static const XRect _Const0061 = {{ 100, 30 }, { 170, 121 }};
-static const XRect _Const0062 = {{ 239, 5 }, { 264, 30 }};
-static const XRect _Const0063 = {{ 6, 5 }, { 31, 30 }};
-static const XRect _Const0064 = {{ 104, 340 }, { 169, 405 }};
-static const XRect _Const0065 = {{ 39, 80 }, { 104, 145 }};
-static const XStringRes _Const0066 = { _StringsDefault0, 0x0078 };
-static const XRect _Const0067 = {{ 169, 80 }, { 234, 145 }};
-static const XStringRes _Const0068 = { _StringsDefault0, 0x007C };
-static const XRect _Const0069 = {{ 104, 80 }, { 169, 145 }};
-static const XStringRes _Const006A = { _StringsDefault0, 0x0080 };
-static const XRect _Const006B = {{ 39, 145 }, { 104, 210 }};
-static const XStringRes _Const006C = { _StringsDefault0, 0x0084 };
-static const XRect _Const006D = {{ 169, 145 }, { 234, 210 }};
-static const XStringRes _Const006E = { _StringsDefault0, 0x0088 };
-static const XRect _Const006F = {{ 104, 145 }, { 169, 210 }};
-static const XStringRes _Const0070 = { _StringsDefault0, 0x008C };
-static const XRect _Const0071 = {{ 39, 210 }, { 104, 275 }};
-static const XStringRes _Const0072 = { _StringsDefault0, 0x0090 };
-static const XRect _Const0073 = {{ 169, 210 }, { 234, 275 }};
-static const XStringRes _Const0074 = { _StringsDefault0, 0x0094 };
-static const XRect _Const0075 = {{ 104, 210 }, { 169, 275 }};
-static const XStringRes _Const0076 = { _StringsDefault0, 0x0098 };
-static const XRect _Const0077 = {{ 39, 275 }, { 104, 340 }};
-static const XStringRes _Const0078 = { _StringsDefault0, 0x009C };
-static const XRect _Const0079 = {{ 169, 275 }, { 234, 340 }};
-static const XStringRes _Const007A = { _StringsDefault0, 0x00A0 };
-static const XRect _Const007B = {{ 104, 275 }, { 169, 340 }};
-static const XStringRes _Const007C = { _StringsDefault0, 0x00A4 };
-static const XRect _Const007D = {{ 39, 48 }, { 234, 80 }};
-static const XRect _Const007E = {{ 39, 360 }, { 101, 385 }};
-static const XRect _Const007F = {{ 169, 340 }, { 234, 405 }};
-static const XRect _Const0080 = {{ 0, 440 }, { 272, 480 }};
-static const XRect _Const0081 = {{ 0, 440 }, { 68, 480 }};
-static const XRect _Const0082 = {{ 68, 440 }, { 136, 480 }};
-static const XRect _Const0083 = {{ 136, 440 }, { 204, 480 }};
-static const XRect _Const0084 = {{ 204, 440 }, { 272, 480 }};
-static const XPoint _Const0085 = { 270, 440 };
-static const XPoint _Const0086 = { 0, 440 };
-static const XStringRes _Const0087 = { _StringsDefault0, 0x00A8 };
-static const XStringRes _Const0088 = { _StringsDefault0, 0x00C8 };
-static const XRect _Const0089 = {{ 0, 80 }, { 272, 340 }};
-static const XColor _Const008A = { 0x83, 0x83, 0x83, 0xFA };
-static const XColor _Const008B = { 0x4F, 0x4F, 0x4F, 0xFF };
-static const XColor _Const008C = { 0x89, 0x89, 0x89, 0xFF };
-static const XColor _Const008D = { 0x3C, 0x3C, 0x3C, 0xFF };
-static const XRect _Const008E = {{ 39, 32 }, { 234, 64 }};
-static const XRect _Const008F = {{ 11, 134 }, { 261, 440 }};
-static const XRect _Const0090 = {{ 12, 134 }, { 261, 440 }};
-static const XRect _Const0091 = {{ 236, 108 }, { 262, 134 }};
-static const XRect _Const0092 = {{ 210, 108 }, { 236, 134 }};
-static const XRect _Const0093 = {{ 11, 12 }, { 261, 61 }};
-static const XRect _Const0094 = {{ 180, 15 }, { 210, 45 }};
-static const XRect _Const0095 = {{ 216, 15 }, { 282, 40 }};
-static const XRect _Const0096 = {{ 171, 340 }, { 236, 432 }};
-static const XRect _Const0097 = {{ 11, 95 }, { 261, 408 }};
-static const XRect _Const0098 = {{ 11, 42 }, { 261, 76 }};
-static const XRect _Const0099 = {{ 11, 12 }, { 41, 42 }};
-static const XRect _Const009A = {{ 233, 12 }, { 263, 37 }};
-static const XRect _Const009B = {{ 233, 12 }, { 261, 37 }};
-static const XRect _Const009C = {{ 202, 24 }, { 268, 49 }};
-static const XRect _Const009D = {{ 12, 0 }, { 261, 30 }};
-static const XStringRes _Const009E = { _StringsDefault0, 0x00D5 };
-static const XPoint _Const009F = { 217, 32 };
-static const XPoint _Const00A0 = { 217, 0 };
-static const XRect _Const00A1 = {{ 44, 8 }, { 113, 26 }};
-static const XRect _Const00A2 = {{ -25, 5 }, { 0, 30 }};
-static const XRect _Const00A3 = {{ 250, 0 }, { 316, 32 }};
-static const XRect _Const00A4 = {{ 217, 5 }, { 242, 30 }};
-static const XRect _Const00A5 = {{ 131, 8 }, { 201, 26 }};
-static const XStringRes _Const00A6 = { _StringsDefault0, 0x00FA };
-static const XRect _Const00A7 = {{ 0, 0 }, { 250, 50 }};
-static const XRect _Const00A8 = {{ 0, 0 }, { 250, 52 }};
-static const XPoint _Const00A9 = { 25, 52 };
-static const XPoint _Const00AA = { 205, 52 };
-static const XPoint _Const00AB = { 205, 0 };
-static const XPoint _Const00AC = { 25, 0 };
-static const XPoint _Const00AD = { 250, 50 };
-static const XPoint _Const00AE = { 0, 50 };
-static const XRect _Const00AF = {{ 32, 4 }, { 114, 22 }};
-static const XStringRes _Const00B0 = { _StringsDefault0, 0x0106 };
-static const XRect _Const00B1 = {{ 114, 4 }, { 220, 22 }};
-static const XRect _Const00B2 = {{ 32, 33 }, { 101, 47 }};
-static const XStringRes _Const00B3 = { _StringsDefault0, 0x0111 };
-static const XRect _Const00B4 = {{ 162, 22 }, { 220, 36 }};
-static const XStringRes _Const00B5 = { _StringsDefault0, 0x011D };
-static const XRect _Const00B6 = {{ 225, 2 }, { 250, 27 }};
-static const XRect _Const00B7 = {{ 0, 17 }, { 25, 42 }};
-static const XRect _Const00B8 = {{ -25, 11 }, { 0, 36 }};
-static const XRect _Const00B9 = {{ 250, 1 }, { 316, 51 }};
-static const XPoint _Const00BA = { 265, 371 };
-static const XPoint _Const00BB = { 7, 371 };
-static const XRect _Const00BC = {{ 19, 342 }, { 263, 371 }};
-static const XRect _Const00BD = {{ 7, 316 }, { 265, 349 }};
-static const XPoint _Const00BE = { 265, 316 };
-static const XPoint _Const00BF = { 7, 316 };
-static const XPoint _Const00C0 = { 265, 237 };
-static const XPoint _Const00C1 = { 7, 237 };
-static const XRect _Const00C2 = {{ 8, 246 }, { 263, 267 }};
-static const XStringRes _Const00C3 = { _StringsDefault0, 0x0125 };
-static const XRect _Const00C4 = {{ 67, 267 }, { 263, 289 }};
-static const XStringRes _Const00C5 = { _StringsDefault0, 0x0133 };
-static const XRect _Const00C6 = {{ 7, 267 }, { 67, 289 }};
-static const XStringRes _Const00C7 = { _StringsDefault0, 0x0143 };
-static const XRect _Const00C8 = {{ 67, 289 }, { 263, 311 }};
-static const XStringRes _Const00C9 = { _StringsDefault0, 0x014D };
-static const XStringRes _Const00CA = { _StringsDefault0, 0x015A };
-static const XStringRes _Const00CB = { _StringsDefault0, 0x0165 };
-static const XRect _Const00CC = {{ 36, 340 }, { 101, 432 }};
-static const XRect _Const00CD = {{ 18, 73 }, { 91, 103 }};
-static const XStringRes _Const00CE = { _StringsDefault0, 0x0170 };
-static const XRect _Const00CF = {{ 18, 42 }, { 171, 72 }};
-static const XRect _Const00D0 = {{ 184, 28 }, { 254, 119 }};
-static const XRect _Const00D1 = {{ 0, 400 }, { 272, 440 }};
-static const XRect _Const00D2 = {{ 0, 400 }, { 68, 440 }};
-static const XRect _Const00D3 = {{ 68, 400 }, { 136, 440 }};
-static const XRect _Const00D4 = {{ 136, 400 }, { 204, 440 }};
-static const XRect _Const00D5 = {{ 204, 400 }, { 272, 440 }};
-static const XRect _Const00D6 = {{ 170, 14 }, { 236, 39 }};
-static const XRect _Const00D7 = {{ 0, 0 }, { 260, 45 }};
-static const XPoint _Const00D8 = { 0, 41 };
-static const XPoint _Const00D9 = { 260, 41 };
-static const XPoint _Const00DA = { 260, 0 };
-static const XRect _Const00DB = {{ 59, 2 }, { 255, 32 }};
-static const XRect _Const00DC = {{ 59, 24 }, { 156, 44 }};
-static const XRect _Const00DD = {{ 6, 0 }, { 56, 48 }};
-static const XRect _Const00DE = {{ 11, 15 }, { 59, 40 }};
-static const XRect _Const00DF = {{ 11, 40 }, { 264, 80 }};
-static const XRect _Const00E0 = {{ 3, 80 }, { 269, 112 }};
-static const XRect _Const00E1 = {{ 3, 122 }, { 272, 466 }};
-static const XRect _Const00E2 = {{ 0, 122 }, { 272, 466 }};
-static const XRect _Const00E3 = {{ 239, 15 }, { 264, 40 }};
-static const XStringRes _Const00E4 = { _StringsDefault0, 0x017D };
-static const XRect _Const00E5 = {{ 0, 0 }, { 269, 45 }};
-static const XPoint _Const00E6 = { 0, 44 };
-static const XPoint _Const00E7 = { 269, 44 };
-static const XPoint _Const00E8 = { 269, 0 };
-static const XPoint _Const00E9 = { 269, 45 };
-static const XPoint _Const00EA = { 50, 44 };
-static const XRect _Const00EB = {{ 56, 2 }, { 232, 24 }};
-static const XStringRes _Const00EC = { _StringsDefault0, 0x0186 };
-static const XPoint _Const00ED = { 50, 0 };
+static const XPoint _Const003C = { 3, 191 };
+static const XPoint _Const003D = { 3, 224 };
+static const XPoint _Const003E = { 3, 257 };
+static const XRect _Const003F = {{ 5, 398 }, { 263, 431 }};
+static const XRect _Const0040 = {{ 7, 244 }, { 265, 273 }};
+static const XStringRes _Const0041 = { _StringsDefault0, 0x0052 };
+static const XPoint _Const0042 = { 264, 239 };
+static const XPoint _Const0043 = { 6, 239 };
+static const XRect _Const0044 = {{ 6, 207 }, { 264, 240 }};
+static const XPoint _Const0045 = { 263, 206 };
+static const XPoint _Const0046 = { 5, 206 };
+static const XRect _Const0047 = {{ 2, 174 }, { 268, 206 }};
+static const XStringRes _Const0048 = { _StringsDefault0, 0x005F };
+static const XPoint _Const0049 = { 263, 173 };
+static const XPoint _Const004A = { 5, 173 };
+static const XRect _Const004B = {{ 2, 141 }, { 268, 173 }};
+static const XStringRes _Const004C = { _StringsDefault0, 0x006C };
+static const XPoint _Const004D = { 263, 140 };
+static const XPoint _Const004E = { 5, 140 };
+static const XRect _Const004F = {{ 99, 29 }, { 169, 120 }};
+static const XRect _Const0050 = {{ 7, 293 }, { 42, 328 }};
+static const XRect _Const0051 = {{ 42, 303 }, { 109, 318 }};
+static const XRect _Const0052 = {{ 0, 0 }, { 272, 480 }};
+static const XRect _Const0053 = {{ 104, 374 }, { 169, 466 }};
+static const XRect _Const0054 = {{ 182, 240 }, { 247, 332 }};
+static const XRect _Const0055 = {{ 104, 241 }, { 169, 333 }};
+static const XRect _Const0056 = {{ 26, 242 }, { 91, 334 }};
+static const XRect _Const0057 = {{ 182, 147 }, { 247, 239 }};
+static const XRect _Const0058 = {{ 104, 148 }, { 169, 240 }};
+static const XRect _Const0059 = {{ 26, 149 }, { 91, 241 }};
+static const XRect _Const005A = {{ 0, 518 }, { 272, 958 }};
+static const XPoint _Const005B = { 0, 30 };
+static const XPoint _Const005C = { 264, 311 };
+static const XPoint _Const005D = { 6, 311 };
+static const XRect _Const005E = {{ 18, 282 }, { 262, 311 }};
+static const XRect _Const005F = {{ 6, 256 }, { 264, 289 }};
+static const XRect _Const0060 = {{ 50, 161 }, { 100, 236 }};
+static const XRect _Const0061 = {{ 110, 161 }, { 160, 236 }};
+static const XRect _Const0062 = {{ 170, 161 }, { 220, 236 }};
+static const XRect _Const0063 = {{ 10, 114 }, { 267, 144 }};
+static const XRect _Const0064 = {{ 100, 30 }, { 170, 121 }};
+static const XRect _Const0065 = {{ 239, 5 }, { 264, 30 }};
+static const XRect _Const0066 = {{ 6, 5 }, { 31, 30 }};
+static const XRect _Const0067 = {{ 104, 340 }, { 169, 405 }};
+static const XRect _Const0068 = {{ 39, 80 }, { 104, 145 }};
+static const XStringRes _Const0069 = { _StringsDefault0, 0x0078 };
+static const XRect _Const006A = {{ 169, 80 }, { 234, 145 }};
+static const XStringRes _Const006B = { _StringsDefault0, 0x007C };
+static const XRect _Const006C = {{ 104, 80 }, { 169, 145 }};
+static const XStringRes _Const006D = { _StringsDefault0, 0x0080 };
+static const XRect _Const006E = {{ 39, 145 }, { 104, 210 }};
+static const XStringRes _Const006F = { _StringsDefault0, 0x0084 };
+static const XRect _Const0070 = {{ 169, 145 }, { 234, 210 }};
+static const XStringRes _Const0071 = { _StringsDefault0, 0x0088 };
+static const XRect _Const0072 = {{ 104, 145 }, { 169, 210 }};
+static const XStringRes _Const0073 = { _StringsDefault0, 0x008C };
+static const XRect _Const0074 = {{ 39, 210 }, { 104, 275 }};
+static const XStringRes _Const0075 = { _StringsDefault0, 0x0090 };
+static const XRect _Const0076 = {{ 169, 210 }, { 234, 275 }};
+static const XStringRes _Const0077 = { _StringsDefault0, 0x0094 };
+static const XRect _Const0078 = {{ 104, 210 }, { 169, 275 }};
+static const XStringRes _Const0079 = { _StringsDefault0, 0x0098 };
+static const XRect _Const007A = {{ 39, 275 }, { 104, 340 }};
+static const XStringRes _Const007B = { _StringsDefault0, 0x009C };
+static const XRect _Const007C = {{ 169, 275 }, { 234, 340 }};
+static const XStringRes _Const007D = { _StringsDefault0, 0x00A0 };
+static const XRect _Const007E = {{ 104, 275 }, { 169, 340 }};
+static const XStringRes _Const007F = { _StringsDefault0, 0x00A4 };
+static const XRect _Const0080 = {{ 39, 48 }, { 234, 80 }};
+static const XRect _Const0081 = {{ 39, 360 }, { 101, 385 }};
+static const XRect _Const0082 = {{ 169, 340 }, { 234, 405 }};
+static const XRect _Const0083 = {{ 0, 440 }, { 272, 480 }};
+static const XRect _Const0084 = {{ 0, 440 }, { 68, 480 }};
+static const XRect _Const0085 = {{ 68, 440 }, { 136, 480 }};
+static const XRect _Const0086 = {{ 136, 440 }, { 204, 480 }};
+static const XRect _Const0087 = {{ 204, 440 }, { 272, 480 }};
+static const XPoint _Const0088 = { 270, 440 };
+static const XPoint _Const0089 = { 0, 440 };
+static const XStringRes _Const008A = { _StringsDefault0, 0x00A8 };
+static const XStringRes _Const008B = { _StringsDefault0, 0x00C8 };
+static const XRect _Const008C = {{ 0, 80 }, { 272, 340 }};
+static const XColor _Const008D = { 0x83, 0x83, 0x83, 0xFA };
+static const XColor _Const008E = { 0x4F, 0x4F, 0x4F, 0xFF };
+static const XColor _Const008F = { 0x89, 0x89, 0x89, 0xFF };
+static const XColor _Const0090 = { 0x3C, 0x3C, 0x3C, 0xFF };
+static const XRect _Const0091 = {{ 39, 32 }, { 234, 64 }};
+static const XRect _Const0092 = {{ 11, 134 }, { 261, 440 }};
+static const XRect _Const0093 = {{ 12, 134 }, { 261, 440 }};
+static const XRect _Const0094 = {{ 236, 108 }, { 262, 134 }};
+static const XRect _Const0095 = {{ 210, 108 }, { 236, 134 }};
+static const XRect _Const0096 = {{ 11, 12 }, { 261, 61 }};
+static const XRect _Const0097 = {{ 180, 15 }, { 210, 45 }};
+static const XRect _Const0098 = {{ 216, 15 }, { 282, 40 }};
+static const XRect _Const0099 = {{ 171, 340 }, { 236, 432 }};
+static const XRect _Const009A = {{ 11, 95 }, { 261, 408 }};
+static const XRect _Const009B = {{ 11, 42 }, { 261, 76 }};
+static const XRect _Const009C = {{ 11, 12 }, { 41, 42 }};
+static const XRect _Const009D = {{ 233, 12 }, { 263, 37 }};
+static const XRect _Const009E = {{ 233, 12 }, { 261, 37 }};
+static const XRect _Const009F = {{ 202, 24 }, { 268, 49 }};
+static const XRect _Const00A0 = {{ 12, 0 }, { 261, 30 }};
+static const XStringRes _Const00A1 = { _StringsDefault0, 0x00D5 };
+static const XPoint _Const00A2 = { 217, 32 };
+static const XPoint _Const00A3 = { 217, 0 };
+static const XRect _Const00A4 = {{ 44, 8 }, { 113, 26 }};
+static const XRect _Const00A5 = {{ 250, 0 }, { 316, 32 }};
+static const XRect _Const00A6 = {{ 217, 5 }, { 242, 30 }};
+static const XRect _Const00A7 = {{ 131, 8 }, { 201, 26 }};
+static const XStringRes _Const00A8 = { _StringsDefault0, 0x00FA };
+static const XRect _Const00A9 = {{ -25, 5 }, { 0, 30 }};
+static const XRect _Const00AA = {{ 0, 0 }, { 250, 50 }};
+static const XRect _Const00AB = {{ 0, 0 }, { 250, 52 }};
+static const XPoint _Const00AC = { 25, 52 };
+static const XPoint _Const00AD = { 205, 52 };
+static const XPoint _Const00AE = { 205, 0 };
+static const XPoint _Const00AF = { 25, 0 };
+static const XPoint _Const00B0 = { 250, 50 };
+static const XPoint _Const00B1 = { 0, 50 };
+static const XRect _Const00B2 = {{ 32, 4 }, { 114, 22 }};
+static const XStringRes _Const00B3 = { _StringsDefault0, 0x0106 };
+static const XRect _Const00B4 = {{ 114, 4 }, { 220, 22 }};
+static const XRect _Const00B5 = {{ 32, 33 }, { 101, 47 }};
+static const XStringRes _Const00B6 = { _StringsDefault0, 0x0111 };
+static const XRect _Const00B7 = {{ 162, 22 }, { 220, 36 }};
+static const XStringRes _Const00B8 = { _StringsDefault0, 0x011D };
+static const XRect _Const00B9 = {{ 225, 2 }, { 250, 27 }};
+static const XRect _Const00BA = {{ 0, 17 }, { 25, 42 }};
+static const XRect _Const00BB = {{ -25, 11 }, { 0, 36 }};
+static const XRect _Const00BC = {{ 250, 1 }, { 316, 51 }};
+static const XPoint _Const00BD = { 265, 371 };
+static const XPoint _Const00BE = { 7, 371 };
+static const XRect _Const00BF = {{ 19, 342 }, { 263, 371 }};
+static const XRect _Const00C0 = {{ 7, 316 }, { 265, 349 }};
+static const XPoint _Const00C1 = { 265, 316 };
+static const XPoint _Const00C2 = { 7, 316 };
+static const XPoint _Const00C3 = { 265, 237 };
+static const XPoint _Const00C4 = { 7, 237 };
+static const XRect _Const00C5 = {{ 8, 246 }, { 263, 267 }};
+static const XStringRes _Const00C6 = { _StringsDefault0, 0x0125 };
+static const XRect _Const00C7 = {{ 67, 267 }, { 263, 289 }};
+static const XStringRes _Const00C8 = { _StringsDefault0, 0x0133 };
+static const XRect _Const00C9 = {{ 7, 267 }, { 67, 289 }};
+static const XStringRes _Const00CA = { _StringsDefault0, 0x0143 };
+static const XRect _Const00CB = {{ 67, 289 }, { 263, 311 }};
+static const XStringRes _Const00CC = { _StringsDefault0, 0x014D };
+static const XStringRes _Const00CD = { _StringsDefault0, 0x015A };
+static const XStringRes _Const00CE = { _StringsDefault0, 0x0165 };
+static const XRect _Const00CF = {{ 36, 340 }, { 101, 432 }};
+static const XRect _Const00D0 = {{ 18, 73 }, { 91, 103 }};
+static const XStringRes _Const00D1 = { _StringsDefault0, 0x0170 };
+static const XRect _Const00D2 = {{ 18, 42 }, { 171, 72 }};
+static const XRect _Const00D3 = {{ 184, 28 }, { 254, 119 }};
+static const XRect _Const00D4 = {{ 0, 400 }, { 272, 440 }};
+static const XRect _Const00D5 = {{ 0, 400 }, { 68, 440 }};
+static const XRect _Const00D6 = {{ 68, 400 }, { 136, 440 }};
+static const XRect _Const00D7 = {{ 136, 400 }, { 204, 440 }};
+static const XRect _Const00D8 = {{ 204, 400 }, { 272, 440 }};
+static const XRect _Const00D9 = {{ 170, 14 }, { 236, 39 }};
+static const XRect _Const00DA = {{ 0, 0 }, { 260, 45 }};
+static const XPoint _Const00DB = { 0, 41 };
+static const XPoint _Const00DC = { 260, 41 };
+static const XPoint _Const00DD = { 260, 0 };
+static const XRect _Const00DE = {{ 59, 2 }, { 255, 32 }};
+static const XRect _Const00DF = {{ 59, 24 }, { 156, 44 }};
+static const XRect _Const00E0 = {{ 6, 0 }, { 56, 48 }};
+static const XRect _Const00E1 = {{ 0, 122 }, { 272, 466 }};
+static const XRect _Const00E2 = {{ 3, 80 }, { 269, 112 }};
+static const XRect _Const00E3 = {{ 11, 40 }, { 264, 80 }};
+static const XRect _Const00E4 = {{ 239, 15 }, { 264, 40 }};
+static const XRect _Const00E5 = {{ 11, 15 }, { 59, 40 }};
+static const XRect _Const00E6 = {{ 0, 0 }, { 269, 45 }};
+static const XPoint _Const00E7 = { 0, 44 };
+static const XPoint _Const00E8 = { 269, 44 };
+static const XPoint _Const00E9 = { 269, 0 };
+static const XRect _Const00EA = {{ 251, -3 }, { 276, 22 }};
+static const XRect _Const00EB = {{ 235, 3 }, { 258, 15 }};
+static const XPoint _Const00EC = { 269, 45 };
+static const XPoint _Const00ED = { 50, 44 };
 static const XRect _Const00EE = {{ 56, 24 }, { 269, 44 }};
-static const XRect _Const00EF = {{ 0, 0 }, { 50, 48 }};
-static const XRect _Const00F0 = {{ 235, 3 }, { 258, 15 }};
-static const XRect _Const00F1 = {{ -39, 7 }, { -4, 42 }};
-static const XRect _Const00F2 = {{ 251, -3 }, { 276, 22 }};
-static const XRect _Const00F3 = {{ 0, 69 }, { 272, 435 }};
-static const XRect _Const00F4 = {{ 2, 71 }, { 274, 433 }};
-static const XRect _Const00F5 = {{ 0, 0 }, { 272, 60 }};
-static const XPoint _Const00F6 = { 272, 60 };
-static const XPoint _Const00F7 = { 0, 60 };
-static const XRect _Const00F8 = {{ 3, 435 }, { 269, 467 }};
-static const XStringRes _Const00F9 = { _StringsDefault0, 0x018D };
-static const XRect _Const00FA = {{ 241, 4 }, { 266, 29 }};
-static const XRect _Const00FB = {{ 90, 5 }, { 182, 60 }};
-static const XRect _Const00FC = {{ 0, 0 }, { 272, 486 }};
-static const XColor _Const00FD = { 0xF5, 0xF5, 0xF5, 0xFF };
-static const XColor _Const00FE = { 0xE7, 0xE7, 0xE7, 0xFF };
-static const XRect _Const00FF = {{ 0, 420 }, { 272, 480 }};
-static const XColor _Const0100 = { 0x94, 0x94, 0x94, 0x96 };
-static const XColor _Const0101 = { 0xB9, 0xB9, 0xB9, 0xAD };
-static const XColor _Const0102 = { 0xC3, 0xC3, 0xC3, 0xB0 };
-static const XColor _Const0103 = { 0xCD, 0xCD, 0xCD, 0xDA };
-static const XColor _Const0104 = { 0xC3, 0xC3, 0xC3, 0x86 };
-static const XRect _Const0105 = {{ 53, 425 }, { 103, 475 }};
-static const XRect _Const0106 = {{ 170, 425 }, { 220, 475 }};
-static const XRect _Const0107 = {{ 0, 0 }, { 272, 50 }};
-static const XStringRes _Const0108 = { _StringsDefault0, 0x019A };
-static const XRect _Const0109 = {{ 5, 0 }, { 220, 50 }};
-static const XRect _Const010A = {{ 10, 4 }, { 216, 36 }};
-static const XStringRes _Const010B = { _StringsDefault0, 0x01A6 };
-static const XRect _Const010C = {{ 30, 0 }, { 262, 50 }};
-static const XRect _Const010D = {{ 27, 6 }, { 252, 36 }};
+static const XRect _Const00EF = {{ 56, 2 }, { 232, 24 }};
+static const XStringRes _Const00F0 = { _StringsDefault0, 0x017D };
+static const XRect _Const00F1 = {{ 0, 0 }, { 50, 48 }};
+static const XRect _Const00F2 = {{ -39, 7 }, { -4, 42 }};
+static const XPoint _Const00F3 = { 50, 0 };
+static const XRect _Const00F4 = {{ 0, 69 }, { 272, 435 }};
+static const XRect _Const00F5 = {{ 2, 71 }, { 274, 433 }};
+static const XRect _Const00F6 = {{ 0, 0 }, { 272, 60 }};
+static const XPoint _Const00F7 = { 272, 60 };
+static const XPoint _Const00F8 = { 0, 60 };
+static const XRect _Const00F9 = {{ 3, 435 }, { 269, 467 }};
+static const XStringRes _Const00FA = { _StringsDefault0, 0x0184 };
+static const XRect _Const00FB = {{ 241, 4 }, { 266, 29 }};
+static const XRect _Const00FC = {{ 90, 5 }, { 182, 60 }};
+static const XStringRes _Const00FD = { _StringsDefault0, 0x018A };
+static const XRect _Const00FE = {{ 3, 4 }, { 53, 79 }};
+static const XStringRes _Const00FF = { _StringsDefault0, 0x0194 };
+static const XColor _Const0100 = { 0xAA, 0xAA, 0xAA, 0xFF };
+static const XRect _Const0101 = {{ 0, 420 }, { 272, 480 }};
+static const XColor _Const0102 = { 0x94, 0x94, 0x94, 0x96 };
+static const XColor _Const0103 = { 0xB9, 0xB9, 0xB9, 0xAD };
+static const XColor _Const0104 = { 0xC3, 0xC3, 0xC3, 0xB0 };
+static const XColor _Const0105 = { 0xCD, 0xCD, 0xCD, 0xDA };
+static const XColor _Const0106 = { 0x79, 0x79, 0x79, 0x86 };
+static const XRect _Const0107 = {{ 53, 425 }, { 103, 475 }};
+static const XRect _Const0108 = {{ 170, 425 }, { 220, 475 }};
+static const XRect _Const0109 = {{ 0, 0 }, { 272, 50 }};
+static const XStringRes _Const010A = { _StringsDefault0, 0x019F };
+static const XRect _Const010B = {{ 34, 60 }, { 239, 150 }};
+static const XPoint _Const010C = { 220, 0 };
+static const XRect _Const010D = {{ 186, 9 }, { 202, 21 }};
+static const XStringRes _Const010E = { _StringsDefault0, 0x01B5 };
+static const XPoint _Const010F = { 10, 10 };
+static const XStringRes _Const0110 = { _StringsDefault0, 0x01BC };
+static const XColor _Const0111 = { 0x5E, 0x5E, 0x5E, 0xFF };
+static const XColor _Const0112 = { 0x00, 0x00, 0x00, 0xFF };
+static const XColor _Const0113 = { 0xF0, 0xF0, 0xF0, 0xFF };
+static const XRect _Const0114 = {{ 101, 205 }, { 171, 275 }};
+static const XPoint _Const0115 = { 1, 0 };
+static const XPoint _Const0116 = { 272, 0 };
+static const XPoint _Const0117 = { 271, 480 };
+static const XPoint _Const0118 = { 0, 480 };
 
 /* Initializer for the class 'Application::ContactsPage' */
 void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink, XHandle aArg )
@@ -437,7 +451,7 @@ void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink
   CoreView_OnSetLayout((CoreView)&_this->UpButton, CoreLayoutAlignToRight | CoreLayoutAlignToTop );
   CoreRectView__OnSetBounds( &_this->UpButton, _Const0004 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->UpButton, 
-  EwLoadString( &ResUptxt ));
+  EwLoadString( &ResUpIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->UpButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->UpButton, 
@@ -450,7 +464,7 @@ void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink
   CoreRectView__OnSetBounds( &_this->DownButton, _Const0005 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->DownButton, 1 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->DownButton, 
-  EwLoadString( &ResDownTxt ));
+  EwLoadString( &ResDownIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->DownButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->DownButton, 
@@ -471,7 +485,7 @@ void ApplicationContactsPage__Init( ApplicationContactsPage _this, XObject aLink
   CoreRectView__OnSetBounds( &_this->PlusButton, _Const0008 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->PlusButton, 1 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->PlusButton, 
-  EwLoadString( &ResPlusIconTxt ));
+  EwLoadString( &ResPlusIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->PlusButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->PlusButton, 
@@ -742,7 +756,6 @@ void ApplicationContactsPage_onContactActivated( ApplicationContactsPage _this,
     _this->detailsPage->OnBack = EwNewSlot( _this, ApplicationContactsPage_onCloseContact );
     _this->detailsPage->OnDelete = EwNewSlot( _this, ApplicationContactsPage_onDeleteContact );
     ApplicationContactDetailsPage_OnSetContact( _this->detailsPage, itemView->Contact );
-    _this->detailsPage->OnMessage = EwNewSlot( _this, ApplicationContactsPage_onTapMessage );
     CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->detailsPage ), 
     ((EffectsTransition)EwGetAutoObject( &ResSlideLeftCentered, EffectsSlideTransition )), 
     0, 0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
@@ -761,7 +774,7 @@ __declspec( naked ) void ApplicationContactsPage__onContactActivated( void* _thi
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 144 ]
+    jmp      DWORD PTR [ eax + 148 ]
   }
 }
 
@@ -800,15 +813,6 @@ void ApplicationContactsPage_onMyCardPress( ApplicationContactsPage _this, XObje
   }
 }
 
-/* 'C' function for method : 'Application::ContactsPage.onTapMessage()' */
-void ApplicationContactsPage_onTapMessage( ApplicationContactsPage _this, XObject 
-  sender )
-{
-  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( sender );
-}
-
 /* Variants derived from the class : 'Application::ContactsPage' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationContactsPage )
 EW_END_OF_CLASS_VARIANTS( ApplicationContactsPage )
@@ -831,6 +835,7 @@ EW_DEFINE_CLASS( ApplicationContactsPage, CoreGroup, addContact, Background, Bac
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -1211,6 +1216,7 @@ EW_DEFINE_CLASS( ApplicationContactItem, CoreGroup, Contact, OnActivate, FlashTi
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationContactItem_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -1271,7 +1277,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   ViewsLine_OnSetColor( &_this->Line1, _Const0019 );
   CoreRectView__OnSetBounds( &_this->CallBtn, _Const0020 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->CallBtn, 
-  EwLoadString( &ResCallTxt ));
+  EwLoadString( &ResCallIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->CallBtn, 
   EwLoadString( &StringscallTxt ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->CallBtn, 
@@ -1281,7 +1287,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   CoreRectView__OnSetBounds( &_this->VideoCallBtn, _Const0021 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->VideoCallBtn, 0 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
-  EwLoadString( &ResVideoCallTxt ));
+  EwLoadString( &ResVideoCallIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
   EwLoadString( &StringsVideoTxt ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
@@ -1293,7 +1299,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   CoreRectView__OnSetBounds( &_this->PushButtonMediumBlue2, _Const0022 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->PushButtonMediumBlue2, 1 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->PushButtonMediumBlue2, 
-  EwLoadString( &ResMessageIconTxt ));
+  EwLoadString( &ResMessageIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->PushButtonMediumBlue2, 
   EwLoadString( &StringsmessageTxt ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->PushButtonMediumBlue2, 
@@ -1309,7 +1315,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   CoreRectView__OnSetBounds( &_this->UserInitialsBtn, _Const0025 );
   CoreRectView__OnSetBounds( &_this->EditBtn, _Const0026 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->EditBtn, 
-  EwLoadString( &ResEditIconTxt ));
+  EwLoadString( &ResEditIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->EditBtn, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->EditBtn, 
@@ -1318,7 +1324,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   ResTransparent );
   CoreRectView__OnSetBounds( &_this->BackBtn, _Const0027 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->BackBtn, 
-  EwLoadString( &ResBackIconTxt ));
+  EwLoadString( &ResBackIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->BackBtn, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->BackBtn, 
@@ -1326,7 +1332,7 @@ void ApplicationContactDetailsPage__Init( ApplicationContactDetailsPage _this, X
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->BackBtn, 
   ResTransparent );
   CoreRectView__OnSetBounds( &_this->FavoritTxt, _Const0028 );
-  ViewsText_OnSetString( &_this->FavoritTxt, EwLoadString( &ResHeartTxt ));
+  ViewsText_OnSetString( &_this->FavoritTxt, EwLoadString( &ResHeartIcon ));
   ViewsText_OnSetColor( &_this->FavoritTxt, ResGrey );
   ViewsText_OnSetVisible( &_this->FavoritTxt, 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
@@ -1432,7 +1438,7 @@ void ApplicationContactDetailsPage_onTapEdit( ApplicationContactDetailsPage _thi
   ApplicationContactEditPage_OnSetContact( _this->editPage, _this->Contact );
   _this->editPage->OnDelete = EwNewSlot( _this, ApplicationContactDetailsPage_onDelete );
   CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->editPage ), ((EffectsTransition)EwGetAutoObject( 
-  &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
+  &ResSlideLeftCentered, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
   EwNullSlot, 0 );
 }
 
@@ -1448,7 +1454,7 @@ __declspec( naked ) void ApplicationContactDetailsPage__onTapEdit( void* _this,
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 144 ]
+    jmp      DWORD PTR [ eax + 148 ]
   }
 }
 
@@ -1495,9 +1501,13 @@ void ApplicationContactDetailsPage_onCancelEdit( ApplicationContactDetailsPage _
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->chat ), ((EffectsTransition)EwGetAutoObject( 
+  &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, EwNullSlot, EwNullSlot, 
+  0 );
   CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->editPage ), ((EffectsTransition)EwGetAutoObject( 
   &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, EwNullSlot, EwNullSlot, 
   0 );
+  _this->chat = 0;
 }
 
 /* 'C' function for method : 'Application::ContactDetailsPage.onBackHome()' */
@@ -1562,7 +1572,7 @@ __declspec( naked ) void ApplicationContactDetailsPage__onContactUpdated( void* 
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 148 ]
+    jmp      DWORD PTR [ eax + 152 ]
   }
 }
 
@@ -1573,7 +1583,27 @@ void ApplicationContactDetailsPage_onTapMessage( ApplicationContactDetailsPage _
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  EwPostSignal( _this->OnMessage, ((XObject)_this ));
+  _this->chat = EwNewObject( ApplicationChat, 0 );
+  ApplicationChat_OnSetContact( _this->chat, _this->Contact );
+  _this->chat->OnBack = EwNewSlot( _this, ApplicationContactDetailsPage_onBack );
+  CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->chat ), ((EffectsTransition)EwGetAutoObject( 
+  &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
+  EwNullSlot, 0 );
+}
+
+/* 'C' function for method : 'Application::ContactDetailsPage.onBack()' */
+void ApplicationContactDetailsPage_onBack( ApplicationContactDetailsPage _this, 
+  XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->editPage ), ((EffectsTransition)EwGetAutoObject( 
+  &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, EwNullSlot, EwNullSlot, 
+  0 );
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->editPage ), ((EffectsTransition)EwGetAutoObject( 
+  &ResFadeInOutCentered, EffectsFadeInOutTransition )), 0, 0, EwNullSlot, EwNullSlot, 
+  0 );
 }
 
 /* Variants derived from the class : 'Application::ContactDetailsPage' */
@@ -1598,6 +1628,7 @@ EW_DEFINE_CLASS( ApplicationContactDetailsPage, CoreGroup, editPage, OnDelete, B
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -1661,6 +1692,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   ViewsLine_OnSetColor( &_this->Line2, _Const0019 );
   CoreView_OnSetLayout((CoreView)&_this->LastNameTxt, CoreLayoutAlignToLeft );
   CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const0034 );
+  ComponentsInputEtxt_OnSetAlignment( &_this->LastNameTxt, 0 );
   ComponentsInputEtxt_OnSetString( &_this->LastNameTxt, 0 );
   ComponentsInputEtxt_OnSetColor( &_this->LastNameTxt, ResBlack );
   ComponentsInputEtxt_OnSetPlaceholder( &_this->LastNameTxt, EwLoadString( &_Const0035 ));
@@ -1675,7 +1707,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   CoreRectView__OnSetBounds( &_this->SaveBtn, _Const0026 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->SaveBtn, 0 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->SaveBtn, 
-  EwLoadString( &ResCkeckIconTxt ));
+  EwLoadString( &ResCkeckIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->SaveBtn, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->SaveBtn, 
@@ -1686,7 +1718,7 @@ void ApplicationContactAddPage__Init( ApplicationContactAddPage _this, XObject a
   ResTransparent );
   CoreRectView__OnSetBounds( &_this->CloseButton, _Const0027 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->CloseButton, 
-  EwLoadString( &ResCloseIconTxt ));
+  EwLoadString( &ResCloseIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->CloseButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->CloseButton, 
@@ -1779,6 +1811,26 @@ void ApplicationContactAddPage__Done( ApplicationContactAddPage _this )
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
+}
+
+/* The method UpdateLayout() is invoked automatically after the size of the component 
+   has been changed. This method can be overridden and filled with logic to perform 
+   a sophisticated arrangement calculation for one or more enclosed views. In this 
+   case the parameter aSize can be used. It contains the current size of the component. 
+   Usually, all enclosed views are arranged automatically accordingly to their @Layout 
+   property. UpdateLayout() gives the derived components a chance to extend this 
+   automatism by a user defined algorithm. */
+void ApplicationContactAddPage_UpdateLayout( ApplicationContactAddPage _this, XPoint 
+  aSize )
+{
+  CoreGroup_UpdateLayout((CoreGroup)_this, aSize );
+  CoreRectView__OnSetBounds( &_this->LastNameTxt, EwSetRectOrigin( _this->LastNameTxt.Super3.Bounds, 
+  _Const003C ));
+  CoreRectView__OnSetBounds( &_this->FirstNameTxt, EwSetRectOrigin( _this->FirstNameTxt.Super3.Bounds, 
+  _Const003D ));
+  CoreRectView__OnSetBounds( &_this->PhoneNumberTxt, EwSetRectOrigin( _this->PhoneNumberTxt.Super3.Bounds, 
+  _Const003E ));
+  CoreRectView__OnSetBounds( &_this->Background, EwGetRectORect( _this->Super2.Bounds ));
 }
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
@@ -1920,6 +1972,7 @@ EW_DEFINE_CLASS( ApplicationContactAddPage, CoreGroup, Contact, OnSave, Backgrou
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  ApplicationContactAddPage_UpdateLayout,
   ApplicationContactAddPage_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -1961,50 +2014,50 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->DeleteBtn, _Const003C );
+  CoreRectView__OnSetBounds( &_this->DeleteBtn, _Const003F );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->DeleteBtn, 1 );
   ComponentsButton265x470_OnSetLabel( &_this->DeleteBtn, EwLoadString( &StringsDeleteContactTxt ));
   CoreView_OnSetLayout((CoreView)&_this->NumberTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->NumberTxt, _Const003D );
+  CoreRectView__OnSetBounds( &_this->NumberTxt, _Const0040 );
   ComponentsInputEtxt_OnSetAlignment( &_this->NumberTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ComponentsInputEtxt_OnSetString( &_this->NumberTxt, EwLoadString( &_Const003E ));
+  ComponentsInputEtxt_OnSetString( &_this->NumberTxt, EwLoadString( &_Const0041 ));
   ComponentsInputEtxt_OnSetColor( &_this->NumberTxt, ResBlue );
-  ComponentsInputEtxt_OnSetPlaceholder( &_this->NumberTxt, EwLoadString( &_Const003E ));
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line4, _Const003F );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line4, _Const0040 );
+  ComponentsInputEtxt_OnSetPlaceholder( &_this->NumberTxt, EwLoadString( &_Const0041 ));
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line4, _Const0042 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line4, _Const0043 );
   ViewsLine_OnSetColor( &_this->Line4, _Const0019 );
   CoreView_OnSetLayout((CoreView)&_this->MobileTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->MobileTxt, _Const0041 );
+  CoreRectView__OnSetBounds( &_this->MobileTxt, _Const0044 );
   ViewsText_OnSetAlignment( &_this->MobileTxt, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->MobileTxt, EwLoadString( &StringsMobileTxt ));
   ViewsText_OnSetColor( &_this->MobileTxt, ResGrey );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line3, _Const0042 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line3, _Const0043 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line3, _Const0045 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line3, _Const0046 );
   ViewsLine_OnSetColor( &_this->Line3, _Const0019 );
   CoreView_OnSetLayout((CoreView)&_this->FirstNameTxt, CoreLayoutAlignToLeft );
-  CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const0044 );
-  ComponentsInputEtxt_OnSetString( &_this->FirstNameTxt, EwLoadString( &_Const0045 ));
+  CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const0047 );
+  ComponentsInputEtxt_OnSetString( &_this->FirstNameTxt, EwLoadString( &_Const0048 ));
   ComponentsInputEtxt_OnSetColor( &_this->FirstNameTxt, ResBlack );
-  ComponentsInputEtxt_OnSetPlaceholder( &_this->FirstNameTxt, EwLoadString( &_Const0045 ));
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const0046 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const0047 );
+  ComponentsInputEtxt_OnSetPlaceholder( &_this->FirstNameTxt, EwLoadString( &_Const0048 ));
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const0049 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const004A );
   ViewsLine_OnSetColor( &_this->Line2, _Const0019 );
   CoreView_OnSetLayout((CoreView)&_this->LastNameTxt, CoreLayoutAlignToLeft );
-  CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const0048 );
-  ComponentsInputEtxt_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const0049 ));
+  CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const004B );
+  ComponentsInputEtxt_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const004C ));
   ComponentsInputEtxt_OnSetColor( &_this->LastNameTxt, ResBlack );
-  ComponentsInputEtxt_OnSetPlaceholder( &_this->LastNameTxt, EwLoadString( &_Const0049 ));
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const004A );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const004B );
+  ComponentsInputEtxt_OnSetPlaceholder( &_this->LastNameTxt, EwLoadString( &_Const004C ));
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const004D );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const004E );
   ViewsLine_OnSetColor( &_this->Line1, _Const0019 );
-  CoreRectView__OnSetBounds( &_this->UserInitials, _Const004C );
+  CoreRectView__OnSetBounds( &_this->UserInitials, _Const004F );
   ComponentsButtonBase70x90_OnSetIcon( &_this->UserInitials, 0 );
   ComponentsButtonBase70x90_OnSetDescript( &_this->UserInitials, EwLoadString( &StringsAddPhototTxt ));
   CoreRectView__OnSetBounds( &_this->CloseBtn, _Const0027 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->CloseBtn, 
-  EwLoadString( &ResCloseIconTxt ));
+  EwLoadString( &ResCloseIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->CloseBtn, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->CloseBtn, 
@@ -2014,7 +2067,7 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   CoreRectView__OnSetBounds( &_this->SaveBtn, _Const0026 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->SaveBtn, 0 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->SaveBtn, 
-  EwLoadString( &ResCkeckIconTxt ));
+  EwLoadString( &ResCkeckIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->SaveBtn, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->SaveBtn, 
@@ -2025,9 +2078,9 @@ void ApplicationContactEditPage__Init( ApplicationContactEditPage _this, XObject
   ResTransparent );
   ComponentsButtonBase70x90_OnSetDescriptColorEnabled((ComponentsButtonBase70x90)&_this->SaveBtn, 
   ResGrey );
-  CoreRectView__OnSetBounds( &_this->ToggleButton, _Const004D );
+  CoreRectView__OnSetBounds( &_this->ToggleButton, _Const0050 );
   ComponentsToggleButton_OnSetBackgroundSelectedColor( &_this->ToggleButton, ResGreyLight );
-  CoreRectView__OnSetBounds( &_this->Text, _Const004E );
+  CoreRectView__OnSetBounds( &_this->Text, _Const0051 );
   ViewsText_OnSetAlignment( &_this->Text, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->Text, EwLoadString( &StringsMyCardTxt ));
   ViewsText_OnSetColor( &_this->Text, ResGrey );
@@ -2273,6 +2326,7 @@ EW_DEFINE_CLASS( ApplicationContactEditPage, CoreGroup, Contact, OnSave, Backgro
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationContactEditPage_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -2305,11 +2359,11 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   _this->_.VMT = EW_CLASS( ApplicationCallPage );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
-  CoreRectView__OnSetBounds( &_this->Super1.DesclineButton, _Const0050 );
-  CoreRectView__OnSetBounds( &_this->ContactsBtn, _Const0051 );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->Super1.DesclineButton, _Const0053 );
+  CoreRectView__OnSetBounds( &_this->ContactsBtn, _Const0054 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->ContactsBtn, 
-  EwLoadString( &ResUserIconTxt ));
+  EwLoadString( &ResUserIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->ContactsBtn, 
   EwLoadString( &StringscontactsTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->ContactsBtn, 
@@ -2318,10 +2372,10 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ResWhiteTransparent );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->ContactsBtn, 
   ResPressColor );
-  CoreRectView__OnSetBounds( &_this->VideoCallBtn, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->VideoCallBtn, _Const0055 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->VideoCallBtn, 0 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
-  EwLoadString( &ResVideoCallTxt ));
+  EwLoadString( &ResVideoCallIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
   EwLoadString( &StringsvideocallTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
@@ -2332,10 +2386,10 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ResPressColor );
   ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->VideoCallBtn, 
   ResWhiteSemiTransparent );
-  CoreRectView__OnSetBounds( &_this->AddCallBtn, _Const0053 );
+  CoreRectView__OnSetBounds( &_this->AddCallBtn, _Const0056 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->AddCallBtn, 0 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->AddCallBtn, 
-  EwLoadString( &ResPlusIconTxt ));
+  EwLoadString( &ResPlusIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->AddCallBtn, 
   EwLoadString( &StringsaddcallTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->AddCallBtn, 
@@ -2346,9 +2400,9 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ResPressColor );
   ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->AddCallBtn, 
   ResWhiteSemiTransparent );
-  CoreRectView__OnSetBounds( &_this->SpeakerBtn, _Const0054 );
+  CoreRectView__OnSetBounds( &_this->SpeakerBtn, _Const0057 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->SpeakerBtn, 
-  EwLoadString( &ResSpeakerTxt ));
+  EwLoadString( &ResSpeakerIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->SpeakerBtn, 
   EwLoadString( &StringsspeakerTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->SpeakerBtn, 
@@ -2357,9 +2411,9 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ResWhiteTransparent );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->SpeakerBtn, 
   ResPressColor );
-  CoreRectView__OnSetBounds( &_this->KeyPadBtn, _Const0055 );
+  CoreRectView__OnSetBounds( &_this->KeyPadBtn, _Const0058 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->KeyPadBtn, 
-  EwLoadString( &ResKeypadTxt ));
+  EwLoadString( &ResKeypadIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->KeyPadBtn, 
   EwLoadString( &StringskeypadTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->KeyPadBtn, 
@@ -2368,9 +2422,9 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ResWhiteTransparent );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->KeyPadBtn, 
   ResPressColor );
-  CoreRectView__OnSetBounds( &_this->MuteBtn, _Const0056 );
+  CoreRectView__OnSetBounds( &_this->MuteBtn, _Const0059 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->MuteBtn, 
-  EwLoadString( &ResMicOffTxt ));
+  EwLoadString( &ResMicOffIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->MuteBtn, 
   EwLoadString( &StringsmuteTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->MuteBtn, 
@@ -2379,7 +2433,8 @@ void ApplicationCallPage__Init( ApplicationCallPage _this, XObject aLink, XHandl
   ResWhiteTransparent );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->MuteBtn, 
   ResPressColor );
-  CoreRectView__OnSetBounds( &_this->Keypad, _Const0057 );
+  CoreView_OnSetLayout((CoreView)&_this->Keypad, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Keypad, _Const005A );
   ApplicationKeypadPage_OnSetHideFunction((ApplicationKeypadPage)&_this->Keypad, 
   0 );
   ApplicationKeypadPage_OnSetHideCall((ApplicationKeypadPage)&_this->Keypad, 1 );
@@ -2536,7 +2591,7 @@ void ApplicationCallPage_onKeypadPress( ApplicationCallPage _this, XObject sende
   EW_UNUSED_ARG( sender );
 
   CoreRectView__OnSetBounds( &_this->Keypad, EwSetRectOrigin( _this->Keypad.Super3.Bounds, 
-  _Const0058 ));
+  _Const005B ));
   _this->Keypad.Super1.OnHide = EwNewSlot( _this, ApplicationCallPage_onHide );
 }
 
@@ -2660,6 +2715,7 @@ EW_DEFINE_CLASS( ApplicationCallPage, ApplicationCallPageBase, contactsPage, Con
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -2685,21 +2741,21 @@ void ApplicationDetailsInsideCall__Init( ApplicationDetailsInsideCall _this, XOb
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0000 );
   CoreRectView__OnSetBounds( &_this->Super1.Background, _Const0000 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line2, _Const0059 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line2, _Const005A );
-  CoreRectView__OnSetBounds( &_this->Super1.NumberTxt, _Const005B );
-  CoreRectView__OnSetBounds( &_this->Super1.MobileTxt, _Const005C );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line2, _Const005C );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line2, _Const005D );
+  CoreRectView__OnSetBounds( &_this->Super1.NumberTxt, _Const005E );
+  CoreRectView__OnSetBounds( &_this->Super1.MobileTxt, _Const005F );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line1, _Const002E );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line1, _Const002F );
-  CoreRectView__OnSetBounds( &_this->Super1.CallBtn, _Const005D );
+  CoreRectView__OnSetBounds( &_this->Super1.CallBtn, _Const0060 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->Super1.CallBtn, 0 );
-  CoreRectView__OnSetBounds( &_this->Super1.VideoCallBtn, _Const005E );
-  CoreRectView__OnSetBounds( &_this->Super1.PushButtonMediumBlue2, _Const005F );
-  CoreRectView__OnSetBounds( &_this->Super1.ContactName, _Const0060 );
-  CoreRectView__OnSetBounds( &_this->Super1.UserInitialsBtn, _Const0061 );
+  CoreRectView__OnSetBounds( &_this->Super1.VideoCallBtn, _Const0061 );
+  CoreRectView__OnSetBounds( &_this->Super1.PushButtonMediumBlue2, _Const0062 );
+  CoreRectView__OnSetBounds( &_this->Super1.ContactName, _Const0063 );
+  CoreRectView__OnSetBounds( &_this->Super1.UserInitialsBtn, _Const0064 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->Super1.UserInitialsBtn, 0 );
-  CoreRectView__OnSetBounds( &_this->Super1.EditBtn, _Const0062 );
-  CoreRectView__OnSetBounds( &_this->Super1.BackBtn, _Const0063 );
+  CoreRectView__OnSetBounds( &_this->Super1.EditBtn, _Const0065 );
+  CoreRectView__OnSetBounds( &_this->Super1.BackBtn, _Const0066 );
 }
 
 /* Re-Initializer for the class 'Application::DetailsInsideCall' */
@@ -2758,6 +2814,7 @@ EW_DEFINE_CLASS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage, _.
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -2806,16 +2863,16 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   _this->HideFunction = 1;
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
   ViewsRectangle_OnSetColor( &_this->Background, _Const0011 );
-  CoreRectView__OnSetBounds( &_this->callbtn, _Const0064 );
+  CoreRectView__OnSetBounds( &_this->callbtn, _Const0067 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->callbtn, 
-  EwLoadString( &ResCallTxt ));
+  EwLoadString( &ResCallIcon ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->callbtn, 
   ResGreenDark );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->callbtn, 
   ResGreen );
-  CoreRectView__OnSetBounds( &_this->btn1, _Const0065 );
+  CoreRectView__OnSetBounds( &_this->btn1, _Const0068 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn1, EwLoadString( 
-  &_Const0066 ));
+  &_Const0069 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn1, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn1, 
@@ -2826,9 +2883,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn1, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn3, _Const0067 );
+  CoreRectView__OnSetBounds( &_this->btn3, _Const006A );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn3, EwLoadString( 
-  &_Const0068 ));
+  &_Const006B ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn3, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn3, 
@@ -2839,9 +2896,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn3, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn2, _Const0069 );
+  CoreRectView__OnSetBounds( &_this->btn2, _Const006C );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn2, EwLoadString( 
-  &_Const006A ));
+  &_Const006D ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn2, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn2, 
@@ -2852,9 +2909,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn2, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn4, _Const006B );
+  CoreRectView__OnSetBounds( &_this->btn4, _Const006E );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn4, EwLoadString( 
-  &_Const006C ));
+  &_Const006F ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn4, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn4, 
@@ -2865,9 +2922,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn4, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn6, _Const006D );
+  CoreRectView__OnSetBounds( &_this->btn6, _Const0070 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn6, EwLoadString( 
-  &_Const006E ));
+  &_Const0071 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn6, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn6, 
@@ -2878,9 +2935,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn6, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn5, _Const006F );
+  CoreRectView__OnSetBounds( &_this->btn5, _Const0072 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn5, EwLoadString( 
-  &_Const0070 ));
+  &_Const0073 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn5, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn5, 
@@ -2891,9 +2948,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn5, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn7, _Const0071 );
+  CoreRectView__OnSetBounds( &_this->btn7, _Const0074 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn7, EwLoadString( 
-  &_Const0072 ));
+  &_Const0075 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn7, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn7, 
@@ -2904,9 +2961,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn7, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn9, _Const0073 );
+  CoreRectView__OnSetBounds( &_this->btn9, _Const0076 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn9, EwLoadString( 
-  &_Const0074 ));
+  &_Const0077 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn9, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn9, 
@@ -2917,11 +2974,11 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn9, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn8, _Const0075 );
+  CoreRectView__OnSetBounds( &_this->btn8, _Const0078 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn8, EwLoadString( 
-  &_Const0076 ));
+  &_Const0079 ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->btn8, 
-  EwLoadString( &_Const0076 ));
+  EwLoadString( &_Const0079 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn8, 
   ResWhite );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn8, 
@@ -2932,9 +2989,9 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn8, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btnstar, _Const0077 );
+  CoreRectView__OnSetBounds( &_this->btnstar, _Const007A );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btnstar, 
-  EwLoadString( &_Const0078 ));
+  EwLoadString( &_Const007B ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btnstar, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->btnstar, 
@@ -2943,11 +3000,11 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btnstar, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btnDiez, _Const0079 );
+  CoreRectView__OnSetBounds( &_this->btnDiez, _Const007C );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btnDiez, 
-  EwLoadString( &_Const007A ));
+  EwLoadString( &_Const007D ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->btnDiez, 
-  EwLoadString( &_Const007A ));
+  EwLoadString( &_Const007D ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btnDiez, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btnDiez, 
@@ -2958,11 +3015,11 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btnDiez, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->btn0, _Const007B );
+  CoreRectView__OnSetBounds( &_this->btn0, _Const007E );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->btn0, EwLoadString( 
-  &_Const007C ));
+  &_Const007F ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->btn0, 
-  EwLoadString( &_Const007C ));
+  EwLoadString( &_Const007F ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->btn0, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->btn0, 
@@ -2973,18 +3030,18 @@ void ApplicationKeypadPage__Init( ApplicationKeypadPage _this, XObject aLink, XH
   ResGrey );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->btn0, 
   ResBlack );
-  CoreRectView__OnSetBounds( &_this->InputEtxt, _Const007D );
+  CoreRectView__OnSetBounds( &_this->InputEtxt, _Const0080 );
   ComponentsInputEtxt_OnSetString( &_this->InputEtxt, 0 );
   ComponentsInputEtxt_OnSetColor( &_this->InputEtxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->HideBtn, _Const007E );
+  CoreRectView__OnSetBounds( &_this->HideBtn, _Const0081 );
   ComponentsTextButton_OnSetText( &_this->HideBtn, EwLoadString( &StringsHideTxt ));
   ComponentsTextButton_OnSetTextColor( &_this->HideBtn, ResBlack );
   ComponentsTextButton_OnSetTextColorPress( &_this->HideBtn, ResGrey );
-  CoreRectView__OnSetBounds( &_this->BtnErase, _Const007F );
+  CoreRectView__OnSetBounds( &_this->BtnErase, _Const0082 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->BtnErase, 
-  EwLoadString( &ResBackspaceTxt ));
+  EwLoadString( &ResBackspaceIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->BtnErase, 
-  EwLoadString( &_Const007A ));
+  EwLoadString( &_Const007D ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->BtnErase, 
   ResBlack );
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->BtnErase, 
@@ -3263,6 +3320,7 @@ EW_DEFINE_CLASS( ApplicationKeypadPage, CoreGroup, OnHide, OnHide, Background, B
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationKeypadPage_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -3294,30 +3352,30 @@ void ApplicationContactsApp__Init( ApplicationContactsApp _this, XObject aLink, 
   _this->_.VMT = EW_CLASS( ApplicationContactsApp );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
   CoreRectView__OnSetBounds( &_this->Outline, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->Rectangle, _Const0080 );
-  CoreRectView__OnSetBounds( &_this->NavBarButtons, _Const0081 );
-  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons, EwLoadString( &ResHeartTxt ));
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const0083 );
+  CoreRectView__OnSetBounds( &_this->NavBarButtons, _Const0084 );
+  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons, EwLoadString( &ResHeartIcon ));
   ComponentsNavBarButton64x40_OnSetDescript( &_this->NavBarButtons, EwLoadString( 
   &StringsFavoritesTxt ));
-  CoreRectView__OnSetBounds( &_this->NavBarButtons1, _Const0082 );
-  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons1, EwLoadString( &ResCallTxt ));
+  CoreRectView__OnSetBounds( &_this->NavBarButtons1, _Const0085 );
+  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons1, EwLoadString( &ResCallIcon ));
   ComponentsNavBarButton64x40_OnSetDescript( &_this->NavBarButtons1, EwLoadString( 
   &StringsRecentTxt ));
   ComponentsNavBarButton64x40_OnSetOutletSelector( &_this->NavBarButtons1, 1 );
-  CoreRectView__OnSetBounds( &_this->NavBarButtons2, _Const0083 );
-  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons2, EwLoadString( &ResUserIconTxt ));
+  CoreRectView__OnSetBounds( &_this->NavBarButtons2, _Const0086 );
+  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons2, EwLoadString( &ResUserIcon ));
   ComponentsNavBarButton64x40_OnSetDescript( &_this->NavBarButtons2, EwLoadString( 
   &StringsContactsTxtx ));
   ComponentsNavBarButton64x40_OnSetOutletSelector( &_this->NavBarButtons2, 2 );
-  CoreRectView__OnSetBounds( &_this->NavBarButtons3, _Const0084 );
-  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons3, EwLoadString( &ResKeypadTxt ));
+  CoreRectView__OnSetBounds( &_this->NavBarButtons3, _Const0087 );
+  ComponentsNavBarButton64x40_OnSetIcon( &_this->NavBarButtons3, EwLoadString( &ResKeypadIcon ));
   ComponentsNavBarButton64x40_OnSetDescript( &_this->NavBarButtons3, EwLoadString( 
   &StringsKeypadTxt ));
   ComponentsNavBarButton64x40_OnSetOutletSelector( &_this->NavBarButtons3, 3 );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const0085 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const0086 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const0088 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const0089 );
   ViewsLine_OnSetColor( &_this->Line, ResGrey );
   _this->SelectedPage = -1;
   CoreGroup__Add( _this, ((CoreView)&_this->Outline ), 0 );
@@ -3432,7 +3490,7 @@ void ApplicationContactsApp_OnSetSelectedPage( ApplicationContactsApp _this, XIn
     break;
 
     default : 
-      EwTrace( "%s%i", EwLoadString( &_Const0087 ), _this->SelectedPage );
+      EwTrace( "%s%i", EwLoadString( &_Const008A ), _this->SelectedPage );
   }
 }
 
@@ -3464,6 +3522,7 @@ EW_DEFINE_CLASS( ApplicationContactsApp, CoreGroup, Outline, Outline, Outline, O
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -3486,7 +3545,7 @@ void ApplicationApplication__Init( ApplicationApplication _this, XObject aLink, 
   _this->_.VMT = EW_CLASS( ApplicationApplication );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
   _this->deviceInstance = EwGetAutoObject( &DeviceDevice, DeviceDeviceClass );
 
   /* Call the user defined constructor */
@@ -3518,7 +3577,7 @@ void ApplicationApplication_Init( ApplicationApplication _this, XHandle aArg )
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( aArg );
 
-  EwPostSignal( EwNewSlot( _this, ApplicationApplication_onStrat ), ((XObject)_this ));
+  EwPostSignal( EwNewSlot( _this, ApplicationApplication_onSplashScreen ), ((XObject)_this ));
   EwAttachRefObserver( EwNewSlot( _this, ApplicationApplication_onCallState ), EwNewRef( 
     &EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->Ongoing, DeviceContactList_OnGetNoOfItems, 
     DeviceContactList_OnSetNoOfItems ), 0 );
@@ -3552,7 +3611,7 @@ void ApplicationApplication_onCallState( ApplicationApplication _this, XObject s
         _this->historyContact->CallState == DeviceCallStateEndCall )) || ( _this->historyContact->CallState 
         == DeviceCallStateRejected )) || ( _this->historyContact->CallState == DeviceCallStateMissed ))
     {
-      EwTrace( "%s", EwLoadString( &_Const0088 ));
+      EwTrace( "%s", EwLoadString( &_Const008B ));
       CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->ongoingPage ), 
       ((EffectsTransition)EwGetAutoObject( &ResFadeInOutCentered, EffectsFadeInOutTransition )), 
       0, 0, EwNullSlot, EwNullSlot, 0 );
@@ -3593,8 +3652,33 @@ void ApplicationApplication_onCallState( ApplicationApplication _this, XObject s
   }
 }
 
-/* 'C' function for method : 'Application::Application.onStrat()' */
-void ApplicationApplication_onStrat( ApplicationApplication _this, XObject sender )
+/* 'C' function for method : 'Application::Application.onSplashScreen()' */
+void ApplicationApplication_onSplashScreen( ApplicationApplication _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  _this->splashScreen = EwNewObject( ApplicationSplashScreen, 0 );
+  _this->splashScreen->OnStart = EwNewSlot( _this, ApplicationApplication_onCloseSplash );
+  CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->splashScreen ), 0, 
+  0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+}
+
+/* 'C' function for method : 'Application::Application.onCloseSplash()' */
+void ApplicationApplication_onCloseSplash( ApplicationApplication _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->splashScreen ), 0, 
+  0, 0, EwNullSlot, EwNullSlot, 0 );
+  EwPostSignal( EwNewSlot( _this, ApplicationApplication_onStart ), ((XObject)_this ));
+}
+
+/* 'C' function for method : 'Application::Application.onStart()' */
+void ApplicationApplication_onStart( ApplicationApplication _this, XObject sender )
 {
   ApplicationMainPage page;
 
@@ -3628,6 +3712,7 @@ EW_DEFINE_CLASS( ApplicationApplication, CoreRoot, deviceInstance, _.VMT, _.VMT,
   CoreRoot_OnSetOpacity,
   CoreRoot_DispatchEvent,
   CoreRoot_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreRoot_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -3654,15 +3739,15 @@ void ApplicationKeypadInsideCall__Init( ApplicationKeypadInsideCall _this, XObje
 
   /* ... and initialize objects, variables, properties, etc. */
   ViewsRectangle_OnSetVisible( &_this->Super1.Background, 0 );
-  CoreRectView__OnSetBounds( &_this->BackgroundSmall, _Const0089 );
-  ViewsRectangle_OnSetColorBL( &_this->BackgroundSmall, _Const008A );
-  ViewsRectangle_OnSetColorBR( &_this->BackgroundSmall, _Const008B );
-  ViewsRectangle_OnSetColorTR( &_this->BackgroundSmall, _Const008C );
-  ViewsRectangle_OnSetColorTL( &_this->BackgroundSmall, _Const008C );
-  ViewsRectangle_OnSetColor( &_this->BackgroundSmall, _Const008D );
+  CoreRectView__OnSetBounds( &_this->BackgroundSmall, _Const008C );
+  ViewsRectangle_OnSetColorBL( &_this->BackgroundSmall, _Const008D );
+  ViewsRectangle_OnSetColorBR( &_this->BackgroundSmall, _Const008E );
+  ViewsRectangle_OnSetColorTR( &_this->BackgroundSmall, _Const008F );
+  ViewsRectangle_OnSetColorTL( &_this->BackgroundSmall, _Const008F );
+  ViewsRectangle_OnSetColor( &_this->BackgroundSmall, _Const0090 );
   CoreGroup_OnSetVisible((CoreGroup)&_this->Super1.callbtn, 0 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->Super1.btn3, 1 );
-  CoreRectView__OnSetBounds( &_this->Super1.InputEtxt, _Const008E );
+  CoreRectView__OnSetBounds( &_this->Super1.InputEtxt, _Const0091 );
   ComponentsInputEtxt_OnSetColor( &_this->Super1.InputEtxt, ResWhite );
   ComponentsTextButton_OnSetTextColor( &_this->Super1.HideBtn, ResWhite );
   CoreGroup__Add( _this, ((CoreView)&_this->BackgroundSmall ), -16 );
@@ -3714,6 +3799,7 @@ EW_DEFINE_CLASS( ApplicationKeypadInsideCall, ApplicationKeypadPage, BackgroundS
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationKeypadPage_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -3739,14 +3825,14 @@ void ApplicationContactsInsideCall__Init( ApplicationContactsInsideCall _this, X
   _this->_.VMT = EW_CLASS( ApplicationContactsInsideCall );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( &_this->Super1.VerticalList, _Const008F );
-  CoreRectView__OnSetBounds( &_this->Super1.SlideTouchHandler, _Const0090 );
-  CoreRectView__OnSetBounds( &_this->Super1.UpButton, _Const0091 );
-  CoreRectView__OnSetBounds( &_this->Super1.DownButton, _Const0092 );
-  CoreRectView__OnSetBounds( &_this->Super1.TitleTxt, _Const0093 );
-  CoreRectView__OnSetBounds( &_this->Super1.PlusButton, _Const0094 );
+  CoreRectView__OnSetBounds( &_this->Super1.VerticalList, _Const0092 );
+  CoreRectView__OnSetBounds( &_this->Super1.SlideTouchHandler, _Const0093 );
+  CoreRectView__OnSetBounds( &_this->Super1.UpButton, _Const0094 );
+  CoreRectView__OnSetBounds( &_this->Super1.DownButton, _Const0095 );
+  CoreRectView__OnSetBounds( &_this->Super1.TitleTxt, _Const0096 );
+  CoreRectView__OnSetBounds( &_this->Super1.PlusButton, _Const0097 );
   CoreGroup_OnSetVisible((CoreGroup)&_this->Super1.MyCardItem, 0 );
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const0095 );
+  CoreRectView__OnSetBounds( &_this->TextButton, _Const0098 );
   ComponentsTextButton_OnSetText( &_this->TextButton, EwLoadString( &StringsCancelTxt ));
   CoreGroup__Add( _this, ((CoreView)&_this->TextButton ), 0 );
   ViewsText_OnSetFont( &_this->Super1.TitleTxt, EwLoadResource( &ResContactFontBold15, 
@@ -3828,6 +3914,7 @@ EW_DEFINE_CLASS( ApplicationContactsInsideCall, ApplicationContactsPage, OnCance
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -3854,10 +3941,10 @@ void ApplicationIncomingCall__Init( ApplicationIncomingCall _this, XObject aLink
   _this->_.VMT = EW_CLASS( ApplicationIncomingCall );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
-  CoreRectView__OnSetBounds( &_this->AcceptButton, _Const0096 );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->AcceptButton, _Const0099 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->AcceptButton, 
-  EwLoadString( &ResCallTxt ));
+  EwLoadString( &ResCallIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->AcceptButton, 
   EwLoadString( &StringsacceptTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->AcceptButton, 
@@ -3943,6 +4030,7 @@ EW_DEFINE_CLASS( ApplicationIncomingCall, ApplicationCallPageBase, AcceptButton,
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -3978,28 +4066,28 @@ void ApplicationFavoritesPage__Init( ApplicationFavoritesPage _this, XObject aLi
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->VerticalList, _Const0097 );
+  CoreRectView__OnSetBounds( &_this->VerticalList, _Const009A );
   CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 32 );
   CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationFavContactItem ));
   CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -2 );
-  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const0097 );
+  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const009A );
   _this->SlideTouchHandler.SlideHorz = 0;
-  CoreRectView__OnSetBounds( &_this->TitleTxt1, _Const0098 );
+  CoreRectView__OnSetBounds( &_this->TitleTxt1, _Const009B );
   ViewsText_OnSetAlignment( &_this->TitleTxt1, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->TitleTxt1, EwLoadString( &StringsFavoritesTxt ));
   ViewsText_OnSetColor( &_this->TitleTxt1, ResBlack );
-  CoreRectView__OnSetBounds( &_this->PlusButton, _Const0099 );
+  CoreRectView__OnSetBounds( &_this->PlusButton, _Const009C );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->PlusButton, 1 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->PlusButton, 
-  EwLoadString( &ResPlusIconTxt ));
+  EwLoadString( &ResPlusIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->PlusButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->PlusButton, 
   ResTransparent );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->PlusButton, 
   ResTransparent );
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const009A );
+  CoreRectView__OnSetBounds( &_this->TextButton, _Const009D );
   ComponentsTextButton_OnSetText( &_this->TextButton, EwLoadString( &StringsEditTxt ));
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->VerticalList ), 0 );
@@ -4261,6 +4349,7 @@ EW_DEFINE_CLASS( ApplicationFavoritesPage, CoreGroup, addFav, Background, Backgr
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -4294,19 +4383,19 @@ void ApplicationRecentPage__Init( ApplicationRecentPage _this, XObject aLink, XH
   CoreView_OnSetLayout((CoreView)&_this->Background, CoreLayoutAlignToBottom | CoreLayoutAlignToLeft 
   | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz | CoreLayoutResizeVert );
   CoreRectView__OnSetBounds( &_this->Background, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->TitleTxt1, _Const0098 );
+  CoreRectView__OnSetBounds( &_this->TitleTxt1, _Const009B );
   ViewsText_OnSetAlignment( &_this->TitleTxt1, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->TitleTxt1, EwLoadString( &StringsRecentTxt ));
   ViewsText_OnSetColor( &_this->TitleTxt1, ResBlack );
   CoreView_OnSetLayout((CoreView)&_this->TextButton, CoreLayoutAlignToRight | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const009B );
+  CoreRectView__OnSetBounds( &_this->TextButton, _Const009E );
   ComponentsTextButton_OnSetText( &_this->TextButton, EwLoadString( &StringsEditTxt ));
-  CoreRectView__OnSetBounds( &_this->VerticalList, _Const0097 );
+  CoreRectView__OnSetBounds( &_this->VerticalList, _Const009A );
   CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 50 );
   CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationRecentItm ));
   CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -1 );
-  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const0097 );
+  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const009A );
   _this->SlideTouchHandler.SlideHorz = 0;
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TitleTxt1 ), 0 );
@@ -4520,6 +4609,7 @@ EW_DEFINE_CLASS( ApplicationRecentPage, CoreGroup, SelectedContact, Background,
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -4546,8 +4636,8 @@ void ApplicationContactsList__Init( ApplicationContactsList _this, XObject aLink
 
   /* ... and initialize objects, variables, properties, etc. */
   CoreGroup_OnSetVisible((CoreGroup)&_this->Super2.PlusButton, 0 );
-  CoreRectView__OnSetBounds( &_this->Super1.TextButton, _Const009C );
-  CoreRectView__OnSetBounds( &_this->Text, _Const009D );
+  CoreRectView__OnSetBounds( &_this->Super1.TextButton, _Const009F );
+  CoreRectView__OnSetBounds( &_this->Text, _Const00A0 );
   ViewsText_OnSetString( &_this->Text, EwLoadString( &StringsAddToFavTxt ));
   ViewsText_OnSetColor( &_this->Text, ResBlack );
   CoreGroup__Add( _this, ((CoreView)&_this->Text ), 0 );
@@ -4590,7 +4680,7 @@ void ApplicationContactsList_onContactActivated( ApplicationContactsList _this,
   }
   else
   {
-    EwTrace( "%s", EwLoadString( &_Const009E ));
+    EwTrace( "%s", EwLoadString( &_Const00A1 ));
     EwPostSignal( _this->Super1.OnCancel, ((XObject)_this ));
   }
 }
@@ -4635,6 +4725,7 @@ EW_DEFINE_CLASS( ApplicationContactsList, ApplicationContactsInsideCall, Contact
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -4657,9 +4748,9 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   /* ... then construct all embedded objects */
   EffectsInt32Effect__Init( &_this->EditEffect, &_this->_.XObject, 0 );
   EffectsInt32Effect__Init( &_this->DeleteEffect, &_this->_.XObject, 0 );
-  ComponentsSButton25x25__Init( &_this->RemoveButton, &_this->_.XObject, 0 );
   ComponentsTextButton__Init( &_this->DeleteButton, &_this->_.XObject, 0 );
   ComponentsSButton25x25__Init( &_this->InfoButton, &_this->_.XObject, 0 );
+  ComponentsSButton25x25__Init( &_this->RemoveButton, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationFavContactItem );
@@ -4675,31 +4766,24 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   _this->DeleteEffect.Value2 = 110;
   _this->DeleteEffect.Value1 = 0;
   CoreView_OnSetStackingPriority((CoreView)&_this->Super1.TouchHandler, -1 );
-  CoreQuadView__OnSetPoint3( &_this->Super1.TouchHandler, _Const009F );
-  CoreQuadView__OnSetPoint2( &_this->Super1.TouchHandler, _Const00A0 );
+  CoreQuadView__OnSetPoint3( &_this->Super1.TouchHandler, _Const00A2 );
+  CoreQuadView__OnSetPoint2( &_this->Super1.TouchHandler, _Const00A3 );
   CoreView_OnSetLayout((CoreView)&_this->Super1.Background, CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
   CoreRectView__OnSetBounds( &_this->Super1.Background, _Const000B );
   CoreView_OnSetLayout((CoreView)&_this->Super1.LastNameTxt, CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Super1.LastNameTxt, _Const00A1 );
+  CoreRectView__OnSetBounds( &_this->Super1.LastNameTxt, _Const00A4 );
   ViewsText_OnSetAutoSize( &_this->Super1.LastNameTxt, 1 );
-  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const00A2 );
-  ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->RemoveButton, 
-  EwLoadString( &ResRemoveTxt ));
-  ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->RemoveButton, 
-  ResRed );
-  ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->RemoveButton, 
-  ResRedLight );
-  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const00A3 );
+  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const00A5 );
   ComponentsTextButton_OnSetText( &_this->DeleteButton, EwLoadString( &StringsdeleteTxt ));
   ComponentsTextButton_OnSetTextColor( &_this->DeleteButton, ResWhite );
   ComponentsTextButton_OnSetTextColorPress( &_this->DeleteButton, ResWhiteSemiTransparent );
   ComponentsTextButton_OnSetBackgoundColor( &_this->DeleteButton, ResRed );
   CoreView_OnSetLayout((CoreView)&_this->InfoButton, CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->InfoButton, _Const00A4 );
+  CoreRectView__OnSetBounds( &_this->InfoButton, _Const00A6 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->InfoButton, 
-  EwLoadString( &ResInfoTxt ));
+  EwLoadString( &ResInfoIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->InfoButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->InfoButton, 
@@ -4708,9 +4792,9 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   ResWhiteSemiTransparent );
   CoreView_OnSetLayout((CoreView)&_this->Super1.FirstNameTxt, CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->Super1.FirstNameTxt, _Const00A5 );
+  CoreRectView__OnSetBounds( &_this->Super1.FirstNameTxt, _Const00A7 );
   ViewsText_OnSetAutoSize( &_this->Super1.FirstNameTxt, 1 );
-  ViewsText_OnSetString( &_this->Super1.FirstNameTxt, EwLoadString( &_Const00A6 ));
+  ViewsText_OnSetString( &_this->Super1.FirstNameTxt, EwLoadString( &_Const00A8 ));
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line, _Const000D );
   ViewsLine_OnSetWidth( &_this->Super1.Line, 2 );
   ViewsLine_OnSetColor( &_this->Super1.Line, ResGreyLight );
@@ -4718,14 +4802,18 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   | CoreLayoutResizeVert );
   CoreRectView__OnSetBounds( &_this->Super1.PrfofilButton, _Const0014 );
   CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line1, _Const000E );
-  CoreGroup__Add( _this, ((CoreView)&_this->RemoveButton ), -5 );
+  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const00A9 );
+  ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->RemoveButton, 
+  EwLoadString( &ResRemoveIcon ));
+  ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->RemoveButton, 
+  ResRed );
+  ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->RemoveButton, 
+  ResTransparent );
   CoreGroup__Add( _this, ((CoreView)&_this->DeleteButton ), -5 );
   CoreGroup__Add( _this, ((CoreView)&_this->InfoButton ), -5 );
+  CoreGroup__Add( _this, ((CoreView)&_this->RemoveButton ), 0 );
   _this->EditEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationFavContactItem_onAnimate );
   _this->DeleteEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationFavContactItem_onAnimate );
-  _this->RemoveButton.Super1.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onShowDelete );
-  ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->RemoveButton, 
-  EwLoadResource( &ResButtonRoundSmall, ResourcesBitmap ));
   _this->DeleteButton.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onDelete );
   _this->InfoButton.Super1.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onInfo );
   ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->InfoButton, 
@@ -4733,6 +4821,11 @@ void ApplicationFavContactItem__Init( ApplicationFavContactItem _this, XObject a
   ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->InfoButton, 
   EwLoadResource( &ResButtonRoundSmall, ResourcesBitmap ));
   ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->Super1.PrfofilButton, 
+  EwLoadResource( &ResButtonRoundSmall, ResourcesBitmap ));
+  _this->RemoveButton.Super1.OnActivate = EwNewSlot( _this, ApplicationFavContactItem_onShowDelete );
+  ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->RemoveButton, 
+  EwLoadResource( &ResIconsFont25, ResourcesFont ));
+  ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->RemoveButton, 
   EwLoadResource( &ResButtonRoundSmall, ResourcesBitmap ));
 }
 
@@ -4745,9 +4838,9 @@ void ApplicationFavContactItem__ReInit( ApplicationFavContactItem _this )
   /* ... then re-construct all embedded objects */
   EffectsInt32Effect__ReInit( &_this->EditEffect );
   EffectsInt32Effect__ReInit( &_this->DeleteEffect );
-  ComponentsSButton25x25__ReInit( &_this->RemoveButton );
   ComponentsTextButton__ReInit( &_this->DeleteButton );
   ComponentsSButton25x25__ReInit( &_this->InfoButton );
+  ComponentsSButton25x25__ReInit( &_this->RemoveButton );
 }
 
 /* Finalizer method for the class 'Application::FavContactItem' */
@@ -4759,9 +4852,9 @@ void ApplicationFavContactItem__Done( ApplicationFavContactItem _this )
   /* Finalize all embedded objects */
   EffectsInt32Effect__Done( &_this->EditEffect );
   EffectsInt32Effect__Done( &_this->DeleteEffect );
-  ComponentsSButton25x25__Done( &_this->RemoveButton );
   ComponentsTextButton__Done( &_this->DeleteButton );
   ComponentsSButton25x25__Done( &_this->InfoButton );
+  ComponentsSButton25x25__Done( &_this->RemoveButton );
 
   /* Don't forget to deinitialize the super class ... */
   ApplicationContactItem__Done( &_this->_.Super );
@@ -4805,14 +4898,14 @@ void ApplicationFavContactItem_OnSetEditMode( ApplicationFavContactItem _this, X
   if ( _this->EditMode )
   {
     ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->InfoButton, 
-    EwLoadString( &ResMenuTxt ));
+    EwLoadString( &ResMenuIcon ));
     ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->InfoButton, 
     ResGrey );
   }
   else
   {
     ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->InfoButton, 
-    EwLoadString( &ResInfoTxt ));
+    EwLoadString( &ResInfoIcon ));
     ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->InfoButton, 
     ResBlue );
 
@@ -4881,6 +4974,7 @@ EW_DEFINE_CLASS( ApplicationFavContactItem, ApplicationContactItem, OnDelete, On
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationContactItem_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -4921,69 +5015,69 @@ void ApplicationRecentItm__Init( ApplicationRecentItm _this, XObject aLink, XHan
   _this->_.VMT = EW_CLASS( ApplicationRecentItm );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00A7 );
-  _this->Icon = EwShareString( EwLoadString( &ResOutgoingCallTxt ));
+  CoreRectView__OnSetBounds( _this, _Const00AA );
+  _this->Icon = EwShareString( EwLoadString( &ResOutgoingCallIcon ));
   _this->ButtonColor = ResWhite;
   _this->IconColor = ResWhite;
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
-  CoreRectView__OnSetBounds( &_this->Background, _Const00A8 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const00AB );
   ViewsRectangle_OnSetColorBL( &_this->Background, _Const0010 );
   ViewsRectangle_OnSetColorBR( &_this->Background, _Const0010 );
   ViewsRectangle_OnSetColor( &_this->Background, _Const0011 );
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00A9 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00AA );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00AB );
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const00AC );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00AC );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00AD );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00AE );
+  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const00AF );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
   CoreView_OnSetLayout((CoreView)&_this->Line, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00AD );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00AE );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00B0 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00B1 );
   ViewsLine_OnSetWidth( &_this->Line, 2 );
   ViewsLine_OnSetColor( &_this->Line, ResGreyLight );
-  CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const00AF );
+  CoreRectView__OnSetBounds( &_this->LastNameTxt, _Const00B2 );
   ViewsText_OnSetAutoSize( &_this->LastNameTxt, 1 );
   ViewsText_OnSetAlignment( &_this->LastNameTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const00B0 ));
+  ViewsText_OnSetString( &_this->LastNameTxt, EwLoadString( &_Const00B3 ));
   ViewsText_OnSetColor( &_this->LastNameTxt, ResBlack );
   CoreView_OnSetStackingPriority((CoreView)&_this->FirstNameTxt, 0 );
   CoreView_OnSetLayout((CoreView)&_this->FirstNameTxt, CoreLayoutAlignToLeft | CoreLayoutResizeHorz );
-  CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const00B1 );
+  CoreRectView__OnSetBounds( &_this->FirstNameTxt, _Const00B4 );
   ViewsText_OnSetAutoSize( &_this->FirstNameTxt, 1 );
   ViewsText_OnSetAlignment( &_this->FirstNameTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->FirstNameTxt, EwLoadString( &_Const00A6 ));
+  ViewsText_OnSetString( &_this->FirstNameTxt, EwLoadString( &_Const00A8 ));
   ViewsText_OnSetColor( &_this->FirstNameTxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->CallTypeTxt, _Const00B2 );
+  CoreRectView__OnSetBounds( &_this->CallTypeTxt, _Const00B5 );
   ViewsText_OnSetAutoSize( &_this->CallTypeTxt, 1 );
   ViewsText_OnSetAlignment( &_this->CallTypeTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->CallTypeTxt, EwLoadString( &_Const00B3 ));
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00B4 );
+  ViewsText_OnSetString( &_this->CallTypeTxt, EwLoadString( &_Const00B6 ));
+  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00B7 );
   ViewsText_OnSetAutoSize( &_this->TimeTxt, 1 );
   ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzRight | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00B5 ));
+  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00B8 ));
   _this->ColorText1 = ResBlack;
   _this->ColorText2 = ResGrey;
   CoreView_OnSetLayout((CoreView)&_this->InfoButton, CoreLayoutResizeHorz | CoreLayoutResizeVert );
-  CoreRectView__OnSetBounds( &_this->InfoButton, _Const00B6 );
+  CoreRectView__OnSetBounds( &_this->InfoButton, _Const00B9 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->InfoButton, 
-  EwLoadString( &ResInfoTxt ));
+  EwLoadString( &ResInfoIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->InfoButton, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->InfoButton, 
   ResTransparent );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->InfoButton, 
   ResTransparent );
-  CoreRectView__OnSetBounds( &_this->PushButtonSmall, _Const00B7 );
+  CoreRectView__OnSetBounds( &_this->PushButtonSmall, _Const00BA );
   CoreGroup_OnSetAlphaBlended((CoreGroup)&_this->PushButtonSmall, 1 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->PushButtonSmall, 
   0 );
@@ -4995,14 +5089,14 @@ void ApplicationRecentItm__Init( ApplicationRecentItm _this, XObject aLink, XHan
   ResWhiteTransparent );
   ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->PushButtonSmall, 
   ResWhiteTransparent );
-  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const00B8 );
+  CoreRectView__OnSetBounds( &_this->RemoveButton, _Const00BB );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->RemoveButton, 
-  EwLoadString( &ResRemoveTxt ));
+  EwLoadString( &ResRemoveIcon ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->RemoveButton, 
   ResRed );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->RemoveButton, 
   ResTransparent );
-  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const00B9 );
+  CoreRectView__OnSetBounds( &_this->DeleteButton, _Const00BC );
   ComponentsTextButton_OnSetText( &_this->DeleteButton, EwLoadString( &StringsdeleteTxt ));
   ComponentsTextButton_OnSetTextColor( &_this->DeleteButton, ResWhite );
   ComponentsTextButton_OnSetTextColorPress( &_this->DeleteButton, ResWhiteSemiTransparent );
@@ -5395,10 +5489,10 @@ void ApplicationRecentItm_onContactRistoryUpdate( ApplicationRecentItm _this, XO
 
     if ( _this->ContactHistory->CallDirection == DeviceCallDirectionIncoming )
       ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->PushButtonSmall, 
-      EwLoadString( &ResIncomingCallTxt ));
+      EwLoadString( &ResIncomingCallIcon ));
     else
       ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->PushButtonSmall, 
-      EwLoadString( &ResOutgoingCallTxt ));
+      EwLoadString( &ResOutgoingCallIcon ));
 
     ViewsText_OnSetString( &_this->CallTypeTxt, DeviceHistoryContact_GetCallDirection( 
     _this->ContactHistory ));
@@ -5434,6 +5528,7 @@ EW_DEFINE_CLASS( ApplicationRecentItm, CoreGroup, ContactHistory, OnActivate, Fl
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationRecentItm_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -5463,31 +5558,31 @@ void ApplicationRecentDetailsPage__Init( ApplicationRecentDetailsPage _this, XOb
   _this->_.VMT = EW_CLASS( ApplicationRecentDetailsPage );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line2, _Const00BA );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line2, _Const00BB );
-  CoreRectView__OnSetBounds( &_this->Super1.NumberTxt, _Const00BC );
-  CoreRectView__OnSetBounds( &_this->Super1.MobileTxt, _Const00BD );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line1, _Const00BE );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line1, _Const00BF );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line4, _Const00C0 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line4, _Const00C1 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line2, _Const00BD );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line2, _Const00BE );
+  CoreRectView__OnSetBounds( &_this->Super1.NumberTxt, _Const00BF );
+  CoreRectView__OnSetBounds( &_this->Super1.MobileTxt, _Const00C0 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Super1.Line1, _Const00C1 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Super1.Line1, _Const00C2 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line4, _Const00C3 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line4, _Const00C4 );
   ViewsLine_OnSetColor( &_this->Line4, _Const0019 );
-  CoreRectView__OnSetBounds( &_this->DateTxt, _Const00C2 );
+  CoreRectView__OnSetBounds( &_this->DateTxt, _Const00C5 );
   ViewsText_OnSetAlignment( &_this->DateTxt, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->DateTxt, EwLoadString( &_Const00C3 ));
+  ViewsText_OnSetString( &_this->DateTxt, EwLoadString( &_Const00C6 ));
   ViewsText_OnSetColor( &_this->DateTxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->TypeTxt, _Const00C4 );
+  CoreRectView__OnSetBounds( &_this->TypeTxt, _Const00C7 );
   ViewsText_OnSetAlignment( &_this->TypeTxt, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TypeTxt, EwLoadString( &_Const00C5 ));
+  ViewsText_OnSetString( &_this->TypeTxt, EwLoadString( &_Const00C8 ));
   ViewsText_OnSetColor( &_this->TypeTxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00C6 );
+  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00C9 );
   ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00C7 ));
+  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00CA ));
   ViewsText_OnSetColor( &_this->TimeTxt, ResBlack );
-  CoreRectView__OnSetBounds( &_this->DurationTxt, _Const00C8 );
+  CoreRectView__OnSetBounds( &_this->DurationTxt, _Const00CB );
   ViewsText_OnSetAlignment( &_this->DurationTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->DurationTxt, EwLoadString( &_Const00C9 ));
+  ViewsText_OnSetString( &_this->DurationTxt, EwLoadString( &_Const00CC ));
   ViewsText_OnSetColor( &_this->DurationTxt, ResGrey );
   CoreGroup__Add( _this, ((CoreView)&_this->Line4 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->DateTxt ), 0 );
@@ -5545,9 +5640,9 @@ void ApplicationRecentDetailsPage_onContactUpdated( ApplicationRecentDetailsPage
     _this->HistoryContact->Super1.LastName, EwLoadString( &_Const0029 )), _this->HistoryContact->Super1.FirstName ));
     ViewsText_OnSetString( &_this->Super1.NumberTxt, _this->HistoryContact->Super1.PhoneNumber );
     ViewsText_OnSetString( &_this->DateTxt, CoreTime_Format( _this->HistoryContact->TimeOfCall, 
-    EwLoadString( &_Const00CA )));
+    EwLoadString( &_Const00CD )));
     ViewsText_OnSetString( &_this->TimeTxt, CoreTime_Format( _this->HistoryContact->TimeOfCall, 
-    EwLoadString( &_Const00CB )));
+    EwLoadString( &_Const00CE )));
 
     if (( _this->HistoryContact->CallState == DeviceCallStateEndCall ) && (( _this->HistoryContact->CallDirection 
         == DeviceCallDirectionIncoming ) || ( _this->HistoryContact->CallDirection 
@@ -5612,6 +5707,7 @@ EW_DEFINE_CLASS( ApplicationRecentDetailsPage, ApplicationContactDetailsPage, Hi
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -5643,16 +5739,16 @@ void ApplicationCallPageBase__Init( ApplicationCallPageBase _this, XObject aLink
   _this->_.VMT = EW_CLASS( ApplicationCallPageBase );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
-  CoreRectView__OnSetBounds( &_this->Background, _Const004F );
-  ViewsRectangle_OnSetColorBL( &_this->Background, _Const008A );
-  ViewsRectangle_OnSetColorBR( &_this->Background, _Const008B );
-  ViewsRectangle_OnSetColorTR( &_this->Background, _Const008C );
-  ViewsRectangle_OnSetColorTL( &_this->Background, _Const008C );
-  ViewsRectangle_OnSetColor( &_this->Background, _Const008D );
-  CoreRectView__OnSetBounds( &_this->DesclineButton, _Const00CC );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0052 );
+  ViewsRectangle_OnSetColorBL( &_this->Background, _Const008D );
+  ViewsRectangle_OnSetColorBR( &_this->Background, _Const008E );
+  ViewsRectangle_OnSetColorTR( &_this->Background, _Const008F );
+  ViewsRectangle_OnSetColorTL( &_this->Background, _Const008F );
+  ViewsRectangle_OnSetColor( &_this->Background, _Const0090 );
+  CoreRectView__OnSetBounds( &_this->DesclineButton, _Const00CF );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->DesclineButton, 
-  EwLoadString( &ResEndCallTxt ));
+  EwLoadString( &ResEndCallIcon ));
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->DesclineButton, 
   EwLoadString( &StringsdeclineTxt ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->DesclineButton, 
@@ -5662,21 +5758,21 @@ void ApplicationCallPageBase__Init( ApplicationCallPageBase _this, XObject aLink
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->DesclineButton, 
   ResRedLight );
   CoreView_OnSetLayout((CoreView)&_this->TimeTxt, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00CD );
+  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00D0 );
   ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzCenter | 
   ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00CE ));
+  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00D1 ));
   ViewsText_OnSetColor( &_this->TimeTxt, ResWhite );
   CoreView_OnSetLayout((CoreView)&_this->ContactNameTxt, CoreLayoutAlignToLeft | 
   CoreLayoutAlignToTop );
-  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const00CF );
+  CoreRectView__OnSetBounds( &_this->ContactNameTxt, _Const00D2 );
   ViewsText_OnSetEnableBidiText( &_this->ContactNameTxt, 0 );
   ViewsText_OnSetAutoSize( &_this->ContactNameTxt, 1 );
   ViewsText_OnSetAlignment( &_this->ContactNameTxt, ViewsTextAlignmentAlignHorzLeft 
   | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->ContactNameTxt, EwLoadString( &_Const0024 ));
   ViewsText_OnSetColor( &_this->ContactNameTxt, ResWhite );
-  CoreRectView__OnSetBounds( &_this->UserInitials, _Const00D0 );
+  CoreRectView__OnSetBounds( &_this->UserInitials, _Const00D3 );
   CoreGroup_OnSetEnabled((CoreGroup)&_this->UserInitials, 0 );
   ComponentsButtonBase70x90_OnSetDescript( &_this->UserInitials, 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
@@ -5758,7 +5854,7 @@ __declspec( naked ) void ApplicationCallPageBase__onContactUpdated( void* _this,
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 144 ]
+    jmp      DWORD PTR [ eax + 148 ]
   }
 }
 
@@ -5822,6 +5918,7 @@ EW_DEFINE_CLASS( ApplicationCallPageBase, CoreGroup, Contact, Background, Backgr
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -5849,12 +5946,12 @@ void ApplicationContactsAppInsideCall__Init( ApplicationContactsAppInsideCall _t
 
   /* ... and initialize objects, variables, properties, etc. */
   CoreRectView__OnSetBounds( _this, _Const0000 );
-  CoreRectView__OnSetBounds( &_this->Super1.Rectangle, _Const00D1 );
-  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons, _Const00D2 );
-  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons1, _Const00D3 );
-  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons2, _Const00D4 );
-  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons3, _Const00D5 );
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const00D6 );
+  CoreRectView__OnSetBounds( &_this->Super1.Rectangle, _Const00D4 );
+  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons, _Const00D5 );
+  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons1, _Const00D6 );
+  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons2, _Const00D7 );
+  CoreRectView__OnSetBounds( &_this->Super1.NavBarButtons3, _Const00D8 );
+  CoreRectView__OnSetBounds( &_this->TextButton, _Const00D9 );
   ComponentsTextButton_OnSetText( &_this->TextButton, EwLoadString( &StringsCancelTxt ));
   CoreGroup__Add( _this, ((CoreView)&_this->TextButton ), 0 );
   _this->TextButton.OnActivate = EwNewSlot( _this, ApplicationContactsAppInsideCall_onCancel );
@@ -5915,6 +6012,7 @@ EW_DEFINE_CLASS( ApplicationContactsAppInsideCall, ApplicationContactsApp, OnCan
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -5947,7 +6045,7 @@ void ApplicationMyCardItem__Init( ApplicationMyCardItem _this, XObject aLink, XH
   _this->_.VMT = EW_CLASS( ApplicationMyCardItem );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00D7 );
+  CoreRectView__OnSetBounds( _this, _Const00DA );
   _this->ButtonColor = ResWhite;
   _this->IconColor = ResWhite;
   _this->TextColor = ResBlack;
@@ -5957,32 +6055,32 @@ void ApplicationMyCardItem__Init( ApplicationMyCardItem _this, XObject aLink, XH
   CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
   CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
   | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00D8 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00D9 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00DA );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00DB );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00DC );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00DD );
   CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const000F );
   _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
   | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
   CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->Background, _Const00D7 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const00DA );
   ViewsRectangle_OnSetColorBL( &_this->Background, _Const0010 );
   ViewsRectangle_OnSetColorBR( &_this->Background, _Const0010 );
   ViewsRectangle_OnSetColor( &_this->Background, _Const0011 );
-  CoreRectView__OnSetBounds( &_this->NameTxt, _Const00DB );
+  CoreRectView__OnSetBounds( &_this->NameTxt, _Const00DE );
   ViewsText_OnSetAlignment( &_this->NameTxt, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->NameTxt, EwLoadString( &StringsMyCardTxt ));
   ViewsText_OnSetColor( &_this->NameTxt, ResBlack );
   CoreView_OnSetLayout((CoreView)&_this->Line1, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const00DA );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const00DD );
   CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const000F );
   ViewsLine_OnSetWidth( &_this->Line1, 2 );
   ViewsLine_OnSetColor( &_this->Line1, ResGreyLight );
-  CoreRectView__OnSetBounds( &_this->MyCardTxt, _Const00DC );
+  CoreRectView__OnSetBounds( &_this->MyCardTxt, _Const00DF );
   ViewsText_OnSetAlignment( &_this->MyCardTxt, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->MyCardTxt, EwLoadString( &StringsMyCardTxt ));
   ViewsText_OnSetColor( &_this->MyCardTxt, ResGrey );
-  CoreRectView__OnSetBounds( &_this->PushButtonSmall1, _Const00DD );
+  CoreRectView__OnSetBounds( &_this->PushButtonSmall1, _Const00E0 );
   CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->NameTxt ), 0 );
@@ -6221,6 +6319,7 @@ EW_DEFINE_CLASS( ApplicationMyCardItem, CoreGroup, OnActivate, OnActivate, Flash
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationMyCardItem_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -6241,62 +6340,66 @@ void ApplicationMessagesPage__Init( ApplicationMessagesPage _this, XObject aLink
 
   /* ... then construct all embedded objects */
   ViewsRectangle__Init( &_this->Rectangle, &_this->_.XObject, 0 );
-  ComponentsTextButton__Init( &_this->TextButton, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->TitleTxt, &_this->_.XObject, 0 );
-  ComponentsSearchEtxt__Init( &_this->SearchExt, &_this->_.XObject, 0 );
   CoreVerticalList__Init( &_this->VerticalList, &_this->_.XObject, 0 );
   CoreSlideTouchHandler__Init( &_this->SlideTouchHandler, &_this->_.XObject, 0 );
-  ComponentsSButton25x25__Init( &_this->SButton25x25, &_this->_.XObject, 0 );
+  ComponentsSearchEtxt__Init( &_this->SearchExt, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->TitleTxt, &_this->_.XObject, 0 );
+  ComponentsSButton25x25__Init( &_this->createBtn, &_this->_.XObject, 0 );
+  ComponentsTextButton__Init( &_this->editBtn, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationMessagesPage );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
-  CoreRectView__OnSetBounds( &_this->Rectangle, _Const004F );
-  CoreRectView__OnSetBounds( &_this->TextButton, _Const00DE );
-  ComponentsTextButton_OnSetText( &_this->TextButton, EwLoadString( &StringsEditTxt ));
-  CoreRectView__OnSetBounds( &_this->TitleTxt, _Const00DF );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const0052 );
+  CoreView_OnSetLayout((CoreView)&_this->VerticalList, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->VerticalList, _Const00E1 );
+  CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 45 );
+  CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationMessegeItem ));
+  CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -1 );
+  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00E1 );
+  _this->SlideTouchHandler.SlideHorz = 0;
+  CoreSlideTouchHandler_OnSetEnabled( &_this->SlideTouchHandler, 0 );
+  CoreView_OnSetLayout((CoreView)&_this->SearchExt, CoreLayoutAlignToLeft | CoreLayoutAlignToRight 
+  | CoreLayoutAlignToTop | CoreLayoutResizeHorz );
+  CoreRectView__OnSetBounds( &_this->SearchExt, _Const00E2 );
+  ComponentsSearchEtxt_OnSetColor( &_this->SearchExt, ResGrey );
+  CoreRectView__OnSetBounds( &_this->TitleTxt, _Const00E3 );
   ViewsText_OnSetAlignment( &_this->TitleTxt, ViewsTextAlignmentAlignHorzLeft | 
   ViewsTextAlignmentAlignVertCenter );
   ViewsText_OnSetString( &_this->TitleTxt, EwLoadString( &StringsMessagesTxt ));
   ViewsText_OnSetColor( &_this->TitleTxt, ResBlack );
-  CoreView_OnSetLayout((CoreView)&_this->SearchExt, CoreLayoutAlignToLeft | CoreLayoutAlignToRight 
-  | CoreLayoutAlignToTop | CoreLayoutResizeHorz );
-  CoreRectView__OnSetBounds( &_this->SearchExt, _Const00E0 );
-  ComponentsSearchEtxt_OnSetColor( &_this->SearchExt, ResGrey );
-  CoreRectView__OnSetBounds( &_this->VerticalList, _Const00E1 );
-  CoreVerticalList_OnSetItemHeight( &_this->VerticalList, 45 );
-  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, 10 );
-  CoreVerticalList_OnSetItemClass( &_this->VerticalList, EW_CLASS( ApplicationMessegeItem ));
-  CoreView_OnSetStackingPriority((CoreView)&_this->SlideTouchHandler, -1 );
-  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00E2 );
-  _this->SlideTouchHandler.SlideHorz = 0;
-  CoreRectView__OnSetBounds( &_this->SButton25x25, _Const00E3 );
-  ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->SButton25x25, 
+  CoreRectView__OnSetBounds( &_this->createBtn, _Const00E4 );
+  ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->createBtn, 
   EwLoadString( &ResWriteIcon ));
-  ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->SButton25x25, 
+  ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->createBtn, 
   ResBlue );
-  ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->SButton25x25, 
+  ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->createBtn, 
   ResTransparent );
-  ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->SButton25x25, 
+  ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->createBtn, 
   ResTransparent );
-  ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->SButton25x25, 
+  ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->createBtn, 
   ResTransparent );
+  CoreRectView__OnSetBounds( &_this->editBtn, _Const00E5 );
+  ComponentsTextButton_OnSetText( &_this->editBtn, EwLoadString( &StringsEditTxt ));
   CoreGroup__Add( _this, ((CoreView)&_this->Rectangle ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TextButton ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TitleTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->SearchExt ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->VerticalList ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SlideTouchHandler ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->SButton25x25 ), 0 );
-  _this->TextButton.OnActivate = EwNewSlot( _this, ApplicationMessagesPage_onEdit );
-  ViewsText_OnSetFont( &_this->TitleTxt, EwLoadResource( &ResTitileFont32, ResourcesFont ));
+  CoreGroup__Add( _this, ((CoreView)&_this->SearchExt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->TitleTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->createBtn ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->editBtn ), 0 );
   _this->VerticalList.OnLoadItem = EwNewSlot( _this, ApplicationMessagesPage_OnLoadItem );
   CoreVerticalList_OnSetSlideHandler( &_this->VerticalList, &_this->SlideTouchHandler );
-  _this->SButton25x25.Super1.OnActivate = EwNewSlot( _this, ApplicationMessagesPage_onCreatePressed );
-  ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->SButton25x25, 
+  ViewsText_OnSetFont( &_this->TitleTxt, EwLoadResource( &ResTitileFont32, ResourcesFont ));
+  _this->createBtn.Super1.OnActivate = EwNewSlot( _this, ApplicationMessagesPage_onAddContact );
+  ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->createBtn, 
   EwLoadResource( &ResIconsFont20, ResourcesFont ));
+  _this->editBtn.OnActivate = EwNewSlot( _this, ApplicationMessagesPage_onEdit );
+
+  /* Call the user defined constructor */
+  ApplicationMessagesPage_Init( _this, aArg );
 }
 
 /* Re-Initializer for the class 'Application::MessagesPage' */
@@ -6307,12 +6410,12 @@ void ApplicationMessagesPage__ReInit( ApplicationMessagesPage _this )
 
   /* ... then re-construct all embedded objects */
   ViewsRectangle__ReInit( &_this->Rectangle );
-  ComponentsTextButton__ReInit( &_this->TextButton );
-  ViewsText__ReInit( &_this->TitleTxt );
-  ComponentsSearchEtxt__ReInit( &_this->SearchExt );
   CoreVerticalList__ReInit( &_this->VerticalList );
   CoreSlideTouchHandler__ReInit( &_this->SlideTouchHandler );
-  ComponentsSButton25x25__ReInit( &_this->SButton25x25 );
+  ComponentsSearchEtxt__ReInit( &_this->SearchExt );
+  ViewsText__ReInit( &_this->TitleTxt );
+  ComponentsSButton25x25__ReInit( &_this->createBtn );
+  ComponentsTextButton__ReInit( &_this->editBtn );
 }
 
 /* Finalizer method for the class 'Application::MessagesPage' */
@@ -6323,15 +6426,30 @@ void ApplicationMessagesPage__Done( ApplicationMessagesPage _this )
 
   /* Finalize all embedded objects */
   ViewsRectangle__Done( &_this->Rectangle );
-  ComponentsTextButton__Done( &_this->TextButton );
-  ViewsText__Done( &_this->TitleTxt );
-  ComponentsSearchEtxt__Done( &_this->SearchExt );
   CoreVerticalList__Done( &_this->VerticalList );
   CoreSlideTouchHandler__Done( &_this->SlideTouchHandler );
-  ComponentsSButton25x25__Done( &_this->SButton25x25 );
+  ComponentsSearchEtxt__Done( &_this->SearchExt );
+  ViewsText__Done( &_this->TitleTxt );
+  ComponentsSButton25x25__Done( &_this->createBtn );
+  ComponentsTextButton__Done( &_this->editBtn );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationMessagesPage_Init( ApplicationMessagesPage _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  EwAttachRefObserver( EwNewSlot( _this, ApplicationMessagesPage_onNoOfContactsChanged ), 
+    EwNewRef( &EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MessageHistory, 
+    DeviceContactList_OnGetIsUpdate, DeviceContactList_OnSetIsUpdate ), 0 );
+  EwPostSignal( EwNewSlot( _this, ApplicationMessagesPage_onNoOfContactsChanged ), 
+    ((XObject)_this ));
 }
 
 /* This method is called by 'VerticalList' every time the list loads or updates 
@@ -6340,23 +6458,24 @@ void ApplicationMessagesPage_OnLoadItem( ApplicationMessagesPage _this, XObject
   sender )
 {
   XInt32 itemNo;
-  ViewsText itemView;
+  DeviceContact contact;
+  ApplicationMessegeItem messageItem;
 
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
   itemNo = _this->VerticalList.Item;
-  itemView = EwCastObject( _this->VerticalList.View, ViewsText );
+  contact = DeviceContactList_GetContact( &EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MessageHistory, 
+  itemNo );
+  messageItem = EwCastObject( _this->VerticalList.View, ApplicationMessegeItem );
 
-  if ( itemView == 0 )
+  if ( messageItem == 0 )
     return;
 
-  ViewsText_OnSetString( itemView, EwConcatString( EwLoadString( &_Const00E4 ), 
-  EwNewStringInt( itemNo, 0, 10 )));
-  ViewsText_OnSetFont( itemView, EwLoadResource( &ResourcesFontMedium, ResourcesFont ));
-  ViewsText_OnSetColor( itemView, _Const0011 );
-  CoreRectView__OnSetBounds( itemView, EwSetRectSize( itemView->Super1.Bounds, EwNewPoint( 
-  EwGetRectW( _this->VerticalList.Super2.Bounds ), _this->VerticalList.ItemHeight )));
+  ApplicationMessegeItem_OnSetContact( messageItem, contact );
+  messageItem->OnActivate = EwNewSlot( _this, ApplicationMessagesPage_onOpenChat );
+  CoreRectView__OnSetBounds( messageItem, EwSetRectSize( messageItem->Super2.Bounds, 
+  EwNewPoint( EwGetRectW( _this->VerticalList.Super2.Bounds ), _this->VerticalList.ItemHeight )));
 }
 
 /* 'C' function for method : 'Application::MessagesPage.onEdit()' */
@@ -6370,32 +6489,34 @@ void ApplicationMessagesPage_onEdit( ApplicationMessagesPage _this, XObject send
   - 1 );
 }
 
-/* 'C' function for method : 'Application::MessagesPage.onCreatePressed()' */
-void ApplicationMessagesPage_onCreatePressed( ApplicationMessagesPage _this, XObject 
+/* 'C' function for method : 'Application::MessagesPage.onAddContact()' */
+void ApplicationMessagesPage_onAddContact( ApplicationMessagesPage _this, XObject 
   sender )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  _this->create = EwNewObject( ApplicationContactsList1, 0 );
-  _this->create->Super2.OnCancel = EwNewSlot( _this, ApplicationMessagesPage_onClose );
-  _this->create->Super1.OnAddFav = EwNewSlot( _this, ApplicationMessagesPage_onAdd );
-  ApplicationContactsList_OnSetContact((ApplicationContactsList)_this->create, EwNewObject( 
-  DeviceContact, 0 ));
-  CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->create ), ((EffectsTransition)EwGetAutoObject( 
+  _this->addPage = EwNewObject( ApplicationContactsList1, 0 );
+  _this->addPage->Super2.OnCancel = EwNewSlot( _this, ApplicationMessagesPage_onCloseAdd );
+  _this->addPage->Super1.OnAddFav = EwNewSlot( _this, ApplicationMessagesPage_onAdd );
+  ApplicationContactsList_OnSetContact((ApplicationContactsList)_this->addPage, 
+  EwNewObject( DeviceContact, 0 ));
+  CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->addPage ), ((EffectsTransition)EwGetAutoObject( 
   &ResSlideUpCenteredLimit, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
   EwNullSlot, 0 );
 }
 
-/* 'C' function for method : 'Application::MessagesPage.onClose()' */
-void ApplicationMessagesPage_onClose( ApplicationMessagesPage _this, XObject sender )
+/* 'C' function for method : 'Application::MessagesPage.onCloseAdd()' */
+void ApplicationMessagesPage_onCloseAdd( ApplicationMessagesPage _this, XObject 
+  sender )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->create ), ((EffectsTransition)EwGetAutoObject( 
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->addPage ), ((EffectsTransition)EwGetAutoObject( 
   &ResSlideDownCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
   0 );
+  _this->addPage = 0;
 }
 
 /* 'C' function for method : 'Application::MessagesPage.onAdd()' */
@@ -6404,18 +6525,11 @@ void ApplicationMessagesPage_onAdd( ApplicationMessagesPage _this, XObject sende
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
+  DeviceContactList_AddFirst( &EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MessageHistory, 
+  _this->addPage->Super1.Contact );
   CoreVerticalList_InvalidateItems( &_this->VerticalList, 0, _this->VerticalList.NoOfItems 
   - 1 );
-  _this->chat = EwNewObject( ApplicationChat, 0 );
-  ApplicationChat_OnSetContact( _this->chat, _this->create->Super1.Contact );
-  _this->chat->OnBack = EwNewSlot( _this, ApplicationMessagesPage_onBack );
-  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->create ), ((EffectsTransition)EwGetAutoObject( 
-  &ResSlideDownCentered, EffectsSlideTransition )), 0, 0, EwNullSlot, EwNullSlot, 
-  0 );
-  _this->create = 0;
-  CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->chat ), ((EffectsTransition)EwGetAutoObject( 
-  &ResSlideUpCenteredLimit, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
-  EwNullSlot, 0 );
+  EwPostSignal( EwNewSlot( _this, ApplicationMessagesPage_onCloseAdd ), ((XObject)_this ));
 }
 
 /* 'C' function for method : 'Application::MessagesPage.onBack()' */
@@ -6430,12 +6544,40 @@ void ApplicationMessagesPage_onBack( ApplicationMessagesPage _this, XObject send
   _this->chat = 0;
 }
 
+/* 'C' function for method : 'Application::MessagesPage.onNoOfContactsChanged()' */
+void ApplicationMessagesPage_onNoOfContactsChanged( ApplicationMessagesPage _this, 
+  XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreVerticalList_OnSetNoOfItems( &_this->VerticalList, EwGetAutoObject( &DeviceDevice, 
+  DeviceDeviceClass )->MessageHistory.NoOfItems );
+}
+
+/* 'C' function for method : 'Application::MessagesPage.onOpenChat()' */
+void ApplicationMessagesPage_onOpenChat( ApplicationMessagesPage _this, XObject 
+  sender )
+{
+  ApplicationMessegeItem itemView = EwCastObject( sender, ApplicationMessegeItem );
+
+  if ( itemView != 0 )
+  {
+    _this->chat = EwNewObject( ApplicationChat, 0 );
+    ApplicationChat_OnSetContact( _this->chat, itemView->Contact );
+    _this->chat->OnBack = EwNewSlot( _this, ApplicationMessagesPage_onBack );
+    CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->chat ), ((EffectsTransition)EwGetAutoObject( 
+    &ResSlideUpCentered, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
+    EwNullSlot, 0 );
+  }
+}
+
 /* Variants derived from the class : 'Application::MessagesPage' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationMessagesPage )
 EW_END_OF_CLASS_VARIANTS( ApplicationMessagesPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::MessagesPage' */
-EW_DEFINE_CLASS( ApplicationMessagesPage, CoreGroup, create, Rectangle, Rectangle, 
+EW_DEFINE_CLASS( ApplicationMessagesPage, CoreGroup, addPage, Rectangle, Rectangle, 
                  Rectangle, EditMode, EditMode, "Application::MessagesPage" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
@@ -6452,6 +6594,7 @@ EW_DEFINE_CLASS( ApplicationMessagesPage, CoreGroup, create, Rectangle, Rectangl
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -6473,77 +6616,49 @@ void ApplicationMessegeItem__Init( ApplicationMessegeItem _this, XObject aLink, 
   /* ... then construct all embedded objects */
   CoreTimer__Init( &_this->FlashTimer, &_this->_.XObject, 0 );
   CoreKeyPressHandler__Init( &_this->KeyHandler, &_this->_.XObject, 0 );
-  CoreSimpleTouchHandler__Init( &_this->TouchHandler, &_this->_.XObject, 0 );
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
-  ViewsLine__Init( &_this->Line2, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->NameTxt, &_this->_.XObject, 0 );
-  ViewsLine__Init( &_this->Line1, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->MessageTxt, &_this->_.XObject, 0 );
-  ComponentsSButton50x50__Init( &_this->UserIcon, &_this->_.XObject, 0 );
-  ViewsText__Init( &_this->TimeTxt, &_this->_.XObject, 0 );
-  ComponentsToggleButton__Init( &_this->CheckButton, &_this->_.XObject, 0 );
   EffectsInt32Effect__Init( &_this->EditEffect, &_this->_.XObject, 0 );
+  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
+  CoreSimpleTouchHandler__Init( &_this->TouchHandler, &_this->_.XObject, 0 );
   ComponentsSButton25x25__Init( &_this->SButton25x25, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->TimeTxt, &_this->_.XObject, 0 );
+  ViewsLine__Init( &_this->Line2, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->MessageTxt, &_this->_.XObject, 0 );
+  ViewsText__Init( &_this->NameTxt, &_this->_.XObject, 0 );
+  ComponentsSButton50x50__Init( &_this->UserIcon, &_this->_.XObject, 0 );
+  ComponentsToggleButton__Init( &_this->CheckButton, &_this->_.XObject, 0 );
+  ViewsLine__Init( &_this->Line1, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
   _this->_.VMT = EW_CLASS( ApplicationMessegeItem );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const00E5 );
+  CoreRectView__OnSetBounds( _this, _Const00E6 );
   _this->ButtonColor = ResWhite;
   _this->IconColor = ResWhite;
   _this->TextColor = ResBlack;
   CoreTimer_OnSetPeriod( &_this->FlashTimer, 0 );
   CoreTimer_OnSetBegin( &_this->FlashTimer, 50 );
   _this->KeyHandler.Filter = CoreKeyCodeEnter;
-  CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
-  CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
-  | CoreLayoutResizeVert );
-  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00E6 );
-  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00E7 );
-  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00E8 );
-  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const000F );
-  _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
-  | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
-  CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
-  CoreRectView__OnSetBounds( &_this->Background, _Const00E5 );
-  ViewsRectangle_OnSetColorBL( &_this->Background, _Const0010 );
-  ViewsRectangle_OnSetColorBR( &_this->Background, _Const0010 );
-  ViewsRectangle_OnSetColor( &_this->Background, _Const0011 );
-  CoreView_OnSetLayout((CoreView)&_this->Line2, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const00E9 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const00EA );
-  ViewsLine_OnSetWidth( &_this->Line2, 2 );
-  ViewsLine_OnSetColor( &_this->Line2, ResGreyLight );
-  CoreRectView__OnSetBounds( &_this->NameTxt, _Const00EB );
-  ViewsText_OnSetAlignment( &_this->NameTxt, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->NameTxt, EwLoadString( &_Const00EC ));
-  ViewsText_OnSetColor( &_this->NameTxt, ResBlack );
-  CoreView_OnSetLayout((CoreView)&_this->Line1, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const00E8 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const00ED );
-  ViewsLine_OnSetWidth( &_this->Line1, 2 );
-  ViewsLine_OnSetColor( &_this->Line1, ResGreyLight );
-  CoreRectView__OnSetBounds( &_this->MessageTxt, _Const00EE );
-  ViewsText_OnSetAlignment( &_this->MessageTxt, ViewsTextAlignmentAlignHorzLeft 
-  | ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->MessageTxt, EwLoadString( &StringsmessageTxt ));
-  ViewsText_OnSetColor( &_this->MessageTxt, ResGrey );
-  CoreRectView__OnSetBounds( &_this->UserIcon, _Const00EF );
-  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00F0 );
-  ViewsText_OnSetAutoSize( &_this->TimeTxt, 1 );
-  ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzRight | 
-  ViewsTextAlignmentAlignVertCenter );
-  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00B5 ));
-  ViewsText_OnSetColor( &_this->TimeTxt, ResGrey );
-  CoreRectView__OnSetBounds( &_this->CheckButton, _Const00F1 );
-  ComponentsToggleButton_OnSetBackgroundColor( &_this->CheckButton, ResGreyLight );
-  ComponentsToggleButton_OnSetIconSelectedColor( &_this->CheckButton, ResWhite );
   EffectsEffect_OnSetNoOfCycles((EffectsEffect)&_this->EditEffect, 1 );
   EffectsEffect_OnSetCycleDuration((EffectsEffect)&_this->EditEffect, 250 );
   _this->EditEffect.Value2 = 25;
   _this->EditEffect.Value1 = 0;
-  CoreRectView__OnSetBounds( &_this->SButton25x25, _Const00F2 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const00E6 );
+  ViewsRectangle_OnSetColorBL( &_this->Background, _Const0010 );
+  ViewsRectangle_OnSetColorBR( &_this->Background, _Const0010 );
+  ViewsRectangle_OnSetColor( &_this->Background, _Const0011 );
+  CoreView_OnSetLayout((CoreView)&_this->TouchHandler, CoreLayoutAlignToBottom | 
+  CoreLayoutAlignToLeft | CoreLayoutAlignToRight | CoreLayoutAlignToTop | CoreLayoutResizeHorz 
+  | CoreLayoutResizeVert );
+  CoreQuadView__OnSetPoint4( &_this->TouchHandler, _Const00E7 );
+  CoreQuadView__OnSetPoint3( &_this->TouchHandler, _Const00E8 );
+  CoreQuadView__OnSetPoint2( &_this->TouchHandler, _Const00E9 );
+  CoreQuadView__OnSetPoint1( &_this->TouchHandler, _Const000F );
+  _this->TouchHandler.RetargetCondition = CoreRetargetReasonWipeDown | CoreRetargetReasonWipeLeft 
+  | CoreRetargetReasonWipeRight | CoreRetargetReasonWipeUp;
+  CoreSimpleTouchHandler_OnSetMaxStrikeCount( &_this->TouchHandler, 100 );
+  CoreRectView__OnSetBounds( &_this->SButton25x25, _Const00EA );
+  CoreGroup_OnSetVisible((CoreGroup)&_this->SButton25x25, 0 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->SButton25x25, 
   EwLoadString( &ResForwardIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->SButton25x25, 
@@ -6558,32 +6673,61 @@ void ApplicationMessegeItem__Init( ApplicationMessegeItem _this, XObject aLink, 
   ResGreyLight );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->SButton25x25, 
   ResGrey );
-  CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
+  CoreRectView__OnSetBounds( &_this->TimeTxt, _Const00EB );
+  ViewsText_OnSetAutoSize( &_this->TimeTxt, 1 );
+  ViewsText_OnSetAlignment( &_this->TimeTxt, ViewsTextAlignmentAlignHorzRight | 
+  ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->TimeTxt, EwLoadString( &_Const00B8 ));
+  ViewsText_OnSetColor( &_this->TimeTxt, ResGrey );
+  CoreView_OnSetLayout((CoreView)&_this->Line2, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line2, _Const00EC );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line2, _Const00ED );
+  ViewsLine_OnSetWidth( &_this->Line2, 2 );
+  ViewsLine_OnSetColor( &_this->Line2, ResGreyLight );
+  CoreRectView__OnSetBounds( &_this->MessageTxt, _Const00EE );
+  ViewsText_OnSetAlignment( &_this->MessageTxt, ViewsTextAlignmentAlignHorzLeft 
+  | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->MessageTxt, EwLoadString( &StringsmessageTxt ));
+  ViewsText_OnSetColor( &_this->MessageTxt, ResGrey );
+  CoreRectView__OnSetBounds( &_this->NameTxt, _Const00EF );
+  ViewsText_OnSetAlignment( &_this->NameTxt, ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignVertCenter );
+  ViewsText_OnSetString( &_this->NameTxt, EwLoadString( &_Const00F0 ));
+  ViewsText_OnSetColor( &_this->NameTxt, ResBlack );
+  CoreRectView__OnSetBounds( &_this->UserIcon, _Const00F1 );
+  CoreRectView__OnSetBounds( &_this->CheckButton, _Const00F2 );
+  ComponentsToggleButton_OnSetBackgroundColor( &_this->CheckButton, ResGreyLight );
+  ComponentsToggleButton_OnSetIconSelectedColor( &_this->CheckButton, ResWhite );
+  CoreView_OnSetLayout((CoreView)&_this->Line1, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line1, _Const00E9 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line1, _Const00F3 );
+  ViewsLine_OnSetWidth( &_this->Line1, 2 );
+  ViewsLine_OnSetColor( &_this->Line1, ResGreyLight );
   CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Line2 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->NameTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Line1 ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->MessageTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->UserIcon ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->TimeTxt ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->CheckButton ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->TouchHandler ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SButton25x25 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->TimeTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Line2 ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->MessageTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->NameTxt ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->UserIcon ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->CheckButton ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Line1 ), 0 );
   _this->FlashTimer.OnTrigger = EwNewSlot( _this, ApplicationMessegeItem_onFlashTimer );
   _this->KeyHandler.OnPress = EwNewSlot( _this, ApplicationMessegeItem_onPressKey );
+  _this->EditEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationMessegeItem_onAnimate );
   _this->TouchHandler.OnLeave = EwNewSlot( _this, ApplicationMessegeItem_onEnterLeaveTouch );
   _this->TouchHandler.OnEnter = EwNewSlot( _this, ApplicationMessegeItem_onEnterLeaveTouch );
   _this->TouchHandler.OnRelease = EwNewSlot( _this, ApplicationMessegeItem_onReleaseTouch );
   _this->TouchHandler.OnPress = EwNewSlot( _this, ApplicationMessegeItem_onPressTouch );
-  ViewsText_OnSetFont( &_this->NameTxt, EwLoadResource( &ResContactFontBold15, ResourcesFont ));
-  ViewsText_OnSetFont( &_this->MessageTxt, EwLoadResource( &ResContactFont12, ResourcesFont ));
-  ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->UserIcon, 
-  EwLoadResource( &ResButtonRoundMedium, ResourcesBitmap ));
-  ViewsText_OnSetFont( &_this->TimeTxt, EwLoadResource( &ResourcesDefaultFont, ResourcesFont ));
-  _this->EditEffect.Super1.OnAnimate = EwNewSlot( _this, ApplicationMessegeItem_onAnimate );
   ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->SButton25x25, 
   EwLoadResource( &ResIconsFont12, ResourcesFont ));
   ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->SButton25x25, 
   EwLoadResource( &ResButtonRoundSmall, ResourcesBitmap ));
+  ViewsText_OnSetFont( &_this->TimeTxt, EwLoadResource( &ResourcesDefaultFont, ResourcesFont ));
+  ViewsText_OnSetFont( &_this->MessageTxt, EwLoadResource( &ResContactFont12, ResourcesFont ));
+  ViewsText_OnSetFont( &_this->NameTxt, EwLoadResource( &ResContactFontBold15, ResourcesFont ));
+  ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->UserIcon, 
+  EwLoadResource( &ResButtonRoundMedium, ResourcesBitmap ));
 }
 
 /* Re-Initializer for the class 'Application::MessegeItem' */
@@ -6595,17 +6739,17 @@ void ApplicationMessegeItem__ReInit( ApplicationMessegeItem _this )
   /* ... then re-construct all embedded objects */
   CoreTimer__ReInit( &_this->FlashTimer );
   CoreKeyPressHandler__ReInit( &_this->KeyHandler );
-  CoreSimpleTouchHandler__ReInit( &_this->TouchHandler );
-  ViewsRectangle__ReInit( &_this->Background );
-  ViewsLine__ReInit( &_this->Line2 );
-  ViewsText__ReInit( &_this->NameTxt );
-  ViewsLine__ReInit( &_this->Line1 );
-  ViewsText__ReInit( &_this->MessageTxt );
-  ComponentsSButton50x50__ReInit( &_this->UserIcon );
-  ViewsText__ReInit( &_this->TimeTxt );
-  ComponentsToggleButton__ReInit( &_this->CheckButton );
   EffectsInt32Effect__ReInit( &_this->EditEffect );
+  ViewsRectangle__ReInit( &_this->Background );
+  CoreSimpleTouchHandler__ReInit( &_this->TouchHandler );
   ComponentsSButton25x25__ReInit( &_this->SButton25x25 );
+  ViewsText__ReInit( &_this->TimeTxt );
+  ViewsLine__ReInit( &_this->Line2 );
+  ViewsText__ReInit( &_this->MessageTxt );
+  ViewsText__ReInit( &_this->NameTxt );
+  ComponentsSButton50x50__ReInit( &_this->UserIcon );
+  ComponentsToggleButton__ReInit( &_this->CheckButton );
+  ViewsLine__ReInit( &_this->Line1 );
 }
 
 /* Finalizer method for the class 'Application::MessegeItem' */
@@ -6617,17 +6761,17 @@ void ApplicationMessegeItem__Done( ApplicationMessegeItem _this )
   /* Finalize all embedded objects */
   CoreTimer__Done( &_this->FlashTimer );
   CoreKeyPressHandler__Done( &_this->KeyHandler );
-  CoreSimpleTouchHandler__Done( &_this->TouchHandler );
-  ViewsRectangle__Done( &_this->Background );
-  ViewsLine__Done( &_this->Line2 );
-  ViewsText__Done( &_this->NameTxt );
-  ViewsLine__Done( &_this->Line1 );
-  ViewsText__Done( &_this->MessageTxt );
-  ComponentsSButton50x50__Done( &_this->UserIcon );
-  ViewsText__Done( &_this->TimeTxt );
-  ComponentsToggleButton__Done( &_this->CheckButton );
   EffectsInt32Effect__Done( &_this->EditEffect );
+  ViewsRectangle__Done( &_this->Background );
+  CoreSimpleTouchHandler__Done( &_this->TouchHandler );
   ComponentsSButton25x25__Done( &_this->SButton25x25 );
+  ViewsText__Done( &_this->TimeTxt );
+  ViewsLine__Done( &_this->Line2 );
+  ViewsText__Done( &_this->MessageTxt );
+  ViewsText__Done( &_this->NameTxt );
+  ComponentsSButton50x50__Done( &_this->UserIcon );
+  ComponentsToggleButton__Done( &_this->CheckButton );
+  ViewsLine__Done( &_this->Line1 );
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
@@ -6685,6 +6829,7 @@ void ApplicationMessegeItem_onFlashTimer( ApplicationMessegeItem _this, XObject
   EW_UNUSED_ARG( sender );
 
   CoreGroup_InvalidateViewState((CoreGroup)_this );
+  EwPostSignal( _this->OnActivate, ((XObject)_this ));
 }
 
 /* This internal slot method is called when the '@KeyHandler' is activated (when 
@@ -6703,7 +6848,10 @@ void ApplicationMessegeItem_onPressKey( ApplicationMessegeItem _this, XObject se
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 
   if ( _this->FlashTimer.Enabled )
+  {
+    EwPostSignal( _this->OnActivate, ((XObject)_this ));
     CoreTimer_OnSetEnabled( &_this->FlashTimer, 0 );
+  }
 
   CoreTimer_OnSetEnabled( &_this->FlashTimer, 1 );
 }
@@ -6733,7 +6881,9 @@ void ApplicationMessegeItem_onReleaseTouch( ApplicationMessegeItem _this, XObjec
   if ( _this->TouchHandler.AutoDeflected )
     return;
 
-  if ( !( _this->TouchHandler.HoldPeriod >= _this->FlashTimer.Begin ))
+  if ( _this->TouchHandler.HoldPeriod >= _this->FlashTimer.Begin )
+    EwPostSignal( _this->OnActivate, ((XObject)_this ));
+  else
     CoreTimer_OnSetEnabled( &_this->FlashTimer, 1 );
 }
 
@@ -6745,7 +6895,41 @@ void ApplicationMessegeItem_onPressTouch( ApplicationMessegeItem _this, XObject
   EW_UNUSED_ARG( sender );
 
   if ( _this->FlashTimer.Enabled )
+  {
+    EwPostSignal( _this->OnActivate, ((XObject)_this ));
     CoreTimer_OnSetEnabled( &_this->FlashTimer, 0 );
+  }
+}
+
+/* 'C' function for method : 'Application::MessegeItem.onContactUpdated()' */
+void ApplicationMessegeItem_onContactUpdated( ApplicationMessegeItem _this, XObject 
+  sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  if ( _this->Contact != 0 )
+  {
+    ViewsText_OnSetString( &_this->NameTxt, EwConcatString( EwConcatString( _this->Contact->LastName, 
+    EwLoadString( &_Const0029 )), _this->Contact->FirstName ));
+    ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->UserIcon, 
+    _this->Contact->NameInitials );
+
+    if ( _this->Contact->MessagesList.head != 0 )
+    {
+      ViewsText_OnSetString( &_this->MessageTxt, DeviceMessagesList_GetLastMessage( 
+      &_this->Contact->MessagesList )->Message );
+      ViewsText_OnSetString( &_this->TimeTxt, CoreTime_OnGetString( DeviceMessagesList_GetLastMessage( 
+      &_this->Contact->MessagesList )->TimeSent ));
+      CoreGroup_OnSetVisible((CoreGroup)&_this->SButton25x25, 1 );
+    }
+    else
+    {
+      ViewsText_OnSetString( &_this->MessageTxt, 0 );
+      ViewsText_OnSetString( &_this->TimeTxt, 0 );
+      CoreGroup_OnSetVisible((CoreGroup)&_this->SButton25x25, 0 );
+    }
+  }
 }
 
 /* 'C' function for method : 'Application::MessegeItem.onAnimate()' */
@@ -6756,12 +6940,32 @@ void ApplicationMessegeItem_onAnimate( ApplicationMessegeItem _this, XObject sen
   EW_UNUSED_ARG( sender );
 }
 
+/* 'C' function for method : 'Application::MessegeItem.OnSetContact()' */
+void ApplicationMessegeItem_OnSetContact( ApplicationMessegeItem _this, DeviceContact 
+  value )
+{
+  if ( _this->Contact == value )
+    return;
+
+  if ( _this->Contact != 0 )
+    EwDetachObjObserver( EwNewSlot( _this, ApplicationMessegeItem_onContactUpdated ), 
+      (XObject)_this->Contact, 0 );
+
+  _this->Contact = value;
+
+  if ( _this->Contact != 0 )
+    EwAttachObjObserver( EwNewSlot( _this, ApplicationMessegeItem_onContactUpdated ), 
+      (XObject)_this->Contact, 0 );
+
+  EwPostSignal( EwNewSlot( _this, ApplicationMessegeItem_onContactUpdated ), ((XObject)_this ));
+}
+
 /* Variants derived from the class : 'Application::MessegeItem' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationMessegeItem )
 EW_END_OF_CLASS_VARIANTS( ApplicationMessegeItem )
 
 /* Virtual Method Table (VMT) for the class : 'Application::MessegeItem' */
-EW_DEFINE_CLASS( ApplicationMessegeItem, CoreGroup, FlashTimer, FlashTimer, FlashTimer, 
+EW_DEFINE_CLASS( ApplicationMessegeItem, CoreGroup, Contact, OnActivate, FlashTimer, 
                  FlashTimer, ButtonColor, ButtonColor, "Application::MessegeItem" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
@@ -6778,6 +6982,7 @@ EW_DEFINE_CLASS( ApplicationMessegeItem, CoreGroup, FlashTimer, FlashTimer, Flas
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   ApplicationMessegeItem_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -6843,6 +7048,7 @@ EW_DEFINE_CLASS( ApplicationContactsList1, ApplicationContactsList, _.VMT, _.VMT
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -6863,9 +7069,9 @@ void ApplicationChat__Init( ApplicationChat _this, XObject aLink, XHandle aArg )
   _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationChat );
 
   /* ... then construct all embedded objects */
+  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
   CoreOutline__Init( &_this->Outline, &_this->_.XObject, 0 );
   CoreSlideTouchHandler__Init( &_this->SlideTouchHandler, &_this->_.XObject, 0 );
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
   ViewsRectangle__Init( &_this->Header, &_this->_.XObject, 0 );
   ViewsLine__Init( &_this->Line, &_this->_.XObject, 0 );
   ComponentsSButton25x25__Init( &_this->BackBtn, &_this->_.XObject, 0 );
@@ -6877,21 +7083,22 @@ void ApplicationChat__Init( ApplicationChat _this, XObject aLink, XHandle aArg )
   _this->_.VMT = EW_CLASS( ApplicationChat );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
-  CoreRectView__OnSetBounds( &_this->Outline, _Const00F3 );
-  CoreOutline_OnSetFormation( &_this->Outline, CoreFormationTopToBottom );
-  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00F4 );
-  _this->SlideTouchHandler.SlideHorz = 0;
-  CoreRectView__OnSetBounds( &_this->Background, _Const004F );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->Background, _Const0052 );
   ViewsRectangle_OnSetColor( &_this->Background, ResWhite );
-  CoreRectView__OnSetBounds( &_this->Header, _Const00F5 );
+  CoreView_OnSetLayout((CoreView)&_this->Outline, CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Outline, _Const00F4 );
+  CoreOutline_OnSetFormation( &_this->Outline, CoreFormationNone );
+  CoreRectView__OnSetBounds( &_this->SlideTouchHandler, _Const00F5 );
+  _this->SlideTouchHandler.SlideHorz = 0;
+  CoreRectView__OnSetBounds( &_this->Header, _Const00F6 );
   ViewsRectangle_OnSetColor( &_this->Header, ResPressColor );
-  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00F6 );
-  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00F7 );
+  CoreLineView_OnSetPoint2((CoreLineView)&_this->Line, _Const00F7 );
+  CoreLineView_OnSetPoint1((CoreLineView)&_this->Line, _Const00F8 );
   ViewsLine_OnSetColor( &_this->Line, ResGrey );
   CoreRectView__OnSetBounds( &_this->BackBtn, _Const0027 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->BackBtn, 
-  EwLoadString( &ResBackIconTxt ));
+  EwLoadString( &ResBackIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->BackBtn, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->BackBtn, 
@@ -6900,12 +7107,12 @@ void ApplicationChat__Init( ApplicationChat _this, XObject aLink, XHandle aArg )
   ResTransparent );
   ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->BackBtn, 
   ResTransparent );
-  CoreRectView__OnSetBounds( &_this->SearchEtxt, _Const00F8 );
-  ComponentsSearchEtxt_OnSetString( &_this->SearchEtxt, EwLoadString( &_Const00F9 ));
+  CoreRectView__OnSetBounds( &_this->SearchEtxt, _Const00F9 );
+  ComponentsSearchEtxt_OnSetString( &_this->SearchEtxt, EwLoadString( &_Const00FA ));
   ComponentsSearchEtxt_OnSetIcon( &_this->SearchEtxt, EwLoadString( &ResSendIcon ));
-  CoreRectView__OnSetBounds( &_this->BackBtn1, _Const00FA );
+  CoreRectView__OnSetBounds( &_this->BackBtn1, _Const00FB );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->BackBtn1, 
-  EwLoadString( &ResCallTxt ));
+  EwLoadString( &ResCallIcon ));
   ComponentsButtonBase70x90_OnSetIconColor((ComponentsButtonBase70x90)&_this->BackBtn1, 
   ResBlue );
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->BackBtn1, 
@@ -6914,14 +7121,14 @@ void ApplicationChat__Init( ApplicationChat _this, XObject aLink, XHandle aArg )
   ResTransparent );
   ComponentsButtonBase70x90_OnSetBackgroundColorEnabled((ComponentsButtonBase70x90)&_this->BackBtn1, 
   ResTransparent );
-  CoreRectView__OnSetBounds( &_this->Button40x55, _Const00FB );
+  CoreRectView__OnSetBounds( &_this->Button40x55, _Const00FC );
   ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->Button40x55, 
-  EwLoadString( &_Const00EC ));
+  EwLoadString( &_Const00F0 ));
   ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->Button40x55, 
   ResBlack );
+  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Outline ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->SlideTouchHandler ), 0 );
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Header ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Line ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->BackBtn ), 0 );
@@ -6939,6 +7146,9 @@ void ApplicationChat__Init( ApplicationChat _this, XObject aLink, XHandle aArg )
   _this->Button40x55.Super1.OnActivate = EwNewSlot( _this, ApplicationChat_onUser );
   ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->Button40x55, 
   EwLoadResource( &ResButtonRoundMedium, ResourcesBitmap ));
+
+  /* Call the user defined constructor */
+  ApplicationChat_Init( _this, aArg );
 }
 
 /* Re-Initializer for the class 'Application::Chat' */
@@ -6948,9 +7158,9 @@ void ApplicationChat__ReInit( ApplicationChat _this )
   CoreGroup__ReInit( &_this->_.Super );
 
   /* ... then re-construct all embedded objects */
+  ViewsRectangle__ReInit( &_this->Background );
   CoreOutline__ReInit( &_this->Outline );
   CoreSlideTouchHandler__ReInit( &_this->SlideTouchHandler );
-  ViewsRectangle__ReInit( &_this->Background );
   ViewsRectangle__ReInit( &_this->Header );
   ViewsLine__ReInit( &_this->Line );
   ComponentsSButton25x25__ReInit( &_this->BackBtn );
@@ -6966,9 +7176,9 @@ void ApplicationChat__Done( ApplicationChat _this )
   _this->_.Super._.VMT = EW_CLASS( CoreGroup );
 
   /* Finalize all embedded objects */
+  ViewsRectangle__Done( &_this->Background );
   CoreOutline__Done( &_this->Outline );
   CoreSlideTouchHandler__Done( &_this->SlideTouchHandler );
-  ViewsRectangle__Done( &_this->Background );
   ViewsRectangle__Done( &_this->Header );
   ViewsLine__Done( &_this->Line );
   ComponentsSButton25x25__Done( &_this->BackBtn );
@@ -6978,6 +7188,20 @@ void ApplicationChat__Done( ApplicationChat _this )
 
   /* Don't forget to deinitialize the super class ... */
   CoreGroup__Done( &_this->_.Super );
+}
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void ApplicationChat_Init( ApplicationChat _this, XHandle aArg )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aArg );
+
+  EwAttachRefObserver( EwNewSlot( _this, ApplicationChat_onMessageUpdate ), EwNewRef( 
+    &EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MessageHistory, DeviceContactList_OnGetIsUpdate, 
+    DeviceContactList_OnSetIsUpdate ), 0 );
+  EwPostSignal( EwNewSlot( _this, ApplicationChat_onMessageUpdate ), ((XObject)_this ));
 }
 
 /* 'C' function for method : 'Application::Chat.onBack()' */
@@ -6996,7 +7220,7 @@ void ApplicationChat_onUser( ApplicationChat _this, XObject sender )
   EW_UNUSED_ARG( sender );
 
   _this->detailsPage = EwNewObject( ApplicationContactDetailsPage, 0 );
-  _this->detailsPage->OnBack = EwNewSlot( _this, ApplicationChat_onCloseDetailsPage );
+  _this->detailsPage->OnBack = EwNewSlot( _this, ApplicationChat_onCloseUser );
   ApplicationContactDetailsPage_OnSetContact( _this->detailsPage, _this->Contact );
   CoreGroup_SwitchToDialog((CoreGroup)_this, ((CoreGroup)_this->detailsPage ), ((EffectsTransition)EwGetAutoObject( 
   &ResSlideUpCentered, EffectsSlideTransition )), 0, 0, 0, 0, 0, 0, EwNullSlot, 
@@ -7013,8 +7237,8 @@ void ApplicationChat_onCall( ApplicationChat _this, XObject sender )
   _this->Contact );
 }
 
-/* 'C' function for method : 'Application::Chat.onCloseDetailsPage()' */
-void ApplicationChat_onCloseDetailsPage( ApplicationChat _this, XObject sender )
+/* 'C' function for method : 'Application::Chat.onCloseUser()' */
+void ApplicationChat_onCloseUser( ApplicationChat _this, XObject sender )
 {
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
@@ -7066,32 +7290,72 @@ void ApplicationChat_onSend( ApplicationChat _this, XObject sender )
   /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
   EW_UNUSED_ARG( sender );
 
-  if (( EwCompString( ComponentsSearchEtxt_OnGetString( &_this->SearchEtxt ), EwLoadString( 
-      &_Const00F9 )) != 0 ) || ( EwCompString( ComponentsSearchEtxt_OnGetString( 
-      &_this->SearchEtxt ), 0 ) != 0 ))
+  if ( EwCompString( ComponentsSearchEtxt_OnGetString( &_this->SearchEtxt ), 0 ) 
+      != 0 )
   {
-    ApplicationChatBubble chatBubble;
-    DeviceMessage message;
     DeviceDeviceClass_SendMessage( EwGetAutoObject( &DeviceDevice, DeviceDeviceClass ), 
     _this->Contact, ComponentsSearchEtxt_OnGetString( &_this->SearchEtxt ));
-    chatBubble = EwNewObject( ApplicationChatBubble, 0 );
-    ApplicationChatBubble_OnSetLeftAligned( chatBubble, 0 );
-    ApplicationChatBubble_OnSetBubbleColor( chatBubble, ResBlue );
-    ApplicationChatBubble_OnSetMessage( chatBubble, ComponentsSearchEtxt_OnGetString( 
-    &_this->SearchEtxt ));
-    ApplicationChatBubble_OnSetMessageColor( chatBubble, ResWhite );
-    CoreGroup_OnSetEmbedded((CoreGroup)chatBubble, 1 );
-    CoreGroup__Add( _this, ((CoreView)chatBubble ), _this->nrOfItem );
-    CoreOutline_EnsureVisible( &_this->Outline, ((CoreView)chatBubble ), 1, 0, EwNullSlot );
-    _this->nrOfItem++;
-    message = EwNewObject( DeviceMessage, 0 );
-    DeviceMessage_OnSetSender( message, EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MyCard );
-    DeviceMessage_OnSetReceiver( message, _this->Contact );
-    DeviceMessage_OnSetTimeSent( message, CoreTime_OnGetCurrentTime( EwNewObject( 
-    CoreTime, 0 )));
-    DeviceMessage_OnSetMessage( message, ComponentsSearchEtxt_OnGetString( &_this->SearchEtxt ));
-    DeviceMessagesList_Add( _this->Contact->Messages, message );
+    EwTrace( "%s", EwConcatString( EwConcatString( EwConcatString( EwLoadString( 
+      &_Const00FD ), _this->Contact->PhoneNumber ), EwLoadString( &_Const0029 )), 
+      ComponentsSearchEtxt_OnGetString( &_this->SearchEtxt )));
   }
+}
+
+/* 'C' function for method : 'Application::Chat.onMessageUpdate()' */
+void ApplicationChat_onMessageUpdate( ApplicationChat _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  ApplicationChat_RemoveMessages( _this );
+
+  if (( _this->Contact != 0 ) && ( _this->Contact->MessagesList.head != 0 ))
+  {
+    DeviceMessage message = _this->Contact->MessagesList.head;
+
+    while ( message != 0 )
+    {
+      ApplicationChatItem chatItem = EwNewObject( ApplicationChatItem, 0 );
+
+      if ( message->Sender == EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MyCard )
+      {
+        ApplicationChatItem_OnSetLeftAligned( chatItem, 0 );
+        ApplicationChatItem_OnSetBubbleColor( chatItem, ResBlue );
+        ApplicationChatItem_OnSetMessage( chatItem, message->Message );
+        ApplicationChatItem_OnSetMessageColor( chatItem, ResWhite );
+      }
+      else
+        if ( message->Receiver == EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->MyCard )
+        {
+          ApplicationChatItem_OnSetLeftAligned( chatItem, 1 );
+          ApplicationChatItem_OnSetBubbleColor( chatItem, ResGreyLight );
+          ApplicationChatItem_OnSetMessage( chatItem, message->Message );
+          ApplicationChatItem_OnSetMessageColor( chatItem, ResBlack );
+        }
+
+      CoreGroup_OnSetEmbedded((CoreGroup)chatItem, 1 );
+      CoreGroup__Add( _this, ((CoreView)chatItem ), _this->nrOfItem );
+      CoreOutline_EnsureVisible( &_this->Outline, ((CoreView)chatItem ), 1, 0, EwNullSlot );
+      _this->nrOfItem++;
+      message = message->next;
+    }
+  }
+}
+
+/* 'C' function for method : 'Application::Chat.RemoveMessages()' */
+void ApplicationChat_RemoveMessages( ApplicationChat _this )
+{
+  CoreView view = CoreOutline_FindNextView( &_this->Outline, 0, CoreViewStateEmbedded );
+
+  while ( view != 0 )
+  {
+    if ( EwCastObject( view, ApplicationChatItem ) != 0 )
+      CoreGroup__Remove( _this, view );
+
+    view = CoreOutline_FindNextView( &_this->Outline, 0, CoreViewStateEmbedded );
+  }
+
+  _this->nrOfItem = 0;
 }
 
 /* Variants derived from the class : 'Application::Chat' */
@@ -7099,7 +7363,7 @@ EW_DEFINE_CLASS_VARIANTS( ApplicationChat )
 EW_END_OF_CLASS_VARIANTS( ApplicationChat )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Chat' */
-EW_DEFINE_CLASS( ApplicationChat, CoreGroup, detailsPage, OnBack, Outline, Outline, 
+EW_DEFINE_CLASS( ApplicationChat, CoreGroup, detailsPage, OnBack, Background, Background, 
                  nrOfItem, nrOfItem, "Application::Chat" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
@@ -7116,6 +7380,7 @@ EW_DEFINE_CLASS( ApplicationChat, CoreGroup, detailsPage, OnBack, Outline, Outli
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -7135,7 +7400,8 @@ void ApplicationMainPage__Init( ApplicationMainPage _this, XObject aLink, XHandl
   _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationMainPage );
 
   /* ... then construct all embedded objects */
-  ViewsRectangle__Init( &_this->Background, &_this->_.XObject, 0 );
+  ViewsImage__Init( &_this->Image, &_this->_.XObject, 0 );
+  ComponentsButton50x75__Init( &_this->Button50x77, &_this->_.XObject, 0 );
   ViewsRectangle__Init( &_this->Footer, &_this->_.XObject, 0 );
   ComponentsSButton50x50__Init( &_this->Contacts, &_this->_.XObject, 0 );
   ComponentsSButton50x50__Init( &_this->Messeges, &_this->_.XObject, 0 );
@@ -7144,38 +7410,60 @@ void ApplicationMainPage__Init( ApplicationMainPage _this, XObject aLink, XHandl
   _this->_.VMT = EW_CLASS( ApplicationMainPage );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const004F );
-  CoreRectView__OnSetBounds( &_this->Background, _Const00FC );
-  ViewsRectangle_OnSetColorBL( &_this->Background, _Const00FD );
-  ViewsRectangle_OnSetColorTR( &_this->Background, _Const0011 );
-  ViewsRectangle_OnSetColorTL( &_this->Background, _Const00FE );
-  ViewsRectangle_OnSetColor( &_this->Background, _Const0011 );
-  CoreRectView__OnSetBounds( &_this->Footer, _Const00FF );
-  ViewsRectangle_OnSetColorBL( &_this->Footer, _Const0100 );
-  ViewsRectangle_OnSetColorBR( &_this->Footer, _Const0101 );
-  ViewsRectangle_OnSetColorTR( &_this->Footer, _Const0102 );
-  ViewsRectangle_OnSetColorTL( &_this->Footer, _Const0103 );
-  ViewsRectangle_OnSetColor( &_this->Footer, _Const0104 );
-  CoreRectView__OnSetBounds( &_this->Contacts, _Const0105 );
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->Image, _Const0052 );
+  ViewsImage_OnSetColor( &_this->Image, _Const0011 );
+  CoreRectView__OnSetBounds( &_this->Button50x77, _Const00FE );
+  ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->Button50x77, 
+  EwLoadString( &ResSettingsIcon ));
+  ComponentsButtonBase70x90_OnSetDescript((ComponentsButtonBase70x90)&_this->Button50x77, 
+  EwLoadString( &_Const00FF ));
+  ComponentsButtonBase70x90_OnSetDescriptColor((ComponentsButtonBase70x90)&_this->Button50x77, 
+  ResGrey );
+  ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->Button50x77, 
+  _Const0100 );
+  ComponentsButtonBase70x90_OnSetDescriptColorPressed((ComponentsButtonBase70x90)&_this->Button50x77, 
+  ResGrey );
+  ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->Button50x77, 
+  ResPressColor );
+  CoreView_OnSetLayout((CoreView)&_this->Footer, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Footer, _Const0101 );
+  ViewsRectangle_OnSetColorBL( &_this->Footer, _Const0102 );
+  ViewsRectangle_OnSetColorBR( &_this->Footer, _Const0103 );
+  ViewsRectangle_OnSetColorTR( &_this->Footer, _Const0104 );
+  ViewsRectangle_OnSetColorTL( &_this->Footer, _Const0105 );
+  ViewsRectangle_OnSetColor( &_this->Footer, _Const0106 );
+  CoreView_OnSetLayout((CoreView)&_this->Contacts, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Contacts, _Const0107 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->Contacts, 
-  EwLoadString( &ResCallTxt ));
+  EwLoadString( &ResCallIcon ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->Contacts, 
   ResGreenDark );
   ComponentsButtonBase70x90_OnSetBackgoundColorPressed((ComponentsButtonBase70x90)&_this->Contacts, 
   ResGreen );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->Contacts, 
   ResGreyLight );
-  CoreRectView__OnSetBounds( &_this->Messeges, _Const0106 );
+  CoreView_OnSetLayout((CoreView)&_this->Messeges, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Messeges, _Const0108 );
   ComponentsButtonBase70x90_OnSetIcon((ComponentsButtonBase70x90)&_this->Messeges, 
-  EwLoadString( &ResMessageIconTxt ));
+  EwLoadString( &ResMessageIcon ));
   ComponentsButtonBase70x90_OnSetBackgoundColor((ComponentsButtonBase70x90)&_this->Messeges, 
   ResGreenDark );
   ComponentsButtonBase70x90_OnSetIconColorPressed((ComponentsButtonBase70x90)&_this->Messeges, 
   ResGreyLight );
-  CoreGroup__Add( _this, ((CoreView)&_this->Background ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Image ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Button50x77 ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Footer ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Contacts ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Messeges ), 0 );
+  ViewsImage_OnSetBitmap( &_this->Image, EwLoadResource( &Resbackground, ResourcesBitmap ));
+  _this->Button50x77.Super1.OnActivate = EwNewSlot( _this, ApplicationMainPage_onSettings );
+  ComponentsButtonBase70x90_OnSetDescriptFont((ComponentsButtonBase70x90)&_this->Button50x77, 
+  EwLoadResource( &ResContactFont12, ResourcesFont ));
+  ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->Button50x77, 
+  EwLoadResource( &ResIconsFont25, ResourcesFont ));
+  ComponentsButtonBase70x90_OnSetBackgound((ComponentsButtonBase70x90)&_this->Button50x77, 
+  EwLoadResource( &ResSuqareButton, ResourcesBitmap ));
   _this->Contacts.Super1.OnActivate = EwNewSlot( _this, ApplicationMainPage_onContact );
   ComponentsButtonBase70x90_OnSetIconFont((ComponentsButtonBase70x90)&_this->Contacts, 
   EwLoadResource( &ResIconsFont25, ResourcesFont ));
@@ -7195,7 +7483,8 @@ void ApplicationMainPage__ReInit( ApplicationMainPage _this )
   CoreGroup__ReInit( &_this->_.Super );
 
   /* ... then re-construct all embedded objects */
-  ViewsRectangle__ReInit( &_this->Background );
+  ViewsImage__ReInit( &_this->Image );
+  ComponentsButton50x75__ReInit( &_this->Button50x77 );
   ViewsRectangle__ReInit( &_this->Footer );
   ComponentsSButton50x50__ReInit( &_this->Contacts );
   ComponentsSButton50x50__ReInit( &_this->Messeges );
@@ -7208,7 +7497,8 @@ void ApplicationMainPage__Done( ApplicationMainPage _this )
   _this->_.Super._.VMT = EW_CLASS( CoreGroup );
 
   /* Finalize all embedded objects */
-  ViewsRectangle__Done( &_this->Background );
+  ViewsImage__Done( &_this->Image );
+  ComponentsButton50x75__Done( &_this->Button50x77 );
   ViewsRectangle__Done( &_this->Footer );
   ComponentsSButton50x50__Done( &_this->Contacts );
   ComponentsSButton50x50__Done( &_this->Messeges );
@@ -7239,13 +7529,54 @@ void ApplicationMainPage_onMessages( ApplicationMainPage _this, XObject sender )
   0, 0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
 }
 
+/* 'C' function for method : 'Application::MainPage.onSettings()' */
+void ApplicationMainPage_onSettings( ApplicationMainPage _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  _this->addPage = EwNewObject( ApplicationContactAddPage, 0 );
+  CoreRectView__OnSetBounds( _this->addPage, EwSetRectH( _this->addPage->Super2.Bounds, 
+  480 ));
+  ApplicationContactAddPage_OnSetContact( _this->addPage, EwNewObject( DeviceContact, 
+  0 ));
+  _this->addPage->OnClose = EwNewSlot( _this, ApplicationMainPage_onClose );
+  _this->addPage->OnSave = EwNewSlot( _this, ApplicationMainPage_onSave );
+  CoreGroup_PresentDialog((CoreGroup)_this, ((CoreGroup)_this->addPage ), 0, 0, 
+  0, 0, 0, 0, EwNullSlot, EwNullSlot, 0 );
+}
+
+/* 'C' function for method : 'Application::MainPage.onClose()' */
+void ApplicationMainPage_onClose( ApplicationMainPage _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  CoreGroup_DismissDialog((CoreGroup)_this, ((CoreGroup)_this->addPage ), 0, 0, 
+  0, EwNullSlot, EwNullSlot, 0 );
+  _this->addPage = 0;
+}
+
+/* 'C' function for method : 'Application::MainPage.onSave()' */
+void ApplicationMainPage_onSave( ApplicationMainPage _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  DeviceDeviceClass_OnSetMyCard( EwGetAutoObject( &DeviceDevice, DeviceDeviceClass ), 
+  _this->addPage->Contact );
+  DeviceContactList_AddLast( &EwGetAutoObject( &DeviceDevice, DeviceDeviceClass )->Contacts, 
+  _this->addPage->Contact );
+  EwPostSignal( EwNewSlot( _this, ApplicationMainPage_onClose ), ((XObject)_this ));
+}
+
 /* Variants derived from the class : 'Application::MainPage' */
 EW_DEFINE_CLASS_VARIANTS( ApplicationMainPage )
 EW_END_OF_CLASS_VARIANTS( ApplicationMainPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::MainPage' */
-EW_DEFINE_CLASS( ApplicationMainPage, CoreGroup, contactApp, Background, Background, 
-                 Background, _.VMT, _.VMT, "Application::MainPage" )
+EW_DEFINE_CLASS( ApplicationMainPage, CoreGroup, contactApp, Image, Image, Image, 
+                 _.VMT, _.VMT, "Application::MainPage" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -7261,6 +7592,7 @@ EW_DEFINE_CLASS( ApplicationMainPage, CoreGroup, contactApp, Background, Backgro
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -7270,39 +7602,48 @@ EW_DEFINE_CLASS( ApplicationMainPage, CoreGroup, contactApp, Background, Backgro
   CoreGroup_Add,
 EW_END_OF_CLASS( ApplicationMainPage )
 
-/* Initializer for the class 'Application::ChatBubble' */
-void ApplicationChatBubble__Init( ApplicationChatBubble _this, XObject aLink, XHandle aArg )
+/* Initializer for the class 'Application::ChatItem' */
+void ApplicationChatItem__Init( ApplicationChatItem _this, XObject aLink, XHandle aArg )
 {
   /* At first initialize the super class ... */
   CoreGroup__Init( &_this->_.Super, aLink, aArg );
 
   /* Allow the Immediate Garbage Collection to evalute the members of this class. */
-  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationChatBubble );
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationChatItem );
 
   /* ... then construct all embedded objects */
   ViewsFrame__Init( &_this->Frame, &_this->_.XObject, 0 );
   ViewsText__Init( &_this->Text, &_this->_.XObject, 0 );
 
   /* Setup the VMT pointer */
-  _this->_.VMT = EW_CLASS( ApplicationChatBubble );
+  _this->_.VMT = EW_CLASS( ApplicationChatItem );
 
   /* ... and initialize objects, variables, properties, etc. */
-  CoreRectView__OnSetBounds( _this, _Const0107 );
-  _this->LeftAligned = 1;
-  _this->Message = EwShareString( EwLoadString( &_Const0108 ));
+  CoreRectView__OnSetBounds( _this, _Const0109 );
+  _this->Message = EwShareString( EwLoadString( &_Const010A ));
   _this->BubbleColor = ResWhite;
   _this->MessageColor = ResBlack;
-  CoreRectView__OnSetBounds( &_this->Frame, _Const0109 );
-  CoreRectView__OnSetBounds( &_this->Text, _Const010A );
-  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const010B ));
+  CoreView_OnSetLayout((CoreView)&_this->Frame, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Frame, _Const010B );
+  ViewsFrame_OnSetNoEdgesLimit( &_this->Frame, _Const010C );
+  CoreView_OnSetLayout((CoreView)&_this->Text, CoreLayoutAlignToLeft | CoreLayoutAlignToTop );
+  CoreRectView__OnSetBounds( &_this->Text, _Const010D );
+  ViewsText_OnSetPadding( &_this->Text, 2 );
+  ViewsText_OnSetEllipsis( &_this->Text, 1 );
+  ViewsText_OnSetAutoSize( &_this->Text, 1 );
+  ViewsText_OnSetWrapWidth( &_this->Text, 220 );
+  ViewsText_OnSetWrapText( &_this->Text, 1 );
+  ViewsText_OnSetAlignment( &_this->Text, ViewsTextAlignmentAlignHorzLeft );
+  ViewsText_OnSetString( &_this->Text, EwLoadString( &_Const010E ));
   CoreGroup__Add( _this, ((CoreView)&_this->Frame ), 0 );
   CoreGroup__Add( _this, ((CoreView)&_this->Text ), 0 );
   ViewsFrame_OnSetBitmap( &_this->Frame, EwLoadResource( &ResChatLeft, ResourcesBitmap ));
+  ViewsText_OnSetOnUpdate( &_this->Text, EwNewSlot( _this, ApplicationChatItem_onUpdateText ));
   ViewsText_OnSetFont( &_this->Text, EwLoadResource( &ResourcesDefaultFont, ResourcesFont ));
 }
 
-/* Re-Initializer for the class 'Application::ChatBubble' */
-void ApplicationChatBubble__ReInit( ApplicationChatBubble _this )
+/* Re-Initializer for the class 'Application::ChatItem' */
+void ApplicationChatItem__ReInit( ApplicationChatItem _this )
 {
   /* At first re-initialize the super class ... */
   CoreGroup__ReInit( &_this->_.Super );
@@ -7312,8 +7653,8 @@ void ApplicationChatBubble__ReInit( ApplicationChatBubble _this )
   ViewsText__ReInit( &_this->Text );
 }
 
-/* Finalizer method for the class 'Application::ChatBubble' */
-void ApplicationChatBubble__Done( ApplicationChatBubble _this )
+/* Finalizer method for the class 'Application::ChatItem' */
+void ApplicationChatItem__Done( ApplicationChatItem _this )
 {
   /* Finalize this class */
   _this->_.Super._.VMT = EW_CLASS( CoreGroup );
@@ -7340,30 +7681,38 @@ void ApplicationChatBubble__Done( ApplicationChatBubble _this )
    state 'on' or 'off' and change accordingly the location of the slider, etc.
    Usually, this method will be invoked automatically by the framework. Optionally 
    you can request its invocation by using the method @InvalidateViewState(). */
-void ApplicationChatBubble_UpdateViewState( ApplicationChatBubble _this, XSet aState )
+void ApplicationChatItem_UpdateViewState( ApplicationChatItem _this, XSet aState )
 {
   CoreGroup_UpdateViewState((CoreGroup)_this, aState );
-  ViewsFrame_OnSetColor( &_this->Frame, _this->BubbleColor );
-  ViewsText_OnSetString( &_this->Text, _this->Message );
-  ViewsText_OnSetColor( &_this->Text, _this->MessageColor );
 
   if ( _this->LeftAligned == 0 )
   {
     ViewsFrame_OnSetBitmap( &_this->Frame, EwLoadResource( &ResChatRight, ResourcesBitmap ));
-    CoreRectView__OnSetBounds( &_this->Frame, _Const010C );
-    CoreRectView__OnSetBounds( &_this->Text, _Const010D );
+    CoreView_OnSetLayout((CoreView)&_this->Text, CoreLayoutAlignToRight | CoreLayoutAlignToTop );
+    CoreView_OnSetLayout((CoreView)&_this->Frame, CoreLayoutAlignToRight | CoreLayoutAlignToTop );
+    CoreRectView__OnSetBounds( &_this->Text, EwSetRectX( _this->Text.Super1.Bounds, 
+    ( 272 - EwGetRectW( ViewsText_GetContentArea( &_this->Text ))) - 20 ));
+    CoreRectView__OnSetBounds( &_this->Text, EwSetRectY( _this->Text.Super1.Bounds, 
+    10 ));
   }
   else
-    ViewsFrame_OnSetBitmap( &_this->Frame, EwLoadResource( &ResChatLeft, ResourcesBitmap ));
+    if ( _this->LeftAligned == 1 )
+    {
+      ViewsFrame_OnSetBitmap( &_this->Frame, EwLoadResource( &ResChatLeft, ResourcesBitmap ));
+      CoreRectView__OnSetBounds( &_this->Text, EwSetRectX( _this->Text.Super1.Bounds, 
+      15 ));
+      CoreRectView__OnSetBounds( &_this->Text, EwSetRectY( _this->Text.Super1.Bounds, 
+      10 ));
+    }
 
   ViewsFrame_OnSetColor( &_this->Frame, _this->BubbleColor );
   ViewsText_OnSetString( &_this->Text, _this->Message );
   ViewsText_OnSetColor( &_this->Text, _this->MessageColor );
+  ViewsText_OnSetAlignment( &_this->Text, ViewsTextAlignmentAlignHorzLeft );
 }
 
-/* 'C' function for method : 'Application::ChatBubble.OnSetLeftAligned()' */
-void ApplicationChatBubble_OnSetLeftAligned( ApplicationChatBubble _this, XBool 
-  value )
+/* 'C' function for method : 'Application::ChatItem.OnSetLeftAligned()' */
+void ApplicationChatItem_OnSetLeftAligned( ApplicationChatItem _this, XBool value )
 {
   if ( _this->LeftAligned == value )
     return;
@@ -7372,8 +7721,8 @@ void ApplicationChatBubble_OnSetLeftAligned( ApplicationChatBubble _this, XBool
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
-/* 'C' function for method : 'Application::ChatBubble.OnSetMessage()' */
-void ApplicationChatBubble_OnSetMessage( ApplicationChatBubble _this, XString value )
+/* 'C' function for method : 'Application::ChatItem.OnSetMessage()' */
+void ApplicationChatItem_OnSetMessage( ApplicationChatItem _this, XString value )
 {
   if ( !EwCompString( _this->Message, value ))
     return;
@@ -7382,9 +7731,8 @@ void ApplicationChatBubble_OnSetMessage( ApplicationChatBubble _this, XString va
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
-/* 'C' function for method : 'Application::ChatBubble.OnSetBubbleColor()' */
-void ApplicationChatBubble_OnSetBubbleColor( ApplicationChatBubble _this, XColor 
-  value )
+/* 'C' function for method : 'Application::ChatItem.OnSetBubbleColor()' */
+void ApplicationChatItem_OnSetBubbleColor( ApplicationChatItem _this, XColor value )
 {
   if ( !EwCompColor( _this->BubbleColor, value ))
     return;
@@ -7393,9 +7741,8 @@ void ApplicationChatBubble_OnSetBubbleColor( ApplicationChatBubble _this, XColor
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
-/* 'C' function for method : 'Application::ChatBubble.OnSetMessageColor()' */
-void ApplicationChatBubble_OnSetMessageColor( ApplicationChatBubble _this, XColor 
-  value )
+/* 'C' function for method : 'Application::ChatItem.OnSetMessageColor()' */
+void ApplicationChatItem_OnSetMessageColor( ApplicationChatItem _this, XColor value )
 {
   if ( !EwCompColor( _this->MessageColor, value ))
     return;
@@ -7404,13 +7751,43 @@ void ApplicationChatBubble_OnSetMessageColor( ApplicationChatBubble _this, XColo
   CoreGroup_InvalidateViewState((CoreGroup)_this );
 }
 
-/* Variants derived from the class : 'Application::ChatBubble' */
-EW_DEFINE_CLASS_VARIANTS( ApplicationChatBubble )
-EW_END_OF_CLASS_VARIANTS( ApplicationChatBubble )
+/* 'C' function for method : 'Application::ChatItem.onUpdateText()' */
+void ApplicationChatItem_onUpdateText( ApplicationChatItem _this, XObject sender )
+{
+  /* List of temporarily used variables */
+  XRect _tmpK0;
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
 
-/* Virtual Method Table (VMT) for the class : 'Application::ChatBubble' */
-EW_DEFINE_CLASS( ApplicationChatBubble, CoreGroup, Frame, Frame, Frame, Frame, Message, 
-                 BubbleColor, "Application::ChatBubble" )
+  if ( _this->LeftAligned == 0 )
+  {
+    CoreRectView__OnSetBounds( &_this->Frame, EwInflateRect( ViewsText_GetContentArea( 
+    &_this->Text ), _Const010F ));
+    ( _tmpK0 = _this->Frame.Super1.Bounds, CoreRectView__OnSetBounds( &_this->Frame, 
+    EwSetRectH( _tmpK0, EwGetRectH( _tmpK0 ) + 10 )));
+    CoreRectView__OnSetBounds( _this, EwSetRectH( _this->Super2.Bounds, _this->Frame.Super1.Bounds.Point2.Y ));
+  }
+  else
+    if ( _this->LeftAligned == 1 )
+    {
+      CoreRectView__OnSetBounds( &_this->Frame, EwInflateRect( ViewsText_GetContentArea( 
+      &_this->Text ), _Const010F ));
+      ( _tmpK0 = _this->Frame.Super1.Bounds, CoreRectView__OnSetBounds( &_this->Frame, 
+      EwSetRectH( _tmpK0, EwGetRectH( _tmpK0 ) + 10 )));
+      CoreView_OnSetLayout((CoreView)&_this->Frame, CoreLayoutAlignToRight | CoreLayoutAlignToTop );
+      CoreRectView__OnSetBounds( _this, EwSetRectH( _this->Super2.Bounds, _this->Frame.Super1.Bounds.Point2.Y ));
+    }
+
+  EwTrace( "%s", EwLoadString( &_Const0110 ));
+}
+
+/* Variants derived from the class : 'Application::ChatItem' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationChatItem )
+EW_END_OF_CLASS_VARIANTS( ApplicationChatItem )
+
+/* Virtual Method Table (VMT) for the class : 'Application::ChatItem' */
+EW_DEFINE_CLASS( ApplicationChatItem, CoreGroup, Frame, Frame, Frame, Frame, Message, 
+                 BubbleColor, "Application::ChatItem" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   CoreGroup_Draw,
@@ -7426,13 +7803,118 @@ EW_DEFINE_CLASS( ApplicationChatBubble, CoreGroup, Frame, Frame, Frame, Frame, M
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
-  ApplicationChatBubble_UpdateViewState,
+  CoreGroup_UpdateLayout,
+  ApplicationChatItem_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
   CoreGroup_RestackTop,
   CoreGroup_Restack,
   CoreGroup_Remove,
   CoreGroup_Add,
-EW_END_OF_CLASS( ApplicationChatBubble )
+EW_END_OF_CLASS( ApplicationChatItem )
+
+/* Initializer for the class 'Application::SplashScreen' */
+void ApplicationSplashScreen__Init( ApplicationSplashScreen _this, XObject aLink, XHandle aArg )
+{
+  /* At first initialize the super class ... */
+  CoreGroup__Init( &_this->_.Super, aLink, aArg );
+
+  /* Allow the Immediate Garbage Collection to evalute the members of this class. */
+  _this->_.XObject._.GCT = EW_CLASS_GCT( ApplicationSplashScreen );
+
+  /* ... then construct all embedded objects */
+  ViewsRectangle__Init( &_this->Rectangle, &_this->_.XObject, 0 );
+  ViewsImage__Init( &_this->Image, &_this->_.XObject, 0 );
+  CoreSimpleTouchHandler__Init( &_this->SimpleTouchHandler, &_this->_.XObject, 0 );
+
+  /* Setup the VMT pointer */
+  _this->_.VMT = EW_CLASS( ApplicationSplashScreen );
+
+  /* ... and initialize objects, variables, properties, etc. */
+  CoreRectView__OnSetBounds( _this, _Const0052 );
+  CoreRectView__OnSetBounds( &_this->Rectangle, _Const0052 );
+  ViewsRectangle_OnSetColorBL( &_this->Rectangle, _Const0111 );
+  ViewsRectangle_OnSetColorBR( &_this->Rectangle, _Const0112 );
+  ViewsRectangle_OnSetColorTL( &_this->Rectangle, _Const0113 );
+  ViewsRectangle_OnSetColor( &_this->Rectangle, ResBlack );
+  CoreRectView__OnSetBounds( &_this->Image, _Const0114 );
+  CoreQuadView__OnSetPoint4( &_this->SimpleTouchHandler, _Const0115 );
+  CoreQuadView__OnSetPoint3( &_this->SimpleTouchHandler, _Const0116 );
+  CoreQuadView__OnSetPoint2( &_this->SimpleTouchHandler, _Const0117 );
+  CoreQuadView__OnSetPoint1( &_this->SimpleTouchHandler, _Const0118 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Rectangle ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->Image ), 0 );
+  CoreGroup__Add( _this, ((CoreView)&_this->SimpleTouchHandler ), 0 );
+  ViewsImage_OnSetBitmap( &_this->Image, EwLoadResource( &Reslogog, ResourcesBitmap ));
+  _this->SimpleTouchHandler.OnPress = EwNewSlot( _this, ApplicationSplashScreen_Slot );
+}
+
+/* Re-Initializer for the class 'Application::SplashScreen' */
+void ApplicationSplashScreen__ReInit( ApplicationSplashScreen _this )
+{
+  /* At first re-initialize the super class ... */
+  CoreGroup__ReInit( &_this->_.Super );
+
+  /* ... then re-construct all embedded objects */
+  ViewsRectangle__ReInit( &_this->Rectangle );
+  ViewsImage__ReInit( &_this->Image );
+  CoreSimpleTouchHandler__ReInit( &_this->SimpleTouchHandler );
+}
+
+/* Finalizer method for the class 'Application::SplashScreen' */
+void ApplicationSplashScreen__Done( ApplicationSplashScreen _this )
+{
+  /* Finalize this class */
+  _this->_.Super._.VMT = EW_CLASS( CoreGroup );
+
+  /* Finalize all embedded objects */
+  ViewsRectangle__Done( &_this->Rectangle );
+  ViewsImage__Done( &_this->Image );
+  CoreSimpleTouchHandler__Done( &_this->SimpleTouchHandler );
+
+  /* Don't forget to deinitialize the super class ... */
+  CoreGroup__Done( &_this->_.Super );
+}
+
+/* 'C' function for method : 'Application::SplashScreen.Slot()' */
+void ApplicationSplashScreen_Slot( ApplicationSplashScreen _this, XObject sender )
+{
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( sender );
+
+  EwPostSignal( _this->OnStart, ((XObject)_this ));
+}
+
+/* Variants derived from the class : 'Application::SplashScreen' */
+EW_DEFINE_CLASS_VARIANTS( ApplicationSplashScreen )
+EW_END_OF_CLASS_VARIANTS( ApplicationSplashScreen )
+
+/* Virtual Method Table (VMT) for the class : 'Application::SplashScreen' */
+EW_DEFINE_CLASS( ApplicationSplashScreen, CoreGroup, OnStart, OnStart, Rectangle, 
+                 Rectangle, _.VMT, _.VMT, "Application::SplashScreen" )
+  CoreRectView_initLayoutContext,
+  CoreView_GetRoot,
+  CoreGroup_Draw,
+  CoreView_HandleEvent,
+  CoreGroup_CursorHitTest,
+  CoreRectView_ArrangeView,
+  CoreRectView_MoveView,
+  CoreRectView_GetExtent,
+  CoreGroup_ChangeViewState,
+  CoreGroup_OnSetBounds,
+  CoreGroup_OnSetFocus,
+  CoreGroup_OnSetBuffered,
+  CoreGroup_OnSetOpacity,
+  CoreGroup_DispatchEvent,
+  CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
+  CoreGroup_UpdateViewState,
+  CoreGroup_InvalidateArea,
+  CoreGroup_FindSiblingView,
+  CoreGroup_RestackTop,
+  CoreGroup_Restack,
+  CoreGroup_Remove,
+  CoreGroup_Add,
+EW_END_OF_CLASS( ApplicationSplashScreen )
 
 /* Embedded Wizard */

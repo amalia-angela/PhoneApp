@@ -1076,7 +1076,7 @@ class ContactDetailsPage : Core::Group
 
 
 
-    SwitchToDialog( chat, Res::FadeInOutCentered, null, null, null, null, null,
+    SwitchToDialog( chat, Res::SlideLeftCentered, null, null, null, null, null,
                                null, null, null, false );
      
      
@@ -2769,7 +2769,10 @@ class KeypadInsideCall : Application::KeypadPage
   }
 
   $rect <20,20,160,60>
-  inherited object BtnErase;
+  inherited object BtnErase
+  {
+    preset IconColor = Res::White;
+  }
 
   $reorder BackgroundSmall 16
 }
@@ -3155,7 +3158,7 @@ class FavoritesPage : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton TextButton
   {
-    preset Bounds = <233,12,263,37>;
+    preset Bounds = <228,12,263,37>;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -3218,6 +3221,8 @@ class FavoritesPage : Core::Group
   slot onEdit
   {
     EditMode = !EditMode;
+
+    TextButton.Text = EditMode == false ?  "Edit" : "Done" ;
 
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
   }
@@ -3397,7 +3402,7 @@ class RecentPage : Core::Group
   object Components::TextButton TextButton
   {
     preset Layout = Core::Layout[AlignToRight, ResizeVert];
-    preset Bounds = <233,12,261,37>;
+    preset Bounds = <226,12,261,37>;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -3482,6 +3487,8 @@ class RecentPage : Core::Group
   slot onEdit
   {
     EditMode = !EditMode;
+
+    TextButton.Text = EditMode == false ? "Edit" : "Done";
 
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
   }
@@ -4330,7 +4337,7 @@ class RecentItm : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Components::SButton25x25 PushButtonSmall
+  object Components::SButton25x25 IconBtn
   {
     preset Bounds = <0,17,25,42>;
     preset AlphaBlended = true;
@@ -4396,12 +4403,12 @@ class RecentItm : Core::Group
   slot onAnimate
   {
     RemoveButton.Bounds.x    = EditEffect.Value - 25  - DeleteEffect.Value;
-    PushButtonSmall.Bounds.x = EditEffect.Value + 6   - DeleteEffect.Value;
-    LastNameTxt.Bounds.x     = EditEffect.Value + 55  - DeleteEffect.Value;
-    FirstNameTxt.Bounds.x    = EditEffect.Value + 146 - DeleteEffect.Value;
-    CallTypeTxt.Bounds.x        = EditEffect.Value + 55 - DeleteEffect.Value;
-    InfoButton.Bounds.x      = EditEffect.Value + 217  - DeleteEffect.Value;
-    TimeTxt.Bounds.x            = EditEffect.Value + 192  - DeleteEffect.Value;
+    IconBtn.Bounds.x = EditEffect.Value + 0   - DeleteEffect.Value;
+    LastNameTxt.Bounds.x     = EditEffect.Value + 32  - DeleteEffect.Value;
+    FirstNameTxt.Bounds.x    = EditEffect.Value + 114 - DeleteEffect.Value;
+    CallTypeTxt.Bounds.x        = EditEffect.Value + 32 - DeleteEffect.Value;
+    InfoButton.Bounds.x      = EditEffect.Value + 225  - DeleteEffect.Value;
+    TimeTxt.Bounds.x            = EditEffect.Value + 162  - DeleteEffect.Value;
     TouchHandler.Point1.x    = RemoveButton.Bounds.x2;
     TouchHandler.Point4.x    = RemoveButton.Bounds.x2;
     DeleteButton.Bounds.x    = EditEffect.Value + 273 - DeleteEffect.Value;
@@ -4531,9 +4538,9 @@ class RecentItm : Core::Group
       FirstNameTxt.String = pure ContactHistory.FirstName;
       
       if ( pure ContactHistory.CallDirection == Device::CallDirection.Incoming )
-        PushButtonSmall.Icon = Res::IncomingCallIcon;
+        IconBtn.Icon = Res::IncomingCallIcon;
       else
-        PushButtonSmall.Icon = Res::OutgoingCallIcon;
+        IconBtn.Icon = Res::OutgoingCallIcon;
       
       CallTypeTxt.String  = pure ContactHistory.GetCallDirection();
       TimeTxt.String      = pure ContactHistory.GetTimeOfCall();
@@ -5438,6 +5445,8 @@ class MessagesPage : Core::Group
 
     messageItem.Contact    = contact;
     messageItem.OnActivate = onOpenChat;
+    messageItem.EditMode   = EditMode;
+    messageItem.OnCheck    = onSelectedChats;
 
     messageItem.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
 
@@ -5451,6 +5460,9 @@ class MessagesPage : Core::Group
   slot onEdit
   {
     EditMode = !EditMode;
+
+    editBtn.Text = EditMode == false ? "Edit" : "Cancel";
+    deleteBtn.Visible = EditMode == false ? false : true;
 
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
   }
@@ -5504,7 +5516,8 @@ class MessagesPage : Core::Group
   $rect <520,250,690,290>
   slot onBack
   {
-    DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );
+    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
+    DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );   
     chat = null;
 
   }
@@ -5595,6 +5608,21 @@ class MessagesPage : Core::Group
     preset Bounds = <11,15,59,40>;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
+  }
+
+  $rect <20,20,160,60>
+  object Components::TextButton deleteBtn
+  {
+    preset Bounds = <62,15,109,40>;
+    preset Visible = false;
+    preset Text = Strings::DeleteContactTxt;
+    preset OnActivate = onSelectedChats;
+  }
+
+  $rect <690,190,890,230>
+  slot onSelectedChats
+  {
+    sender; /* the method is called from the sender object */
   }
 }
 
@@ -5914,7 +5942,7 @@ class MessegeItem : Core::Group
       if ( Contact.MessagesList.head != null )
       {
         MessageTxt.String    = pure Contact.MessagesList.GetLastMessage().Message;//"last message";    
-        TimeTxt.String       = pure Contact.MessagesList.GetLastMessage().TimeSent.String;//"l.m. time";
+        TimeTxt.String       = pure Contact.MessagesList.GetLastMessage().GetTimeOfCall();//"l.m. time";
         SButton25x25.Visible = true;  
       } 
       else 
@@ -5952,21 +5980,21 @@ class MessegeItem : Core::Group
     preset OnAnimate = onAnimate;
     preset NoOfCycles = 1;
     preset CycleDuration = 250;
-    preset Value2 = 25;
+    preset Value2 = 30;
     preset Value1 = 0;
   }
 
   $rect <180,690,320,730>
   slot onAnimate
   {
-    /*
-    CheckButton.Bounds.x    = EditEffect.Value - 25;
-    UserIcon.Bounds.x = EditEffect.Value + 6;
-    NameTxt.Bounds.x     = EditEffect.Value + 55;
-    MessageTxt.Bounds.x    = EditEffect.Value + 146;
-    TimeTxt.Bounds.x        = EditEffect.Value + 55;
-    ForwardButton.Bounds.x      = EditEffect.Value + 55;
-    */
+
+    CheckButton.Bounds.x    = EditEffect.Value - 30 ;
+    UserIcon.Bounds.x = EditEffect.Value;
+    NameTxt.Bounds.x     = EditEffect.Value + 56;
+    MessageTxt.Bounds.x    = EditEffect.Value + 56;
+    TimeTxt.Bounds.x        = EditEffect.Value + 145 ;
+    SButton25x25.Bounds.x      = EditEffect.Value + 251;
+
   }
 
   $rect <10,540,210,580>
@@ -6081,9 +6109,8 @@ class MessegeItem : Core::Group
   $rect <20,20,160,60>
   object Views::Text TimeTxt
   {
-    preset Bounds = <235,3,258,15>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset Bounds = <145,3,258,15>;
+    preset Alignment = Views::TextAlignment[AlignHorzRight];
     preset String = "Time ";
     preset Font = Resources::DefaultFont;
     preset Color = Res::Grey;
@@ -6129,7 +6156,7 @@ class MessegeItem : Core::Group
   $rect <20,20,160,60>
   object Components::ToggleButton CheckButton
   {
-    preset Bounds = <-39,7,-4,42>;
+    preset Bounds = <-35,7,0,42>;
     preset BackgroundColor = Res::GreyLight;
     preset IconSelectedColor = Res::White;
   }
@@ -6929,7 +6956,7 @@ class ChatItem : Core::Group
     preset WrapText = true;
     preset Alignment = Views::TextAlignment[AlignHorzLeft];
     preset String = "Text";
-    preset Font = Resources::DefaultFont;
+    preset Font = Res::ContactFont12;
   }
 
   $rect <10,200,210,240>

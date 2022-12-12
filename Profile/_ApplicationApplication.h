@@ -57,6 +57,12 @@
 #define _ApplicationCallPageBase_
 #endif
 
+/* Forward declaration of the class Application::SplashScreen */
+#ifndef _ApplicationSplashScreen_
+  EW_DECLARE_CLASS( ApplicationSplashScreen )
+#define _ApplicationSplashScreen_
+#endif
+
 /* Forward declaration of the class Core::DialogContext */
 #ifndef _CoreDialogContext_
   EW_DECLARE_CLASS( CoreDialogContext )
@@ -123,6 +129,7 @@ EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
   EW_VARIABLE( deviceInstance,  DeviceDeviceClass )
   EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
   EW_VARIABLE( historyContact,  DeviceHistoryContact )
+  EW_VARIABLE( splashScreen,    ApplicationSplashScreen )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */
@@ -148,6 +155,7 @@ EW_DEFINE_METHODS( ApplicationApplication, CoreRoot )
   EW_METHOD( DispatchEvent,     XObject )( CoreRoot _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreRoot _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateLayout,      void )( CoreGroup _this, XPoint aSize )
   EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreRoot _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
@@ -168,8 +176,16 @@ void ApplicationApplication_Init( ApplicationApplication _this, XHandle aArg );
 /* 'C' function for method : 'Application::Application.onCallState()' */
 void ApplicationApplication_onCallState( ApplicationApplication _this, XObject sender );
 
-/* 'C' function for method : 'Application::Application.onStrat()' */
-void ApplicationApplication_onStrat( ApplicationApplication _this, XObject sender );
+/* 'C' function for method : 'Application::Application.onSplashScreen()' */
+void ApplicationApplication_onSplashScreen( ApplicationApplication _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::Application.onCloseSplash()' */
+void ApplicationApplication_onCloseSplash( ApplicationApplication _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::Application.onStart()' */
+void ApplicationApplication_onStart( ApplicationApplication _this, XObject sender );
 
 #ifdef __cplusplus
   }

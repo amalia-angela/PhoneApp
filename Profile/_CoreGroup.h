@@ -241,6 +241,7 @@ EW_DEFINE_METHODS( CoreGroup, CoreRectView )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateLayout,      void )( CoreGroup _this, XPoint aSize )
   EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
@@ -684,6 +685,9 @@ XObject CoreGroup__BroadcastEvent( void* _this, CoreEvent aEvent, XSet aFilter )
    property. UpdateLayout() gives the derived components a chance to extend this 
    automatism by a user defined algorithm. */
 void CoreGroup_UpdateLayout( CoreGroup _this, XPoint aSize );
+
+/* Wrapper function for the virtual method : 'Core::Group.UpdateLayout()' */
+void CoreGroup__UpdateLayout( void* _this, XPoint aSize );
 
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 

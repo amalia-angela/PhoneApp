@@ -96,6 +96,12 @@ EW_DECLARE_FONT_RES( ResIconsFont12 )
 /* Bitmap resource : 'Res::SuqareButton' */
 EW_DECLARE_BITMAP_RES( ResSuqareButton )
 
+/* Bitmap resource : 'Res::background' */
+EW_DECLARE_BITMAP_RES( Resbackground )
+
+/* Bitmap resource : 'Res::logog' */
+EW_DECLARE_BITMAP_RES( Reslogog )
+
 /* Forward declaration of the class Effects::FadeInOutTransition */
 #ifndef _EffectsFadeInOutTransition_
   EW_DECLARE_CLASS( EffectsFadeInOutTransition )
@@ -108,32 +114,32 @@ EW_DECLARE_BITMAP_RES( ResSuqareButton )
 #define _EffectsSlideTransition_
 #endif
 
-/* User defined constant: 'Res::CallTxt' */
-extern const XStringRes ResCallTxt;
+/* User defined constant: 'Res::CallIcon' */
+extern const XStringRes ResCallIcon;
 
-/* User defined constant: 'Res::MessageIconTxt' */
-extern const XStringRes ResMessageIconTxt;
+/* User defined constant: 'Res::MessageIcon' */
+extern const XStringRes ResMessageIcon;
 
-/* User defined constant: 'Res::BackIconTxt' */
-extern const XStringRes ResBackIconTxt;
+/* User defined constant: 'Res::BackIcon' */
+extern const XStringRes ResBackIcon;
 
-/* User defined constant: 'Res::EditIconTxt' */
-extern const XStringRes ResEditIconTxt;
+/* User defined constant: 'Res::EditIcon' */
+extern const XStringRes ResEditIcon;
 
-/* User defined constant: 'Res::UserIconTxt' */
-extern const XStringRes ResUserIconTxt;
+/* User defined constant: 'Res::UserIcon' */
+extern const XStringRes ResUserIcon;
 
-/* User defined constant: 'Res::PlusIconTxt' */
-extern const XStringRes ResPlusIconTxt;
+/* User defined constant: 'Res::PlusIcon' */
+extern const XStringRes ResPlusIcon;
 
-/* User defined constant: 'Res::SerachIconTxt' */
-extern const XStringRes ResSerachIconTxt;
+/* User defined constant: 'Res::SerachIcon' */
+extern const XStringRes ResSerachIcon;
 
-/* User defined constant: 'Res::CkeckIconTxt' */
-extern const XStringRes ResCkeckIconTxt;
+/* User defined constant: 'Res::CkeckIcon' */
+extern const XStringRes ResCkeckIcon;
 
-/* User defined constant: 'Res::CloseIconTxt' */
-extern const XStringRes ResCloseIconTxt;
+/* User defined constant: 'Res::CloseIcon' */
+extern const XStringRes ResCloseIcon;
 
 /* The global autoobject Res::SlideDownCentered represents the fade-in/out operation 
    affecting the position and the opacity of the given GUI component. When using 
@@ -196,26 +202,26 @@ extern const XColor ResBlueLight;
 /* User defined constant: 'Res::Grey' */
 extern const XColor ResGrey;
 
-/* User defined constant: 'Res::MicOffTxt' */
-extern const XStringRes ResMicOffTxt;
+/* User defined constant: 'Res::MicOffIcon' */
+extern const XStringRes ResMicOffIcon;
 
-/* User defined constant: 'Res::KeypadTxt' */
-extern const XStringRes ResKeypadTxt;
+/* User defined constant: 'Res::KeypadIcon' */
+extern const XStringRes ResKeypadIcon;
 
 /* User defined constant: 'Res::GreyLight' */
 extern const XColor ResGreyLight;
 
-/* User defined constant: 'Res::SpeakerTxt' */
-extern const XStringRes ResSpeakerTxt;
+/* User defined constant: 'Res::SpeakerIcon' */
+extern const XStringRes ResSpeakerIcon;
 
 /* User defined constant: 'Res::Black' */
 extern const XColor ResBlack;
 
-/* User defined constant: 'Res::EndCallTxt' */
-extern const XStringRes ResEndCallTxt;
+/* User defined constant: 'Res::EndCallIcon' */
+extern const XStringRes ResEndCallIcon;
 
-/* User defined constant: 'Res::VideoCallTxt' */
-extern const XStringRes ResVideoCallTxt;
+/* User defined constant: 'Res::VideoCallIcon' */
+extern const XStringRes ResVideoCallIcon;
 
 /* User defined constant: 'Res::WhiteTransparent' */
 extern const XColor ResWhiteTransparent;
@@ -226,11 +232,11 @@ extern const XColor ResRed;
 /* User defined constant: 'Res::Blue' */
 extern const XColor ResBlue;
 
-/* User defined constant: 'Res::DownTxt' */
-extern const XStringRes ResDownTxt;
+/* User defined constant: 'Res::DownIcon' */
+extern const XStringRes ResDownIcon;
 
-/* User defined constant: 'Res::Uptxt' */
-extern const XStringRes ResUptxt;
+/* User defined constant: 'Res::UpIcon' */
+extern const XStringRes ResUpIcon;
 
 /* User defined constant: 'Res::RedLight' */
 extern const XColor ResRedLight;
@@ -283,26 +289,26 @@ EW_DECLARE_AUTOOBJECT( ResFadeInOutCentered, EffectsFadeInOutTransition )
    this object and adapt its properties accordingly. */
 EW_DECLARE_AUTOOBJECT( ResSlideLeftCentered, EffectsSlideTransition )
 
-/* User defined constant: 'Res::HeartTxt' */
-extern const XStringRes ResHeartTxt;
+/* User defined constant: 'Res::HeartIcon' */
+extern const XStringRes ResHeartIcon;
 
-/* User defined constant: 'Res::BackspaceTxt' */
-extern const XStringRes ResBackspaceTxt;
+/* User defined constant: 'Res::BackspaceIcon' */
+extern const XStringRes ResBackspaceIcon;
 
 /* User defined constant: 'Res::PressColor' */
 extern const XColor ResPressColor;
 
-/* User defined constant: 'Res::OutgoingCallTxt' */
-extern const XStringRes ResOutgoingCallTxt;
+/* User defined constant: 'Res::OutgoingCallIcon' */
+extern const XStringRes ResOutgoingCallIcon;
 
-/* User defined constant: 'Res::RemoveTxt' */
-extern const XStringRes ResRemoveTxt;
+/* User defined constant: 'Res::RemoveIcon' */
+extern const XStringRes ResRemoveIcon;
 
-/* User defined constant: 'Res::InfoTxt' */
-extern const XStringRes ResInfoTxt;
+/* User defined constant: 'Res::InfoIcon' */
+extern const XStringRes ResInfoIcon;
 
-/* User defined constant: 'Res::MenuTxt' */
-extern const XStringRes ResMenuTxt;
+/* User defined constant: 'Res::MenuIcon' */
+extern const XStringRes ResMenuIcon;
 
 /* The global autoobject Res::SlideUpCentered1 represents the fade-in/out operation 
    affecting the position and the opacity of the given GUI component. When using 
@@ -322,8 +328,8 @@ extern const XStringRes ResMenuTxt;
    this object and adapt its properties accordingly. */
 EW_DECLARE_AUTOOBJECT( ResSlideUpCenteredLimit, EffectsSlideTransition )
 
-/* User defined constant: 'Res::IncomingCallTxt' */
-extern const XStringRes ResIncomingCallTxt;
+/* User defined constant: 'Res::IncomingCallIcon' */
+extern const XStringRes ResIncomingCallIcon;
 
 /* User defined constant: 'Res::CheckIcon' */
 extern const XStringRes ResCheckIcon;
@@ -336,6 +342,9 @@ extern const XStringRes ResSendIcon;
 
 /* User defined constant: 'Res::ForwardIcon' */
 extern const XStringRes ResForwardIcon;
+
+/* User defined constant: 'Res::SettingsIcon' */
+extern const XStringRes ResSettingsIcon;
 
 #ifdef __cplusplus
   }

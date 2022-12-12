@@ -50,6 +50,12 @@
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
+/* Forward declaration of the class Application::Chat */
+#ifndef _ApplicationChat_
+  EW_DECLARE_CLASS( ApplicationChat )
+#define _ApplicationChat_
+#endif
+
 /* Forward declaration of the class Application::ContactDetailsPage */
 #ifndef _ApplicationContactDetailsPage_
   EW_DECLARE_CLASS( ApplicationContactDetailsPage )
@@ -115,9 +121,9 @@
 EW_DEFINE_FIELDS( ApplicationContactDetailsPage, CoreGroup )
   EW_VARIABLE( editPage,        ApplicationContactEditPage )
   EW_PROPERTY( Contact,         DeviceContact )
+  EW_VARIABLE( chat,            ApplicationChat )
   EW_PROPERTY( OnDelete,        XSlot )
   EW_PROPERTY( OnBack,          XSlot )
-  EW_PROPERTY( OnMessage,       XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( Line2,           ViewsLine )
   EW_OBJECT  ( NumberTxt,       ViewsText )
@@ -156,6 +162,7 @@ EW_DEFINE_METHODS( ApplicationContactDetailsPage, CoreGroup )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateLayout,      void )( CoreGroup _this, XPoint aSize )
   EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
@@ -212,6 +219,10 @@ void ApplicationContactDetailsPage__onContactUpdated( void* _this, XObject sende
 
 /* 'C' function for method : 'Application::ContactDetailsPage.onTapMessage()' */
 void ApplicationContactDetailsPage_onTapMessage( ApplicationContactDetailsPage _this, 
+  XObject sender );
+
+/* 'C' function for method : 'Application::ContactDetailsPage.onBack()' */
+void ApplicationContactDetailsPage_onBack( ApplicationContactDetailsPage _this, 
   XObject sender );
 
 #ifdef __cplusplus

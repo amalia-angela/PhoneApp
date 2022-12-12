@@ -46,7 +46,7 @@
 #include "_ApplicationCallPage.h"
 #include "_ApplicationCallPageBase.h"
 #include "_ApplicationChat.h"
-#include "_ApplicationChatBubble.h"
+#include "_ApplicationChatItem.h"
 #include "_ApplicationContactAddPage.h"
 #include "_ApplicationContactDetailsPage.h"
 #include "_ApplicationContactEditPage.h"
@@ -70,6 +70,7 @@
 #include "_ApplicationRecentDetailsPage.h"
 #include "_ApplicationRecentItm.h"
 #include "_ApplicationRecentPage.h"
+#include "_ApplicationSplashScreen.h"
 
 #ifdef __cplusplus
   }

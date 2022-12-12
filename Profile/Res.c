@@ -34,40 +34,40 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x000000DC, /* ratio 52.73 % */
+  0x000000E4, /* ratio 50.88 % */
   0xB8000900, 0x38160452, 0x12040000, 0xA10E229C, 0xCAE022C2, 0x24581C39, 0x0B89B8D9,
   0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xAE092289, 0x88B29838, 0xA12D8B86,
   0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0xACA5B1E2, 0x14B6459C,
-  0x2848E87D, 0x093F6941, 0x2CAA42D6, 0x1B73C72A, 0x18A52CC7, 0x8442250E, 0x00000101,
+  0x2848E87D, 0x093F6941, 0x2CAA42D6, 0x1B73C72A, 0x18A52CC7, 0x90AE2ACE, 0x04061108,
   0x00000000
 };
 
-/* User defined constant: 'Res::CallTxt' */
-const XStringRes ResCallTxt = { _StringsDefault0, 0x0002 };
+/* User defined constant: 'Res::CallIcon' */
+const XStringRes ResCallIcon = { _StringsDefault0, 0x0002 };
 
-/* User defined constant: 'Res::MessageIconTxt' */
-const XStringRes ResMessageIconTxt = { _StringsDefault0, 0x0006 };
+/* User defined constant: 'Res::MessageIcon' */
+const XStringRes ResMessageIcon = { _StringsDefault0, 0x0006 };
 
-/* User defined constant: 'Res::BackIconTxt' */
-const XStringRes ResBackIconTxt = { _StringsDefault0, 0x000A };
+/* User defined constant: 'Res::BackIcon' */
+const XStringRes ResBackIcon = { _StringsDefault0, 0x000A };
 
-/* User defined constant: 'Res::EditIconTxt' */
-const XStringRes ResEditIconTxt = { _StringsDefault0, 0x000E };
+/* User defined constant: 'Res::EditIcon' */
+const XStringRes ResEditIcon = { _StringsDefault0, 0x000E };
 
-/* User defined constant: 'Res::UserIconTxt' */
-const XStringRes ResUserIconTxt = { _StringsDefault0, 0x0012 };
+/* User defined constant: 'Res::UserIcon' */
+const XStringRes ResUserIcon = { _StringsDefault0, 0x0012 };
 
-/* User defined constant: 'Res::PlusIconTxt' */
-const XStringRes ResPlusIconTxt = { _StringsDefault0, 0x0016 };
+/* User defined constant: 'Res::PlusIcon' */
+const XStringRes ResPlusIcon = { _StringsDefault0, 0x0016 };
 
-/* User defined constant: 'Res::SerachIconTxt' */
-const XStringRes ResSerachIconTxt = { _StringsDefault0, 0x001A };
+/* User defined constant: 'Res::SerachIcon' */
+const XStringRes ResSerachIcon = { _StringsDefault0, 0x001A };
 
-/* User defined constant: 'Res::CkeckIconTxt' */
-const XStringRes ResCkeckIconTxt = { _StringsDefault0, 0x001E };
+/* User defined constant: 'Res::CkeckIcon' */
+const XStringRes ResCkeckIcon = { _StringsDefault0, 0x001E };
 
-/* User defined constant: 'Res::CloseIconTxt' */
-const XStringRes ResCloseIconTxt = { _StringsDefault0, 0x0022 };
+/* User defined constant: 'Res::CloseIcon' */
+const XStringRes ResCloseIcon = { _StringsDefault0, 0x0022 };
 
 /* The global autoobject Res::SlideDownCentered represents the fade-in/out operation 
    affecting the position and the opacity of the given GUI component. When using 
@@ -90,6 +90,10 @@ EW_DEFINE_AUTOOBJECT( ResSlideDownCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideDownCentered' */
 void ResSlideDownCentered__Init( EffectsSlideTransition _this )
 {
+  _this->MarginBottom = 75;
+  _this->MarginRight = 21;
+  _this->MarginTop = 75;
+  _this->MarginLeft = 21;
   _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionBottom;
@@ -120,6 +124,10 @@ EW_DEFINE_AUTOOBJECT( ResSlideUpCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideUpCentered' */
 void ResSlideUpCentered__Init( EffectsSlideTransition _this )
 {
+  _this->MarginBottom = 75;
+  _this->MarginRight = 21;
+  _this->MarginTop = 75;
+  _this->MarginLeft = 0;
   _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionTop;
@@ -151,6 +159,10 @@ EW_DEFINE_AUTOOBJECT( ResSlideRightCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideRightCentered' */
 void ResSlideRightCentered__Init( EffectsSlideTransition _this )
 {
+  _this->MarginBottom = 75;
+  _this->MarginRight = 0;
+  _this->MarginTop = 75;
+  _this->MarginLeft = 21;
   _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionRight;
@@ -190,23 +202,23 @@ const XColor ResBlueLight = { 0x7C, 0x8F, 0xFF, 0xF4 };
 /* User defined constant: 'Res::Grey' */
 const XColor ResGrey = { 0xBC, 0xBC, 0xBC, 0xFD };
 
-/* User defined constant: 'Res::MicOffTxt' */
-const XStringRes ResMicOffTxt = { _StringsDefault0, 0x0026 };
+/* User defined constant: 'Res::MicOffIcon' */
+const XStringRes ResMicOffIcon = { _StringsDefault0, 0x0026 };
 
-/* User defined constant: 'Res::KeypadTxt' */
-const XStringRes ResKeypadTxt = { _StringsDefault0, 0x002A };
+/* User defined constant: 'Res::KeypadIcon' */
+const XStringRes ResKeypadIcon = { _StringsDefault0, 0x002A };
 
 /* User defined constant: 'Res::GreyLight' */
 const XColor ResGreyLight = { 0xF0, 0xF0, 0xF0, 0xFD };
 
-/* User defined constant: 'Res::SpeakerTxt' */
-const XStringRes ResSpeakerTxt = { _StringsDefault0, 0x002E };
+/* User defined constant: 'Res::SpeakerIcon' */
+const XStringRes ResSpeakerIcon = { _StringsDefault0, 0x002E };
 
 /* User defined constant: 'Res::Black' */
 const XColor ResBlack = { 0x18, 0x18, 0x18, 0xFF };
 
-/* User defined constant: 'Res::EndCallTxt' */
-const XStringRes ResEndCallTxt = { _StringsDefault0, 0x0032 };
+/* User defined constant: 'Res::EndCallIcon' */
+const XStringRes ResEndCallIcon = { _StringsDefault0, 0x0032 };
 
 /* Include a file containing the font resource : 'Res::TitileFont29' */
 #include "_ResTitileFont29.h"
@@ -214,8 +226,8 @@ const XStringRes ResEndCallTxt = { _StringsDefault0, 0x0032 };
 /* Table with links to derived variants of the font resource : 'Res::TitileFont29' */
 EW_RES_WITHOUT_VARIANTS( ResTitileFont29 )
 
-/* User defined constant: 'Res::VideoCallTxt' */
-const XStringRes ResVideoCallTxt = { _StringsDefault0, 0x0036 };
+/* User defined constant: 'Res::VideoCallIcon' */
+const XStringRes ResVideoCallIcon = { _StringsDefault0, 0x0036 };
 
 /* Include a file containing the font resource : 'Res::IconsFont30' */
 #include "_ResIconsFont30.h"
@@ -244,11 +256,11 @@ const XColor ResRed = { 0xB5, 0x28, 0x0F, 0xFF };
 /* User defined constant: 'Res::Blue' */
 const XColor ResBlue = { 0x1B, 0x0B, 0xFF, 0xFF };
 
-/* User defined constant: 'Res::DownTxt' */
-const XStringRes ResDownTxt = { _StringsDefault0, 0x003A };
+/* User defined constant: 'Res::DownIcon' */
+const XStringRes ResDownIcon = { _StringsDefault0, 0x003A };
 
-/* User defined constant: 'Res::Uptxt' */
-const XStringRes ResUptxt = { _StringsDefault0, 0x003E };
+/* User defined constant: 'Res::UpIcon' */
+const XStringRes ResUpIcon = { _StringsDefault0, 0x003E };
 
 /* User defined constant: 'Res::RedLight' */
 const XColor ResRedLight = { 0xE8, 0x3C, 0x32, 0xEE };
@@ -315,6 +327,7 @@ EW_DEFINE_AUTOOBJECT( ResFadeInOutCentered, EffectsFadeInOutTransition )
 /* Initializer for the auto object 'Res::FadeInOutCentered' */
 void ResFadeInOutCentered__Init( EffectsFadeInOutTransition _this )
 {
+  _this->MarginLeft = 21;
   _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
 }
@@ -345,6 +358,10 @@ EW_DEFINE_AUTOOBJECT( ResSlideLeftCentered, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideLeftCentered' */
 void ResSlideLeftCentered__Init( EffectsSlideTransition _this )
 {
+  _this->MarginBottom = 75;
+  _this->MarginRight = 21;
+  _this->MarginTop = 75;
+  _this->MarginLeft = 0;
   _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionLeft;
@@ -354,26 +371,26 @@ void ResSlideLeftCentered__Init( EffectsSlideTransition _this )
 EW_DEFINE_AUTOOBJECT_VARIANTS( ResSlideLeftCentered )
 EW_END_OF_AUTOOBJECT_VARIANTS( ResSlideLeftCentered )
 
-/* User defined constant: 'Res::HeartTxt' */
-const XStringRes ResHeartTxt = { _StringsDefault0, 0x0042 };
+/* User defined constant: 'Res::HeartIcon' */
+const XStringRes ResHeartIcon = { _StringsDefault0, 0x0042 };
 
-/* User defined constant: 'Res::BackspaceTxt' */
-const XStringRes ResBackspaceTxt = { _StringsDefault0, 0x0046 };
+/* User defined constant: 'Res::BackspaceIcon' */
+const XStringRes ResBackspaceIcon = { _StringsDefault0, 0x0046 };
 
 /* User defined constant: 'Res::PressColor' */
 const XColor ResPressColor = { 0xF8, 0xF8, 0xF8, 0xD5 };
 
-/* User defined constant: 'Res::OutgoingCallTxt' */
-const XStringRes ResOutgoingCallTxt = { _StringsDefault0, 0x004A };
+/* User defined constant: 'Res::OutgoingCallIcon' */
+const XStringRes ResOutgoingCallIcon = { _StringsDefault0, 0x004A };
 
-/* User defined constant: 'Res::RemoveTxt' */
-const XStringRes ResRemoveTxt = { _StringsDefault0, 0x004E };
+/* User defined constant: 'Res::RemoveIcon' */
+const XStringRes ResRemoveIcon = { _StringsDefault0, 0x004E };
 
-/* User defined constant: 'Res::InfoTxt' */
-const XStringRes ResInfoTxt = { _StringsDefault0, 0x0052 };
+/* User defined constant: 'Res::InfoIcon' */
+const XStringRes ResInfoIcon = { _StringsDefault0, 0x0052 };
 
-/* User defined constant: 'Res::MenuTxt' */
-const XStringRes ResMenuTxt = { _StringsDefault0, 0x0056 };
+/* User defined constant: 'Res::MenuIcon' */
+const XStringRes ResMenuIcon = { _StringsDefault0, 0x0056 };
 
 /* Include a file containing the bitmap resource : 'Res::SearchButton' */
 #include "_ResSearchButton.h"
@@ -402,7 +419,10 @@ EW_DEFINE_AUTOOBJECT( ResSlideUpCenteredLimit, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideUpCenteredLimit' */
 void ResSlideUpCenteredLimit__Init( EffectsSlideTransition _this )
 {
+  _this->MarginBottom = 75;
+  _this->MarginRight = 21;
   _this->MarginTop = 40;
+  _this->MarginLeft = 0;
   _this->Alignment = EffectsDialogAlignmentAlignHorzLeft | EffectsDialogAlignmentAlignVertCenter;
   _this->Duration = 200;
   _this->Direction = CoreDirectionTop;
@@ -412,8 +432,8 @@ void ResSlideUpCenteredLimit__Init( EffectsSlideTransition _this )
 EW_DEFINE_AUTOOBJECT_VARIANTS( ResSlideUpCenteredLimit )
 EW_END_OF_AUTOOBJECT_VARIANTS( ResSlideUpCenteredLimit )
 
-/* User defined constant: 'Res::IncomingCallTxt' */
-const XStringRes ResIncomingCallTxt = { _StringsDefault0, 0x005A };
+/* User defined constant: 'Res::IncomingCallIcon' */
+const XStringRes ResIncomingCallIcon = { _StringsDefault0, 0x005A };
 
 /* User defined constant: 'Res::CheckIcon' */
 const XStringRes ResCheckIcon = { _StringsDefault0, 0x005E };
@@ -450,5 +470,20 @@ EW_RES_WITHOUT_VARIANTS( ResIconsFont12 )
 
 /* Table with links to derived variants of the bitmap resource : 'Res::SuqareButton' */
 EW_RES_WITHOUT_VARIANTS( ResSuqareButton )
+
+/* User defined constant: 'Res::SettingsIcon' */
+const XStringRes ResSettingsIcon = { _StringsDefault0, 0x006E };
+
+/* Include a file containing the bitmap resource : 'Res::background' */
+#include "_Resbackground.h"
+
+/* Table with links to derived variants of the bitmap resource : 'Res::background' */
+EW_RES_WITHOUT_VARIANTS( Resbackground )
+
+/* Include a file containing the bitmap resource : 'Res::logog' */
+#include "_Reslogog.h"
+
+/* Table with links to derived variants of the bitmap resource : 'Res::logog' */
+EW_RES_WITHOUT_VARIANTS( Reslogog )
 
 /* Embedded Wizard */

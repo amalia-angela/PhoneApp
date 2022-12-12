@@ -544,7 +544,6 @@ $rect <670,850,870,890>
 $output false
 autoobject Effects::SlideTransition SlideUpCenteredLimit
 {
-  preset MarginBottom = 75;
   preset MarginRight = 21;
   preset MarginTop = 40;
   preset MarginLeft = 0;

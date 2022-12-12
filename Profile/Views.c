@@ -54,17 +54,17 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x000001D4, /* ratio 56.41 % */
-  0xB8003700, 0x000A8452, 0x00CA0034, 0x0A600100, 0xD2003600, 0x70932000, 0x6F830021,
-  0x3001D400, 0x2445A0E6, 0x7000C200, 0x4561F133, 0x00740039, 0x60624958, 0x2C738911,
-  0x5288848A, 0x798A48A1, 0x48CC762C, 0x8EC2A492, 0x64522A74, 0x80222778, 0x8A1908A0,
-  0xA8C76864, 0x562EA2C2, 0xD2E29002, 0x0C854220, 0x4894421D, 0x0045EB11, 0x4C763719,
-  0x48A4000A, 0x2A211492, 0xA610C944, 0x4335934C, 0x70C9CC96, 0x3FBBC8E7, 0x58B50A8F,
-  0xB7D22254, 0x28029D4C, 0x466830CA, 0xA23B3186, 0x621108CC, 0xEB31BD5B, 0x541BBD82,
-  0x51A0C921, 0x39715E57, 0x86492E44, 0x65063324, 0x1C2DD148, 0xEAE92293, 0x2E57CABD,
-  0x014AD3CA, 0x779D3CC4, 0x163364F4, 0xB98D7AFF, 0x94003691, 0x05B23312, 0xE4F7E670,
-  0x32A200DE, 0x6D37722C, 0x8D9198C5, 0x3288DDE7, 0x5EA6C4A6, 0x8DF002BB, 0x8EC922B6,
-  0x5D4B3339, 0x00001019, 0x00000000
+  0x000001DC, /* ratio 56.30 % */
+  0xB8000900, 0x3F9FE452, 0x0C360000, 0x0005422C, 0x0065001A, 0x05300080, 0x69001B00,
+  0x28819000, 0x37C34011, 0x1800EA00, 0x1223B0E3, 0xB8006100, 0xA39168D1, 0x103A001C,
+  0x30B12002, 0x298E9CE3, 0x988CBE2F, 0x8E9E6372, 0x5CAE4124, 0x1D249119, 0xDE271B8E,
+  0xE8E008C1, 0x272989C3, 0x711A61DA, 0x52990BA9, 0x187C3616, 0x8BC56271, 0xF5763719,
+  0x48A40008, 0x9C014F92, 0xE372B94C, 0x272F88C5, 0x72D9C4DA, 0x3F964A27, 0xC9550627,
+  0xA45368B7, 0x7466971D, 0x552A574A, 0x1E274B00, 0x26F13905, 0x2F2097C9, 0xF7FB945E,
+  0x7CB2DEA6, 0x795C468F, 0x2BC22AF4, 0x5DDC870B, 0xC8257139, 0xCE3713A3, 0x6532D385,
+  0x035CBFDE, 0x1AC97DDF, 0xAC9B802A, 0x6CC6A2FD, 0xB1E123A6, 0x06E64537, 0xC82332F0,
+  0x10CE00B8, 0xC01C2CC7, 0xF84589D5, 0xD378E5BA, 0x22BF72F2, 0x38CCDE5F, 0x0058AC75,
+  0x5C72DBC3, 0x67A7F249, 0x02030899, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -73,9 +73,10 @@ static const XPoint _Const0001 = { 1, 1 };
 static const XPoint _Const0002 = { 0, 0 };
 static const XRect _Const0003 = {{ 0, 0 }, { 0, 0 }};
 static const XStringRes _Const0004 = { _StringsDefault0, 0x0002 };
-static const XStringRes _Const0005 = { _StringsDefault0, 0x001D };
-static const XStringRes _Const0006 = { _StringsDefault0, 0x0041 };
-static const XStringRes _Const0007 = { _StringsDefault0, 0x0093 };
+static const XStringRes _Const0005 = { _StringsDefault0, 0x0006 };
+static const XStringRes _Const0006 = { _StringsDefault0, 0x0021 };
+static const XStringRes _Const0007 = { _StringsDefault0, 0x0045 };
+static const XStringRes _Const0008 = { _StringsDefault0, 0x0097 };
 
 /* Initializer for the class 'Views::Line' */
 void ViewsLine__Init( ViewsLine _this, XObject aLink, XHandle aArg )
@@ -867,6 +868,21 @@ void ViewsFrame_OnSetBitmap( ViewsFrame _this, ResourcesBitmap value )
     CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
 }
 
+/* 'C' function for method : 'Views::Frame.OnSetNoEdgesLimit()' */
+void ViewsFrame_OnSetNoEdgesLimit( ViewsFrame _this, XPoint value )
+{
+  if ( value.X < 0 )
+    value.X = 0;
+
+  if ( value.Y < 0 )
+    value.Y = 0;
+
+  if ( !EwCompPoint( value, _this->NoEdgesLimit ))
+    return;
+
+  _this->NoEdgesLimit = value;
+}
+
 /* Variants derived from the class : 'Views::Frame' */
 EW_DEFINE_CLASS_VARIANTS( ViewsFrame )
 EW_END_OF_CLASS_VARIANTS( ViewsFrame )
@@ -1415,8 +1431,17 @@ void ViewsText_OnSetBounds( ViewsText _this, XRect value )
 
   resized = (XBool)( EwGetRectW( _this->Super1.Bounds ) != EwGetRectW( value ));
 
-  if ((( resized && _this->WrapText ) && _this->reparsed ) && !(( _this->Super2.viewState 
-      & CoreViewStateUpdatingLayout ) == CoreViewStateUpdatingLayout ))
+  if (((( resized && ( _this->WrapWidth == 0 )) && _this->WrapText ) && _this->reparsed ) 
+      && !(( _this->Super2.viewState & CoreViewStateUpdatingLayout ) == CoreViewStateUpdatingLayout ))
+  {
+    _this->flowString = 0;
+    _this->reparsed = 0;
+    EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
+  }
+
+  if ((( _this->Ellipsis && _this->reparsed ) && EwCompPoint( EwGetRectSize( _this->Super1.Bounds ), 
+      EwGetRectSize( value ))) && !(( _this->Super2.viewState & CoreViewStateUpdatingLayout ) 
+      == CoreViewStateUpdatingLayout ))
   {
     _this->flowString = 0;
     _this->reparsed = 0;
@@ -1538,15 +1563,17 @@ void ViewsText_onStartSlideSlot( ViewsText _this, XObject sender )
     minOffset.Y = 0;
 
   _this->SlideHandler->Offset = _this->ScrollOffset;
-  _this->SlideHandler->MinOffset = EwMovePointNeg( EwMovePointPos( _this->ScrollOffset, 
-  minOffset ), offset );
-  _this->SlideHandler->MaxOffset = EwMovePointNeg( _this->ScrollOffset, offset );
+  _this->SlideHandler->MinOffset = EwMovePointNeg( EwMovePointNeg( EwMovePointPos( 
+  _this->ScrollOffset, minOffset ), offset ), EwNewPoint( _this->Padding, 0 ));
+  _this->SlideHandler->MaxOffset = EwMovePointPos( EwMovePointNeg( _this->ScrollOffset, 
+  offset ), EwNewPoint( _this->Padding, 0 ));
 }
 
 /* 'C' function for method : 'Views::Text.reparseSlot()' */
 void ViewsText_reparseSlot( ViewsText _this, XObject sender )
 {
   XInt32 width;
+  XInt32 height;
   XInt32 maxWidth;
   ResourcesFont font;
 
@@ -1557,6 +1584,7 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
     return;
 
   width = EwGetRectW( _this->Super1.Bounds );
+  height = EwGetRectH( _this->Super1.Bounds );
   maxWidth = -1;
   font = _this->Font;
 
@@ -1565,7 +1593,13 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
 
   if ( _this->WrapText )
   {
-    maxWidth = width;
+    if ( _this->WrapWidth > 0 )
+      maxWidth = _this->WrapWidth;
+    else
+      if ( !_this->AutoSize )
+        maxWidth = width - ( _this->Padding * 2 );
+      else
+        maxWidth = width;
 
     if ( maxWidth < 0 )
       maxWidth = 1;
@@ -1600,11 +1634,253 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
 
   _this->textSize = _Const0002;
 
+  if ((( _this->Ellipsis && ( EwCompString( _this->flowString, 0 ) != 0 )) && !_this->AutoSize ) 
+      && ( font != 0 ))
+  {
+    XSet align = _this->Alignment;
+    XInt32 leading = font->Leading;
+    XString res = _this->flowString;
+    XBool rtl = ViewsText_IsBaseDirectionRTL( _this );
+    XInt32 rh;
+    XInt32 noOfRows;
+    XInt32 maxNoOfRows;
+    XBool clipF;
+    XBool clipL;
+    XInt32 row;
+    XInt32 inx;
+    XInt32 maxW;
+
+    if ((( align & ViewsTextAlignmentAlignHorzAuto ) == ViewsTextAlignmentAlignHorzAuto ))
+    {
+      if ( rtl )
+        align = ( align & ~ViewsTextAlignmentAlignHorzAuto ) | ViewsTextAlignmentAlignHorzRight;
+      else
+        align = ( align & ~ViewsTextAlignmentAlignHorzAuto ) | ViewsTextAlignmentAlignHorzLeft;
+    }
+
+    rh = ( font->Ascent + font->Descent ) + leading;
+    noOfRows = EwGetStringChar( res, 0 );
+    maxNoOfRows = ( height + leading ) / rh;
+    clipF = 0;
+    clipL = 0;
+
+    if ( maxNoOfRows <= 0 )
+      maxNoOfRows = 1;
+
+    if ( noOfRows > maxNoOfRows )
+    {
+      XInt32 row = 0;
+      XInt32 rowF = 0;
+      XInt32 rowL = noOfRows - 1;
+      XInt32 inxF;
+      XInt32 inxL = EwGetStringLength( res );
+      XString tmp = 0;
+
+      if ((( align & ViewsTextAlignmentAlignVertBottom ) == ViewsTextAlignmentAlignVertBottom ))
+        rowF = noOfRows - maxNoOfRows;
+      else
+        if ((( align & ViewsTextAlignmentAlignVertCenter ) == ViewsTextAlignmentAlignVertCenter ))
+        {
+          rowF = ( noOfRows - maxNoOfRows ) / 2;
+          rowL = ( rowF + maxNoOfRows ) - 1;
+        }
+        else
+          rowL = maxNoOfRows - 1;
+
+      clipF = (XBool)( rowF > 0 );
+      clipL = (XBool)( rowL < ( noOfRows - 1 ));
+
+      for ( inxF = 1; row < rowF; row = row + 1 )
+        inxF = inxF + EwGetStringChar( res, inxF );
+
+      if ( clipL )
+        for ( inxL = inxF; row < rowL; row = row + 1 )
+          inxL = inxL + EwGetStringChar( res, inxL );
+
+      if ( clipF )
+      {
+        XInt32 len = EwGetStringChar( res, inxF );
+        tmp = EwShareString( EwConcatString( EwConcatString( EwLoadString( &_Const0004 ), 
+        EwStringMiddle( res, inxF, len )), EwLoadString( &_Const0004 )));
+        tmp = EwSetStringChar( tmp, 0, (XChar)( len + 2 ));
+        inxF = inxF + len;
+
+        if ( EwGetStringChar( tmp, len ) == 0x000A )
+        {
+          tmp = EwSetStringChar( tmp, len, 0xFEFF );
+          tmp = EwSetStringChar( tmp, len + 1, 0x000A );
+        }
+
+        if ( EwGetStringChar( tmp, 2 ) == 0x000A )
+        {
+          tmp = EwSetStringChar( tmp, 2, 0xFEFF );
+          tmp = EwSetStringChar( tmp, 1, 0x000A );
+        }
+        else
+          tmp = EwSetStringChar( tmp, 1, 0xFEFF );
+      }
+
+      tmp = EwShareString( EwConcatString( tmp, EwStringMiddle( res, inxF, inxL 
+      - inxF )));
+
+      if ( clipL && ( inxL >= inxF ))
+      {
+        XInt32 len = EwGetStringChar( res, inxL );
+        XString tmp2 = EwShareString( EwConcatString( EwConcatString( EwLoadString( 
+          &_Const0004 ), EwStringMiddle( res, inxL, len )), EwLoadString( &_Const0004 )));
+        tmp2 = EwSetStringChar( tmp2, 0, (XChar)( len + 2 ));
+        tmp2 = EwSetStringChar( tmp2, 1, 0xFEFF );
+
+        if ( EwGetStringChar( tmp2, len ) == 0x000A )
+        {
+          tmp2 = EwSetStringChar( tmp2, len, 0xFEFF );
+          tmp2 = EwSetStringChar( tmp2, len + 1, 0x000A );
+        }
+
+        if ( EwGetStringChar( tmp2, 2 ) == 0x000A )
+        {
+          tmp2 = EwSetStringChar( tmp2, 2, 0xFEFF );
+          tmp2 = EwSetStringChar( tmp2, 1, 0x000A );
+        }
+        else
+          tmp2 = EwSetStringChar( tmp2, 1, 0xFEFF );
+
+        tmp = EwShareString( EwConcatString( tmp, tmp2 ));
+      }
+
+      res = EwShareString( EwConcatCharString((XChar)maxNoOfRows, tmp ));
+    }
+
+    row = 0;
+    inx = 1;
+    maxW = width - ( _this->Padding * 2 );
+
+    if ( _this->WrapText && ( _this->WrapWidth > 0 ))
+      maxW = _this->WrapWidth;
+
+    noOfRows = EwGetStringChar( res, 0 );
+
+    for ( ; row < noOfRows; row = row + 1 )
+    {
+      XBool rowEllipF = (XBool)( clipF && ( row == 0 ));
+      XBool rowEllipL = (XBool)( clipL && ( row == ( noOfRows - 1 )));
+      XBool colEllipF = 0;
+      XBool colEllipL = 0;
+      XBool rtl2 = rtl;
+      XInt32 start;
+      XInt32 len;
+      XInt32 inxF;
+      XInt32 inxL;
+      XInt32 inxF2;
+      XInt32 inxL2;
+
+      if (( rtl && rowEllipF ) && !rowEllipL )
+      {
+        rowEllipF = 0;
+        rowEllipL = 1;
+      }
+      else
+        if (( rtl && rowEllipL ) && !rowEllipF )
+        {
+          rowEllipL = 0;
+          rowEllipF = 1;
+        }
+
+      start = inx + 1;
+      len = EwGetStringChar( res, inx );
+      inxF = start;
+      inxL = ( start + len ) - 2;
+      inxF2 = -1;
+      inxL2 = -1;
+
+      if ( !_this->WrapText && ( ResourcesFont_GetTextAdvance( font, res, start, 
+          len - 1 ) > maxW ))
+      {
+        if ((( align & ViewsTextAlignmentAlignHorzRight ) == ViewsTextAlignmentAlignHorzRight ))
+          colEllipF = 1;
+        else
+          if ((( align & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ))
+          {
+            colEllipF = 1;
+            colEllipL = 1;
+          }
+          else
+            colEllipL = 1;
+      }
+
+      if ( EwGetStringChar( res, inxF ) == 0x000A )
+        inxF = inxF + 1;
+
+      if ( EwGetStringChar( res, inxL ) == 0x000A )
+        inxL = inxL - 1;
+
+      while ( colEllipF && ( EwGetStringChar( res, inxF ) == 0xFEFF ))
+        inxF = inxF + 1;
+
+      while ( colEllipL && ( EwGetStringChar( res, inxL ) == 0xFEFF ))
+        inxL = inxL - 1;
+
+      colEllipF = (XBool)( colEllipF && !rowEllipL );
+      colEllipL = (XBool)( colEllipL && !rowEllipF );
+
+      while (((( colEllipF || colEllipL ) || rowEllipF ) || rowEllipL ) && ( inxF 
+             < inxL ))
+      {
+        if (( colEllipF && ( rtl2 || !colEllipL )) || rowEllipF )
+        {
+          if ( inxF2 > 0 )
+            res = EwSetStringChar( res, inxF2, 0xFEFF );
+
+          res = EwSetStringChar( res, inxF, 0x2026 );
+          inxF2 = inxF;
+          inxF = inxF + 1;
+          rtl2 = (XBool)!rtl2;
+          rowEllipF = 0;
+
+          if ( ResourcesFont_GetTextAdvance( font, res, start, len - 1 ) <= maxW )
+          {
+            colEllipF = 0;
+            colEllipL = 0;
+          }
+          else
+            colEllipF = (XBool)( colEllipF || !colEllipL );
+        }
+
+        if (( colEllipL && ( !rtl2 || !colEllipF )) || rowEllipL )
+        {
+          if ( inxL2 > 0 )
+            res = EwSetStringChar( res, inxL2, 0xFEFF );
+
+          res = EwSetStringChar( res, inxL, 0x2026 );
+          inxL2 = inxL;
+          inxL = inxL - 1;
+          rtl2 = (XBool)!rtl2;
+          rowEllipL = 0;
+
+          if ( ResourcesFont_GetTextAdvance( font, res, start, len - 1 ) <= maxW )
+          {
+            colEllipF = 0;
+            colEllipL = 0;
+          }
+          else
+            colEllipL = (XBool)( colEllipL || !colEllipF );
+        }
+      }
+
+      inx = inx + len;
+    }
+
+    _this->textSize = EwNewPoint( ResourcesFont_GetFlowTextAdvance( font, res ), 
+    ( EwGetStringChar( res, 0 ) * rh ) - leading );
+    _this->flowString = EwShareString( res );
+  }
+
   if ( _this->AutoSize && ( EwCompString( _this->flowString, 0 ) != 0 ))
   {
+    XPoint padding = EwNewPoint( _this->Padding, 0 );
     _this->Super2.viewState = _this->Super2.viewState | CoreViewStateUpdatingLayout;
     CoreRectView__OnSetBounds( _this, EwMoveRectNeg( EwInflateRect( ViewsText_GetContentArea( 
-    _this ), _Const0002 ), _this->ScrollOffset ));
+    _this ), padding ), _this->ScrollOffset ));
     _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateUpdatingLayout;
   }
 
@@ -1627,6 +1903,40 @@ void ViewsText_OnSetEnableBidiText( ViewsText _this, XBool value )
   EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
 }
 
+/* 'C' function for method : 'Views::Text.OnSetPadding()' */
+void ViewsText_OnSetPadding( ViewsText _this, XInt32 value )
+{
+  if ( value < 0 )
+    value = 0;
+
+  if ( _this->Padding == value )
+    return;
+
+  _this->Padding = value;
+  _this->flowString = 0;
+  _this->reparsed = 0;
+  EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
+}
+
+/* The onset method for the property 'Ellipsis' changes the ellipsis mode and forces 
+   an update. */
+void ViewsText_OnSetEllipsis( ViewsText _this, XBool value )
+{
+  if ( value == _this->Ellipsis )
+    return;
+
+  _this->Ellipsis = value;
+
+  if ((( _this->WrapText && !!!_this->WrapWidth ) || value ) || !EwIsSlotNull( _this->OnUpdate ))
+    _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateFastReshape;
+  else
+    _this->Super2.viewState = _this->Super2.viewState | CoreViewStateFastReshape;
+
+  _this->flowString = 0;
+  _this->reparsed = 0;
+  EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
+}
+
 /* 'C' function for method : 'Views::Text.OnSetOnUpdate()' */
 void ViewsText_OnSetOnUpdate( ViewsText _this, XSlot value )
 {
@@ -1635,7 +1945,8 @@ void ViewsText_OnSetOnUpdate( ViewsText _this, XSlot value )
 
   _this->OnUpdate = value;
 
-  if ( _this->WrapText || !EwIsSlotNull( value ))
+  if ((( !!!_this->WrapWidth && _this->WrapText ) || !EwIsSlotNull( value )) || 
+      _this->Ellipsis )
     _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateFastReshape;
   else
     _this->Super2.viewState = _this->Super2.viewState | CoreViewStateFastReshape;
@@ -1662,10 +1973,10 @@ void ViewsText_OnSetSlideHandler( ViewsText _this, CoreSlideTouchHandler value )
 
   if (( value != 0 ) && ( value->privateOnSlide.Object != 0 ))
   {
-    EwTrace( "%s%*%s", EwLoadString( &_Const0004 ), value, EwLoadString( &_Const0005 ));
+    EwTrace( "%s%*%s", EwLoadString( &_Const0005 ), value, EwLoadString( &_Const0006 ));
 
     {
-      EwThrow( EwLoadString( &_Const0006 ));
+      EwThrow( EwLoadString( &_Const0007 ));
       return;
     }
   }
@@ -1693,13 +2004,45 @@ void ViewsText_OnSetAutoSize( ViewsText _this, XBool value )
 
   _this->AutoSize = value;
 
+  if ( value && _this->Ellipsis )
+  {
+    _this->flowString = 0;
+    _this->reparsed = 0;
+    EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
+  }
+
   if ( value && _this->reparsed )
   {
+    XPoint padding = EwNewPoint( _this->Padding, 0 );
     _this->Super2.viewState = _this->Super2.viewState | CoreViewStateUpdatingLayout;
     CoreRectView__OnSetBounds( _this, EwMoveRectNeg( EwInflateRect( ViewsText_GetContentArea( 
-    _this ), _Const0002 ), _this->ScrollOffset ));
+    _this ), padding ), _this->ScrollOffset ));
     _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateUpdatingLayout;
   }
+}
+
+/* 'C' function for method : 'Views::Text.OnSetWrapWidth()' */
+void ViewsText_OnSetWrapWidth( ViewsText _this, XInt32 value )
+{
+  if ( value < 0 )
+    value = 0;
+
+  if ( value == _this->WrapWidth )
+    return;
+
+  _this->WrapWidth = value;
+
+  if ( _this->WrapText && _this->reparsed )
+  {
+    _this->flowString = 0;
+    _this->reparsed = 0;
+    EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
+  }
+
+  if ((( !!!value && _this->WrapText ) || _this->Ellipsis ) || !EwIsSlotNull( _this->OnUpdate ))
+    _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateFastReshape;
+  else
+    _this->Super2.viewState = _this->Super2.viewState | CoreViewStateFastReshape;
 }
 
 /* 'C' function for method : 'Views::Text.OnSetWrapText()' */
@@ -1717,7 +2060,7 @@ void ViewsText_OnSetWrapText( ViewsText _this, XBool value )
     EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
   }
 
-  if ( value || !EwIsSlotNull( _this->OnUpdate ))
+  if ((( value && !!!_this->WrapWidth ) || _this->Ellipsis ) || !EwIsSlotNull( _this->OnUpdate ))
     _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateFastReshape;
   else
     _this->Super2.viewState = _this->Super2.viewState | CoreViewStateFastReshape;
@@ -1750,6 +2093,13 @@ void ViewsText_OnSetAlignment( ViewsText _this, XSet value )
   if (( _this->Super2.Owner != 0 ) && (( _this->Super2.viewState & CoreViewStateVisible ) 
       == CoreViewStateVisible ))
     CoreGroup__InvalidateArea( _this->Super2.Owner, _this->Super1.Bounds );
+
+  if ( _this->Ellipsis )
+  {
+    _this->flowString = 0;
+    _this->reparsed = 0;
+    EwPostSignal( EwNewSlot( _this, ViewsText_preReparseSlot ), ((XObject)_this ));
+  }
 
   if ( _this->reparsed )
     EwPostSignal( EwNewSlot( _this, ViewsText_preOnUpdateSlot ), ((XObject)_this ));
@@ -1878,7 +2228,7 @@ XPoint ViewsText_StringIndex2RowCol( ViewsText _this, XInt32 aIndex )
   XInt32 col;
   XBool count;
 
-  if ( !EwCompString( _this->String, 0 ) || ( _this->Font == 0 ))
+  if (( !EwCompString( _this->String, 0 ) || ( _this->Font == 0 )) || _this->Ellipsis )
     return _Const0002;
 
   if ( !_this->reparsed )
@@ -1959,7 +2309,7 @@ XInt32 ViewsText_RowCol2StringIndex( ViewsText _this, XPoint aRowCol )
   XInt32 rowEnd;
   XBool pending;
 
-  if ( !EwCompString( _this->String, 0 ) || ( _this->Font == 0 ))
+  if (( !EwCompString( _this->String, 0 ) || ( _this->Font == 0 )) || _this->Ellipsis )
     return 0;
 
   if ( !_this->reparsed )
@@ -2348,6 +2698,7 @@ XRect ViewsText_GetContentArea( ViewsText _this )
   XInt32 rh;
   XSet align;
   XRect bounds;
+  XInt32 padding;
   XInt32 width;
   XInt32 height;
   XRect rd;
@@ -2371,9 +2722,10 @@ XRect ViewsText_GetContentArea( ViewsText _this )
   _this->textSize.Y = (( EwGetStringChar( _this->flowString, 0 ) * rh ) - leading );
   align = _this->Alignment;
   bounds = _this->Super1.Bounds;
+  padding = _this->Padding;
   width = EwGetRectW( bounds );
   height = EwGetRectH( bounds );
-  rd = EwNewRect( 0, 0, width, height );
+  rd = EwNewRect( padding, 0, width - padding, height );
   rs = EwNewRect2Point( rd.Point1, EwMovePointPos( rd.Point1, _this->textSize ));
 
   if ((( align & ViewsTextAlignmentAlignHorzAuto ) == ViewsTextAlignmentAlignHorzAuto ))
@@ -2386,8 +2738,10 @@ XRect ViewsText_GetContentArea( ViewsText _this )
 
   if ((( align & ViewsTextAlignmentAlignHorzJustified ) == ViewsTextAlignmentAlignHorzJustified ))
   {
-    XInt32 maxWidth;
-    maxWidth = width;
+    XInt32 maxWidth = _this->WrapWidth;
+
+    if ( maxWidth <= 0 )
+      maxWidth = width - ( _this->Padding * 2 );
 
     if ( maxWidth < 0 )
       maxWidth = 0;
@@ -3031,7 +3385,7 @@ void ViewsWarpGroup_OnSetGroup( ViewsWarpGroup _this, CoreGroup value )
 
   if (( value != 0 ) && ( value == _this->Super3.Owner ))
   {
-    EwThrow( EwLoadString( &_Const0007 ));
+    EwThrow( EwLoadString( &_Const0008 ));
     return;
   }
 

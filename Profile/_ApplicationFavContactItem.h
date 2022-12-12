@@ -114,9 +114,9 @@ EW_DEFINE_FIELDS( ApplicationFavContactItem, ApplicationContactItem )
   EW_PROPERTY( OnInfo,          XSlot )
   EW_OBJECT  ( EditEffect,      EffectsInt32Effect )
   EW_OBJECT  ( DeleteEffect,    EffectsInt32Effect )
-  EW_OBJECT  ( RemoveButton,    ComponentsSButton25x25 )
   EW_OBJECT  ( DeleteButton,    ComponentsTextButton )
   EW_OBJECT  ( InfoButton,      ComponentsSButton25x25 )
+  EW_OBJECT  ( RemoveButton,    ComponentsSButton25x25 )
   EW_PROPERTY( EditMode,        XBool )
 EW_END_OF_FIELDS( ApplicationFavContactItem )
 
@@ -143,6 +143,7 @@ EW_DEFINE_METHODS( ApplicationFavContactItem, ApplicationContactItem )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateLayout,      void )( CoreGroup _this, XPoint aSize )
   EW_METHOD( UpdateViewState,   void )( ApplicationContactItem _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 

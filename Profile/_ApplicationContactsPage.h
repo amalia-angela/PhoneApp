@@ -152,6 +152,7 @@ EW_DEFINE_METHODS( ApplicationContactsPage, CoreGroup )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateLayout,      void )( CoreGroup _this, XPoint aSize )
   EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
@@ -226,10 +227,6 @@ void ApplicationContactsPage_onMYCardUpdate( ApplicationContactsPage _this, XObj
 
 /* 'C' function for method : 'Application::ContactsPage.onMyCardPress()' */
 void ApplicationContactsPage_onMyCardPress( ApplicationContactsPage _this, XObject 
-  sender );
-
-/* 'C' function for method : 'Application::ContactsPage.onTapMessage()' */
-void ApplicationContactsPage_onTapMessage( ApplicationContactsPage _this, XObject 
   sender );
 
 #ifdef __cplusplus

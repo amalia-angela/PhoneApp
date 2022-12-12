@@ -95,7 +95,7 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
 {
-  0x00000404, /* ratio 48.64 % */
+  0x0000040A, /* ratio 48.36 % */
   0xB8009B00, 0x800AC452, 0x00CA0034, 0xC40003B8, 0x1A730041, 0xE0037002, 0x123A000D,
   0x88745211, 0x89424D11, 0x6800C311, 0x19E1D1F3, 0x022A7200, 0x8E0003A8, 0x1D298B44,
   0x1328C422, 0x168A44A2, 0x29247E69, 0x001923E6, 0x74FE153F, 0x002670C8, 0x76251A8F,
@@ -113,7 +113,14 @@ EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault1[] =
   0xF938477B, 0xDDF64B94, 0x214A5F90, 0x4A94A912, 0x11471D0E, 0x75490A5B, 0x45B74720,
   0x396CD6E4, 0x72242449, 0x92745116, 0x845A6897, 0x01775226, 0x0A53C710, 0x0850A4B1,
   0x25B0899C, 0x577A5D00, 0x7E765424, 0x7E9ED144, 0x97DE09F2, 0x65F9A922, 0x0002648D,
-  0x7C0556A8, 0x32000316, 0x67C04670, 0x6A267025, 0x00000040, 0x00000000
+  0x7C0456A8, 0x996702D6, 0xA618C412, 0x19C4399F, 0x00010167, 0x00000000
+};
+
+/* Compressed strings for the language 'Default'. */
+EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault2[] =
+{
+  0x00000016, /* ratio 127.27 % */
+  0xB8000B00, 0x00062452, 0x12120019, 0x44A45818, 0x030987C2, 0x00000002, 0x00000000
 };
 
 /* Constant values used in this 'C' module only. */
@@ -146,7 +153,10 @@ static const XStringRes _Const0019 = { _StringsDefault1, 0x0149 };
 static const XStringRes _Const001A = { _StringsDefault1, 0x01A0 };
 static const XStringRes _Const001B = { _StringsDefault1, 0x01D7 };
 static const XStringRes _Const001C = { _StringsDefault1, 0x01F9 };
-static const XStringRes _Const001D = { _StringsDefault1, 0x01FE };
+static const XStringRes _Const001D = { _StringsDefault1, 0x01FD };
+static const XStringRes _Const001E = { _StringsDefault1, 0x0201 };
+static const XStringRes _Const001F = { _StringsDefault2, 0x0002 };
+static const XStringRes _Const0020 = { _StringsDefault2, 0x0007 };
 
 #ifndef EW_DONT_CHECK_INDEX
   /* This function is used to check the indices when accessing an array.
@@ -2802,7 +2812,7 @@ void CoreGroup_recalculateLayout( CoreGroup _this )
   }
 
   _this->Super2.viewState = _this->Super2.viewState & ~CoreViewStateUpdatingLayout;
-  CoreGroup_UpdateLayout( _this, EwGetRectSize( groupBounds ));
+  CoreGroup__UpdateLayout( _this, EwGetRectSize( groupBounds ));
 }
 
 /* 'C' function for method : 'Core::Group.updateComponent()' */
@@ -3786,6 +3796,21 @@ void CoreGroup_UpdateLayout( CoreGroup _this, XPoint aSize )
   EW_UNUSED_ARG( aSize );
 }
 
+/* Wrapper function for the virtual method : 'Core::Group.UpdateLayout()' */
+__declspec( naked ) void CoreGroup__UpdateLayout( void* _this, XPoint aSize )
+{
+  EW_UNUSED_ARG( _this );
+  EW_UNUSED_ARG( aSize );
+
+  __asm
+  {
+    /* Call the method via _this->VMT */
+    mov eax, DWORD PTR [ esp + 4 ]
+    mov eax, DWORD PTR [ eax ]
+    jmp      DWORD PTR [ eax + 116 ]
+  }
+}
+
 /* The method UpdateViewState() is invoked automatically after the state of the 
    component has been changed. This method can be overridden and filled with logic 
    to ensure the visual aspect of the component does reflect its current state. 
@@ -3818,7 +3843,7 @@ __declspec( naked ) void CoreGroup__UpdateViewState( void* _this, XSet aState )
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 116 ]
+    jmp      DWORD PTR [ eax + 120 ]
   }
 }
 
@@ -3885,7 +3910,7 @@ __declspec( naked ) void CoreGroup__InvalidateArea( void* _this, XRect aArea )
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 120 ]
+    jmp      DWORD PTR [ eax + 124 ]
   }
 }
 
@@ -3947,7 +3972,7 @@ __declspec( naked ) CoreView CoreGroup__FindSiblingView( void* _this, CoreView a
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 124 ]
+    jmp      DWORD PTR [ eax + 128 ]
   }
 }
 
@@ -4108,7 +4133,7 @@ __declspec( naked ) void CoreGroup__RestackTop( void* _this, CoreView aView )
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 128 ]
+    jmp      DWORD PTR [ eax + 132 ]
   }
 }
 
@@ -4241,7 +4266,7 @@ __declspec( naked ) void CoreGroup__Restack( void* _this, CoreView aView, XInt32
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 132 ]
+    jmp      DWORD PTR [ eax + 136 ]
   }
 }
 
@@ -4322,7 +4347,7 @@ __declspec( naked ) void CoreGroup__Remove( void* _this, CoreView aView )
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 136 ]
+    jmp      DWORD PTR [ eax + 140 ]
   }
 }
 
@@ -4445,7 +4470,7 @@ __declspec( naked ) void CoreGroup__Add( void* _this, CoreView aView, XInt32 aOr
     /* Call the method via _this->VMT */
     mov eax, DWORD PTR [ esp + 4 ]
     mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 140 ]
+    jmp      DWORD PTR [ eax + 144 ]
   }
 }
 
@@ -4477,6 +4502,7 @@ EW_DEFINE_CLASS( CoreGroup, CoreRectView, first, Opacity, Opacity, Opacity, Opac
   CoreGroup_OnSetOpacity,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -5790,6 +5816,7 @@ EW_DEFINE_CLASS( CoreRoot, CoreGroup, keyLastTarget, cursorHoldTimer, cursorHold
   CoreRoot_OnSetOpacity,
   CoreRoot_DispatchEvent,
   CoreRoot_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreRoot_InvalidateArea,
   CoreGroup_FindSiblingView,
@@ -6818,6 +6845,49 @@ void CoreOutline_EnsureVisible( CoreOutline _this, CoreView aView, XBool aFullyV
   }
 }
 
+/* The method FindNextView() searches for the view lying in front of the view specified 
+   in the parameter aView - aView itself will be excluded from the search operation. 
+   This allows you to enumerate all affected views, view by view from the background 
+   to the front. If the parameter aView == null, the search operations will start 
+   with the first view of the outline.
+   The additional parameter aFilter can be used to limit the search operation to 
+   special views only, e.g. to visible and touchable views.
+   If there is no other view lying above the start view aView, the method returns 
+   'null'.
+   Please note, this method is limited to the views embedded within the outline. 
+   Other sibling views not belonging to the outline are simply ignored. */
+CoreView CoreOutline_FindNextView( CoreOutline _this, CoreView aView, XSet aFilter )
+{
+  CoreView view;
+  XSet notFilter;
+
+  if (( aView != 0 ) && (( aView->Owner != _this->Super2.Owner ) || !(( aView->viewState 
+      & CoreViewStateEmbedded ) == CoreViewStateEmbedded )))
+    return 0;
+
+  view = _this->Super2.next;
+  notFilter = CoreViewStateDialog;
+
+  if ((( aFilter & CoreViewStateDialog ) == CoreViewStateDialog ))
+    notFilter = 0;
+
+  if ( aView != 0 )
+    view = aView->next;
+
+  aFilter = aFilter | CoreViewStateEmbedded;
+
+  while (( view != 0 ) && !(( view->viewState & CoreViewStateIsOutline ) == CoreViewStateIsOutline ))
+  {
+    if ( EwSetContains( view->viewState, aFilter ) && ( !notFilter || !EwSetContains( 
+        view->viewState, notFilter )))
+      return view;
+
+    view = view->next;
+  }
+
+  return 0;
+}
+
 /* The method GetContentArea() determines a rectangular area occupied by the views 
    embedded within the outline. The additional parameter aFilter can be used to 
    limit the operation to special views only, e.g. to visible and touchable views.
@@ -7643,6 +7713,7 @@ EW_DEFINE_CLASS( CoreVerticalList, CoreGroup, itemsPool, OnLoadItem, invalidTail
   CoreGroup_OnSetOpacity,
   CoreVerticalList_DispatchEvent,
   CoreGroup_BroadcastEvent,
+  CoreGroup_UpdateLayout,
   CoreVerticalList_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreVerticalList_FindSiblingView,
@@ -8975,6 +9046,15 @@ void CoreSlideTouchHandler_OnSetFriction( CoreSlideTouchHandler _this, XFloat va
   _this->frictFactor = value * 10000.000000f;
 }
 
+/* 'C' function for method : 'Core::SlideTouchHandler.OnSetEnabled()' */
+void CoreSlideTouchHandler_OnSetEnabled( CoreSlideTouchHandler _this, XBool value )
+{
+  if ( value )
+    CoreView__ChangeViewState( _this, CoreViewStateEnabled, 0 );
+  else
+    CoreView__ChangeViewState( _this, 0, CoreViewStateEnabled );
+}
+
 /* Variants derived from the class : 'Core::SlideTouchHandler' */
 EW_DEFINE_CLASS_VARIANTS( CoreSlideTouchHandler )
 EW_END_OF_CLASS_VARIANTS( CoreSlideTouchHandler )
@@ -10176,6 +10256,21 @@ XInt64 CoreTime_getCurrentTime( CoreTime _this )
   return result;
 }
 
+/* 'C' function for method : 'Core::Time.OnGetString()' */
+XString CoreTime_OnGetString( CoreTime _this )
+{
+  XString date = EwConcatString( EwConcatString( EwConcatString( EwConcatString( 
+    EwNewStringInt( _this->Year, 4, 10 ), EwLoadString( &_Const001C )), EwNewStringInt( 
+    _this->Month, 2, 10 )), EwLoadString( &_Const001C )), EwNewStringInt( _this->Day, 
+    2, 10 ));
+  XString time = EwConcatString( EwConcatString( EwConcatString( EwConcatString( 
+    EwNewStringInt( _this->Hour, 2, 10 ), EwLoadString( &_Const001D )), EwNewStringInt( 
+    _this->Minute, 2, 10 )), EwLoadString( &_Const001D )), EwNewStringInt( _this->Second, 
+    2, 10 ));
+
+  return EwConcatString( EwConcatString( date, EwLoadString( &_Const001E )), time );
+}
+
 /* 'C' function for method : 'Core::Time.OnGetTime()' */
 XInt64 CoreTime_OnGetTime( CoreTime _this )
 {
@@ -10484,7 +10579,7 @@ XString CoreTime_Format( CoreTime _this, XString aFormat )
 
         case 'I' :
           if (( _this->Hour % 12 ) == 0 )
-            result = EwConcatString( result, EwLoadString( &_Const001C ));
+            result = EwConcatString( result, EwLoadString( &_Const001F ));
           else
             result = EwConcatString( result, EwNewStringInt( _this->Hour % 12, 2 
             * leadingZeros, 10 ));
@@ -10528,7 +10623,7 @@ XString CoreTime_Format( CoreTime _this, XString aFormat )
         break;
 
         case '%' :
-          result = EwConcatString( result, EwLoadString( &_Const001D ));
+          result = EwConcatString( result, EwLoadString( &_Const0020 ));
         break;
 
         case 'j' :

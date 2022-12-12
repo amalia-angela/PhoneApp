@@ -2428,7 +2428,10 @@ void EffectsFadeInOutTransition_onInitializeIn( EffectsFadeInOutTransition _this
   XSet align = _this->Alignment;
   XRect bounds = EwGetRectORect( fader->Super1.Owner->Super1.Bounds );
   XPoint size = EwGetRectSize( fader->Super1.Group->Super1.Bounds );
-  XPoint pos = bounds.Point1;
+  XPoint pos;
+
+  bounds.Point1.X = ( bounds.Point1.X + _this->MarginLeft );
+  pos = bounds.Point1;
 
   if ((( align & EffectsDialogAlignmentAlignHorzRight ) == EffectsDialogAlignmentAlignHorzRight ))
     pos.X = ( bounds.Point2.X - size.X );
@@ -2607,7 +2610,10 @@ void EffectsSlideTransition_onInitializeIn( EffectsSlideTransition _this, XObjec
   XPoint size = EwGetRectSize( fader->Super1.Group->Super1.Bounds );
   XPoint pos;
 
+  bounds.Point1.X = ( bounds.Point1.X + _this->MarginLeft );
+  bounds.Point2.X = ( bounds.Point2.X - _this->MarginRight );
   bounds.Point1.Y = ( bounds.Point1.Y + _this->MarginTop );
+  bounds.Point2.Y = ( bounds.Point2.Y - _this->MarginBottom );
   pos = bounds.Point1;
 
   if ((( align & EffectsDialogAlignmentAlignHorzRight ) == EffectsDialogAlignmentAlignHorzRight ))
