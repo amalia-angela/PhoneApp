@@ -5513,7 +5513,7 @@ class MessagesPage : Core::Group
   slot onNoOfContactsChanged
   {
     VerticalList.NoOfItems = Device::Device.MessageHistory.NoOfItems;
-    
+
   }
 
   $rect <480,210,690,250>
@@ -6382,7 +6382,7 @@ class Chat : Core::Group
   }
 
   $rect <790,50,980,90>
-  property Device::Contact Contact;
+  property Device::Contact Contact = null;
 
   // Touch screen events
   note group Note
@@ -6399,6 +6399,7 @@ class Chat : Core::Group
     if ( SearchEtxt.String != "")
     {
       Device::Device.SendMessage( Contact, SearchEtxt.String );
+      trace "Class: " + Contact.PhoneNumber + " " + SearchEtxt.String;
     }
 
 
@@ -6414,9 +6415,10 @@ class Chat : Core::Group
   $rect <20,20,160,60>
   object Core::Outline Outline
   {
+    preset Layout = Core::Layout[AlignToTop];
     preset Bounds = <0,69,272,435>;
     preset SlideHandler = SlideTouchHandler;
-    preset Formation = Core::Formation.TopToBottom;
+    preset Formation = Core::Formation.None;
   }
 
   $rect <20,20,160,60>
@@ -6492,34 +6494,59 @@ class Chat : Core::Group
   $rect <790,180,990,220>
   slot onMessageUpdate
   {
-    if ( pure Contact != null )
+    RemoveMessages();
+    if ( pure Contact != null && pure Contact.MessagesList.head != null)
     {
-      if ( pure Contact.MessagesList.head != null )
+      var Device::Message message   = pure Contact.MessagesList.head;
+      
+      //vegigmegyunk a MessageList-an
+      while ( message != null)
       {
         var Application::ChatItem chatItem = new Application::ChatItem;
-        var Device::Message         message    = pure Contact.MessagesList.head;
-
+        
         if ( message.Sender == Device::Device.MyCard )
         {
           chatItem.LeftAligned  = false;
           chatItem.BubbleColor  = Res::Blue;
           chatItem.Message      = message.Message;
           chatItem.MessageColor = Res::White; 
-        }
+         }
         else if ( message.Receiver == Device::Device.MyCard )
         {
           chatItem.LeftAligned  = true;
-          chatItem.BubbleColor  = Res::White;
+          chatItem.BubbleColor  = Res::GreyLight;
           chatItem.Message      = message.Message;
           chatItem.MessageColor = Res::Black; 
         }
-
+        //megjelenitjuk az uzenetet+chatbubble az outlineban
         chatItem.Embedded = true;                            
         Add( chatItem, nrOfItem );
         Outline.EnsureVisible( chatItem, true, null, null );
+        
         nrOfItem ++; 
+        
+        message = message.next;
       }
     }
+  }
+
+  $rect <800,230,1000,270>
+  method void RemoveMessages()
+  {
+    //megkeresem az elso viewet az outlineba
+    var Core::View view = Outline.FindNextView( null, Core::ViewState[ Embedded ] );
+    while ( view != null )
+    {
+      // legyen biztos egy chat item es nem valami mas
+      if ((Application::ChatItem)view != null )
+        Remove( view );
+
+      // a kovetkezo
+      view = Outline.FindNextView( null, Core::ViewState[ Embedded ] );
+    }
+
+    nrOfItem = 0;
+
   }
 }
 
@@ -6707,6 +6734,7 @@ class MainPage : Core::Group
   slot onSave
   {
     Device::Device.MyCard = addPage.Contact;
+    Device::Device.Contacts.AddLast( addPage.Contact );
     postsignal onClose;
   }
 
@@ -6798,7 +6826,7 @@ class ChatItem : Core::Group
       Frame.Bitmap = Res::ChatRight;
       Text.Layout = Core::Layout[AlignToRight, AlignToTop];
       Frame.Layout = Core::Layout[AlignToRight, AlignToTop];
-      Text.Bounds.x= 272 - Text.GetContentArea().x - 50;
+      Text.Bounds.x= 272 - Text.GetContentArea().w - 20;
       Text.Bounds.y = 10;
       }
     else if ( LeftAligned == true )
@@ -6816,7 +6844,7 @@ class ChatItem : Core::Group
   }
 
   $rect <300,0,500,40>
-  property bool LeftAligned = true;
+  property bool LeftAligned = false;
 
   $rect <300,40,500,80>
   onset LeftAligned
@@ -6832,7 +6860,7 @@ class ChatItem : Core::Group
   }
 
   $rect <505,0,705,40>
-  property string Message = "hei";
+  property string Message = "heifdghfjghjghkgukl";
 
   $rect <505,40,705,80>
   onset Message
@@ -7002,4 +7030,245 @@ class SplashScreen : Core::Group
 
   $rect <490,240,690,280>
   var slot OnStart;
+}
+
+$rect <670,190,870,230>
+$output false
+class Component : Core::Group
+{
+  $rect <590,70,790,110>
+  inherited method Init()
+  {
+    //RemoveMessages();
+    //AddMessage();
+  }
+
+  $rect <370,20,570,60>
+  inherited property Bounds = <0,0,300,416>;
+
+  $rect <370,180,570,220>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <370,140,570,180>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Core::Outline Outline
+  {
+    preset Bounds = <0,2,300,416>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <-4,0,300,416>;
+    preset Color = #787878FF;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ChatItem ChatItem
+  {
+    preset Bounds = <12,19,284,61>;
+    preset LeftAligned = false;
+    preset Message = "hei \nnbkj\nbkhvjh";
+    preset BubbleColor = Res::BlueLight;
+    preset MessageColor = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ChatItem ChatItem1
+  {
+    preset Bounds = <12,85,284,139>;
+    preset Embedded = true;
+    preset Message = "heiv bn nbvhghhjjhkf      ghjdhkg dfgsjgfsld fkjg sdgfs fgsh";
+  }
+
+  $rect <20,20,160,60>
+  object Application::ChatItem ChatItem2
+  {
+    preset Bounds = <14,146,286,200>;
+    preset Embedded = true;
+    preset Message = "adsf sdg zfg";
+  }
+
+  $rect <20,20,160,60>
+  object Application::ChatItem ChatItem3
+  {
+    preset Bounds = <14,200,286,242>;
+    preset Embedded = false;
+    preset LeftAligned = true;
+    preset Message = Strings::AddToFavTxt;
+    preset BubbleColor = Res::BlueLight;
+    preset MessageColor = Res::WhiteSemiTransparent;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ChatItem ChatItem4
+  {
+    preset Bounds = <12,260,284,302>;
+    preset Embedded = true;
+    preset LeftAligned = false;
+    preset Message = "hei asgjhg ashdgja sahdgvuasvdas";
+  }
+
+  $rect <20,20,160,60>
+  object Application::ChatItem ChatItem5
+  {
+    preset Bounds = <14,312,286,354>;
+    preset Embedded = true;
+  }
+
+  $rect <800,230,1000,270>
+  method void RemoveMessages()
+  {
+    // search for the first embedded view of the outline box 
+    var Core::View view = Outline.FindNextView( null, Core::ViewState[ Embedded ] );
+    while ( view != null )
+    {
+      // make sure that it is a chat bubble and remove it 
+      if ((Application::ChatItem)view != null )
+        Remove( view );
+
+      // search again for the first embedded view 
+      view = Outline.FindNextView( null, Core::ViewState[ Embedded ] );
+    }
+
+  }
+
+  $rect <800,270,1000,310>
+  method void AddMessage()
+  {
+    var Application::ChatItem item = new Application::ChatItem;
+
+    item.Message = "hei";
+    item.BubbleColor = Res::RedLight;
+    item.MessageColor = Res::Black;
+    item.LeftAligned = false;
+
+    item.Embedded = true;
+
+    Add( item, 0 );
+    Outline.EnsureVisible( item, true, null, null );
+  }
 }
