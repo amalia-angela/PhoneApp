@@ -139,10 +139,28 @@ class Contact
 
     // Remember the property's new value.
     pure MyCard = value;
+
+    notifyobservers this;
   }
 
-  $rect <-7,359,193,399>
+  $rect <0,380,200,420>
   object Device::MessagesList MessagesList;
+
+  $rect <0,340,200,380>
+  property bool NewMessage = false;
+
+  $rect <200,340,400,380>
+  onset NewMessage
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure NewMessage == value )
+      return;
+
+    // Remember the property's new value.
+    pure NewMessage = value;
+
+    notifyobservers this;
+  }
 }
 
 // Contact
@@ -732,6 +750,7 @@ class DeviceClass : Templates::DeviceClass
     //hozza rendeleme az uzenetet a contacthoz
     contactSender.MessagesList.Add( message );
 
+    contactSender.NewMessage = true;
     //hozza adom az uj/frissitett contactot a beszelgetesekhez
     MessageHistory.AddFirst( contactSender );
   }
@@ -740,7 +759,7 @@ class DeviceClass : Templates::DeviceClass
   method void SendMessage( arg Device::Contact aContact, arg string aMessageContent )
   {
     //letre hozom az uzenetet
-    var Device::Message message = new Device::Message;
+     var Device::Message message = new Device::Message;
 
     message.Sender   = MyCard;
     message.Receiver = aContact;
@@ -1337,7 +1356,7 @@ class ContactList
       var Device::ContactListElement elem = head;
 
 
-      while ( elem.next != null )
+      while ( elem != null )
       {
         if ( elem.Data.ID == aContact.ID )
           return elem.Data;
@@ -1441,7 +1460,7 @@ class PhoneServerClass : Templates::DeviceClass
       req.send();
     }
     $endif
-    trace "Receive : " + " sender: " +senderNumber + " message: " + message + " content: " + messageContent;
+    //trace "Receive : " + " sender: " +senderNumber + " message: " + message + " content: " + messageContent;
     if ( message == "call")
     {
       Device::Device.ReceiveCall( senderNumber );
@@ -1967,7 +1986,23 @@ class Message
   $rect <470,30,670,70>
   method void TraceMessage()
   {
-    trace Receiver.FirstName + " " + Sender.FirstName + " " + Message ;
+    trace "message: " + Message ;
+  }
+
+  $rect <10,250,210,290>
+  property bool Seen = false;
+
+  $rect <210,250,410,290>
+  onset Seen
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Seen == value )
+      return;
+
+    // Remember the property's new value.
+    pure Seen = value;
+
+    notifyobservers this;
   }
 }
 
@@ -2031,7 +2066,7 @@ class MessagesList
     }
   }
 
-  $rect <0,200,200,240>
+  $rect <230,200,430,240>
   method void TraceMessages()
   {
     var Device::Message elem = head;
@@ -2061,7 +2096,7 @@ class MessagesList
 
   }
 
-  $rect <0,250,200,290>
+  $rect <0,230,200,270>
   method Device::Message GetLastMessage()
   {
     var Device::Message msg = head;
@@ -2076,8 +2111,8 @@ class MessagesList
     return msg;
   }
 
-  $rect <10,300,210,340>
-  method Device::Message GetMessage( arg int32 aIndex )
+  $rect <0,270,200,310>
+  method Device::Message GetMessageByNr( arg int32 aIndex )
   {
     if ( head == null || aIndex >= NoOfItems )
       return null;
@@ -2092,5 +2127,11 @@ class MessagesList
 
     return message;
 
+  }
+
+  $rect <0,170,200,210>
+  method void RemoveAll()
+  {
+    head = null;
   }
 }

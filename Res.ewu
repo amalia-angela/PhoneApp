@@ -366,7 +366,7 @@ const color WhiteSemiTransparent = #FFFFFF73;
 
 $rect <901,800,1101,840>
 $output false
-const color White = #FFFFFFF9;
+const color White = #FFFFFFFF;
 
 $rect <901,760,1101,800>
 $output false
