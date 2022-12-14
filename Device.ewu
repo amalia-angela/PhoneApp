@@ -472,16 +472,16 @@ class DeviceClass : Templates::DeviceClass
     }
   }
 
-  $rect <10,410,210,450>
+  $rect <0,490,200,530>
   object Device::ContactList Contacts;
 
-  $rect <10,490,210,530>
+  $rect <0,570,200,610>
   object Device::ContactList History;
 
-  $rect <10,450,210,490>
+  $rect <0,530,200,570>
   object Device::ContactList Favorites;
 
-  $rect <10,530,210,570>
+  $rect <0,610,200,650>
   object Device::ContactList Search;
 
   $rect <200,190,400,230>
@@ -500,7 +500,7 @@ class DeviceClass : Templates::DeviceClass
     // if call fails
     if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ))
     {
-      historyContact.CallState = Device::CallState.Fail;
+      historyContact.CallState = Device::CallState.Missed;
       
       History.AddFirst( historyContact );
       Ongoing.Remove( historyContact );
@@ -566,7 +566,7 @@ class DeviceClass : Templates::DeviceClass
 
   }
 
-  $rect <210,490,410,530>
+  $rect <200,570,400,610>
   object Device::ContactList Ongoing;
 
   $rect <500,490,700,530>
@@ -746,6 +746,7 @@ class DeviceClass : Templates::DeviceClass
     message.Receiver = MyCard;
     message.TimeSent = ( new Core::Time).CurrentTime;
     message.Message  = aMessageContent;
+    message.Seen     = false;
 
     //hozza rendeleme az uzenetet a contacthoz
     contactSender.MessagesList.Add( message );
@@ -765,6 +766,7 @@ class DeviceClass : Templates::DeviceClass
     message.Receiver = aContact;
     message.TimeSent = ( new Core::Time).CurrentTime;
     message.Message  = aMessageContent;
+    message.Seen     = true;
 
     //hozza rendelem a contachoz
     aContact.MessagesList.Add( message );
@@ -821,8 +823,22 @@ class DeviceClass : Templates::DeviceClass
     }
   }
 
-  $rect <10,570,210,610>
+  $rect <0,650,200,690>
   object Device::ContactList MessageHistory;
+
+  $rect <0,390,200,430>
+  method void ReceiveMissedCall( arg string aPhoneNumber )
+  {
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+     
+    if ( historyContact.CallState == Device::CallState.Dialing )
+    {
+       historyContact.CallState = Device::CallState.Missed; 
+    }  
+
+    History.AddFirst( historyContact );
+    Ongoing.Remove( historyContact );
+  }
 }
 
 $rect <20,80,250,120>
@@ -933,8 +949,6 @@ vclass DeviceSimulation : Device::DeviceClass
     CreateContact(  "Davies", "James", "0756788890");
     CreateContact(  "Addison", "Michaek", "0740987662");
     CreateContact(  "Kennedy", "Jane", "0755545654");
-    CreateContactFav( "Humphrey", "George", "0737678772");
-
     Contacts.insertionSort();
 
     //postsignal Message;
@@ -1405,6 +1419,12 @@ class ContactList
   {
     return pure IsUpdate;
   }
+
+  $rect <200,130,400,170>
+  method void RemoveAll( arg Device::Contact aContact )
+  {
+    head = null;
+  }
 }
 
 $rect <580,220,780,260>
@@ -1477,6 +1497,10 @@ class PhoneServerClass : Templates::DeviceClass
              ( message == "cancelled" ))
     {
       Device::Device.ReceiveEndCall( senderNumber );
+    }
+    else if ( message == "missed" )
+    {
+       Device::Device.ReceiveMissedCall( senderNumber );
     }
     else if ( message == "message" )
     {
@@ -2050,7 +2074,7 @@ class MessagesList
 
     if (( mes != null) && ( mes == aMessage ))
     {
-      head = mes;
+      head = mes.next;
       NoOfItems -= 1;
     }
      

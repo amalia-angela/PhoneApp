@@ -620,7 +620,7 @@ class Button265x470 : Templates::PushButton
     {
       var color clr = Res::Red; 
       Text.Font      = Res::ContactFont15;
-      Text.String = Label;
+      Text.String = String;
       Text.Color     = clr;
       }
 
@@ -849,14 +849,14 @@ class Button265x470 : Templates::PushButton
   property slot OnActivate = null;
 
   $rect <450,50,650,90>
-  onset Label
+  onset String
   {
     // The value doesn't change - nothing to do.
-    if ( pure Label == value )
+    if ( pure String == value )
       return;
 
     // Remember the property's new value.
-    pure Label = value;
+    pure String = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
@@ -871,7 +871,7 @@ class Button265x470 : Templates::PushButton
   // can modify the alignment of the label as well as its margins by specifying them \
   // in the configuration object.
   $rect <450,10,650,50>
-  property string Label = "";
+  property string String = "";
 
   $rect <710,350,910,390>
   var Views::Text textView;
@@ -896,6 +896,15 @@ class TextButton : Templates::PushButton
 {
   $rect <480,310,680,350>
   inherited property Bounds = <0,0,66,25>;
+
+  $rect <930,190,1130,230>
+  inherited method UpdateLayout()
+  {
+    super(aSize);
+
+    Background.Bounds = Bounds.orect;
+    TextTxt.Bounds    = Bounds.orect;
+  }
 
   $rect <710,190,910,230>
   inherited method UpdateViewState()
@@ -4247,9 +4256,15 @@ class InputBtnEtxt : Templates::TextEditor
   {
     //TextPlaceholder.Visible = ( String == "Text\n" );
     if( String == "Text\n" || String == "" )
+    {
       TextPlaceholder.Visible = true;
+      Search.Color = Res::Grey;
+    }
     else
+    {
       TextPlaceholder.Visible = false;
+       Search.Color = Res::Blue;
+    }
   }
 
   // This key handler reacts to user inputs if the user has pressed the 'enter' key. \
