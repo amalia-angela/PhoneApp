@@ -8,6 +8,9 @@ class Contact
   inherited method Init()
   {
     pure ID = Device::Device.GetNewID();
+
+    attachobserver notifyThis, ^MessagesList.NoOfItems;
+
   }
 
   $rect <0,60,200,100>
@@ -147,18 +150,24 @@ class Contact
   object Device::MessagesList MessagesList;
 
   $rect <0,340,200,380>
-  property bool NewMessage = false;
+  property int32 UnreadMessagesNr = 0;
 
   $rect <200,340,400,380>
-  onset NewMessage
+  onset UnreadMessagesNr
   {
     // The value doesn't change - nothing to do.
-    if ( pure NewMessage == value )
+    if ( pure UnreadMessagesNr == value )
       return;
 
     // Remember the property's new value.
-    pure NewMessage = value;
+    pure UnreadMessagesNr = value;
 
+    notifyobservers this;
+  }
+
+  $rect <480,190,680,230>
+  slot notifyThis
+  {
     notifyobservers this;
   }
 }
@@ -575,6 +584,8 @@ class DeviceClass : Templates::DeviceClass
     LastID +=1;
 
     return LastID;
+
+    trace LastID;
   }
 
   $rect <700,490,900,530>
@@ -692,24 +703,24 @@ class DeviceClass : Templates::DeviceClass
   var Device::PhoneServerClass server = Device::PhoneServer;
 
   $rect <900,100,1100,140>
-  property Device::Contact MyCard = null;
+  property Device::Contact MyContact = null;
 
   $rect <900,140,1100,180>
-  onset MyCard
+  onset MyContact
   {
-    if ( pure MyCard == value )
+    if ( pure MyContact == value )
       return;
 
-    pure MyCard = value;
+    pure MyContact = value;
 
-    if ( pure MyCard != null )
+    if ( pure MyContact != null )
     {
       signal Device::PhoneServer.PollServerData.StartTimer;
     }
 
-    notifyobservers ^MyCard;
+    notifyobservers ^MyContact;
 
-    trace "MyCard: " + MyCard.FirstName + MyCard.LastName + MyCard.PhoneNumber;
+    trace "MyCard: " + MyContact.FirstName + MyContact.LastName + MyContact.PhoneNumber;
   }
 
   $rect <480,190,680,230>
@@ -743,7 +754,7 @@ class DeviceClass : Templates::DeviceClass
     var Device::Message message = new Device::Message;
 
     message.Sender   = contactSender;
-    message.Receiver = MyCard;
+    message.Receiver = MyContact;
     message.TimeSent = ( new Core::Time).CurrentTime;
     message.Message  = aMessageContent;
     message.Seen     = false;
@@ -751,9 +762,11 @@ class DeviceClass : Templates::DeviceClass
     //hozza rendeleme az uzenetet a contacthoz
     contactSender.MessagesList.Add( message );
 
-    contactSender.NewMessage = true;
+    contactSender.UnreadMessagesNr ++;
     //hozza adom az uj/frissitett contactot a beszelgetesekhez
     MessageHistory.AddFirst( contactSender );
+
+    MessageHistory.FindUnreadMessagesNr();
   }
 
   $rect <670,190,870,230>
@@ -762,7 +775,7 @@ class DeviceClass : Templates::DeviceClass
     //letre hozom az uzenetet
      var Device::Message message = new Device::Message;
 
-    message.Sender   = MyCard;
+    message.Sender   = MyContact;
     message.Receiver = aContact;
     message.TimeSent = ( new Core::Time).CurrentTime;
     message.Message  = aMessageContent;
@@ -790,41 +803,8 @@ class DeviceClass : Templates::DeviceClass
 
   }
 
-  $rect <690,260,890,300>
-  method void SendHold( arg Device::Contact aContact )
-  {
-    var Device::HistoryContact historyContact = new Device::HistoryContact;
-    aContact.CopyDataTo( historyContact );
-
-    historyContact.TimeOfCall = (new Core::Time).CurrentTime;
-    historyContact.CallState = Device::CallState.Dialing;
-    historyContact.CallDirection = Device::CallDirection.Outgoing;
-
-    Ongoing.AddLast( historyContact );
-
-    // if call fails
-    if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ) )
-    {
-      historyContact.CallState = Device::CallState.Fail;
-      History.AddFirst( historyContact );
-      Ongoing.Remove( historyContact );
-    }
-  }
-
-  $rect <480,260,680,300>
-  method void ReceiveHold( arg string aPhoneNumber )
-  {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
-
-    if ( historyContact.CallState == Device::CallState.Speaking )
-    {
-      historyContact.CallState = Device::CallState.Hold;
-      historyContact.EndTime = (new Core::Time).CurrentTime;
-    }
-  }
-
   $rect <0,650,200,690>
-  object Device::ContactList MessageHistory;
+  object Device::HistoryMessageList MessageHistory;
 
   $rect <0,390,200,430>
   method void ReceiveMissedCall( arg string aPhoneNumber )
@@ -1193,7 +1173,6 @@ class ContactList
     }
 
     NoOfItems +=1;
-    IsUpdate = !IsUpdate;
 
   }
 
@@ -1219,7 +1198,7 @@ class ContactList
        prev.next = elem.next;
        NoOfItems -= 1;
     }
-    IsUpdate = !IsUpdate;
+
   }
 
   $rect <0,290,200,330>
@@ -1273,7 +1252,8 @@ class ContactList
   $rect <860,0,1060,40>
   method string GetInitials( arg string aLastname, arg string aFirstname )
   {
-     return aLastname[0] + "" + aFirstname[0];
+     return ( ( aLastname != "" ) ? aLastname[0] : "" ) + 
+            ( ( aFirstname != "" ) ? aFirstname[0] : "" );
   }
 
   $rect <430,80,630,120>
@@ -1394,36 +1374,53 @@ class ContactList
 
     NoOfItems += 1;
 
-    IsUpdate = !IsUpdate;
   }
 
-  $rect <380,160,580,200>
-  property bool IsUpdate = false;
+  $rect <580,300,780,340>
+  property bool OnDataUpdated = false;
 
-  $rect <380,200,580,240>
-  onset IsUpdate
+  $rect <580,340,780,380>
+  onset OnDataUpdated
   {
     // The value doesn't change - nothing to do.
-    if ( pure IsUpdate == value )
+    if ( pure OnDataUpdated == value )
       return;
 
     // Remember the property's new value.
-    pure IsUpdate = value;
+    pure OnDataUpdated = value;
 
-    notifyobservers ^IsUpdate;
+    notifyobservers ^OnDataUpdated;
 
   }
 
-  $rect <380,240,580,280>
-  onget IsUpdate
+  $rect <580,380,780,420>
+  onget OnDataUpdated
   {
-    return pure IsUpdate;
+    return pure OnDataUpdated;
   }
 
   $rect <200,130,400,170>
   method void RemoveAll( arg Device::Contact aContact )
   {
     head = null;
+  }
+
+  $rect <210,210,410,250>
+  method Device::Contact FindByID1( arg int32 aID )
+  {
+    if ( head != null )
+    {
+      var Device::ContactListElement elem = head;
+
+      while ( elem != null )
+      {
+        if ( elem.Data.ID == aID )
+          return elem.Data;
+        
+        elem = elem.next;
+      }
+    }
+    return null;
   }
 }
 
@@ -1455,7 +1452,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string messageContent;
 
 
-    myCarID       = Device::Device.MyCard.PhoneNumber;
+    myCarID       = Device::Device.MyContact.PhoneNumber;
     senderNumber    = "";
     message        = "";
     messageContent = "";
@@ -1636,7 +1633,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
 
     $if !$prototyper
@@ -1671,7 +1668,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
@@ -1704,7 +1701,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
 
     $if !$prototyper
@@ -1737,7 +1734,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
 
     $if !$prototyper
@@ -1771,7 +1768,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
@@ -1805,7 +1802,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string url;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/message/send/"+senderID+"/"+aReceiverNumber+"/message/"; 
     trace "PhoneServer: " + aReceiverNumber + " " + aMessage;
     $if !$prototyper
@@ -1839,7 +1836,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string result;
     var string senderID;
 
-    senderID = Device::Device.MyCard.PhoneNumber;
+    senderID = Device::Device.MyContact.PhoneNumber;
     url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
 
     $if !$prototyper
@@ -1918,7 +1915,7 @@ class PhoneServerCallInfo
   }
 }
 
-$rect <860,100,1060,140>
+$rect <890,130,1090,170>
 $output false
 class Message
 {
@@ -2036,7 +2033,7 @@ note group Note5
   attr Bounds = <820,0,1130,360>;
 }
 
-$rect <830,50,1030,90>
+$rect <860,90,1060,130>
 $output false
 class MessagesList
 {
@@ -2090,7 +2087,7 @@ class MessagesList
     }
   }
 
-  $rect <230,200,430,240>
+  $rect <200,200,400,240>
   method void TraceMessages()
   {
     var Device::Message elem = head;
@@ -2157,5 +2154,43 @@ class MessagesList
   method void RemoveAll()
   {
     head = null;
+  }
+}
+
+$rect <840,50,1030,90>
+$output false
+class HistoryMessageList : Device::ContactList
+{
+  $rect <10,0,210,40>
+  property int32 UnreadMessagesNr = 0;
+
+  $rect <10,40,210,80>
+  onset UnreadMessagesNr
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure UnreadMessagesNr == value )
+      return;
+
+    // Remember the property's new value.
+    pure UnreadMessagesNr = value;
+
+    notifyobservers this;
+  }
+
+  $rect <10,110,260,150>
+  method void FindUnreadMessagesNr()
+  {
+    var Device::ContactListElement elem = head;
+    var int32 nr = 0;
+
+    while ( elem != null )
+    {
+      nr += elem.Data.UnreadMessagesNr;
+      elem = elem.next;
+    }
+
+    if ( UnreadMessagesNr != nr )
+      UnreadMessagesNr = nr;
+      
   }
 }

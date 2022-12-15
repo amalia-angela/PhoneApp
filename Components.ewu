@@ -418,50 +418,6 @@ class ButtonBase70x90 : Templates::PushButton
     InvalidateViewState();
   }
 
-  $rect <20,20,160,60>
-  object Views::Image Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,70,70>;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler TouchHandler
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Point4 = <0,91>;
-    preset Point3 = <70,91>;
-    preset Point2 = <70,0>;
-    preset Point1 = <0,0>;
-    preset OnLeave = onEnterLeaveTouch;
-    preset OnEnter = onEnterLeaveTouch;
-    preset OnRelease = onReleaseTouch;
-    preset OnPress = onPressTouch;
-    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
-    preset MaxStrikeCount = 100;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text InitialsTxt
-  {
-    preset Bounds = <0,0,70,70>;
-    preset AutoSize = true;
-    preset String = "";
-    preset Font = Res::IconsFont30;
-    preset Color = #FFFFFFFF;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text DescripTxt
-  {
-    preset Bounds = <0,70,70,91>;
-    preset AutoSize = true;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-    preset String = "";
-    preset Font = Res::ContactFontBold15;
-  }
-
   $rect <870,250,1070,290>
   property color BackgroundColorEnabled = Res::Grey;
 
@@ -542,6 +498,50 @@ class ButtonBase70x90 : Templates::PushButton
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,70,70>;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,91>;
+    preset Point3 = <70,91>;
+    preset Point2 = <70,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text InitialsTxt
+  {
+    preset Bounds = <0,0,70,70>;
+    preset AutoSize = true;
+    preset String = "";
+    preset Font = Res::IconsFont30;
+    preset Color = #FFFFFFFF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text DescripTxt
+  {
+    preset Bounds = <0,70,70,91>;
+    preset AutoSize = true;
+    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset String = "";
+    preset Font = Res::ContactFontBold15;
   }
 }
 
@@ -2379,6 +2379,7 @@ class SButton65x65 : Components::ButtonBase70x90
   $rect <20,20,160,60>
   inherited object DescripTxt
   {
+    preset Bounds = <0,0,65,65>;
     preset Visible = false;
   }
 }
@@ -2387,7 +2388,7 @@ $rect <20,250,220,290>
 $output false
 class SButton50x50 : Components::ButtonBase70x90
 {
-  $rect <10,130,210,170>
+  $rect <0,110,200,150>
   inherited property Bounds = <0,0,50,50>;
 
   $rect <20,20,160,60>
@@ -2405,7 +2406,8 @@ class SButton50x50 : Components::ButtonBase70x90
   $rect <20,20,160,60>
   inherited object DescripTxt
   {
-    preset Visible = false;
+    preset Bounds = <0,0,50,50>;
+    preset Visible = true;
   }
 }
 
@@ -2431,7 +2433,7 @@ class SButton25x25 : Components::ButtonBase70x90
   $rect <20,20,160,60>
   inherited object DescripTxt
   {
-    preset Visible = false;
+    preset Bounds = <0,1,25,25>;
   }
 }
 

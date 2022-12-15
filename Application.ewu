@@ -13,7 +13,7 @@ class ContactsPage : Core::Group
     attachobserver onListUpdate, ^Device::Device.Contacts.Sorting;
     postsignal onListUpdate;
 
-    attachobserver onMYCardUpdate, ^Device::Device.MyCard;
+    attachobserver onMYCardUpdate, ^Device::Device.MyContact;
     postsignal onMYCardUpdate;
 
 
@@ -326,9 +326,9 @@ class ContactsPage : Core::Group
   $rect <690,340,890,380>
   slot onMyCardPress
   {
-    if ( Device::Device.MyCard != null )
+    if ( Device::Device.MyContact != null )
     {
-      var Device::Contact contact = Device::Device.Contacts.FindByID( Device::Device.MyCard );
+      var Device::Contact contact = Device::Device.Contacts.FindByID( Device::Device.MyContact );
 
       if ( contact != null ){
 
@@ -371,7 +371,7 @@ class ContactItem : Core::Group
       LastNameTxt.String = "Lastname";
     $endif
 
-    attachobserver onContactUpdated, ^Device::Device.MyCard;
+    attachobserver onContactUpdated, ^Device::Device.MyContact;
     postsignal onContactUpdated; 
 
   }
@@ -481,9 +481,9 @@ class ContactItem : Core::Group
        }
       PrfofilButton.Icon  = pure Contact.NameInitials;
 
-    if (  Device::Device.MyCard != null )
+    if (  Device::Device.MyContact != null )
     {
-      if ( pure Contact.ID == Device::Device.MyCard.ID ){
+      if ( pure Contact.ID == Device::Device.MyContact.ID ){
         MeTxt.Color = Res::Grey;
         }
       }
@@ -1140,7 +1140,7 @@ class ContactAddPage : Core::Group
   {
     notifyobservers pure Contact;
     if ( ToggleButton.Active == true ){
-      Device::Device.MyCard = pure Contact;
+      Device::Device.MyContact = pure Contact;
       }
     signal OnSave;
   }
@@ -1413,7 +1413,7 @@ class ContactEditPage : Core::Group
 
     if ( Contact.MyCard != ToggleButton.Active){
      Contact.MyCard = ToggleButton.Active;
-     Device::Device.MyCard = Contact;
+     Device::Device.MyContact = Contact;
     }
     signal OnSave;
   }
@@ -1625,7 +1625,7 @@ class ContactEditPage : Core::Group
   $rect <530,330,730,370>
   slot onFieldModified
   {
-    UserInitials.Icon = Device::Device.Contacts.GetInitials( Contact.LastName, Contact.FirstName );
+    UserInitials.Icon = Device::Device.Contacts.GetInitials( LastNameTxt.String, FirstNameTxt.String );
     InvalidateViewState();
   }
 
@@ -2552,6 +2552,8 @@ class Application : Core::Root
 
     postsignal onCallState;
 
+    SetMyNumber(2);
+
 
      
 
@@ -2700,6 +2702,28 @@ class Application : Core::Root
 
     PresentDialog( page, null, null, null, null, null, null, null, null, false );
   }
+
+  $rect <740,0,940,40>
+  $output true
+  method void SetMyNumber( arg int32 aMyNumber )
+  {
+    myID = aMyNumber;
+
+    idlesignal onSetMyContact;
+
+  }
+
+  $rect <770,50,970,90>
+  slot onSetMyContact
+  {
+    Device::Device.MyContact = Device::Device.Contacts.FindByID1( myID );
+
+
+    trace myID;
+  }
+
+  $rect <970,30,1170,70>
+  var int32 myID;
 }
 
 $rect <260,450,400,490>
@@ -3553,6 +3577,8 @@ class RecentPage : Core::Group
     if ( itemView != null )
     {
       detailsPage = new Application::RecentDetailsPage;
+      
+      detailsPage.Contact = itemView.ContactHistory;
       detailsPage.OnBack = onCloseDetailsPage;
       detailsPage.OnDelete = onCloseDetailsPage;
 
@@ -4915,7 +4941,7 @@ class MyCardItem : Core::Group
   $rect <230,100,430,140>
   inherited method Init()
   {
-    attachobserver onContactUpdated, ^Device::Device.MyCard;
+    attachobserver onContactUpdated, ^Device::Device.MyContact;
     postsignal onContactUpdated; 
 
   }
@@ -5225,9 +5251,9 @@ class MyCardItem : Core::Group
   $rect <230,140,430,180>
   slot onContactUpdated
   {
-    if ( Device::Device.MyCard != null ){
-        NameTxt.String  = Device::Device.MyCard.LastName + " " +  Device::Device.MyCard.FirstName;
-        PushButtonSmall1.Icon  =  Device::Device.MyCard.NameInitials;
+    if ( Device::Device.MyContact != null ){
+        NameTxt.String  = Device::Device.MyContact.LastName + " " +  Device::Device.MyContact.FirstName;
+        PushButtonSmall1.Icon  =  Device::Device.MyContact.NameInitials;
     }else{
        NameTxt.String  = "";
        PushButtonSmall1.Icon  =  "";
@@ -5313,10 +5339,10 @@ $rect <440,50,640,90>
 $output false
 class MessagesPage : Core::Group
 {
-  $rect <810,60,1010,100>
+  $rect <800,60,1010,100>
   inherited method Init()
   {
-    attachobserver onNoOfContactsChanged, ^Device::Device.MessageHistory.IsUpdate;
+    attachobserver onNoOfContactsChanged, ^Device::Device.MessageHistory.NoOfItems;
     postsignal onNoOfContactsChanged;
 
   }
@@ -5541,7 +5567,6 @@ class MessagesPage : Core::Group
     signal onUpdateList;
     DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );   
     chat = null;
-
   }
 
   $rect <840,270,1040,310>
@@ -6011,9 +6036,10 @@ class MessegeItem : Core::Group
       {
         MessageTxt.String = pure Contact.MessagesList.GetLastMessage().Message;//"last message";    
         TimeTxt.String    = pure Contact.MessagesList.GetLastMessage().GetTimeOfCall();//"l.m. time";
-        ArrowBtn.Visible  = true; 
-        SeenTxt.Visible   = Contact.NewMessage == true ? true : false;
-      
+        ArrowBtn.Visible  = true;
+        
+        SButton50x50.Descript = pure Contact.UnreadMessagesNr;
+        SButton50x50.Visible  = pure Contact.UnreadMessagesNr > 0;
       } 
       else 
       {
@@ -6200,7 +6226,7 @@ class MessegeItem : Core::Group
   $rect <20,20,160,60>
   object Views::Text MessageTxt
   {
-    preset Bounds = <68,24,257,44>;
+    preset Bounds = <56,24,257,44>;
     preset Ellipsis = true;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = Strings::messageTxt;
@@ -6245,13 +6271,23 @@ class MessegeItem : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Views::Text SeenTxt
+  object Components::SButton25x25 SButton50x50
   {
-    preset Bounds = <1,0,19,22>;
-    preset String = Res::CircleFillIcon;
-    preset Font = Res::IconsFont12;
-    preset Color = Res::Blue;
+    preset StackingPriority = 0;
+    preset Bounds = <0,-3,50,47>;
     preset Visible = false;
+    preset Icon = Res::CircleFillIcon;
+    preset DescriptColor = Res::White;
+    preset IconColor = Res::Blue;
+    preset BackgoundColor = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset DescriptFont = Res::ContactFont12;
+    preset IconFont = Res::IconsFont20;
+    preset BackgroundColorEnabled = Res::Transparent;
+    preset DescriptColorEnabled = Res::Transparent;
+    preset IconColorEnabled = Res::Transparent;
+    preset DescriptColorPressed = Res::White;
+    preset IconColorPressed = Res::BlueLight;
   }
 }
 
@@ -6279,8 +6315,6 @@ class Chat : Core::Group
   $rect <300,40,500,80>
   inherited method Init()
   {
-    attachobserver onMessageUpdate, ^Device::Device.MessageHistory.IsUpdate;
-    postsignal onMessageUpdate;
   }
 
   $rect <10,500,210,540>
@@ -6359,10 +6393,11 @@ class Chat : Core::Group
   {
     if ( pure Contact != null )
     {
-      pure Contact.NewMessage = false;
       Button40x55.Descript = pure Contact.FirstName;  
       Button40x55.Icon     =  pure Contact.NameInitials;
     }
+
+    signal onMessageUpdate;
   }
 
   $rect <700,50,890,90>
@@ -6478,44 +6513,47 @@ class Chat : Core::Group
 
     if ( pure Contact != null && pure Contact.MessagesList.head != null)
     {
-      var Components::TextButton text = new Components::TextButton;
-      text.Text = "Unread";
-      text.TextTxt.Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-      text.TextTxt.Font = Res::ContactFontBold15;
-      text.TextColor = Res::Grey;  
-      text.BackgoundColor = Res::PressColor;
-      text.Bounds.h = 20;
-      text.Bounds.w = 272;
-      var bool isAdded = false;
+      var Components::TextButton unreadText = new Components::TextButton;
+      unreadText.Text = "Unread";
+      unreadText.TextTxt.Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+      unreadText.TextTxt.Font = Res::ContactFontBold15;
+      unreadText.TextColor = Res::Grey;  
+      unreadText.BackgoundColor = Res::PressColor;
+      unreadText.Bounds.h = 20;
+      unreadText.Bounds.w = 272;
       
       lastItem = null;
-      var Device::Message message = pure Contact.MessagesList.head;  
-      var int32 order = -1; 
       
+      var bool isAdded = false;
+      var int32 order = -1; 
+      var Device::Message message = pure Contact.MessagesList.head;  
+        
       while ( message != null)
       {
         var Application::ChatItem chatItem = new Application::ChatItem;
-        chatItem.OnDelete      = onPressChat;
-        if ( message.Seen == false )
+        
+        chatItem.OnDelete = onPressChat;
+        
+        if ( !message.Seen )
         {    
-          if ( isAdded == false )
+          if ( !isAdded )
           {
-            text.Embedded = true;
-            Add( text, order-- );
+            unreadText.Embedded = true;
+            Add( unreadText, order-- );
                   
             isAdded = true;
           }
           message.Seen = true;
         }
             
-        if ( message.Sender == Device::Device.MyCard )
+        if ( message.Sender == Device::Device.MyContact )
         {
           chatItem.LeftAligned  = false;
           chatItem.BubbleColor  = Res::Blue;
           chatItem.Message      = message;
           chatItem.MessageColor = Res::White; 
          }
-        else if ( message.Receiver == Device::Device.MyCard )
+        else if ( message.Receiver == Device::Device.MyContact )
         {
           chatItem.LeftAligned  = true;
           chatItem.BubbleColor  = Res::GreyLight;
@@ -6530,11 +6568,13 @@ class Chat : Core::Group
           lastItem = chatItem;
         
         message = message.next;
-        
       }
+      
+      Contact.UnreadMessagesNr = 0;
 
       Outline.ScrollOffset = <0,0>;
     }
+    Device::Device.MessageHistory.FindUnreadMessagesNr();
   }
 
   $rect <300,130,500,170>
@@ -6581,6 +6621,14 @@ $rect <450,490,650,530>
 $output false
 class MainPage : Core::Group
 {
+  $rect <750,20,950,60>
+  inherited method Init()
+  {
+    attachobserver ShowUnreadMessages, ^Device::Device.MessageHistory.UnreadMessagesNr;
+    postsignal ShowUnreadMessages;
+
+  }
+
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
 
@@ -6740,8 +6788,8 @@ class MainPage : Core::Group
 
     settings.Bounds.h = 480;
 
-    if ( Device::Device.MyCard )
-      settings.Contact = Device::Device.MyCard;
+    if ( Device::Device.MyContact )
+      settings.Contact = Device::Device.MyContact;
     else
       settings.Contact = new Device::Contact;
       
@@ -6764,7 +6812,7 @@ class MainPage : Core::Group
   $rect <310,270,490,310>
   slot onSave
   {
-    Device::Device.MyCard = settings.Contact;
+    Device::Device.MyContact = settings.Contact;
     Device::Device.Contacts.AddLast( settings.Contact );
     postsignal onClose;
   }
@@ -6833,14 +6881,37 @@ class MainPage : Core::Group
     preset IconColorPressed = Res::GreyLight;
   }
 
-  $rect <20,20,160,60>
-  object Views::Text Text
+  $rect <780,60,980,100>
+  slot ShowUnreadMessages
   {
-    preset Bounds = <195,420,229,450>;
-    preset String = Res::CircleIcon;
-    preset Font = Res::IconsFont20;
-    preset Color = Res::Blue;
-    preset Visible = false;
+    if ( Device::Device.MessageHistory.UnreadMessagesNr != 0 )
+    {
+      SButton50x50.Visible = true;
+      SButton50x50.Descript = (int32)Device::Device.MessageHistory.UnreadMessagesNr;
+    }
+    else
+      SButton50x50.Visible = false;
+      
+
+  }
+
+  $rect <20,20,160,60>
+  object Components::SButton50x50 SButton50x50
+  {
+    preset StackingPriority = 0;
+    preset Bounds = <195,400,245,450>;
+    preset Icon = Res::CircleFillIcon;
+    preset DescriptColor = Res::White;
+    preset IconColor = Res::Blue;
+    preset BackgoundColor = Res::Transparent;
+    preset BackgoundColorPressed = Res::Transparent;
+    preset DescriptFont = Res::ContactFont12;
+    preset IconFont = Res::IconsFont25;
+    preset BackgroundColorEnabled = Res::Transparent;
+    preset DescriptColorEnabled = Res::Transparent;
+    preset IconColorEnabled = Res::Transparent;
+    preset DescriptColorPressed = Res::White;
+    preset IconColorPressed = Res::BlueLight;
   }
 }
 
