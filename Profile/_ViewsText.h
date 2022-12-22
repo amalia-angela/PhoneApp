@@ -140,12 +140,15 @@ EW_DEFINE_FIELDS( ViewsText, CoreRectView )
   EW_PROPERTY( String,          XString )
   EW_VARIABLE( bidiContext,     XHandle )
   EW_VARIABLE( textSize,        XPoint )
+  EW_PROPERTY( Padding,         XInt32 )
   EW_PROPERTY( ColorBR,         XColor )
+  EW_PROPERTY( WrapWidth,       XInt32 )
   EW_PROPERTY( ScrollOffset,    XPoint )
   EW_PROPERTY( Alignment,       XSet )
   EW_PROPERTY( Color,           XColor )
   EW_PROPERTY( WrapText,        XBool )
   EW_PROPERTY( AutoSize,        XBool )
+  EW_PROPERTY( Ellipsis,        XBool )
   EW_PROPERTY( EnableBidiText,  XBool )
   EW_VARIABLE( reparsed,        XBool )
 EW_END_OF_FIELDS( ViewsText )
@@ -235,6 +238,13 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender );
 /* 'C' function for method : 'Views::Text.OnSetEnableBidiText()' */
 void ViewsText_OnSetEnableBidiText( ViewsText _this, XBool value );
 
+/* 'C' function for method : 'Views::Text.OnSetPadding()' */
+void ViewsText_OnSetPadding( ViewsText _this, XInt32 value );
+
+/* The onset method for the property 'Ellipsis' changes the ellipsis mode and forces 
+   an update. */
+void ViewsText_OnSetEllipsis( ViewsText _this, XBool value );
+
 /* 'C' function for method : 'Views::Text.OnSetOnUpdate()' */
 void ViewsText_OnSetOnUpdate( ViewsText _this, XSlot value );
 
@@ -246,6 +256,9 @@ void ViewsText_OnSetSlideHandler( ViewsText _this, CoreSlideTouchHandler value )
 
 /* 'C' function for method : 'Views::Text.OnSetAutoSize()' */
 void ViewsText_OnSetAutoSize( ViewsText _this, XBool value );
+
+/* 'C' function for method : 'Views::Text.OnSetWrapWidth()' */
+void ViewsText_OnSetWrapWidth( ViewsText _this, XInt32 value );
 
 /* 'C' function for method : 'Views::Text.OnSetWrapText()' */
 void ViewsText_OnSetWrapText( ViewsText _this, XBool value );

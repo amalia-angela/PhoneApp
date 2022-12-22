@@ -34,12 +34,12 @@
 /* Compressed strings for the language 'Default'. */
 EW_CONST_STRING_PRAGMA static const unsigned int _StringsDefault0[] =
 {
-  0x000000E4, /* ratio 50.88 % */
+  0x000000EC, /* ratio 50.85 % */
   0xB8000900, 0x38160452, 0x12040000, 0xA10E229C, 0xCAE022C2, 0x24581C39, 0x0B89B8D9,
   0x522C61D1, 0x5B46DC24, 0xB452131A, 0x3361F213, 0xAE092289, 0x88B29838, 0xA12D8B86,
   0x6B187CB0, 0x3625C526, 0xF9433E09, 0x8A4F19D0, 0x54524A7D, 0xACA5B1E2, 0x14B6459C,
-  0x2848E87D, 0x093F6941, 0x2CAA42D6, 0x1B73C72A, 0x18A52CC7, 0x90AE2ACE, 0x04061108,
-  0x00000000
+  0x2848E87D, 0x093F6941, 0x2CAA42D6, 0x1B73C72A, 0x18A52CC7, 0xA72E2ACE, 0x43BC9445,
+  0x40401648, 0x00000000
 };
 
 /* User defined constant: 'Res::CallIcon' */
@@ -275,7 +275,7 @@ EW_RES_WITHOUT_VARIANTS( ResContactFont12 )
 const XColor ResWhiteSemiTransparent = { 0xFF, 0xFF, 0xFF, 0x73 };
 
 /* User defined constant: 'Res::White' */
-const XColor ResWhite = { 0xFF, 0xFF, 0xFF, 0xF9 };
+const XColor ResWhite = { 0xFF, 0xFF, 0xFF, 0xFF };
 
 /* User defined constant: 'Res::Green' */
 const XColor ResGreen = { 0x12, 0x99, 0x15, 0xFF };
@@ -419,7 +419,6 @@ EW_DEFINE_AUTOOBJECT( ResSlideUpCenteredLimit, EffectsSlideTransition )
 /* Initializer for the auto object 'Res::SlideUpCenteredLimit' */
 void ResSlideUpCenteredLimit__Init( EffectsSlideTransition _this )
 {
-  _this->MarginBottom = 75;
   _this->MarginRight = 21;
   _this->MarginTop = 40;
   _this->MarginLeft = 0;
@@ -485,5 +484,11 @@ EW_RES_WITHOUT_VARIANTS( Resbackground )
 
 /* Table with links to derived variants of the bitmap resource : 'Res::logog' */
 EW_RES_WITHOUT_VARIANTS( Reslogog )
+
+/* User defined constant: 'Res::BlueLight1' */
+const XColor ResBlueLight1 = { 0x7C, 0x8F, 0xFF, 0x3E };
+
+/* User defined constant: 'Res::CircleFillIcon' */
+const XStringRes ResCircleFillIcon = { _StringsDefault0, 0x0072 };
 
 /* Embedded Wizard */

@@ -345,6 +345,9 @@ void CoreGroup_OnSetBuffered( CoreGroup _this, XBool value );
 /* Wrapper function for the virtual method : 'Core::Group.OnSetBuffered()' */
 void CoreGroup__OnSetBuffered( void* _this, XBool value );
 
+/* 'C' function for method : 'Core::Group.OnGetEnabled()' */
+XBool CoreGroup_OnGetEnabled( CoreGroup _this );
+
 /* 'C' function for method : 'Core::Group.OnSetEnabled()' */
 void CoreGroup_OnSetEnabled( CoreGroup _this, XBool value );
 

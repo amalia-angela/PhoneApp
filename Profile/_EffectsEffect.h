@@ -97,7 +97,6 @@
 EW_DEFINE_FIELDS( EffectsEffect, XObject )
   EW_VARIABLE( timingList,      EffectsTimingList )
   EW_VARIABLE( timer,           CoreTimer )
-  EW_VARIABLE( privateOnFinished, XSlot )
   EW_PROPERTY( OnFinished,      XSlot )
   EW_PROPERTY( OnAnimate,       XSlot )
   EW_VARIABLE( direction,       XInt32 )

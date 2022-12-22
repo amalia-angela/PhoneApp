@@ -74,12 +74,6 @@
 #define _CoreView_
 #endif
 
-/* Forward declaration of the class Effects::PointEffect */
-#ifndef _EffectsPointEffect_
-  EW_DECLARE_CLASS( EffectsPointEffect )
-#define _EffectsPointEffect_
-#endif
-
 /* Forward declaration of the class Graphics::Canvas */
 #ifndef _GraphicsCanvas_
   EW_DECLARE_CLASS( GraphicsCanvas )
@@ -120,10 +114,9 @@
    outlines appear as semitransparent rectangles. This allows you to interact with 
    the outlines during the design time. */
 EW_DEFINE_FIELDS( CoreOutline, CoreRectView )
-  EW_VARIABLE( scrollEffect,    EffectsPointEffect )
   EW_PROPERTY( SlideHandler,    CoreSlideTouchHandler )
-  EW_VARIABLE( onDoneScroll,    XSlot )
   EW_PROPERTY( ScrollOffset,    XPoint )
+  EW_PROPERTY( Space,           XInt32 )
   EW_PROPERTY( Formation,       XEnum )
 EW_END_OF_FIELDS( CoreOutline )
 
@@ -177,9 +170,6 @@ void CoreOutline_Draw( CoreOutline _this, GraphicsCanvas aCanvas, XRect aClip, X
 /* 'C' function for method : 'Core::Outline.OnSetBounds()' */
 void CoreOutline_OnSetBounds( CoreOutline _this, XRect value );
 
-/* 'C' function for method : 'Core::Outline.onFinishScrollSlot()' */
-void CoreOutline_onFinishScrollSlot( CoreOutline _this, XObject sender );
-
 /* 'C' function for method : 'Core::Outline.onSlideSlot()' */
 void CoreOutline_onSlideSlot( CoreOutline _this, XObject sender );
 
@@ -192,23 +182,24 @@ void CoreOutline_OnSetSlideHandler( CoreOutline _this, CoreSlideTouchHandler val
 /* 'C' function for method : 'Core::Outline.OnSetScrollOffset()' */
 void CoreOutline_OnSetScrollOffset( CoreOutline _this, XPoint value );
 
+/* 'C' function for method : 'Core::Outline.OnSetSpace()' */
+void CoreOutline_OnSetSpace( CoreOutline _this, XInt32 value );
+
 /* 'C' function for method : 'Core::Outline.OnSetFormation()' */
 void CoreOutline_OnSetFormation( CoreOutline _this, XEnum value );
 
-/* The method EnsureVisible() scrolls the content of the outline until the given 
-   view aView is partially or fully within the outline boundary area @Bounds. The 
-   respective mode is determined by the parameter aFullyVisible.
-   This scroll operation can optionally be animated by an effect passed in the parameter 
-   aAnimationEffect. If aAnimationEffect == null, no animation is used and the scrolling 
-   is executed immediately. After the operation is done, a signal is sent to the 
-   optional slot method specified in the parameter aOnDoneScroll.
-   Please note, calling the method EnsureVisible() while an animation is running 
-   will terminate it abruptly without the slot method aOnDoneScroll being notified. 
-   More flexible approach to stop an activate animation is to use the method @StopScrollEffect(). 
-   Whether an animation is currently running can be queried by using the method 
-   @IsScrollEffectActive(). */
-void CoreOutline_EnsureVisible( CoreOutline _this, CoreView aView, XBool aFullyVisible, 
-  EffectsPointEffect aAnimationEffect, XSlot aOnDoneScroll );
+/* The method FindNextView() searches for the view lying in front of the view specified 
+   in the parameter aView - aView itself will be excluded from the search operation. 
+   This allows you to enumerate all affected views, view by view from the background 
+   to the front. If the parameter aView == null, the search operations will start 
+   with the first view of the outline.
+   The additional parameter aFilter can be used to limit the search operation to 
+   special views only, e.g. to visible and touchable views.
+   If there is no other view lying above the start view aView, the method returns 
+   'null'.
+   Please note, this method is limited to the views embedded within the outline. 
+   Other sibling views not belonging to the outline are simply ignored. */
+CoreView CoreOutline_FindNextView( CoreOutline _this, CoreView aView, XSet aFilter );
 
 /* The method GetContentArea() determines a rectangular area occupied by the views 
    embedded within the outline. The additional parameter aFilter can be used to 
@@ -218,9 +209,6 @@ void CoreOutline_EnsureVisible( CoreOutline _this, CoreView aView, XBool aFullyV
    Please note, this method is limited to the views embedded within the outline. 
    Other sibling views not belonging to the outline are simply ignored. */
 XRect CoreOutline_GetContentArea( CoreOutline _this, XSet aFilter );
-
-/* Default onget method for the property 'ScrollOffset' */
-XPoint CoreOutline_OnGetScrollOffset( CoreOutline _this );
 
 #ifdef __cplusplus
   }

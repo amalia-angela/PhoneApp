@@ -130,6 +130,7 @@ EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
   EW_VARIABLE( ongoingPage,     ApplicationCallPageBase )
   EW_VARIABLE( historyContact,  DeviceHistoryContact )
   EW_VARIABLE( splashScreen,    ApplicationSplashScreen )
+  EW_VARIABLE( myID,            XInt32 )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */
@@ -186,6 +187,19 @@ void ApplicationApplication_onCloseSplash( ApplicationApplication _this, XObject
 
 /* 'C' function for method : 'Application::Application.onStart()' */
 void ApplicationApplication_onStart( ApplicationApplication _this, XObject sender );
+
+/* 'C' function for method : 'Application::Application.SetMyNumber()' */
+void ApplicationApplication_SetMyNumber( ApplicationApplication _this, XInt32 aMyNumber );
+
+/* Wrapper function for the non virtual method : 'Application::Application.SetMyNumber()' */
+void ApplicationApplication__SetMyNumber( void* _this, XInt32 aMyNumber );
+
+/* The following define announces the presence of the method Application::Application.SetMyNumber(). */
+#define _ApplicationApplication__SetMyNumber_
+
+/* 'C' function for method : 'Application::Application.onSetMyContact()' */
+void ApplicationApplication_onSetMyContact( ApplicationApplication _this, XObject 
+  sender );
 
 #ifdef __cplusplus
   }

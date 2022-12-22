@@ -1,4 +1,4 @@
-﻿$version 11.00
+﻿$version 12.00
 
 // Components
 note group Note1
@@ -1268,6 +1268,11 @@ class TextButton : Templates::PushButton
     preset Color = #FFFFFFFF;
   }
 
+  // Directives to adapt the order of members belonging to this class so they appear 
+  // correctly arranged relative to the members inherited from the ancestor (super) 
+  // classes. The numbers indicate the order-displacement to apply on the respective 
+  // member once all members have been loaded and combined with members from the 
+  // ancestor classes.
   $reorder Bounds 1
   $reorder first 1
   $reorder last 1
@@ -3430,7 +3435,6 @@ class InputBtnEtxt : Templates::TextEditor
     }
     Search.Font = IconFont;
     Search.String = Icon;
-      
   }
 
   // To do:
@@ -4120,7 +4124,6 @@ class InputBtnEtxt : Templates::TextEditor
     autoScroll        = true;
     Text.ScrollOffset = <0,0>;
     postsignal updatePlaceholder;
-
   }
 
   $rect <490,40,690,80>
@@ -4261,11 +4264,13 @@ class InputBtnEtxt : Templates::TextEditor
     {
       TextPlaceholder.Visible = true;
       Search.Color = Res::Grey;
+      //Icon = Res::SerachIcon;
     }
     else
     {
       TextPlaceholder.Visible = false;
-       Search.Color = Res::Blue;
+      //Icon = Res::XIcon;
+      Search.Color = Res::Blue;
     }
   }
 
@@ -4327,12 +4332,13 @@ class InputBtnEtxt : Templates::TextEditor
   $rect <1290,160,1490,200>
   slot onIcon
   {
-    trace "pressed";
-
     InvalidateViewState();
 
     if ( !SimpleTouchHandler2.AutoDeflected )
+    {
       postsignal OnIcon;
+    }
+
   }
 
   $rect <1090,160,1290,200>

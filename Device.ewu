@@ -1,4 +1,4 @@
-﻿$version 11.00
+﻿$version 12.00
 
 $rect <320,140,490,180>
 $output false
@@ -490,9 +490,6 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,530,200,570>
   object Device::ContactList Favorites;
 
-  $rect <0,610,200,650>
-  object Device::ContactList Search;
-
   $rect <200,190,400,230>
   method void SendCallContact( arg Device::Contact aContact )
   {
@@ -585,7 +582,6 @@ class DeviceClass : Templates::DeviceClass
 
     return LastID;
 
-    trace LastID;
   }
 
   $rect <700,490,900,530>
@@ -803,7 +799,7 @@ class DeviceClass : Templates::DeviceClass
 
   }
 
-  $rect <0,650,200,690>
+  $rect <0,610,200,650>
   object Device::HistoryMessageList MessageHistory;
 
   $rect <0,390,200,430>
@@ -819,6 +815,9 @@ class DeviceClass : Templates::DeviceClass
     History.AddFirst( historyContact );
     Ongoing.Remove( historyContact );
   }
+
+  $rect <200,490,380,530>
+  object Device::ContactList FilteredContacts;
 }
 
 $rect <20,80,250,120>
@@ -930,6 +929,8 @@ vclass DeviceSimulation : Device::DeviceClass
     CreateContact(  "Addison", "Michaek", "0740987662");
     CreateContact(  "Kennedy", "Jane", "0755545654");
     Contacts.insertionSort();
+
+    Contacts.CancelSearch();
 
     //postsignal Message;
   }
@@ -1244,7 +1245,6 @@ class ContactList
       elem = elem.next;
       it += 1;
     }
-
     return elem.Data;
 
   }
@@ -1400,9 +1400,10 @@ class ContactList
   }
 
   $rect <200,130,400,170>
-  method void RemoveAll( arg Device::Contact aContact )
+  method void RemoveAll()
   {
     head = null;
+    NoOfItems = 0;
   }
 
   $rect <210,210,410,250>
@@ -1421,6 +1422,38 @@ class ContactList
       }
     }
     return null;
+  }
+
+  $rect <630,170,830,210>
+  method void Search( arg string aText )
+  {
+    if ( head != null )
+    {
+      var Device::ContactListElement elem = head;
+     // var Device::ContactList newList = new Device::ContactList;
+
+      Device::Device.FilteredContacts.RemoveAll();
+      while ( elem != null )
+      {
+        if (( elem.Data.FirstName.find( aText, 0 ) >= 0 ) ||
+            ( elem.Data.LastName.find( aText, 0 ) >= 0 ))
+        {
+          Device::Device.FilteredContacts.AddFirst( elem.Data );
+        }
+            
+        elem = elem.next;
+      }
+      //Device::Device.SearchContacts.TraceContacts();
+    }
+
+  }
+
+  $rect <630,210,830,250>
+  method void CancelSearch()
+  {
+    Device::Device.FilteredContacts.RemoveAll();
+
+
   }
 }
 
@@ -1456,7 +1489,7 @@ class PhoneServerClass : Templates::DeviceClass
     senderNumber    = "";
     message        = "";
     messageContent = "";
-    url            = "http://localhost/php-files/contacts/receive/"+myCarID+"/"; 
+    url            = "http://localhost/php-files/phpServer/receive/"+myCarID+"/"; 
 
     $if !$prototyper
     native ( url, senderNumber, message, messageContent )
@@ -1502,10 +1535,7 @@ class PhoneServerClass : Templates::DeviceClass
     else if ( message == "message" )
     {
        Device::Device.ReceiveMessage( senderNumber, messageContent );
-    }
-
-
-
+    } 
 
   }
 
@@ -1634,7 +1664,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
+    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1669,7 +1699,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1702,7 +1732,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
+    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
 
     $if !$prototyper
     native ( url, result )
@@ -1735,7 +1765,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
+    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1769,7 +1799,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
 
     $if !$prototyper
     native ( url, result )
@@ -1803,7 +1833,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/message/send/"+senderID+"/"+aReceiverNumber+"/message/"; 
+    url      = "http://localhost/php-files/phpServer/message/send/"+senderID+"/"+aReceiverNumber+"/message/"; 
     trace "PhoneServer: " + aReceiverNumber + " " + aMessage;
     $if !$prototyper
     native ( url, result )
@@ -1837,7 +1867,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/contacts/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
+    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
 
     $if !$prototyper
     native ( url, result )
@@ -1862,6 +1892,11 @@ class PhoneServerClass : Templates::DeviceClass
     return false;
   }
 
+  // Directives to adapt the order of members belonging to this class so they appear 
+  // correctly arranged relative to the members inherited from the ancestor (super) 
+  // classes. The numbers indicate the order-displacement to apply on the respective 
+  // member once all members have been loaded and combined with members from the 
+  // ancestor classes.
   $reorder askServerData 3
 }
 

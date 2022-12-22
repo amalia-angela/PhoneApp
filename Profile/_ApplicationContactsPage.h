@@ -43,8 +43,8 @@
 #endif
 
 #include "_ApplicationMyCardItem.h"
+#include "_ComponentsInputBtnEtxt.h"
 #include "_ComponentsSButton25x25.h"
-#include "_ComponentsSearchEtxt.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
@@ -122,7 +122,7 @@ EW_DEFINE_FIELDS( ApplicationContactsPage, CoreGroup )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
   EW_OBJECT  ( UpButton,        ComponentsSButton25x25 )
   EW_OBJECT  ( DownButton,      ComponentsSButton25x25 )
-  EW_OBJECT  ( SearchExt,       ComponentsSearchEtxt )
+  EW_OBJECT  ( SearchExt,       ComponentsInputBtnEtxt )
   EW_OBJECT  ( TitleTxt,        ViewsText )
   EW_OBJECT  ( PlusButton,      ComponentsSButton25x25 )
   EW_OBJECT  ( TextEditor1,     TemplatesTextEditor )
@@ -210,9 +210,9 @@ void ApplicationContactsPage_OnLoadItem( ApplicationContactsPage _this, XObject
 void ApplicationContactsPage_onNoOfContactsChanged( ApplicationContactsPage _this, 
   XObject sender );
 
-/* 'C' function for method : 'Application::ContactsPage.onContactsSortingChanged()' */
-void ApplicationContactsPage_onContactsSortingChanged( ApplicationContactsPage _this, 
-  XObject sender );
+/* 'C' function for method : 'Application::ContactsPage.onListUpdate()' */
+void ApplicationContactsPage_onListUpdate( ApplicationContactsPage _this, XObject 
+  sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onContactActivated()' */
 void ApplicationContactsPage_onContactActivated( ApplicationContactsPage _this, 

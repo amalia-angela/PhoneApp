@@ -166,7 +166,6 @@ void EffectsEffect_timerSlot( EffectsEffect _this, XObject sender )
   if ( done )
   {
     EffectsEffect_OnSetEnabled( _this, 0 );
-    EwSignal( _this->privateOnFinished, ((XObject)_this ));
     EwSignal( _this->OnFinished, ((XObject)_this ));
   }
 }
@@ -1013,8 +1012,8 @@ EW_DEFINE_CLASS_VARIANTS( EffectsEffect )
 EW_END_OF_CLASS_VARIANTS( EffectsEffect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::Effect' */
-EW_DEFINE_CLASS( EffectsEffect, XObject, timingList, privateOnFinished, direction, 
-                 direction, direction, direction, "Effects::Effect" )
+EW_DEFINE_CLASS( EffectsEffect, XObject, timingList, OnFinished, direction, direction, 
+                 direction, direction, "Effects::Effect" )
   EffectsEffect_Animate,
 EW_END_OF_CLASS( EffectsEffect )
 
@@ -1113,9 +1112,6 @@ void EffectsPointEffect_Animate( EffectsPointEffect _this, XFloat aProgress )
   x = x + (XInt32)EwMathRound((XFloat)( _this->Value2.X - x ) * aProgress );
   y = y + (XInt32)EwMathRound((XFloat)( _this->Value2.Y - y ) * aProgress );
   _this->Value = EwNewPoint( x, y );
-
-  if ( _this->Outlet.Object != 0 )
-    EwOnSetPoint( _this->Outlet, _this->Value );
 }
 
 /* Variants derived from the class : 'Effects::PointEffect' */
@@ -1123,8 +1119,8 @@ EW_DEFINE_CLASS_VARIANTS( EffectsPointEffect )
 EW_END_OF_CLASS_VARIANTS( EffectsPointEffect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::PointEffect' */
-EW_DEFINE_CLASS( EffectsPointEffect, EffectsEffect, Outlet, Outlet, Outlet, Value, 
-                 Value, Value, "Effects::PointEffect" )
+EW_DEFINE_CLASS( EffectsPointEffect, EffectsEffect, _.VMT, _.VMT, _.VMT, _.VMT, 
+                 _.VMT, _.VMT, "Effects::PointEffect" )
   EffectsPointEffect_Animate,
 EW_END_OF_CLASS( EffectsPointEffect )
 
@@ -1962,7 +1958,6 @@ void EffectsPositionFader_OnStart( EffectsPositionFader _this )
   if ( _this->PositionEffect.Super1.NoOfCycles == 0 )
     EffectsEffect_OnSetNoOfCycles((EffectsEffect)&_this->PositionEffect, 1 );
 
-  _this->PositionEffect.Outlet = EwNullRef;
   EffectsEffect_OnSetReversed((EffectsEffect)&_this->PositionEffect, 0 );
   _this->PositionEffect.Super1.OnFinished = EwNewSlot( _this, EffectsPositionFader_onFinished );
   _this->PositionEffect.Super1.OnAnimate = EwNewSlot( _this, EffectsPositionFader_onAnimate );

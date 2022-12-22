@@ -131,6 +131,7 @@ EW_DEFINE_FIELDS( ViewsFrame, CoreRectView )
   EW_VARIABLE( animFrameNumber, XInt32 )
   EW_PROPERTY( Color,           XColor )
   EW_VARIABLE( startTime,       XUInt32 )
+  EW_PROPERTY( NoEdgesLimit,    XPoint )
   EW_PROPERTY( Animated,        XBool )
 EW_END_OF_FIELDS( ViewsFrame )
 
@@ -195,6 +196,9 @@ void ViewsFrame_OnSetAnimated( ViewsFrame _this, XBool value );
 
 /* 'C' function for method : 'Views::Frame.OnSetBitmap()' */
 void ViewsFrame_OnSetBitmap( ViewsFrame _this, ResourcesBitmap value );
+
+/* 'C' function for method : 'Views::Frame.OnSetNoEdgesLimit()' */
+void ViewsFrame_OnSetNoEdgesLimit( ViewsFrame _this, XPoint value );
 
 #ifdef __cplusplus
   }

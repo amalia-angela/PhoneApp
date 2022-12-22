@@ -44,8 +44,8 @@
 
 #include "_ApplicationContactsPage.h"
 #include "_ApplicationMyCardItem.h"
+#include "_ComponentsInputBtnEtxt.h"
 #include "_ComponentsSButton25x25.h"
-#include "_ComponentsSearchEtxt.h"
 #include "_ComponentsTextButton.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"

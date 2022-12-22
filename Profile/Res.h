@@ -346,6 +346,12 @@ extern const XStringRes ResForwardIcon;
 /* User defined constant: 'Res::SettingsIcon' */
 extern const XStringRes ResSettingsIcon;
 
+/* User defined constant: 'Res::BlueLight1' */
+extern const XColor ResBlueLight1;
+
+/* User defined constant: 'Res::CircleFillIcon' */
+extern const XStringRes ResCircleFillIcon;
+
 #ifdef __cplusplus
   }
 #endif
