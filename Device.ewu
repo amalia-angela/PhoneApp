@@ -1430,13 +1430,15 @@ class ContactList
     if ( head != null )
     {
       var Device::ContactListElement elem = head;
+      aText = aText.lower;
      // var Device::ContactList newList = new Device::ContactList;
 
       Device::Device.FilteredContacts.RemoveAll();
+
       while ( elem != null )
       {
-        if (( elem.Data.FirstName.find( aText, 0 ) >= 0 ) ||
-            ( elem.Data.LastName.find( aText, 0 ) >= 0 ))
+        if (( elem.Data.FirstName.lower.find( aText, 0 ) >= 0 ) ||
+            ( elem.Data.LastName.lower.find( aText, 0 ) >= 0 ))
         {
           Device::Device.FilteredContacts.AddFirst( elem.Data );
         }

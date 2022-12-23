@@ -83,7 +83,12 @@ class ContactsPage : Core::Group
       
       Device::Device.Contacts.Search( SearchExt.String );
 
+     // searchList = new Application::ContactsInsideSearch;
+     // PresentDialog( searchList, null, null, null, null, null, null, null, null, false );
+
       ContactsInsideSearch.Bounds.origin = <0,0>;
+
+      ContactsInsideSearch.OnSelectedContact =  onListItemPressed;
 
       SearchExt.Icon = Res::XIcon;
     }
@@ -316,12 +321,10 @@ class ContactsPage : Core::Group
   {
     Device::Device.Contacts.CancelSearch();
 
-    ContactsInsideSearch.Bounds.origin.y = Bounds.y2;
+    //DismissDialog( searchList, null, null, null, null, null, false );
+    ContactsInsideSearch.Bounds.origin.y = Bounds.y2; 
 
-
-    SearchExt.String = "";
-    SearchExt.Placeholder = "Type...";
-    SearchExt.Text.String = SearchExt.String + "\n";
+    SearchExt.Text.String = " ";
     SearchExt.Icon = Res::SerachIcon;
   }
 
@@ -336,6 +339,9 @@ class ContactsPage : Core::Group
   {
     attr Bounds = <291,340,660,520>;
   }
+
+  $rect <520,410,720,450>
+  var Application::ContactsInsideSearch searchList;
 }
 
 // Contacts
@@ -7141,24 +7147,6 @@ class ContactsInsideSearch : Core::Group
   $rect <280,40,480,80>
   inherited property Bounds = <0,0,272,480>;
 
-  $rect <450,240,630,280>
-  slot onDeleteContact
-  {
-    postsignal onNoOfContactsChanged;
-     
-    DismissDialog( detailsPage, Res::SlideRightCentered, null, null, null, null, false);
-  }
-
-  $rect <280,160,430,200>
-  var Application::ContactDetailsPage detailsPage;
-
-  $rect <450,200,630,240>
-  slot onCloseContact
-  {
-    DismissDialog( detailsPage, Res::SlideRightCentered, null, null, null, null, false);
-    postsignal onNoOfContactsChanged;
-  }
-
   // This method is called by 'VerticalList' every time the list loads or updates \
   // an item.
   $rect <280,110,480,150>
@@ -7175,27 +7163,9 @@ class ContactsInsideSearch : Core::Group
       return;
 
     itemView.Contact    = contact;
-    itemView.OnActivate = onContactActivated;
+    itemView.OnActivate = onSelectedContact;
 
     itemView.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
-  }
-
-  $rect <430,160,630,200>
-  slot onContactActivated
-  {
-    var Application::ContactItem itemView = (Application::ContactItem)sender;
-
-    if ( itemView != null )
-    {
-      detailsPage          = new Application::ContactDetailsPage;
-      detailsPage.OnBack   = onCloseContact;
-      detailsPage.OnDelete = onDeleteContact;
-      detailsPage.Contact  = itemView.Contact;
-      
-      SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null,
-                               null, null, null, false );
-    }
-
   }
 
   $rect <480,0,690,40>
@@ -7218,7 +7188,7 @@ class ContactsInsideSearch : Core::Group
   object Core::VerticalList VerticalList
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <11,100,261,435>;
+    preset Bounds = <11,111,261,435>;
     preset OnLoadItem = OnLoadItem;
     preset SlideHandler = SlideTouchHandler;
     preset ItemHeight = 32;
@@ -7233,6 +7203,45 @@ class ContactsInsideSearch : Core::Group
     preset Bounds = <12,100,261,435>;
     preset SnapNext = <0,35>;
     preset SlideHorz = false;
+  }
+
+  $rect <510,410,710,450>
+  slot onSelectedContact
+  {
+    Contact =  ((Application::ContactItem ) sender ).Contact;
+
+    postsignal OnSelectedContact; 
+  }
+
+  $rect <300,410,500,450>
+  property slot OnSelectedContact;
+
+  $rect <300,220,500,260>
+  property Device::Contact Contact = null;
+
+  $rect <300,260,500,300>
+  onset Contact
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Contact == value )
+      return;
+
+    // Remember the property's new value.
+    pure Contact = value;
+
+    notifyobservers ^Contact; 
+  }
+
+  // Contact data
+  note group Note4
+  {
+    attr Bounds = <280,170,510,360>;
+  }
+
+  // Touch screen events
+  note group Note8
+  {
+    attr Bounds = <280,360,730,480>;
   }
 }
 
