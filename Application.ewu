@@ -86,9 +86,8 @@ class ContactsPage : Core::Group
      // searchList = new Application::ContactsInsideSearch;
      // PresentDialog( searchList, null, null, null, null, null, null, null, null, false );
 
-      ContactsInsideSearch.Bounds.origin = <0,0>;
 
-      ContactsInsideSearch.OnSelectedContact =  onListItemPressed;
+      ContactsInsideSearch.Bounds.origin = <0,0>;
 
       SearchExt.Icon = Res::XIcon;
     }
@@ -332,6 +331,7 @@ class ContactsPage : Core::Group
   object Application::ContactsInsideSearch ContactsInsideSearch
   {
     preset Bounds = <1,457,273,937>;
+    preset OnSelectedContact = Slot;
   }
 
   // Search
@@ -342,6 +342,18 @@ class ContactsPage : Core::Group
 
   $rect <520,410,720,450>
   var Application::ContactsInsideSearch searchList;
+
+  $rect <503,453,703,493>
+  slot Slot
+  {
+    detailsPage          = new Application::ContactDetailsPage;
+      detailsPage.OnBack   = onClose;
+      detailsPage.OnDelete = onDelete;
+      detailsPage.Contact  = ContactsInsideSearch.Contact;
+      
+      SwitchToDialog( detailsPage, Res::SlideLeftCentered, null, null, null, null, null,
+                               null, null, null, false );
+  }
 }
 
 // Contacts
@@ -2543,14 +2555,7 @@ class Application : Core::Root
 
     postsignal onCallState;
 
-    SetMyNumber(2);
-
-
-     
-
-
-
-
+    SetMyNumber( 2 );
 
   }
 
@@ -3692,6 +3697,49 @@ class ContactsList : Application::ContactsInsideCall
   {
     attr Bounds = <290,190,740,310>;
   }
+
+  $rect <20,20,160,60>
+  inherited object ContactsInsideSearch
+  {
+    preset OnSelectedContact = Slot1;
+  }
+
+  $rect <481,302,681,342>
+  slot Slot1
+  {
+    //add contact to favorites
+    Contact =  ContactsInsideSearch.Contact;
+
+    if ( Contact.Favorite == false )
+    {
+      Contact.Favorite = true;
+      postsignal OnAddFav; 
+    }
+    else
+    {
+      trace "ERROR: Contact already in the list";
+      postsignal OnCancel;
+    }
+
+
+
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member PlusButton
+  $member onListItemPressed
+  $member ContactsInsideSearch
+  $member TextButton
+  $member Text
+  $member OnAddFav
+  $member Contact
+  $member OnSetContact
+  $member Note4
+  $member Note8
+  $member Slot1
 }
 
 $rect <240,120,399,160>
@@ -5603,12 +5651,6 @@ class MessagesPage : Core::Group
     preset SlideHorz = false;
   }
 
-  $rect <20,20,160,60>
-  object Application::ContactsInsideSearch1 ContactsInsideSearch1
-  {
-    preset Bounds = <1,491,273,971>;
-  }
-
   $rect <309,389,509,429>
   slot onSearch
   {
@@ -5616,7 +5658,7 @@ class MessagesPage : Core::Group
     {
       Device::Device.MessageHistory.Search( SearchExt.String );
 
-      ContactsInsideSearch1.Bounds.origin = <0,11>;
+      ContactsInsideSearch.Bounds.origin = <0,11>;
 
       SearchExt.Icon = Res::XIcon;
     }
@@ -5631,7 +5673,7 @@ class MessagesPage : Core::Group
   {
     Device::Device.MessageHistory.CancelSearch();
 
-    ContactsInsideSearch1.Bounds.origin.y = Bounds.y2;
+    ContactsInsideSearch.Bounds.origin.y = Bounds.y2;
 
 
     SearchExt.String = "";
@@ -5644,6 +5686,13 @@ class MessagesPage : Core::Group
   note group Note3
   {
     attr Bounds = <291,340,660,520>;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ContactsInsideSearch ContactsInsideSearch
+  {
+    preset Bounds = <1,500,273,980>;
+    preset OnSelectedContact = onOpenChat;
   }
 }
 
@@ -6235,6 +6284,40 @@ class ContactsList1 : Application::ContactsList
   {
     preset Visible = false;
   }
+
+  $rect <290,0,490,40>
+  inherited slot onListItemPressed
+  {
+    //add contact to favorites
+    Contact =  ((Application::ContactItem ) sender ).Contact;
+
+    postsignal OnAddFav; 
+  }
+
+  $rect <20,20,160,60>
+  inherited object ContactsInsideSearch
+  {
+    preset OnSelectedContact = Slot2;
+  }
+
+  $rect <481,302,681,342>
+  slot Slot2
+  {
+    //add contact to favorites
+    Contact =  ContactsInsideSearch.Contact;
+
+    postsignal OnAddFav; 
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member TitleTxt
+  $member onListItemPressed
+  $member ContactsInsideSearch
+  $member Text
+  $member Slot2
 }
 
 $rect <460,170,640,210>
@@ -7210,7 +7293,7 @@ class ContactsInsideSearch : Core::Group
   {
     Contact =  ((Application::ContactItem ) sender ).Contact;
 
-    postsignal OnSelectedContact; 
+    signal OnSelectedContact; 
   }
 
   $rect <300,410,500,450>

@@ -888,8 +888,7 @@ vclass DeviceSimulation : Device::DeviceClass
   $rect <0,130,200,170>
   method void CreateContactFav( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
-    var Device::Contact MyContact = new Device::Contact;
-
+    var Device::Contact MyContact = new Device::Contact;   
 
     MyContact.FirstName = aFirstName;
     MyContact.LastName = aLastName;
