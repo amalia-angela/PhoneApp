@@ -115,33 +115,33 @@ class Contact
   }
 
   $rect <0,220,200,260>
-  property bool Favorite;
+  property bool IsFavorite;
 
   $rect <200,220,400,260>
-  onset Favorite
+  onset IsFavorite
   {
     // The value doesn't change - nothing to do.
-    if ( pure Favorite == value )
+    if ( pure IsFavorite == value )
       return;
 
     // Remember the property's new value.
-    pure Favorite = value;
+    pure IsFavorite = value;
 
     notifyobservers this;
   }
 
   $rect <0,300,200,340>
-  property bool MyCard = false;
+  property bool IsMyCard = false;
 
   $rect <200,300,400,340>
-  onset MyCard
+  onset IsMyCard
   {
     // The value doesn't change - nothing to do.
-    if ( pure MyCard == value )
+    if ( pure IsMyCard == value )
       return;
 
     // Remember the property's new value.
-    pure MyCard = value;
+    pure IsMyCard = value;
 
     notifyobservers this;
   }
@@ -482,16 +482,16 @@ class DeviceClass : Templates::DeviceClass
   }
 
   $rect <0,490,200,530>
-  object Device::ContactList Contacts;
+  object Device::ContactsList Contacts;
 
   $rect <0,570,200,610>
-  object Device::ContactList History;
+  object Device::ContactsList History;
 
   $rect <0,530,200,570>
-  object Device::ContactList Favorites;
+  object Device::ContactsList Favorites;
 
   $rect <200,190,400,230>
-  method void SendCallContact( arg Device::Contact aContact )
+  method void SendCallFromContact( arg Device::Contact aContact )
   {
     var Device::HistoryContact historyContact = new Device::HistoryContact;
 
@@ -501,7 +501,7 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState     = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
-    Ongoing.AddLast( historyContact );
+    OngoingCalls.AddLast( historyContact );
 
     // if call fails
     if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ))
@@ -509,7 +509,7 @@ class DeviceClass : Templates::DeviceClass
       historyContact.CallState = Device::CallState.Missed;
       
       History.AddFirst( historyContact );
-      Ongoing.Remove( historyContact );
+      OngoingCalls.Remove( historyContact );
     }
   }
 
@@ -534,13 +534,13 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState     = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Incoming;
 
-    Ongoing.AddLast( historyContact );
+    OngoingCalls.AddLast( historyContact );
 
 
   }
 
   $rect <200,230,400,270>
-  method void SendCallNumber( arg string aPhoneNumber )
+  method void SendCallFromNumber( arg string aPhoneNumber )
   {
     var Device::Contact contact               = Contacts.FindByPhoneNumber( aPhoneNumber );
     var Device::HistoryContact historyContact = new Device::HistoryContact;
@@ -559,7 +559,7 @@ class DeviceClass : Templates::DeviceClass
     historyContact.CallState     = Device::CallState.Dialing;
     historyContact.CallDirection = Device::CallDirection.Outgoing;
 
-    Ongoing.AddLast( historyContact );
+    OngoingCalls.AddLast( historyContact );
 
     /// if call fails
     if ( ! Device::PhoneServer.StartCall( historyContact.PhoneNumber ))
@@ -567,13 +567,13 @@ class DeviceClass : Templates::DeviceClass
       historyContact.CallState = Device::CallState.Missed;
       
       History.AddFirst( historyContact );
-      Ongoing.Remove( historyContact );
+      OngoingCalls.Remove( historyContact );
     }
 
   }
 
   $rect <200,570,400,610>
-  object Device::ContactList Ongoing;
+  object Device::ContactsList OngoingCalls;
 
   $rect <500,490,700,530>
   method int32 GetNewID()
@@ -590,7 +590,7 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,350,400,390>
   method void SendEndCall( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
      
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
@@ -609,7 +609,7 @@ class DeviceClass : Templates::DeviceClass
 
 
     History.AddFirst( historyContact );
-    Ongoing.Remove( historyContact );
+    OngoingCalls.Remove( historyContact );
 
   }
 
@@ -624,7 +624,7 @@ class DeviceClass : Templates::DeviceClass
       aContact.CallState = Device::CallState.Missed;
       
       History.AddFirst( aContact );
-      Ongoing.Remove( aContact );
+      OngoingCalls.Remove( aContact );
      }
     //esetleg ha megszakad a vonal akkor tegye be fail
 
@@ -634,7 +634,7 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,270,200,310>
   method void ReceiveCallAnswered( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
 
     historyContact.CallState = Device::CallState.Speaking;
     historyContact.StartTime = (new Core::Time).CurrentTime;
@@ -644,7 +644,7 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,310,200,350>
   method void ReceiveCallRejected( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
 
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
@@ -652,14 +652,14 @@ class DeviceClass : Templates::DeviceClass
     }
 
     History.AddFirst( historyContact );
-    Ongoing.Remove( historyContact );
+    OngoingCalls.Remove( historyContact );
 
   }
 
   $rect <200,310,400,350>
   method void SendCallRejected( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
 
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
@@ -669,14 +669,14 @@ class DeviceClass : Templates::DeviceClass
     Device::PhoneServer.RejectCall( historyContact.PhoneNumber );
 
     History.AddFirst( historyContact );
-    Ongoing.Remove( historyContact );
+    OngoingCalls.Remove( historyContact );
 
   }
 
   $rect <0,350,200,390>
   method void ReceiveEndCall( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
      
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
@@ -691,7 +691,7 @@ class DeviceClass : Templates::DeviceClass
 
 
     History.AddFirst( historyContact );
-    Ongoing.Remove( historyContact );
+    OngoingCalls.Remove( historyContact );
 
   }
 
@@ -752,8 +752,8 @@ class DeviceClass : Templates::DeviceClass
     message.Sender   = contactSender;
     message.Receiver = MyContact;
     message.TimeSent = ( new Core::Time).CurrentTime;
-    message.Message  = aMessageContent;
-    message.Seen     = false;
+    message.MessageContent  = aMessageContent;
+    message.IsSeen     = false;
 
     //hozza rendeleme az uzenetet a contacthoz
     contactSender.MessagesList.Add( message );
@@ -774,8 +774,8 @@ class DeviceClass : Templates::DeviceClass
     message.Sender   = MyContact;
     message.Receiver = aContact;
     message.TimeSent = ( new Core::Time).CurrentTime;
-    message.Message  = aMessageContent;
-    message.Seen     = true;
+    message.MessageContent  = aMessageContent;
+    message.IsSeen     = true;
 
     //hozza rendelem a contachoz
     aContact.MessagesList.Add( message );
@@ -800,12 +800,12 @@ class DeviceClass : Templates::DeviceClass
   }
 
   $rect <0,610,200,650>
-  object Device::HistoryMessageList MessageHistory;
+  object Device::HistoryMessagesList MessageHistory;
 
   $rect <0,390,200,430>
   method void ReceiveMissedCall( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
      
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
@@ -813,11 +813,11 @@ class DeviceClass : Templates::DeviceClass
     }  
 
     History.AddFirst( historyContact );
-    Ongoing.Remove( historyContact );
+    OngoingCalls.Remove( historyContact );
   }
 
   $rect <200,490,380,530>
-  object Device::ContactList FilteredContacts;
+  object Device::ContactsList FilteredContacts;
 }
 
 $rect <20,80,250,120>
@@ -848,10 +848,7 @@ enum CallState
   $rect <10,210,210,250>
   item Rejected;
 
-  $rect <10,270,210,310>
-  item Hold;
-
-  $rect <10,320,210,360>
+  $rect <10,264,210,304>
   item Speaking;
 
   $rect <260,170,460,210>
@@ -956,7 +953,7 @@ vclass DeviceSimulation : Device::DeviceClass
 
     msg.Sender = cont;
     msg.Receiver = cont1;
-    msg.Message = "hello";
+    msg.MessageContent = "hello";
 
     cont1.MessagesList.Add( msg );
 
@@ -1145,7 +1142,7 @@ class ContactListElement
 
 $rect <320,40,500,80>
 $output false
-class ContactList
+class ContactsList
 {
   $rect <0,0,200,40>
   var Device::ContactListElement head = null;
@@ -1860,39 +1857,6 @@ class PhoneServerClass : Templates::DeviceClass
     return false;
   }
 
-  $rect <780,180,980,220>
-  method bool SendHold( arg string aReceiverNumber )
-  {
-    var string url;
-    var string result;
-    var string senderID;
-
-    senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/hold/";
-
-    $if !$prototyper
-    native ( url, result )
-    {
-      var req = new XMLHttpRequest();
-      
-      req.open( "GET", url, false );
-      
-      req.onload = function() {
-        if ( req.status == 200 ) {
-            console.log( req.status );
-            result = req.responseText;
-        }};
-        
-      req.send();
-    }
-    $endif
-
-    if ( result == "" )
-      return true;
-      
-    return false;
-  }
-
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
   // classes. The numbers indicate the order-displacement to apply on the respective 
@@ -1959,17 +1923,17 @@ class Message
   var Device::Message next;
 
   $rect <10,170,210,210>
-  property string Message = "";
+  property string MessageContent = "";
 
   $rect <210,170,410,210>
-  onset Message
+  onset MessageContent
   {
     // The value doesn't change - nothing to do.
-    if ( pure Message == value )
+    if ( pure MessageContent == value )
       return;
 
     // Remember the property's new value.
-    pure Message = value;
+    pure MessageContent = value;
 
     notifyobservers this;
   }
@@ -2043,21 +2007,21 @@ class Message
   $rect <470,30,670,70>
   method void TraceMessage()
   {
-    trace "message: " + Message ;
+    trace "message: " + MessageContent ;
   }
 
   $rect <10,250,210,290>
-  property bool Seen = false;
+  property bool IsSeen = false;
 
   $rect <210,250,410,290>
-  onset Seen
+  onset IsSeen
   {
     // The value doesn't change - nothing to do.
-    if ( pure Seen == value )
+    if ( pure IsSeen == value )
       return;
 
     // Remember the property's new value.
-    pure Seen = value;
+    pure IsSeen = value;
 
     notifyobservers this;
   }
@@ -2193,9 +2157,9 @@ class MessagesList
   }
 }
 
-$rect <840,50,1030,90>
+$rect <860,50,1060,90>
 $output false
-class HistoryMessageList : Device::ContactList
+class HistoryMessagesList : Device::ContactsList
 {
   $rect <10,0,210,40>
   property int32 UnreadMessagesNr = 0;

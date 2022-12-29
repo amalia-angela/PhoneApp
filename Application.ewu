@@ -1,6 +1,6 @@
 ﻿$version 12.00
 
-$rect <30,80,210,120>
+$rect <40,300,220,340>
 $output false
 class ContactsPage : Core::Group
 {
@@ -32,7 +32,7 @@ class ContactsPage : Core::Group
   $rect <830,60,1030,100>
   slot onCreateContactPressed
   {
-    createContact = new Application::ContactAddPage;
+    createContact = new Application::AddContactPage;
 
     createContact.OnSave  = onSaveAdd;
     createContact.OnClose = onCancelAdd; 
@@ -43,7 +43,7 @@ class ContactsPage : Core::Group
   }
 
   $rect <680,60,830,100>
-  var Application::ContactAddPage createContact = null;
+  var Application::AddContactPage createContact = null;
 
   $rect <850,100,1030,140>
   slot onSaveAdd
@@ -98,7 +98,7 @@ class ContactsPage : Core::Group
   }
 
   $rect <680,190,830,230>
-  var Application::ContactDetailsPage detailsPage;
+  var Application::DetailsPage detailsPage;
 
   $rect <850,230,1030,270>
   slot onClose
@@ -260,7 +260,7 @@ class ContactsPage : Core::Group
 
     if ( itemView != null )
     {
-      detailsPage          = new Application::ContactDetailsPage;
+      detailsPage          = new Application::DetailsPage;
       detailsPage.OnBack   = onClose;
       detailsPage.OnDelete = onDelete;
       detailsPage.Contact  = itemView.Contact;
@@ -295,7 +295,7 @@ class ContactsPage : Core::Group
 
       if ( contact != null ){
 
-        detailsPage          = new Application::ContactDetailsPage;
+        detailsPage          = new Application::DetailsPage;
         detailsPage.OnBack   = onClose;
         detailsPage.Contact  = contact;
       
@@ -346,7 +346,7 @@ class ContactsPage : Core::Group
   $rect <503,453,703,493>
   slot Slot
   {
-    detailsPage          = new Application::ContactDetailsPage;
+    detailsPage          = new Application::DetailsPage;
       detailsPage.OnBack   = onClose;
       detailsPage.OnDelete = onDelete;
       detailsPage.Contact  = ContactsInsideSearch.Contact;
@@ -359,10 +359,10 @@ class ContactsPage : Core::Group
 // Contacts
 note group Note
 {
-  attr Bounds = <10,0,420,540>;
+  attr Bounds = <0,220,430,900>;
 }
 
-$rect <51,120,210,160>
+$rect <51,340,220,379>
 $output false
 class ContactItem : Core::Group
 {
@@ -816,9 +816,9 @@ class ContactItem : Core::Group
   }
 }
 
-$rect <50,160,210,200>
+$rect <50,421,220,460>
 $output false
-class ContactDetailsPage : Core::Group
+class DetailsPage : Core::Group
 {
   $rect <-10,510,190,550>
   inherited property Bounds = <0,0,272,440>;
@@ -826,7 +826,7 @@ class ContactDetailsPage : Core::Group
   $rect <450,50,630,90>
   slot onTapEdit
   {
-    editPage = new Application::ContactEditPage;
+    editPage = new Application::EditPage;
 
     editPage.OnSave   = onSaveEdit;
     editPage.OnClose  = onCancelEdit;
@@ -858,12 +858,12 @@ class ContactDetailsPage : Core::Group
   property slot OnDelete;
 
   $rect <300,50,450,90>
-  var Application::ContactEditPage editPage;
+  var Application::EditPage editPage;
 
   $rect <300,280,480,320>
   slot onTapCall
   {
-    Device::Device.SendCallContact( Contact );
+    Device::Device.SendCallFromContact( Contact );
   }
 
   $rect <460,90,620,130>
@@ -925,7 +925,7 @@ class ContactDetailsPage : Core::Group
       ContactName.String =       pure Contact.LastName + " "  + pure Contact.FirstName;
       NumberTxt.String = pure Contact.PhoneNumber;   
       UserInitialsBtn.Icon =  pure Contact.NameInitials;
-      FavoritTxt.Visible  =  pure Contact.Favorite ? true : false;  
+      FavoritTxt.Visible  =  pure Contact.IsFavorite ? true : false;  
     }
 
   }
@@ -1075,7 +1075,7 @@ class ContactDetailsPage : Core::Group
   $rect <490,330,670,370>
   slot onTapMessage
   {
-    chat = new Application::Chat;
+    chat = new Application::ChatPage;
 
     chat.Contact = Contact;
     chat.OnBack  = onBack;
@@ -1087,7 +1087,7 @@ class ContactDetailsPage : Core::Group
   }
 
   $rect <290,330,490,370>
-  var Application::Chat chat = null;
+  var Application::ChatPage chat = null;
 
   $rect <510,370,670,410>
   slot onBack
@@ -1097,9 +1097,9 @@ class ContactDetailsPage : Core::Group
   }
 }
 
-$rect <50,240,210,280>
+$rect <50,501,220,540>
 $output false
-class ContactAddPage : Core::Group
+class AddContactPage : Core::Group
 {
   $rect <0,450,200,490>
   inherited property Bounds = <0,0,272,440>;
@@ -1186,7 +1186,7 @@ class ContactAddPage : Core::Group
 
 
     if ( ToggleButton.Active == true ){
-      Contact.MyCard       = ToggleButton.Active;
+      Contact.IsMyCard       = ToggleButton.Active;
       }
 
     if ( Contact.LastName == "" &&  Contact.FirstName == "")
@@ -1368,9 +1368,9 @@ class ContactAddPage : Core::Group
   }
 }
 
-$rect <50,200,210,240>
+$rect <50,461,220,500>
 $output false
-class ContactEditPage : Core::Group
+class EditPage : Core::Group
 {
   $rect <0,490,200,530>
   inherited property Bounds = <0,0,272,440>;
@@ -1398,7 +1398,7 @@ class ContactEditPage : Core::Group
       if (Contact.FirstName != FirstNameTxt.String ||
           Contact.LastName != LastNameTxt.String ||
           Contact.PhoneNumber !=  NumberTxt.String || 
-          ToggleButton.Active != Contact.MyCard ){
+          ToggleButton.Active != Contact.IsMyCard ){
         SaveBtn.Enabled = true;
       }else
         SaveBtn.Enabled = false;
@@ -1414,8 +1414,8 @@ class ContactEditPage : Core::Group
     Contact.PhoneNumber  = NumberTxt.String;
     Contact.NameInitials = Device::Device.Contacts.GetInitials( Contact.LastName, Contact.FirstName );
 
-    if ( Contact.MyCard != ToggleButton.Active){
-     Contact.MyCard = ToggleButton.Active;
+    if ( Contact.IsMyCard != ToggleButton.Active){
+     Contact.IsMyCard = ToggleButton.Active;
      Device::Device.MyContact = Contact;
     }
     signal OnSave;
@@ -1478,7 +1478,7 @@ class ContactEditPage : Core::Group
       LastNameTxt.String  = Contact.LastName;
       NumberTxt.String    = Contact.PhoneNumber;  
       UserInitials.Icon  = Contact.NameInitials;
-      ToggleButton.Active = Contact.MyCard;
+      ToggleButton.Active = Contact.IsMyCard;
     }
 
   }
@@ -1657,9 +1657,9 @@ class ContactEditPage : Core::Group
   }
 }
 
-$rect <240,330,400,370>
+$rect <240,560,410,600>
 $output false
-class CallPage : Application::CallPageBase
+class OngoingCall : Application::CallBase
 {
   $rect <310,40,510,80>
   inherited method Init()
@@ -1921,9 +1921,9 @@ class CallPage : Application::CallPageBase
   }
 }
 
-$rect <260,410,400,450>
+$rect <240,640,410,680>
 $output false
-class DetailsInsideCall : Application::ContactDetailsPage
+class DetailsInsideCall : Application::DetailsPage
 {
   $rect <0,490,200,530>
   inherited property Bounds = <0,0,272,440>;
@@ -1931,7 +1931,7 @@ class DetailsInsideCall : Application::ContactDetailsPage
   $rect <490,20,690,60>
   inherited slot onTapEdit
   {
-    editPage = new Application::ContactEditPage;
+    editPage = new Application::EditPage;
 
     editPage.OnSave  = onSaveEdit;
     editPage.OnClose = onCancelEdit;
@@ -2026,7 +2026,7 @@ class DetailsInsideCall : Application::ContactDetailsPage
   }
 }
 
-$rect <220,210,400,250>
+$rect <230,440,410,480>
 $output false
 class KeypadPage : Core::Group
 {
@@ -2153,7 +2153,7 @@ class KeypadPage : Core::Group
   {
     if( InputEtxt.String != "")
     {
-      Device::Device.SendCallNumber( InputEtxt.String );
+      Device::Device.SendCallFromNumber( InputEtxt.String );
 
     }
   }
@@ -2411,9 +2411,9 @@ class KeypadPage : Core::Group
 }
 
 // This is the root component of the entire GUI application.
-$rect <140,30,340,70>
+$rect <20,255,220,295>
 $output false
-class ContactsApp : Core::Group
+class PhoneApp : Core::Group
 {
   $rect <300,40,480,80>
   inherited method Init()
@@ -2542,187 +2542,7 @@ class ContactsApp : Core::Group
   }
 }
 
-$rect <450,440,650,480>
-$output false
-class Application : Core::Root
-{
-  $rect <290,40,490,80>
-  inherited method Init()
-  {
-    postsignal onSplashScreen;
-
-    attachobserver onCallState, ^Device::Device.Ongoing.NoOfItems;
-
-    postsignal onCallState;
-
-    SetMyNumber( 2 );
-
-  }
-
-  $rect <290,0,490,40>
-  inherited property Bounds = <0,0,272,480>;
-
-  // To do:
-  // 
-  // - Adjust the visible size of your application (the thick blue border). It should \
-  // correspond to the size of your target display.
-  // 
-  // - The simplest way to compose the appearance of the application is to use the \
-  // 'Views' and 'Widget Sets' from the Gallery.
-  // 
-  // - To react to touch or keyboard events use the templates from the Gallery folder \
-  // 'Event Handlers'.
-  // 
-  // - To perform transitions (animations) use the templates from the Gallery folder \
-  // 'Effects'.
-  // 
-  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
-  // in the Gallery folder 'Chora'.
-  // 
-  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
-  // in the Gallery folder 'Chora'.
-  note legend Note1
-  {
-    attr Bounds = <10,510,790,740>;
-  }
-
-  $rect <290,80,490,120>
-  slot onCallState
-  {
-    if ( historyContact != null)
-      detachobserver onCallState, historyContact;
-
-    historyContact = (Device::HistoryContact)Device::Device.Ongoing.GetContact( 0 );
-
-    if ( ongoingPage != null )
-    {
-      DismissDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, false );
-      ongoingPage = null;
-    }  
-
-    if ( historyContact != null )
-    {
-      if ( historyContact.CallState == Device::CallState.Cancelled || historyContact.CallState == Device::CallState.EndCall ||
-      historyContact.CallState == Device::CallState.Rejected || historyContact.CallState == Device::CallState.Missed)
-      {
-        DismissDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, false );
-      }
-      if ( historyContact.CallDirection == Device::CallDirection.Incoming )
-      {
-        if ( historyContact.CallState == Device::CallState.Speaking )
-        {
-          ongoingPage = new Application::CallPage;
-          ongoingPage.Contact = historyContact;
-        }
-        else
-        {
-          ongoingPage = new Application::IncomingCall;
-          ongoingPage.Contact = historyContact;
-        }
-        
-        PresentDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
-      }
-      else if ( historyContact.CallDirection == Device::CallDirection.Outgoing )
-      {
-        ongoingPage = new Application::CallPage;
-        ongoingPage.Contact = historyContact;
-        PresentDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
-      }
-      attachobserver onCallState, historyContact;
-      
-    }
-
-
-
-
-
-  }
-
-  $rect <500,0,700,40>
-  var Device::DeviceClass deviceInstance = Device::Device;
-
-  $rect <320,120,490,160>
-  var Application::CallPageBase ongoingPage = null;
-
-  $rect <490,120,690,160>
-  var Device::HistoryContact historyContact = null;
-
-  $rect <290,240,490,280>
-  slot onContact
-  {
-    contactApp = new Application::ContactsApp;
-
-    //onback
-    PresentDialog( contactApp, null, null, null, null, null, null, null, null, false );
-  }
-
-  $rect <290,200,490,240>
-  slot onMessages
-  {
-    messageApp = new Application::MessagesPage;
-
-    //onback dismiss dialog
-    PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
-  }
-
-  $rect <490,240,690,280>
-  var Application::ContactsApp contactApp;
-
-  $rect <490,200,690,240>
-  var Application::MessagesPage messageApp;
-
-  $rect <290,320,490,360>
-  slot onSplashScreen
-  {
-    splashScreen = new Application::SplashScreen;
-    splashScreen.OnStart = onCloseSplash;
-
-    PresentDialog( splashScreen, null, null, null, null, null, null, null, null, false );
-  }
-
-  $rect <290,360,490,400>
-  slot onCloseSplash
-  {
-    DismissDialog( splashScreen, null, null, null, null, null, false );
-
-    postsignal onStart;
-  }
-
-  $rect <490,320,690,360>
-  var Application::SplashScreen splashScreen;
-
-  $rect <300,420,500,460>
-  slot onStart
-  {
-    var Application::MainPage page = new Application::MainPage;
-
-    PresentDialog( page, null, null, null, null, null, null, null, null, false );
-  }
-
-  $rect <740,0,940,40>
-  $output true
-  method void SetMyNumber( arg int32 aMyNumber )
-  {
-    myID = aMyNumber;
-
-    idlesignal onSetMyContact;
-
-  }
-
-  $rect <770,50,970,90>
-  slot onSetMyContact
-  {
-    Device::Device.MyContact = Device::Device.Contacts.FindByID1( myID );
-
-
-    trace myID;
-  }
-
-  $rect <970,30,1170,70>
-  var int32 myID;
-}
-
-$rect <260,450,400,490>
+$rect <240,680,410,720>
 $output false
 class KeypadInsideCall : Application::KeypadPage
 {
@@ -2815,7 +2635,7 @@ class KeypadInsideCall : Application::KeypadPage
   $reorder BackgroundSmall 16
 }
 
-$rect <260,370,400,410>
+$rect <240,600,410,640>
 $output false
 class ContactsInsideCall : Application::ContactsPage
 {
@@ -2907,7 +2727,7 @@ class ContactsInsideCall : Application::ContactsPage
   }
 }
 
-$rect <1010,47,1210,87>
+$rect <460,50,660,87>
 $variant Simulation
 vclass ApplicationSimulation : Application::Application
 {
@@ -2943,7 +2763,7 @@ vclass ApplicationSimulation : Application::Application
   $reorder Image 5
 }
 
-$rect <1010,90,1260,130>
+$rect <460,90,670,130>
 $output false
 autoobject Effects::FadeInOutTransition FadeInOutTransition
 {
@@ -2954,12 +2774,12 @@ autoobject Effects::FadeInOutTransition FadeInOutTransition
 // Simulation
 note group Note4
 {
-  attr Bounds = <990,0,1280,200>;
+  attr Bounds = <440,0,910,200>;
 }
 
-$rect <240,290,400,330>
+$rect <240,520,410,560>
 $output false
-class IncomingCall : Application::CallPageBase
+class IncomingCall : Application::CallBase
 {
   $rect <300,40,500,80>
   inherited method Init()
@@ -3045,7 +2865,7 @@ class IncomingCall : Application::CallPageBase
 // the creation and configuration of the object. If you require the transition to \
 // run with other configuration (e.g. other timing parameters), create a copy of \
 // this object and adapt its properties accordingly.
-$rect <1020,140,1270,180>
+$rect <460,130,670,170>
 $output false
 autoobject Effects::SlideTransition SlideUpCentered
 {
@@ -3053,7 +2873,7 @@ autoobject Effects::SlideTransition SlideUpCentered
   preset Direction = Core::Direction.Top;
 }
 
-$rect <220,80,400,120>
+$rect <230,300,410,340>
 $output false
 class FavoritesPage : Core::Group
 {
@@ -3118,7 +2938,7 @@ class FavoritesPage : Core::Group
   {
     Contact = (( Application::FavContactItem ) sender ).Contact;
 
-    Device::Device.SendCallContact( Contact );
+    Device::Device.SendCallFromContact( Contact );
 
     Contact = null;
 
@@ -3218,12 +3038,12 @@ class FavoritesPage : Core::Group
   }
 
   $rect <690,180,850,220>
-  var Application::ContactDetailsPage detailsPage;
+  var Application::DetailsPage detailsPage;
 
   $rect <850,180,1020,220>
   slot onInfoContact
   {
-    detailsPage         = new Application::ContactDetailsPage;
+    detailsPage         = new Application::DetailsPage;
     detailsPage.Contact = (( Application::FavContactItem ) sender ).Contact;
     detailsPage.OnBack  = onCloseDetailsPage;
 
@@ -3239,7 +3059,7 @@ class FavoritesPage : Core::Group
     var Device::Contact contact = Device::Device.Contacts.FindByID( Contact );
 
     if ( contact != null)
-      contact.Favorite = false;
+      contact.IsFavorite = false;
 
     Device::Device.Favorites.Remove( Contact );
 
@@ -3294,7 +3114,7 @@ class FavoritesPage : Core::Group
   }
 }
 
-$rect <30,330,210,370>
+$rect <40,550,220,590>
 $output false
 class RecentPage : Core::Group
 {
@@ -3571,7 +3391,7 @@ class RecentPage : Core::Group
     var Application::RecentItm itemView = (Application::RecentItm)sender;
     SelectedContact = itemView.ContactHistory;
 
-    Device::Device.SendCallContact( SelectedContact );
+    Device::Device.SendCallFromContact( SelectedContact );
 
     SelectedContact = null;
 
@@ -3621,7 +3441,7 @@ class RecentPage : Core::Group
   }
 }
 
-$rect <240,160,400,200>
+$rect <240,380,410,423>
 $output false
 class ContactsList : Application::ContactsInsideCall
 {
@@ -3637,9 +3457,9 @@ class ContactsList : Application::ContactsInsideCall
     //add contact to favorites
     Contact =  ((Application::ContactItem ) sender ).Contact;
 
-    if ( Contact.Favorite == false )
+    if ( Contact.IsFavorite == false )
     {
-      Contact.Favorite = true;
+      Contact.IsFavorite = true;
       postsignal OnAddFav; 
     }
     else
@@ -3710,9 +3530,9 @@ class ContactsList : Application::ContactsInsideCall
     //add contact to favorites
     Contact =  ContactsInsideSearch.Contact;
 
-    if ( Contact.Favorite == false )
+    if ( Contact.IsFavorite == false )
     {
-      Contact.Favorite = true;
+      Contact.IsFavorite = true;
       postsignal OnAddFav; 
     }
     else
@@ -3742,7 +3562,7 @@ class ContactsList : Application::ContactsInsideCall
   $member Slot1
 }
 
-$rect <240,120,399,160>
+$rect <240,340,409,380>
 $output false
 class FavContactItem : Application::ContactItem
 {
@@ -3976,7 +3796,7 @@ class FavContactItem : Application::ContactItem
   $reorder InfoButton 5
 }
 
-$rect <51,370,210,410>
+$rect <50,590,219,630>
 $output false
 class RecentItm : Core::Group
 {
@@ -4663,9 +4483,9 @@ class RecentItm : Core::Group
   property Device::HistoryContact ContactHistory = null;
 }
 
-$rect <50,410,210,450>
+$rect <50,630,210,670>
 $output false
-class RecentDetailsPage : Application::ContactDetailsPage
+class RecentDetailsPage : Application::DetailsPage
 {
   $rect <320,130,520,170>
   inherited slot onContactUpdated
@@ -4802,9 +4622,9 @@ class RecentDetailsPage : Application::ContactDetailsPage
   }
 }
 
-$rect <220,250,400,290>
+$rect <230,480,410,520>
 $output false
-class CallPageBase : Core::Group
+class CallBase : Core::Group
 {
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
@@ -4821,7 +4641,7 @@ class CallPageBase : Core::Group
     //if not display number and hide UserInitials
     else
     {
-       ContactNameTxt.String = Device::Device.Ongoing.GetContact( 0 ).PhoneNumber;
+       ContactNameTxt.String = Device::Device.OngoingCalls.GetContact( 0 ).PhoneNumber;
        UserInitials.Visible = false;
     }
 
@@ -4938,9 +4758,9 @@ class CallPageBase : Core::Group
   }
 }
 
-$rect <260,490,400,530>
+$rect <240,720,410,760>
 $output false
-class ContactsAppInsideCall : Application::ContactsApp
+class ContactsAppInsideCall : Application::PhoneApp
 {
   $rect <290,-10,490,30>
   inherited property Bounds = <0,0,272,440>;
@@ -4993,7 +4813,7 @@ class ContactsAppInsideCall : Application::ContactsApp
   }
 }
 
-$rect <50,280,209,320>
+$rect <50,380,219,419>
 $output false
 class MyCardItem : Core::Group
 {
@@ -5391,12 +5211,12 @@ class MyCardItem : Core::Group
 // Messages
 note group Note1
 {
-  attr Bounds = <430,0,910,340>;
+  attr Bounds = <439,219,919,559>;
 }
 
-$rect <440,50,640,90>
+$rect <460,260,660,300>
 $output false
-class MessagesPage : Core::Group
+class MessagesApp : Core::Group
 {
   $rect <800,60,1010,100>
   inherited method Init()
@@ -5450,7 +5270,7 @@ class MessagesPage : Core::Group
   $rect <480,90,690,130>
   slot onAddContact
   {
-    addPage = new Application::ContactsList1;
+    addPage = new Application::ContactsListInsideMEssages;
 
     addPage.OnCancel = onCloseAdd;
     addPage.OnAddFav = onAdd;
@@ -5460,7 +5280,7 @@ class MessagesPage : Core::Group
   }
 
   $rect <300,90,480,130>
-  var Application::ContactsList1 addPage = null;
+  var Application::ContactsListInsideMEssages addPage = null;
 
   $rect <500,170,690,210>
   slot onCloseAdd
@@ -5491,7 +5311,7 @@ class MessagesPage : Core::Group
   }
 
   $rect <300,210,480,250>
-  var Application::Chat chat = null;
+  var Application::ChatPage chat = null;
 
   $rect <520,250,690,290>
   slot onBack
@@ -5550,7 +5370,7 @@ class MessagesPage : Core::Group
 
     if ( itemView != null )
     {
-      chat = new Application::Chat; 
+      chat = new Application::ChatPage; 
       chat.Contact = itemView.Contact;
       chat.OnBack  = onBack;
       
@@ -5641,7 +5461,7 @@ class MessagesPage : Core::Group
   }
 
   $rect <1040,230,1220,270>
-  object Device::ContactList SelectedContacts;
+  object Device::ContactsList SelectedContacts;
 
   $rect <20,20,160,60>
   object Core::SlideTouchHandler SlideTouchHandler
@@ -5696,7 +5516,7 @@ class MessagesPage : Core::Group
   }
 }
 
-$rect <460,90,640,130>
+$rect <480,306,660,346>
 $output false
 class MessegeItem : Core::Group
 {
@@ -6012,7 +5832,7 @@ class MessegeItem : Core::Group
       CheckButton.Active = false;
       if ( Contact.MessagesList.head != null )
       {
-        MessageTxt.String = pure Contact.MessagesList.GetLastMessage().Message;//"last message";    
+        MessageTxt.String = pure Contact.MessagesList.GetLastMessage().MessageContent;//"last message";    
         TimeTxt.String    = pure Contact.MessagesList.GetLastMessage().GetTimeOfCall();//"l.m. time";
         ArrowBtn.Visible  = true;
         
@@ -6269,9 +6089,9 @@ class MessegeItem : Core::Group
   }
 }
 
-$rect <460,130,640,170>
+$rect <480,346,660,386>
 $output false
-class ContactsList1 : Application::ContactsList
+class ContactsListInsideMEssages : Application::ContactsList
 {
   $rect <20,20,160,60>
   inherited object TitleTxt
@@ -6320,9 +6140,9 @@ class ContactsList1 : Application::ContactsList
   $member Slot2
 }
 
-$rect <460,170,640,210>
+$rect <480,386,660,426>
 $output false
-class Chat : Core::Group
+class ChatPage : Core::Group
 {
   $rect <300,40,500,80>
   inherited method Init()
@@ -6342,7 +6162,7 @@ class Chat : Core::Group
   $rect <500,300,700,340>
   slot onUser
   {
-    detailsPage = new Application::ContactDetailsPage;
+    detailsPage = new Application::DetailsPage;
 
     detailsPage.OnBack  = onCloseUser;
     detailsPage.Contact = Contact;
@@ -6355,14 +6175,14 @@ class Chat : Core::Group
   $rect <500,390,700,430>
   slot onCall
   {
-    Device::Device.SendCallContact( Contact );
+    Device::Device.SendCallFromContact( Contact );
   }
 
   $rect <300,250,500,290>
   var slot OnBack;
 
   $rect <300,300,500,340>
-  var Application::ContactDetailsPage detailsPage = null;
+  var Application::DetailsPage detailsPage = null;
 
   $rect <530,340,700,380>
   slot onCloseUser
@@ -6546,7 +6366,7 @@ class Chat : Core::Group
         
         chatItem.OnDelete = onPressChat;
         
-        if ( !message.Seen )
+        if ( !message.IsSeen )
         {    
           if ( !isAdded )
           {
@@ -6555,7 +6375,7 @@ class Chat : Core::Group
                   
             isAdded = true;
           }
-          message.Seen = true;
+          message.IsSeen = true;
         }
             
         if ( message.Sender == Device::Device.MyContact )
@@ -6629,9 +6449,617 @@ class Chat : Core::Group
   }
 }
 
-$rect <450,490,650,530>
+// Application
+note group Note2
+{
+  attr Bounds = <0,0,430,210>;
+}
+
+$rect <500,426,660,466>
 $output false
-class MainPage : Core::Group
+class ChatItem : Core::Group
+{
+  $rect <90,120,290,160>
+  inherited property Bounds = <0,0,272,55>;
+
+  $rect <300,110,500,150>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    if ( LeftAligned == false )
+    {
+      ChatOutline.Bitmap = Res::ChatRight;  
+      ChatOutline.Layout = Core::Layout[AlignToRight, AlignToTop];
+      
+      Text.Layout = Core::Layout[AlignToRight, AlignToTop];
+      Text.Bounds.x= 272 - Text.GetContentArea().w - 20;
+      Text.Bounds.y = 10;
+    }
+    else if ( LeftAligned == true )
+    {
+      ChatOutline.Bitmap = Res::ChatLeft;
+      
+      Text.Bounds.x = 15;
+      Text.Bounds.y = 10;
+    }
+
+    ChatOutline.Color = BubbleColor;
+
+    Text.Color  = MessageColor;
+    Text.Alignment = Views::TextAlignment[AlignHorzLeft];
+
+    Backgound.Color = Res::Transparent;
+  }
+
+  $rect <300,0,500,40>
+  property bool LeftAligned = false;
+
+  $rect <300,40,500,80>
+  onset LeftAligned
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure LeftAligned == value )
+      return;
+
+    // Remember the property's new value.
+    pure LeftAligned = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <510,110,710,150>
+  property Device::Message Message = null;
+
+  $rect <510,150,710,190>
+  onset Message
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Message == value )
+      return;
+
+    // Remember the property's new value.
+    pure Message = value;
+
+    postsignal onUpdateMessage;
+  }
+
+  $rect <710,0,910,40>
+  property color BubbleColor = Res::GreyLight;
+
+  $rect <710,40,910,80>
+  onset BubbleColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure BubbleColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure BubbleColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <510,0,710,40>
+  property color MessageColor = Res::Black;
+
+  $rect <730,100,930,140>
+  var slot OnDelete;
+
+  $rect <930,100,1130,140>
+  slot onPress
+  {
+    DeleteBtn.Enabled = DeleteBtn.Enabled == true ? false : true;
+    DeleteBtn.Visible = DeleteBtn.Visible == true ?  false : true;
+     
+    Backgound.Color = Backgound.Color == Res::BlueLight1 ? Res::Transparent : Res::BlueLight1;
+  }
+
+  $rect <510,190,710,230>
+  slot onUpdateMessage
+  {
+    if ( Message != null) 
+    {
+      Text.String = Message.MessageContent;
+    }
+  }
+
+  $rect <930,150,1130,190>
+  slot onDelete
+  {
+    postsignal OnDelete;
+  }
+
+  $rect <10,200,210,240>
+  slot onUpdateText
+  {
+    if ( LeftAligned == false )
+    {
+      ChatOutline.Bounds    = Text.GetContentArea() * <10,10>;
+      ChatOutline.Bounds.h += 10;
+        
+      DeleteBtn.Bounds.x    = 5;
+    }
+    else if ( LeftAligned == true )
+    {
+      ChatOutline.Bounds    = Text.GetContentArea() * <10,10>;
+      ChatOutline.Bounds.h += 10;
+      ChatOutline.Layout    = Core::Layout[AlignToRight, AlignToTop];
+    }
+
+    Bounds.h = ChatOutline.Bounds.y2;
+
+    Backgound.Bounds.h = Bounds.h;
+  }
+
+  $rect <510,40,710,80>
+  onset MessageColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure MessageColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure MessageColor = value;
+
+    InvalidateViewState();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Backgound
+  {
+    preset Bounds = <-2,0,272,50>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler SimpleTouchHandler
+  {
+    preset Point4 = <0,0>;
+    preset Point3 = <272,0>;
+    preset Point2 = <272,48>;
+    preset Point1 = <0,48>;
+    preset OnPress = onPress;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Frame ChatOutline
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <34,60,239,150>;
+    preset Bitmap = Res::ChatLeft;
+    preset NoEdgesLimit = <220,0>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <186,9,202,21>;
+    preset Padding = 2;
+    preset Ellipsis = true;
+    preset OnUpdate = onUpdateText;
+    preset AutoSize = true;
+    preset WrapWidth = 195;
+    preset WrapText = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft];
+    preset String = "text";
+    preset Font = Res::ContactFont15;
+  }
+
+  $rect <20,20,160,60>
+  object Components::TextButton DeleteBtn
+  {
+    preset Bounds = <221,10,268,35>;
+    preset Enabled = false;
+    preset Visible = false;
+    preset Text = "Delete";
+    preset OnActivate = onDelete;
+    preset TextColor = Res::White;
+    preset TextColorPress = Res::GreyLight;
+  }
+}
+
+$rect <30,720,210,760>
+$output false
+class ContactsInsideSearch : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited method Init()
+  {
+    attachobserver onNoOfContactsChanged, ^Device::Device.FilteredContacts.NoOfItems;
+    postsignal onNoOfContactsChanged;
+
+
+  }
+
+  $rect <280,40,480,80>
+  inherited property Bounds = <0,0,272,480>;
+
+  // This method is called by 'VerticalList' every time the list loads or updates \
+  // an item.
+  $rect <280,110,480,150>
+  slot OnLoadItem
+  {
+    // Get the number of the item to load.
+    var int32 itemNo = VerticalList.Item;
+
+    var Device::Contact contact = Device::Device.FilteredContacts.GetContact( itemNo );
+
+    var Application::ContactItem itemView = (Application::ContactItem)VerticalList.View;
+                                                  
+    if ( itemView == null )
+      return;
+
+    itemView.Contact    = contact;
+    itemView.OnActivate = onSelectedContact;
+
+    itemView.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+  }
+
+  $rect <480,0,690,40>
+  slot onNoOfContactsChanged
+  {
+    VerticalList.NoOfItems = Device::Device.FilteredContacts.NoOfItems;
+
+    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
+
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,100,272,481>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::VerticalList VerticalList
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <11,111,261,435>;
+    preset OnLoadItem = OnLoadItem;
+    preset SlideHandler = SlideTouchHandler;
+    preset ItemHeight = 32;
+    preset ItemClass = Application::ContactItem;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset StackingPriority = -1;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <12,100,261,435>;
+    preset SnapNext = <0,35>;
+    preset SlideHorz = false;
+  }
+
+  $rect <510,410,710,450>
+  slot onSelectedContact
+  {
+    Contact =  ((Application::ContactItem ) sender ).Contact;
+
+    signal OnSelectedContact; 
+  }
+
+  $rect <300,410,500,450>
+  property slot OnSelectedContact;
+
+  $rect <300,220,500,260>
+  property Device::Contact Contact = null;
+
+  $rect <300,260,500,300>
+  onset Contact
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Contact == value )
+      return;
+
+    // Remember the property's new value.
+    pure Contact = value;
+
+    notifyobservers ^Contact; 
+  }
+
+  // Contact data
+  note group Note4
+  {
+    attr Bounds = <280,170,510,360>;
+  }
+
+  // Touch screen events
+  note group Note8
+  {
+    attr Bounds = <280,360,730,480>;
+  }
+}
+
+$rect <720,266,900,306>
+$output false
+class ContactsInsideSearch1 : Core::Group
+{
+  $rect <280,0,480,40>
+  inherited method Init()
+  {
+    attachobserver onNoOfContactsChanged, ^Device::Device.FilteredContacts.NoOfItems;
+    postsignal onNoOfContactsChanged;
+
+
+  }
+
+  $rect <280,40,480,80>
+  inherited property Bounds = <0,0,272,480>;
+
+  // This method is called by 'VerticalList' every time the list loads or updates \
+  // an item.
+  $rect <280,110,480,150>
+  slot OnLoadItem
+  {
+    // Get the number of the item to load.
+    var int32 itemNo = VerticalList.Item;
+
+    var Device::Contact          contact     = Device::Device.FilteredContacts.GetContact( itemNo );
+    var Application::MessegeItem messageItem = (Application::MessegeItem)VerticalList.View;
+                                                  
+    if ( messageItem == null )
+      return;
+
+    messageItem.Contact    = contact;
+    messageItem.OnActivate = onOpenChat;
+
+    messageItem.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
+
+
+  }
+
+  $rect <480,0,690,40>
+  slot onNoOfContactsChanged
+  {
+    VerticalList.NoOfItems = Device::Device.FilteredContacts.NoOfItems;
+
+    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
+
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,100,272,481>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::VerticalList VerticalList
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <11,100,261,435>;
+    preset OnLoadItem = OnLoadItem;
+    preset SlideHandler = SlideTouchHandler;
+    preset ItemHeight = 45;
+    preset ItemClass = Application::MessegeItem;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset StackingPriority = -1;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <12,100,261,435>;
+    preset SnapNext = <0,35>;
+    preset SlideHorz = false;
+  }
+
+  $rect <290,160,470,200>
+  var Application::ChatPage chat = null;
+
+  $rect <510,200,680,240>
+  slot onBack
+  {
+    signal onNoOfContactsChanged;
+
+    DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );   
+    chat = null;
+  }
+
+  $rect <470,160,680,200>
+  slot onOpenChat
+  {
+    var Application::MessegeItem itemView = (Application::MessegeItem)sender;
+
+    if ( itemView != null )
+    {
+      chat = new Application::ChatPage; 
+      chat.Contact = itemView.Contact;
+      chat.OnBack  = onBack;
+      
+      SwitchToDialog( chat, Res::SlideUpCentered, null, null, null, null, null, null, null, null, false );
+    }
+  }
+}
+
+$rect <10,40,210,80>
+$output false
+class Application : Core::Root
+{
+  $rect <290,40,490,80>
+  inherited method Init()
+  {
+    postsignal onSplashScreen;
+
+    attachobserver onCallState, ^Device::Device.OngoingCalls.NoOfItems;
+
+    postsignal onCallState;
+
+    SetMyNumber( 2 );
+
+  }
+
+  $rect <290,0,490,40>
+  inherited property Bounds = <0,0,272,480>;
+
+  // To do:
+  // 
+  // - Adjust the visible size of your application (the thick blue border). It should \
+  // correspond to the size of your target display.
+  // 
+  // - The simplest way to compose the appearance of the application is to use the \
+  // 'Views' and 'Widget Sets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  note legend Note1
+  {
+    attr Bounds = <10,510,790,740>;
+  }
+
+  $rect <290,80,490,120>
+  slot onCallState
+  {
+    if ( historyContact != null)
+      detachobserver onCallState, historyContact;
+
+    historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
+
+    if ( ongoingPage != null )
+    {
+      DismissDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, false );
+      ongoingPage = null;
+    }  
+
+    if ( historyContact != null )
+    {
+      if ( historyContact.CallState == Device::CallState.Cancelled || historyContact.CallState == Device::CallState.EndCall ||
+      historyContact.CallState == Device::CallState.Rejected || historyContact.CallState == Device::CallState.Missed)
+      {
+        DismissDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, false );
+      }
+      if ( historyContact.CallDirection == Device::CallDirection.Incoming )
+      {
+        if ( historyContact.CallState == Device::CallState.Speaking )
+        {
+          ongoingPage = new Application::OngoingCall;
+          ongoingPage.Contact = historyContact;
+        }
+        else
+        {
+          ongoingPage = new Application::IncomingCall;
+          ongoingPage.Contact = historyContact;
+        }
+        
+        PresentDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
+      }
+      else if ( historyContact.CallDirection == Device::CallDirection.Outgoing )
+      {
+        ongoingPage = new Application::OngoingCall;
+        ongoingPage.Contact = historyContact;
+        PresentDialog( ongoingPage, Res::FadeInOutCentered, null, null, null, null, null, null, null, false );
+      }
+      attachobserver onCallState, historyContact;
+      
+    }
+
+
+
+
+
+  }
+
+  $rect <500,0,700,40>
+  var Device::DeviceClass deviceInstance = Device::Device;
+
+  $rect <320,120,490,160>
+  var Application::CallBase ongoingPage = null;
+
+  $rect <490,120,690,160>
+  var Device::HistoryContact historyContact = null;
+
+  $rect <290,240,490,280>
+  slot onContact
+  {
+    contactApp = new Application::PhoneApp;
+
+    //onback
+    PresentDialog( contactApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <290,200,490,240>
+  slot onMessages
+  {
+    messageApp = new Application::MessagesApp;
+
+    //onback dismiss dialog
+    PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <490,240,690,280>
+  var Application::PhoneApp contactApp;
+
+  $rect <490,200,690,240>
+  var Application::MessagesApp messageApp;
+
+  $rect <290,320,490,360>
+  slot onSplashScreen
+  {
+    splashScreen = new Application::SplashScreen;
+    splashScreen.OnStart = onCloseSplash;
+
+    PresentDialog( splashScreen, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <290,360,490,400>
+  slot onCloseSplash
+  {
+    DismissDialog( splashScreen, null, null, null, null, null, false );
+
+    postsignal onStart;
+  }
+
+  $rect <490,320,690,360>
+  var Application::SplashScreen splashScreen;
+
+  $rect <300,420,500,460>
+  slot onStart
+  {
+    var Application::HomePage page = new Application::HomePage;
+
+    PresentDialog( page, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <740,0,940,40>
+  $output true
+  method void SetMyNumber( arg int32 aMyNumber )
+  {
+    myID = aMyNumber;
+
+    idlesignal onSetMyContact;
+
+  }
+
+  $rect <770,50,970,90>
+  slot onSetMyContact
+  {
+    Device::Device.MyContact = Device::Device.Contacts.FindByID1( myID );
+
+
+    trace myID;
+  }
+
+  $rect <970,30,1170,70>
+  var int32 myID;
+}
+
+$rect <31,121,231,161>
+$output false
+class HomePage : Core::Group
 {
   $rect <750,20,950,60>
   inherited method Init()
@@ -6774,7 +7202,7 @@ class MainPage : Core::Group
   $rect <290,0,490,40>
   slot onContact
   {
-    contactApp = new Application::ContactsApp;
+    contactApp = new Application::PhoneApp;
     //onback
     PresentDialog( contactApp, null, null, null, null, null, null, null, null, false );
   }
@@ -6782,21 +7210,21 @@ class MainPage : Core::Group
   $rect <290,40,490,80>
   slot onMessages
   {
-    messageApp = new Application::MessagesPage;
+    messageApp = new Application::MessagesApp;
 
     PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <490,0,690,40>
-  var Application::ContactsApp contactApp;
+  var Application::PhoneApp contactApp;
 
   $rect <490,40,690,80>
-  var Application::MessagesPage messageApp;
+  var Application::MessagesApp messageApp;
 
   $rect <290,190,490,230>
   slot onSettings
   {
-    settings = new Application::ContactEditPage;
+    settings = new Application::EditPage;
 
     settings.Bounds.h = 480;
 
@@ -6812,7 +7240,7 @@ class MainPage : Core::Group
   }
 
   $rect <500,190,700,230>
-  var Application::ContactEditPage settings = null;
+  var Application::EditPage settings = null;
 
   $rect <310,230,490,270>
   slot onClose
@@ -6927,218 +7355,7 @@ class MainPage : Core::Group
   }
 }
 
-// Application
-note group Note2
-{
-  attr Bounds = <430,400,910,590>;
-}
-
-$rect <480,210,640,250>
-$output false
-class ChatItem : Core::Group
-{
-  $rect <90,120,290,160>
-  inherited property Bounds = <0,0,272,55>;
-
-  $rect <300,110,500,150>
-  inherited method UpdateViewState()
-  {
-    // Always invoke the inherited method.
-    super( aState );
-
-    if ( LeftAligned == false )
-    {
-      ChatOutline.Bitmap = Res::ChatRight;  
-      ChatOutline.Layout = Core::Layout[AlignToRight, AlignToTop];
-      
-      Text.Layout = Core::Layout[AlignToRight, AlignToTop];
-      Text.Bounds.x= 272 - Text.GetContentArea().w - 20;
-      Text.Bounds.y = 10;
-    }
-    else if ( LeftAligned == true )
-    {
-      ChatOutline.Bitmap = Res::ChatLeft;
-      
-      Text.Bounds.x = 15;
-      Text.Bounds.y = 10;
-    }
-
-    ChatOutline.Color = BubbleColor;
-
-    Text.Color  = MessageColor;
-    Text.Alignment = Views::TextAlignment[AlignHorzLeft];
-
-    Backgound.Color = Res::Transparent;
-  }
-
-  $rect <300,0,500,40>
-  property bool LeftAligned = false;
-
-  $rect <300,40,500,80>
-  onset LeftAligned
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure LeftAligned == value )
-      return;
-
-    // Remember the property's new value.
-    pure LeftAligned = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <510,110,710,150>
-  property Device::Message Message = null;
-
-  $rect <510,150,710,190>
-  onset Message
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Message == value )
-      return;
-
-    // Remember the property's new value.
-    pure Message = value;
-
-    postsignal onUpdateMessage;
-  }
-
-  $rect <710,0,910,40>
-  property color BubbleColor = Res::GreyLight;
-
-  $rect <710,40,910,80>
-  onset BubbleColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure BubbleColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure BubbleColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <510,0,710,40>
-  property color MessageColor = Res::Black;
-
-  $rect <730,100,930,140>
-  var slot OnDelete;
-
-  $rect <930,100,1130,140>
-  slot onPress
-  {
-    DeleteBtn.Enabled = DeleteBtn.Enabled == true ? false : true;
-    DeleteBtn.Visible = DeleteBtn.Visible == true ?  false : true;
-     
-    Backgound.Color = Backgound.Color == Res::BlueLight1 ? Res::Transparent : Res::BlueLight1;
-  }
-
-  $rect <510,190,710,230>
-  slot onUpdateMessage
-  {
-    if ( Message != null) 
-    {
-      Text.String = Message.Message;
-    }
-  }
-
-  $rect <930,150,1130,190>
-  slot onDelete
-  {
-    postsignal OnDelete;
-  }
-
-  $rect <10,200,210,240>
-  slot onUpdateText
-  {
-    if ( LeftAligned == false )
-    {
-      ChatOutline.Bounds    = Text.GetContentArea() * <10,10>;
-      ChatOutline.Bounds.h += 10;
-        
-      DeleteBtn.Bounds.x    = 5;
-    }
-    else if ( LeftAligned == true )
-    {
-      ChatOutline.Bounds    = Text.GetContentArea() * <10,10>;
-      ChatOutline.Bounds.h += 10;
-      ChatOutline.Layout    = Core::Layout[AlignToRight, AlignToTop];
-    }
-
-    Bounds.h = ChatOutline.Bounds.y2;
-
-    Backgound.Bounds.h = Bounds.h;
-  }
-
-  $rect <510,40,710,80>
-  onset MessageColor
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure MessageColor == value )
-      return;
-
-    // Remember the property's new value.
-    pure MessageColor = value;
-
-    InvalidateViewState();
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Backgound
-  {
-    preset Bounds = <-2,0,272,50>;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SimpleTouchHandler SimpleTouchHandler
-  {
-    preset Point4 = <0,0>;
-    preset Point3 = <272,0>;
-    preset Point2 = <272,48>;
-    preset Point1 = <0,48>;
-    preset OnPress = onPress;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Frame ChatOutline
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <34,60,239,150>;
-    preset Bitmap = Res::ChatLeft;
-    preset NoEdgesLimit = <220,0>;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text Text
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <186,9,202,21>;
-    preset Padding = 2;
-    preset Ellipsis = true;
-    preset OnUpdate = onUpdateText;
-    preset AutoSize = true;
-    preset WrapWidth = 195;
-    preset WrapText = true;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft];
-    preset String = "text";
-    preset Font = Res::ContactFont15;
-  }
-
-  $rect <20,20,160,60>
-  object Components::TextButton DeleteBtn
-  {
-    preset Bounds = <221,10,268,35>;
-    preset Enabled = false;
-    preset Visible = false;
-    preset Text = "Delete";
-    preset OnActivate = onDelete;
-    preset TextColor = Res::White;
-    preset TextColorPress = Res::GreyLight;
-  }
-}
-
-$rect <670,490,870,530>
+$rect <31,81,231,121>
 $output false
 class SplashScreen : Core::Group
 {
@@ -7212,221 +7429,4 @@ class SplashScreen : Core::Group
 
   $rect <490,240,690,280>
   var slot OnStart;
-}
-
-$rect <30,460,210,500>
-$output false
-class ContactsInsideSearch : Core::Group
-{
-  $rect <280,0,480,40>
-  inherited method Init()
-  {
-    attachobserver onNoOfContactsChanged, ^Device::Device.FilteredContacts.NoOfItems;
-    postsignal onNoOfContactsChanged;
-
-
-  }
-
-  $rect <280,40,480,80>
-  inherited property Bounds = <0,0,272,480>;
-
-  // This method is called by 'VerticalList' every time the list loads or updates \
-  // an item.
-  $rect <280,110,480,150>
-  slot OnLoadItem
-  {
-    // Get the number of the item to load.
-    var int32 itemNo = VerticalList.Item;
-
-    var Device::Contact contact = Device::Device.FilteredContacts.GetContact( itemNo );
-
-    var Application::ContactItem itemView = (Application::ContactItem)VerticalList.View;
-                                                  
-    if ( itemView == null )
-      return;
-
-    itemView.Contact    = contact;
-    itemView.OnActivate = onSelectedContact;
-
-    itemView.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
-  }
-
-  $rect <480,0,690,40>
-  slot onNoOfContactsChanged
-  {
-    VerticalList.NoOfItems = Device::Device.FilteredContacts.NoOfItems;
-
-    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
-
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,100,272,481>;
-  }
-
-  $rect <20,20,160,60>
-  object Core::VerticalList VerticalList
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <11,111,261,435>;
-    preset OnLoadItem = OnLoadItem;
-    preset SlideHandler = SlideTouchHandler;
-    preset ItemHeight = 32;
-    preset ItemClass = Application::ContactItem;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SlideTouchHandler SlideTouchHandler
-  {
-    preset StackingPriority = -1;
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <12,100,261,435>;
-    preset SnapNext = <0,35>;
-    preset SlideHorz = false;
-  }
-
-  $rect <510,410,710,450>
-  slot onSelectedContact
-  {
-    Contact =  ((Application::ContactItem ) sender ).Contact;
-
-    signal OnSelectedContact; 
-  }
-
-  $rect <300,410,500,450>
-  property slot OnSelectedContact;
-
-  $rect <300,220,500,260>
-  property Device::Contact Contact = null;
-
-  $rect <300,260,500,300>
-  onset Contact
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure Contact == value )
-      return;
-
-    // Remember the property's new value.
-    pure Contact = value;
-
-    notifyobservers ^Contact; 
-  }
-
-  // Contact data
-  note group Note4
-  {
-    attr Bounds = <280,170,510,360>;
-  }
-
-  // Touch screen events
-  note group Note8
-  {
-    attr Bounds = <280,360,730,480>;
-  }
-}
-
-$rect <660,180,840,220>
-$output false
-class ContactsInsideSearch1 : Core::Group
-{
-  $rect <280,0,480,40>
-  inherited method Init()
-  {
-    attachobserver onNoOfContactsChanged, ^Device::Device.FilteredContacts.NoOfItems;
-    postsignal onNoOfContactsChanged;
-
-
-  }
-
-  $rect <280,40,480,80>
-  inherited property Bounds = <0,0,272,480>;
-
-  // This method is called by 'VerticalList' every time the list loads or updates \
-  // an item.
-  $rect <280,110,480,150>
-  slot OnLoadItem
-  {
-    // Get the number of the item to load.
-    var int32 itemNo = VerticalList.Item;
-
-    var Device::Contact          contact     = Device::Device.FilteredContacts.GetContact( itemNo );
-    var Application::MessegeItem messageItem = (Application::MessegeItem)VerticalList.View;
-                                                  
-    if ( messageItem == null )
-      return;
-
-    messageItem.Contact    = contact;
-    messageItem.OnActivate = onOpenChat;
-
-    messageItem.Bounds.size = point( VerticalList.Bounds.w, VerticalList.ItemHeight );
-
-
-  }
-
-  $rect <480,0,690,40>
-  slot onNoOfContactsChanged
-  {
-    VerticalList.NoOfItems = Device::Device.FilteredContacts.NoOfItems;
-
-    VerticalList.InvalidateItems( 0, VerticalList.NoOfItems - 1 );
-
-  }
-
-  $rect <20,20,160,60>
-  object Views::Rectangle Background
-  {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
-    preset Bounds = <0,100,272,481>;
-  }
-
-  $rect <20,20,160,60>
-  object Core::VerticalList VerticalList
-  {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <11,100,261,435>;
-    preset OnLoadItem = OnLoadItem;
-    preset SlideHandler = SlideTouchHandler;
-    preset ItemHeight = 45;
-    preset ItemClass = Application::MessegeItem;
-  }
-
-  $rect <20,20,160,60>
-  object Core::SlideTouchHandler SlideTouchHandler
-  {
-    preset StackingPriority = -1;
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <12,100,261,435>;
-    preset SnapNext = <0,35>;
-    preset SlideHorz = false;
-  }
-
-  $rect <290,160,470,200>
-  var Application::Chat chat = null;
-
-  $rect <510,200,680,240>
-  slot onBack
-  {
-    signal onNoOfContactsChanged;
-
-    DismissDialog( chat, Res::SlideDownCentered, null, null, null, null, false );   
-    chat = null;
-  }
-
-  $rect <470,160,680,200>
-  slot onOpenChat
-  {
-    var Application::MessegeItem itemView = (Application::MessegeItem)sender;
-
-    if ( itemView != null )
-    {
-      chat = new Application::Chat; 
-      chat.Contact = itemView.Contact;
-      chat.OnBack  = onBack;
-      
-      SwitchToDialog( chat, Res::SlideUpCentered, null, null, null, null, null, null, null, null, false );
-    }
-  }
 }
