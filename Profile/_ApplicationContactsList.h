@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,42 +33,42 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
 #include "_ApplicationContactsInsideCall.h"
+#include "_ApplicationContactsInsideSearch.h"
 #include "_ApplicationMyCardItem.h"
 #include "_ComponentsInputBtnEtxt.h"
 #include "_ComponentsSButton25x25.h"
 #include "_ComponentsTextButton.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
-#include "_TemplatesTextEditor.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::ContactAddPage */
-#ifndef _ApplicationContactAddPage_
-  EW_DECLARE_CLASS( ApplicationContactAddPage )
-#define _ApplicationContactAddPage_
-#endif
-
-/* Forward declaration of the class Application::ContactDetailsPage */
-#ifndef _ApplicationContactDetailsPage_
-  EW_DECLARE_CLASS( ApplicationContactDetailsPage )
-#define _ApplicationContactDetailsPage_
+/* Forward declaration of the class Application::AddContactPage */
+#ifndef _ApplicationAddContactPage_
+  EW_DECLARE_CLASS( ApplicationAddContactPage )
+#define _ApplicationAddContactPage_
 #endif
 
 /* Forward declaration of the class Application::ContactsList */
 #ifndef _ApplicationContactsList_
   EW_DECLARE_CLASS( ApplicationContactsList )
 #define _ApplicationContactsList_
+#endif
+
+/* Forward declaration of the class Application::DetailsPage */
+#ifndef _ApplicationDetailsPage_
+  EW_DECLARE_CLASS( ApplicationDetailsPage )
+#define _ApplicationDetailsPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -128,9 +128,9 @@
 
 /* Deklaration of class : 'Application::ContactsList' */
 EW_DEFINE_FIELDS( ApplicationContactsList, ApplicationContactsInsideCall )
+  EW_OBJECT  ( Text,            ViewsText )
   EW_PROPERTY( Contact,         DeviceContact )
   EW_PROPERTY( OnAddFav,        XSlot )
-  EW_OBJECT  ( Text,            ViewsText )
 EW_END_OF_FIELDS( ApplicationContactsList )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsList' */
@@ -142,7 +142,9 @@ EW_DEFINE_METHODS( ApplicationContactsList, ApplicationContactsInsideCall )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreGroup _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -153,6 +155,21 @@ EW_DEFINE_METHODS( ApplicationContactsList, ApplicationContactsInsideCall )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
   EW_METHOD( OnSetBuffered,     void )( CoreGroup _this, XBool value )
   EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
+  EW_METHOD( SwitchToDialog,    void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( DismissDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( PresentDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+    XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -161,23 +178,27 @@ EW_DEFINE_METHODS( ApplicationContactsList, ApplicationContactsInsideCall )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
+  EW_METHOD( FadeGroup,         void )( CoreGroup _this, CoreGroup aGroup, EffectsFader 
+    aFader, XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( RestackTop,        void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-  EW_METHOD( onContactActivated, void )( ApplicationContactsList _this, XObject 
-    sender )
+  EW_METHOD( onContactPressed,  void )( ApplicationContactsList _this, XObject sender )
 EW_END_OF_METHODS( ApplicationContactsList )
 
-/* 'C' function for method : 'Application::ContactsList.onContactActivated()' */
-void ApplicationContactsList_onContactActivated( ApplicationContactsList _this, 
-  XObject sender );
+/* 'C' function for method : 'Application::ContactsList.onContactPressed()' */
+void ApplicationContactsList_onContactPressed( ApplicationContactsList _this, XObject 
+  sender );
 
 /* 'C' function for method : 'Application::ContactsList.OnSetContact()' */
 void ApplicationContactsList_OnSetContact( ApplicationContactsList _this, DeviceContact 
   value );
+
+/* 'C' function for method : 'Application::ContactsList.Slot1()' */
+void ApplicationContactsList_Slot1( ApplicationContactsList _this, XObject sender );
 
 /* Default onget method for the property 'Contact' */
 DeviceContact ApplicationContactsList_OnGetContact( ApplicationContactsList _this );

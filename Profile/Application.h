@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,40 +33,41 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationAddContactPage.h"
 #include "_ApplicationApplication.h"
-#include "_ApplicationCallPage.h"
-#include "_ApplicationCallPageBase.h"
-#include "_ApplicationChat.h"
+#include "_ApplicationCallBase.h"
 #include "_ApplicationChatItem.h"
-#include "_ApplicationContactAddPage.h"
-#include "_ApplicationContactDetailsPage.h"
-#include "_ApplicationContactEditPage.h"
+#include "_ApplicationChatPage.h"
 #include "_ApplicationContactItem.h"
-#include "_ApplicationContactsApp.h"
 #include "_ApplicationContactsAppInsideCall.h"
 #include "_ApplicationContactsInsideCall.h"
+#include "_ApplicationContactsInsideSearch.h"
 #include "_ApplicationContactsList.h"
-#include "_ApplicationContactsList1.h"
+#include "_ApplicationContactsListInsideMessages.h"
 #include "_ApplicationContactsPage.h"
 #include "_ApplicationDetailsInsideCall.h"
+#include "_ApplicationDetailsPage.h"
+#include "_ApplicationEditPage.h"
 #include "_ApplicationFavContactItem.h"
 #include "_ApplicationFavoritesPage.h"
+#include "_ApplicationHomePage.h"
 #include "_ApplicationIncomingCall.h"
 #include "_ApplicationKeypadInsideCall.h"
 #include "_ApplicationKeypadPage.h"
-#include "_ApplicationMainPage.h"
-#include "_ApplicationMessagesPage.h"
+#include "_ApplicationMessagesApp.h"
 #include "_ApplicationMessegeItem.h"
 #include "_ApplicationMyCardItem.h"
+#include "_ApplicationOngoingCall.h"
+#include "_ApplicationPhoneApp.h"
 #include "_ApplicationRecentDetailsPage.h"
 #include "_ApplicationRecentItm.h"
 #include "_ApplicationRecentPage.h"

@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -92,8 +92,8 @@ EW_DEFINE_FIELDS( ViewsWarpView, CoreQuadView )
   EW_VARIABLE( bitmapSize,      XPoint )
   EW_ARRAY   ( vertices,        XFloat, [4][3])
   EW_PROPERTY( SourceArea,      XRect )
-  EW_VARIABLE( newUpdateCase,   XChar )
   EW_VARIABLE( oldUpdateCase,   XChar )
+  EW_VARIABLE( newUpdateCase,   XChar )
   EW_PROPERTY( Quality,         XBool )
 EW_END_OF_FIELDS( ViewsWarpView )
 
@@ -106,7 +106,9 @@ EW_DEFINE_METHODS( ViewsWarpView, CoreQuadView )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreView _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreQuadView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreQuadView _this, XPoint aOffset, XBool 

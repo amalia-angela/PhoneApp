@@ -1,4 +1,4 @@
-﻿$version 11.00
+﻿$version 12.00
 
 $rect <20,30,220,70>
 $output false
@@ -151,3 +151,15 @@ const string MessagesTxt = "Messages";
 $rect <850,190,1050,230>
 $output false
 const string NewMessage = "New Message";
+
+$rect <260,310,460,350>
+$output false
+const string sendmessage = "sendmessage";
+
+$rect <260,350,460,390>
+$output false
+const string sendcall = "sendcall";
+
+$rect <260,390,460,430>
+$output false
+const string receive = "receive";

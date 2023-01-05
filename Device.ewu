@@ -590,8 +590,11 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,350,400,390>
   method void SendEndCall( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
-     
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContactAtIndex( 0 );
+
+    if ( historyContact.PhoneNumber != aPhoneNumber )
+      return;
+       
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
        historyContact.CallState = Device::CallState.Cancelled; 
@@ -634,8 +637,11 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,270,200,310>
   method void ReceiveCallAnswered( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContactAtIndex( 0 );
 
+    if ( historyContact.PhoneNumber != aPhoneNumber )
+      return;
+      
     historyContact.CallState = Device::CallState.Speaking;
     historyContact.StartTime = (new Core::Time).CurrentTime;
 
@@ -644,8 +650,11 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,310,200,350>
   method void ReceiveCallRejected( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContactAtIndex( 0 );
 
+    if ( historyContact.PhoneNumber != aPhoneNumber )
+      return;
+     
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
       historyContact.CallState = Device::CallState.Rejected;
@@ -659,8 +668,11 @@ class DeviceClass : Templates::DeviceClass
   $rect <200,310,400,350>
   method void SendCallRejected( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContactAtIndex( 0 );
 
+    if ( historyContact.PhoneNumber != aPhoneNumber )
+      return;
+      
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
       historyContact.CallState = Device::CallState.Rejected;
@@ -676,8 +688,11 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,350,200,390>
   method void ReceiveEndCall( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContactAtIndex( 0 );
      
+    if ( historyContact.PhoneNumber != aPhoneNumber )
+      return;
+      
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
        historyContact.CallState = Device::CallState.Cancelled; 
@@ -781,7 +796,7 @@ class DeviceClass : Templates::DeviceClass
     aContact.MessagesList.Add( message );
 
     //megnezem ha megkapom a contactot a meglevo beszelgetesek kozott
-    var Device::Contact contact = MessageHistory.FindByID( aContact );
+    var Device::Contact contact = MessageHistory.FindMatchingIDContact( aContact );
 
     //ha igen kitrolom
     if ( contact != null )
@@ -805,11 +820,15 @@ class DeviceClass : Templates::DeviceClass
   $rect <0,390,200,430>
   method void ReceiveMissedCall( arg string aPhoneNumber )
   {
-    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContact( 0 );
-     
+    var Device::HistoryContact historyContact = (Device::HistoryContact)Device::Device.OngoingCalls.GetContactAtIndex( 0 );
+
+    if ( historyContact.PhoneNumber != aPhoneNumber )
+      return;
+       
     if ( historyContact.CallState == Device::CallState.Dialing )
     {
        historyContact.CallState = Device::CallState.Missed; 
+       historyContact.EndTime   = (new Core::Time).CurrentTime;
     }  
 
     History.AddFirst( historyContact );
@@ -871,13 +890,13 @@ vclass DeviceSimulation : Device::DeviceClass
   $rect <0,90,200,130>
   method void CreateContact( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
-    var Device::Contact MyContact = new Device::Contact;
+    var Device::Contact contact = new Device::Contact;
 
-    MyContact.FirstName    = aFirstName;
-    MyContact.LastName     = aLastName;
-    MyContact.PhoneNumber  = aPhoneNumber;
-    MyContact.NameInitials = Contacts.GetInitials( aLastName, aFirstName );
-    Contacts.AddLast( MyContact );
+    contact.FirstName    = aFirstName;
+    contact.LastName     = aLastName;
+    contact.PhoneNumber  = aPhoneNumber;
+    contact.NameInitials = Contacts.GetInitials( aLastName, aFirstName );
+    Contacts.AddLast( contact );
 
 
   }
@@ -885,13 +904,13 @@ vclass DeviceSimulation : Device::DeviceClass
   $rect <0,130,200,170>
   method void CreateContactFav( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
-    var Device::Contact MyContact = new Device::Contact;   
+    var Device::Contact contact = new Device::Contact;   
 
-    MyContact.FirstName = aFirstName;
-    MyContact.LastName = aLastName;
-    MyContact.PhoneNumber = aPhoneNumber;
-    MyContact.NameInitials = Favorites.GetInitials( aLastName, aFirstName );
-    Favorites.AddLast( MyContact );
+    contact.FirstName = aFirstName;
+    contact.LastName = aLastName;
+    contact.PhoneNumber = aPhoneNumber;
+    contact.NameInitials = Favorites.GetInitials( aLastName, aFirstName );
+    Favorites.AddLast( contact );
 
 
 
@@ -900,14 +919,14 @@ vclass DeviceSimulation : Device::DeviceClass
   $rect <0,170,200,210>
   method void CreateContact2( arg string aLastName, arg string aFirstName, arg string aPhoneNumber )
   {
-    var Device::HistoryContact MyContact = new Device::HistoryContact;
+    var Device::HistoryContact contact = new Device::HistoryContact;
 
 
-    MyContact.FirstName = aFirstName;
-    MyContact.LastName = aLastName;
-    MyContact.PhoneNumber = aPhoneNumber;
-    MyContact.CallState = Device::CallState.Dialing;
-    History.AddFirst( MyContact );
+    contact.FirstName = aFirstName;
+    contact.LastName = aLastName;
+    contact.PhoneNumber = aPhoneNumber;
+    contact.CallState = Device::CallState.Dialing;
+    History.AddFirst( contact );
 
 
 
@@ -1229,7 +1248,7 @@ class ContactsList
   }
 
   $rect <0,170,200,210>
-  method Device::Contact GetContact( arg int32 aIndex )
+  method Device::Contact GetContactAtIndex( arg int32 aIndex )
   {
     if ( head == null || aIndex >= NoOfItems )
       return null;
@@ -1339,12 +1358,11 @@ class ContactsList
   }
 
   $rect <0,210,200,250>
-  method Device::Contact FindByID( arg Device::Contact aContact )
+  method Device::Contact FindMatchingIDContact( arg Device::Contact aContact )
   {
     if ( head != null )
     {
-      var Device::ContactListElement elem = head;
-
+      var Device::ContactListElement elem = head;  
 
       while ( elem != null )
       {
@@ -1372,29 +1390,6 @@ class ContactsList
 
   }
 
-  $rect <580,300,780,340>
-  property bool OnDataUpdated = false;
-
-  $rect <580,340,780,380>
-  onset OnDataUpdated
-  {
-    // The value doesn't change - nothing to do.
-    if ( pure OnDataUpdated == value )
-      return;
-
-    // Remember the property's new value.
-    pure OnDataUpdated = value;
-
-    notifyobservers ^OnDataUpdated;
-
-  }
-
-  $rect <580,380,780,420>
-  onget OnDataUpdated
-  {
-    return pure OnDataUpdated;
-  }
-
   $rect <200,130,400,170>
   method void RemoveAll()
   {
@@ -1403,7 +1398,7 @@ class ContactsList
   }
 
   $rect <210,210,410,250>
-  method Device::Contact FindByID1( arg int32 aID )
+  method Device::Contact FindContactByID( arg int32 aID )
   {
     if ( head != null )
     {
@@ -1427,7 +1422,6 @@ class ContactsList
     {
       var Device::ContactListElement elem = head;
       aText = aText.lower;
-     // var Device::ContactList newList = new Device::ContactList;
 
       Device::Device.FilteredContacts.RemoveAll();
 
@@ -1441,7 +1435,6 @@ class ContactsList
             
         elem = elem.next;
       }
-      //Device::Device.SearchContacts.TraceContacts();
     }
 
   }
@@ -1487,7 +1480,7 @@ class PhoneServerClass : Templates::DeviceClass
     senderNumber    = "";
     message        = "";
     messageContent = "";
-    url            = "http://localhost/php-files/phpServer/receive/"+myCarID+"/"; 
+    url            = URLpath + "receive/"+myCarID+"/"; 
 
     $if !$prototyper
     native ( url, senderNumber, message, messageContent )
@@ -1662,7 +1655,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/call/"; 
+    url      = URLpath + "sendcall/call/" + senderID+"/"+aReceiverNumber; 
 
     $if !$prototyper
     native ( url, result )
@@ -1681,8 +1674,6 @@ class PhoneServerClass : Templates::DeviceClass
     }
     $endif
 
-
-    trace result;
     if ( result == "" )
       return true;
       
@@ -1697,7 +1688,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    url      = URLpath + "sendcall/cancelled/"+senderID+"/"+aReceiverNumber; 
 
     $if !$prototyper
     native ( url, result )
@@ -1715,7 +1706,7 @@ class PhoneServerClass : Templates::DeviceClass
       xhr.send();
     }
     $endif
-    trace result;
+
     if ( result == "" )
       return true;
       
@@ -1730,7 +1721,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/reject/";
+    url      = URLpath + "sendcall/reject/" + senderID+"/"+aReceiverNumber;
 
     $if !$prototyper
     native ( url, result )
@@ -1755,7 +1746,7 @@ class PhoneServerClass : Templates::DeviceClass
     return false;
   }
 
-  $rect <650,40,850,80>
+  $rect <640,40,840,80>
   method bool AnswerCall( arg string aReceiverNumber )
   {
     var string url;
@@ -1763,7 +1754,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/answer/"; 
+    url      = URLpath + "sendcall/answer/" + senderID +"/"+ aReceiverNumber; 
 
     $if !$prototyper
     native ( url, result )
@@ -1782,7 +1773,7 @@ class PhoneServerClass : Templates::DeviceClass
     }
 
     $endif
-    trace result;
+
     if ( result == "" )
       return true;
       
@@ -1797,7 +1788,7 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/call/send/"+senderID+"/"+aReceiverNumber+"/cancelled/"; 
+    url      = URLpath + "sendcall/cancelled/" + senderID+"/"+aReceiverNumber; 
 
     $if !$prototyper
     native ( url, result )
@@ -1816,7 +1807,7 @@ class PhoneServerClass : Templates::DeviceClass
     }
 
     $endif
-    trace result;
+
     if ( result == "" )
       return true;
       
@@ -1831,8 +1822,8 @@ class PhoneServerClass : Templates::DeviceClass
     var string senderID;
 
     senderID = Device::Device.MyContact.PhoneNumber;
-    url      = "http://localhost/php-files/phpServer/message/send/"+senderID+"/"+aReceiverNumber+"/message/"; 
-    trace "PhoneServer: " + aReceiverNumber + " " + aMessage;
+    url      = URLpath + "sendmessage/message/" + senderID + "/" + aReceiverNumber;
+
     $if !$prototyper
     native ( url, result )
     {
@@ -1850,12 +1841,14 @@ class PhoneServerClass : Templates::DeviceClass
     }
     $endif
 
-    trace "sent message. " + " result: " +result + " url: " + url;
     if ( result == "" )
       return true;
       
     return false;
   }
+
+  $rect <40,140,240,180>
+  var string URLpath = "http://localhost/php-files/contacts/";
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 

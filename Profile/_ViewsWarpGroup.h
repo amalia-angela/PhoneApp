@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -146,7 +146,9 @@ EW_DEFINE_METHODS( ViewsWarpGroup, ViewsWarpView )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( ViewsWarpGroup _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( ViewsWarpGroup _this, XRect aArea, 
-    XInt32 aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    XInt32 aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreView _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreQuadView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreQuadView _this, XPoint aOffset, XBool 
@@ -163,7 +165,7 @@ EW_END_OF_METHODS( ViewsWarpGroup )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -222,6 +224,9 @@ XObject ViewsWarpGroup_HandleEvent( ViewsWarpGroup _this, CoreEvent aEvent );
    The parameter aDedicatedView, if it is not 'null', restricts the event to be 
    handled by this view only. If aDedicatedView == null, no special restriction 
    exists.
+   The parameter aStartView, if it is not 'null', restricts the event to be handled 
+   by the specified view or another view lying behind it. In other words, views 
+   found in front of aStartView are not taken in account during the hit-test operation.
    This method is also invoked if during an existing grab cycle the current target 
    view has decided to resign and deflect the cursor events to another view. This 
    is usually the case after the user has performed a gesture the current target 
@@ -236,7 +241,8 @@ XObject ViewsWarpGroup_HandleEvent( ViewsWarpGroup _this, CoreEvent aEvent );
    The proper processing of events should take place in the @HandleEvent() method 
    by reacting to Core::CursorEvent and Core::DragEvent events. */
 CoreCursorHit ViewsWarpGroup_CursorHitTest( ViewsWarpGroup _this, XRect aArea, XInt32 
-  aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason );
+  aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, XSet 
+  aRetargetReason );
 
 /* 'C' function for method : 'Views::WarpGroup.update()' */
 void ViewsWarpGroup_update( ViewsWarpGroup _this, XObject sender );

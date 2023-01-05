@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -158,10 +158,11 @@
    The properties cover the underlaying Chora variables 'language' and 'styles' 
    and broadcast Core::LanguageEvent or Core::StylesEvent in case of their modification. */
 EW_DEFINE_FIELDS( CoreRoot, CoreGroup )
+  EW_OBJECT  ( cursorHoldTimer, CoreTimer )
   EW_VARIABLE( keyLastTarget,   XObject )
   EW_ARRAY   ( cursorTargetView, CoreView, [10])
   EW_VARIABLE( canvas,          GraphicsCanvas )
-  EW_OBJECT  ( cursorHoldTimer, CoreTimer )
+  EW_VARIABLE( keyLastCode,     XEnum )
   EW_VARIABLE( updateLock,      XInt32 )
   EW_VARIABLE( currentEventTimestamp, XUInt32 )
   EW_ARRAY   ( cursorSequelCounter, XInt32, [10])
@@ -181,7 +182,6 @@ EW_DEFINE_FIELDS( CoreRoot, CoreGroup )
   EW_ARRAY   ( regionsArea,     XInt32, [4])
   EW_ARRAY   ( regions,         XRect, [4])
   EW_VARIABLE( noOfRegions,     XInt32 )
-  EW_VARIABLE( keyLastCode,     XEnum )
   EW_VARIABLE( keyLastCharCode, XChar )
   EW_VARIABLE( hasRootFocus,    XBool )
 EW_END_OF_FIELDS( CoreRoot )
@@ -195,7 +195,9 @@ EW_DEFINE_METHODS( CoreRoot, CoreGroup )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreGroup _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -206,6 +208,21 @@ EW_DEFINE_METHODS( CoreRoot, CoreGroup )
   EW_METHOD( OnSetFocus,        void )( CoreRoot _this, CoreView value )
   EW_METHOD( OnSetBuffered,     void )( CoreRoot _this, XBool value )
   EW_METHOD( OnSetOpacity,      void )( CoreRoot _this, XInt32 value )
+  EW_METHOD( SwitchToDialog,    void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( DismissDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( PresentDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+    XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( DispatchEvent,     XObject )( CoreRoot _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreRoot _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -214,6 +231,8 @@ EW_DEFINE_METHODS( CoreRoot, CoreGroup )
   EW_METHOD( InvalidateArea,    void )( CoreRoot _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
+  EW_METHOD( FadeGroup,         void )( CoreGroup _this, CoreGroup aGroup, EffectsFader 
+    aFader, XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( RestackTop,        void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
@@ -221,6 +240,11 @@ EW_DEFINE_METHODS( CoreRoot, CoreGroup )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
 EW_END_OF_METHODS( CoreRoot )
+
+/* The method Init() is invoked automatically after the component has been created. 
+   This method can be overridden and filled with logic containing additional initialization 
+   statements. */
+void CoreRoot_Init( CoreRoot _this, XHandle aArg );
 
 /* The method GetRoot() delivers the application object, this view belongs to. The 
    application object represents the entire screen of the GUI application. Thus 
@@ -571,6 +595,10 @@ XBool CoreRoot__DriveMultiTouchHitting( void* _this, XBool aDown, XInt32 aFinger
    affected by this interaction. This search operation is limited to views at the 
    current cursor position. Unlike @RetargetCursor(), this method limits additionally 
    to candidates willing to handle the gesture specified in the parameter aRetargetReason.
+   The parameter aStartView, if it is not 'null', restricts the operation to be 
+   handled by the specified view or another view lying behind it. In other words, 
+   views found in front of aStartView are not taken in account during the hit-test 
+   operation.
    When switching the target view, the framework provides the old and the new target 
    views with cursor events. The old view will receive a Core::CursorEvent with 
    variables Down == 'false' and AutoDeflected == 'true' - this simulates the release 
@@ -580,7 +608,7 @@ XBool CoreRoot__DriveMultiTouchHitting( void* _this, XBool aDown, XInt32 aFinger
    of the RetargetCursor() method does affect the event flow corresponding only 
    to the finger which has lastly generated touch events. */
 void CoreRoot_RetargetCursorWithReason( CoreRoot _this, CoreView aNewTarget, CoreView 
-  aFallbackTarget, XSet aRetargetReason );
+  aFallbackTarget, CoreView aStartView, XSet aRetargetReason );
 
 /* The method DeflectCursor() changes the currently active cursor event target view. 
    Usually, the target view is determined when the user presses the finger on the 

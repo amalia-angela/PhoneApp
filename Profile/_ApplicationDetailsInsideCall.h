@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,16 +33,16 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
-#include "_ApplicationContactDetailsPage.h"
+#include "_ApplicationDetailsPage.h"
 #include "_ComponentsButton50x75.h"
 #include "_ComponentsButtonBase70x90.h"
 #include "_ComponentsSButton25x25.h"
@@ -50,22 +50,22 @@
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::Chat */
-#ifndef _ApplicationChat_
-  EW_DECLARE_CLASS( ApplicationChat )
-#define _ApplicationChat_
-#endif
-
-/* Forward declaration of the class Application::ContactEditPage */
-#ifndef _ApplicationContactEditPage_
-  EW_DECLARE_CLASS( ApplicationContactEditPage )
-#define _ApplicationContactEditPage_
+/* Forward declaration of the class Application::ChatPage */
+#ifndef _ApplicationChatPage_
+  EW_DECLARE_CLASS( ApplicationChatPage )
+#define _ApplicationChatPage_
 #endif
 
 /* Forward declaration of the class Application::DetailsInsideCall */
 #ifndef _ApplicationDetailsInsideCall_
   EW_DECLARE_CLASS( ApplicationDetailsInsideCall )
 #define _ApplicationDetailsInsideCall_
+#endif
+
+/* Forward declaration of the class Application::EditPage */
+#ifndef _ApplicationEditPage_
+  EW_DECLARE_CLASS( ApplicationEditPage )
+#define _ApplicationEditPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -124,11 +124,11 @@
 
 
 /* Deklaration of class : 'Application::DetailsInsideCall' */
-EW_DEFINE_FIELDS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
+EW_DEFINE_FIELDS( ApplicationDetailsInsideCall, ApplicationDetailsPage )
 EW_END_OF_FIELDS( ApplicationDetailsInsideCall )
 
 /* Virtual Method Table (VMT) for the class : 'Application::DetailsInsideCall' */
-EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
+EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationDetailsPage )
   EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
     aOutline )
   EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
@@ -136,7 +136,9 @@ EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreGroup _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -147,6 +149,21 @@ EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
   EW_METHOD( OnSetBuffered,     void )( CoreGroup _this, XBool value )
   EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
+  EW_METHOD( SwitchToDialog,    void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( DismissDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( PresentDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+    XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -155,6 +172,8 @@ EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
+  EW_METHOD( FadeGroup,         void )( CoreGroup _this, CoreGroup aGroup, EffectsFader 
+    aFader, XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( RestackTop,        void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
@@ -163,8 +182,7 @@ EW_DEFINE_METHODS( ApplicationDetailsInsideCall, ApplicationContactDetailsPage )
     aOrder )
   EW_METHOD( onTapEdit,         void )( ApplicationDetailsInsideCall _this, XObject 
     sender )
-  EW_METHOD( onContactUpdated,  void )( ApplicationContactDetailsPage _this, XObject 
-    sender )
+  EW_METHOD( onContactUpdated,  void )( ApplicationDetailsPage _this, XObject sender )
 EW_END_OF_METHODS( ApplicationDetailsInsideCall )
 
 /* 'C' function for method : 'Application::DetailsInsideCall.onTapEdit()' */

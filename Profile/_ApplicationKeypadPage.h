@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -99,8 +99,6 @@
 
 /* Deklaration of class : 'Application::KeypadPage' */
 EW_DEFINE_FIELDS( ApplicationKeypadPage, CoreGroup )
-  EW_PROPERTY( OnHide,          XSlot )
-  EW_PROPERTY( OnEditTextChanged, XSlot )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( callbtn,         ComponentsSButton65x65 )
   EW_OBJECT  ( btn1,            ComponentsSButton65x65 )
@@ -118,9 +116,11 @@ EW_DEFINE_FIELDS( ApplicationKeypadPage, CoreGroup )
   EW_OBJECT  ( InputEtxt,       ComponentsInputEtxt )
   EW_OBJECT  ( HideBtn,         ComponentsTextButton )
   EW_OBJECT  ( BtnErase,        ComponentsSButton65x65 )
+  EW_PROPERTY( OnHide,          XSlot )
+  EW_PROPERTY( OnEditTextChanged, XSlot )
   EW_PROPERTY( BackgoundColor,  XColor )
-  EW_PROPERTY( HideCall,        XBool )
   EW_PROPERTY( HideFunction,    XBool )
+  EW_PROPERTY( HideCall,        XBool )
 EW_END_OF_FIELDS( ApplicationKeypadPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::KeypadPage' */
@@ -132,7 +132,9 @@ EW_DEFINE_METHODS( ApplicationKeypadPage, CoreGroup )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreGroup _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -143,6 +145,21 @@ EW_DEFINE_METHODS( ApplicationKeypadPage, CoreGroup )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
   EW_METHOD( OnSetBuffered,     void )( CoreGroup _this, XBool value )
   EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
+  EW_METHOD( SwitchToDialog,    void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( DismissDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( PresentDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+    XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -151,6 +168,8 @@ EW_DEFINE_METHODS( ApplicationKeypadPage, CoreGroup )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
+  EW_METHOD( FadeGroup,         void )( CoreGroup _this, CoreGroup aGroup, EffectsFader 
+    aFader, XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( RestackTop,        void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )

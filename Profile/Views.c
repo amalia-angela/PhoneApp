@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -116,7 +116,7 @@ void ViewsLine__Done( ViewsLine _this )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -204,8 +204,8 @@ XRect ViewsLine_GetExtent( ViewsLine _this )
   if ((( w1 == 1 ) && ( w2 == 1 )) || !EwCompPoint( p1, p2 ))
     return CoreLineView_GetExtent((CoreLineView)_this );
 
-  fw1 = (XFloat)w1 / 2.000000f;
-  fw2 = (XFloat)w2 / 2.000000f;
+  fw1 = (XFloat)w1 / 2.0f;
+  fw2 = (XFloat)w2 / 2.0f;
   fp1X = (XFloat)p1.X;
   fp1Y = (XFloat)p1.Y;
   fp2X = (XFloat)p2.X;
@@ -428,13 +428,14 @@ EW_DEFINE_CLASS_VARIANTS( ViewsLine )
 EW_END_OF_CLASS_VARIANTS( ViewsLine )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Line' */
-EW_DEFINE_CLASS( ViewsLine, CoreLineView, whiteBitmap, Width2, Width2, Width2, Width2, 
-                 Width2, "Views::Line" )
+EW_DEFINE_CLASS( ViewsLine, CoreLineView, whiteBitmap, whiteBitmap, Width2, Width2, 
+                 Width2, Width2, "Views::Line" )
   CoreLineView_initLayoutContext,
   CoreView_GetRoot,
   ViewsLine_Draw,
   CoreView_HandleEvent,
   CoreView_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreLineView_ArrangeView,
   CoreLineView_MoveView,
   ViewsLine_GetExtent,
@@ -481,7 +482,7 @@ void ViewsRectangle__Done( ViewsRectangle _this )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -638,6 +639,7 @@ EW_DEFINE_CLASS( ViewsRectangle, CoreRectView, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT
   ViewsRectangle_Draw,
   CoreView_HandleEvent,
   CoreView_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -682,7 +684,7 @@ void ViewsFrame__Done( ViewsFrame _this )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -888,13 +890,14 @@ EW_DEFINE_CLASS_VARIANTS( ViewsFrame )
 EW_END_OF_CLASS_VARIANTS( ViewsFrame )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Frame' */
-EW_DEFINE_CLASS( ViewsFrame, CoreRectView, timer, animFrameNumber, animFrameNumber, 
-                 animFrameNumber, animFrameNumber, animFrameNumber, "Views::Frame" )
+EW_DEFINE_CLASS( ViewsFrame, CoreRectView, timer, timer, animFrameNumber, animFrameNumber, 
+                 animFrameNumber, animFrameNumber, "Views::Frame" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   ViewsFrame_Draw,
   CoreView_HandleEvent,
   CoreView_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -938,7 +941,7 @@ void ViewsImage__Done( ViewsImage _this )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -1181,13 +1184,14 @@ EW_DEFINE_CLASS_VARIANTS( ViewsImage )
 EW_END_OF_CLASS_VARIANTS( ViewsImage )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Image' */
-EW_DEFINE_CLASS( ViewsImage, CoreRectView, timer, startTime, startTime, startTime, 
-                 startTime, startTime, "Views::Image" )
+EW_DEFINE_CLASS( ViewsImage, CoreRectView, timer, timer, startTime, startTime, startTime, 
+                 startTime, "Views::Image" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   ViewsImage_Draw,
   CoreView_HandleEvent,
   CoreView_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -1246,7 +1250,7 @@ void ViewsText_Done( ViewsText _this )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -1676,10 +1680,18 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
       XInt32 inxL = EwGetStringLength( res );
       XString tmp = 0;
 
+      if ( !!( align & ( ViewsTextAlignmentAlignVertCenter | ViewsTextAlignmentAlignVertCenterBaseline )) 
+          && !!( align & ( ViewsTextAlignmentAlignVertBottom | ViewsTextAlignmentAlignVertTop )))
+        align &= ~( ViewsTextAlignmentAlignVertCenter | ViewsTextAlignmentAlignVertCenterBaseline );
+
+      if ( !!( align & ( ViewsTextAlignmentAlignVertCenter | ViewsTextAlignmentAlignVertCenterBaseline )))
+        align &= ~( ViewsTextAlignmentAlignVertBottom | ViewsTextAlignmentAlignVertTop );
+
       if ((( align & ViewsTextAlignmentAlignVertBottom ) == ViewsTextAlignmentAlignVertBottom ))
         rowF = noOfRows - maxNoOfRows;
       else
-        if ((( align & ViewsTextAlignmentAlignVertCenter ) == ViewsTextAlignmentAlignVertCenter ))
+        if ((( align & ViewsTextAlignmentAlignVertCenter ) == ViewsTextAlignmentAlignVertCenter ) 
+            || (( align & ViewsTextAlignmentAlignVertCenterBaseline ) == ViewsTextAlignmentAlignVertCenterBaseline ))
         {
           rowF = ( noOfRows - maxNoOfRows ) / 2;
           rowL = ( rowF + maxNoOfRows ) - 1;
@@ -1796,10 +1808,19 @@ void ViewsText_reparseSlot( ViewsText _this, XObject sender )
       if ( !_this->WrapText && ( ResourcesFont_GetTextAdvance( font, res, start, 
           len - 1 ) > maxW ))
       {
-        if ((( align & ViewsTextAlignmentAlignHorzRight ) == ViewsTextAlignmentAlignHorzRight ))
+        XSet align2 = align;
+
+        if ((( align2 & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ) 
+            && !!( align2 & ( ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignHorzRight )))
+          align2 &= ~ViewsTextAlignmentAlignHorzCenter;
+
+        if ((( align2 & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ))
+          align2 &= ~( ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignHorzRight );
+
+        if ((( align2 & ViewsTextAlignmentAlignHorzRight ) == ViewsTextAlignmentAlignHorzRight ))
           colEllipF = 1;
         else
-          if ((( align & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ))
+          if ((( align2 & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ))
           {
             colEllipF = 1;
             colEllipL = 1;
@@ -2750,6 +2771,22 @@ XRect ViewsText_GetContentArea( ViewsText _this )
       rs = EwSetRectW( rs, maxWidth );
   }
 
+  if (( !!( align & ( ViewsTextAlignmentAlignVertCenter | ViewsTextAlignmentAlignVertCenterBaseline )) 
+      && !!( align & ( ViewsTextAlignmentAlignVertBottom | ViewsTextAlignmentAlignVertTop ))) 
+      && ( EwGetRectH( rs ) > EwGetRectH( rd )))
+    align &= ~( ViewsTextAlignmentAlignVertCenter | ViewsTextAlignmentAlignVertCenterBaseline );
+
+  if ( !!( align & ( ViewsTextAlignmentAlignVertCenter | ViewsTextAlignmentAlignVertCenterBaseline )))
+    align &= ~( ViewsTextAlignmentAlignVertBottom | ViewsTextAlignmentAlignVertTop );
+
+  if (((( align & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ) 
+      && !!( align & ( ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignHorzRight ))) 
+      && ( EwGetRectW( rs ) > EwGetRectW( rd )))
+    align &= ~ViewsTextAlignmentAlignHorzCenter;
+
+  if ((( align & ViewsTextAlignmentAlignHorzCenter ) == ViewsTextAlignmentAlignHorzCenter ))
+    align &= ~( ViewsTextAlignmentAlignHorzLeft | ViewsTextAlignmentAlignHorzRight );
+
   if ( EwGetRectW( rs ) != EwGetRectW( rd ))
   {
     if ((( align & ViewsTextAlignmentAlignHorzRight ) == ViewsTextAlignmentAlignHorzRight ))
@@ -2765,9 +2802,13 @@ XRect ViewsText_GetContentArea( ViewsText _this )
     if ((( align & ViewsTextAlignmentAlignVertBottom ) == ViewsTextAlignmentAlignVertBottom ))
       rs = EwSetRectY( rs, rd.Point2.Y - EwGetRectH( rs ));
     else
-      if ((( align & ViewsTextAlignmentAlignVertCenter ) == ViewsTextAlignmentAlignVertCenter ))
-        rs = EwSetRectY( rs, ( rd.Point1.Y + ( EwGetRectH( rd ) / 2 )) - ( EwGetRectH( 
-        rs ) / 2 ));
+      if ((( align & ViewsTextAlignmentAlignVertCenterBaseline ) == ViewsTextAlignmentAlignVertCenterBaseline ))
+        rs = EwSetRectY( rs, (( rd.Point1.Y + ( EwGetRectH( rd ) / 2 )) - ( EwGetRectH( 
+        rs ) / 2 )) + (( _this->Font->Descent - _this->Font->Ascent ) / 2 ));
+      else
+        if ((( align & ViewsTextAlignmentAlignVertCenter ) == ViewsTextAlignmentAlignVertCenter ))
+          rs = EwSetRectY( rs, ( rd.Point1.Y + ( EwGetRectH( rd ) / 2 )) - ( EwGetRectH( 
+          rs ) / 2 ));
   }
 
   rs = EwMoveRectPos( rs, bounds.Point1 );
@@ -2779,13 +2820,14 @@ EW_DEFINE_CLASS_VARIANTS( ViewsText )
 EW_END_OF_CLASS_VARIANTS( ViewsText )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Text' */
-EW_DEFINE_CLASS( ViewsText, CoreRectView, SlideHandler, OnUpdate, flowString, flowString, 
-                 flowString, bidiContext, "Views::Text" )
+EW_DEFINE_CLASS( ViewsText, CoreRectView, SlideHandler, SlideHandler, OnUpdate, 
+                 flowString, flowString, bidiContext, "Views::Text" )
   CoreRectView_initLayoutContext,
   CoreView_GetRoot,
   ViewsText_Draw,
   CoreView_HandleEvent,
   CoreView_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -2836,7 +2878,7 @@ void ViewsWarpView_OnSetPoint4( ViewsWarpView _this, XPoint value )
   CoreQuadView_OnSetPoint4((CoreQuadView)_this, value );
   _this->vertices[ 3 ][ 0 ] = (XFloat)value.X;
   _this->vertices[ 3 ][ 1 ] = (XFloat)value.Y;
-  _this->vertices[ 3 ][ 2 ] = 1.000000f;
+  _this->vertices[ 3 ][ 2 ] = 1.0f;
   _this->newUpdateCase = 'E';
   EwPostSignal( EwNewSlot( _this, ViewsWarpView__update ), ((XObject)_this ));
 }
@@ -2850,7 +2892,7 @@ void ViewsWarpView_OnSetPoint3( ViewsWarpView _this, XPoint value )
   CoreQuadView_OnSetPoint3((CoreQuadView)_this, value );
   _this->vertices[ 2 ][ 0 ] = (XFloat)value.X;
   _this->vertices[ 2 ][ 1 ] = (XFloat)value.Y;
-  _this->vertices[ 2 ][ 2 ] = 1.000000f;
+  _this->vertices[ 2 ][ 2 ] = 1.0f;
   _this->newUpdateCase = 'E';
   EwPostSignal( EwNewSlot( _this, ViewsWarpView__update ), ((XObject)_this ));
 }
@@ -2864,7 +2906,7 @@ void ViewsWarpView_OnSetPoint2( ViewsWarpView _this, XPoint value )
   CoreQuadView_OnSetPoint2((CoreQuadView)_this, value );
   _this->vertices[ 1 ][ 0 ] = (XFloat)value.X;
   _this->vertices[ 1 ][ 1 ] = (XFloat)value.Y;
-  _this->vertices[ 1 ][ 2 ] = 1.000000f;
+  _this->vertices[ 1 ][ 2 ] = 1.0f;
   _this->newUpdateCase = 'E';
   EwPostSignal( EwNewSlot( _this, ViewsWarpView__update ), ((XObject)_this ));
 }
@@ -2878,7 +2920,7 @@ void ViewsWarpView_OnSetPoint1( ViewsWarpView _this, XPoint value )
   CoreQuadView_OnSetPoint1((CoreQuadView)_this, value );
   _this->vertices[ 0 ][ 0 ] = (XFloat)value.X;
   _this->vertices[ 0 ][ 1 ] = (XFloat)value.Y;
-  _this->vertices[ 0 ][ 2 ] = 1.000000f;
+  _this->vertices[ 0 ][ 2 ] = 1.0f;
   _this->newUpdateCase = 'E';
   EwPostSignal( EwNewSlot( _this, ViewsWarpView__update ), ((XObject)_this ));
 }
@@ -2911,14 +2953,14 @@ void ViewsWarpView_update( ViewsWarpView _this, XObject sender )
 
     if ( m != 0 )
     {
-      GraphicsWarpMatrix_CalculateZ( m, 0.000000f, 0.000000f );
-      _this->vertices[ 0 ][ 2 ] = m->Z * 240.000000f;
-      GraphicsWarpMatrix_CalculateZ( m, 1.000000f, 0.000000f );
-      _this->vertices[ 1 ][ 2 ] = m->Z * 240.000000f;
-      GraphicsWarpMatrix_CalculateZ( m, 1.000000f, 1.000000f );
-      _this->vertices[ 2 ][ 2 ] = m->Z * 240.000000f;
-      GraphicsWarpMatrix_CalculateZ( m, 0.000000f, 1.000000f );
-      _this->vertices[ 3 ][ 2 ] = m->Z * 240.000000f;
+      GraphicsWarpMatrix_CalculateZ( m, 0.0f, 0.0f );
+      _this->vertices[ 0 ][ 2 ] = m->Z * 240.0f;
+      GraphicsWarpMatrix_CalculateZ( m, 1.0f, 0.0f );
+      _this->vertices[ 1 ][ 2 ] = m->Z * 240.0f;
+      GraphicsWarpMatrix_CalculateZ( m, 1.0f, 1.0f );
+      _this->vertices[ 2 ][ 2 ] = m->Z * 240.0f;
+      GraphicsWarpMatrix_CalculateZ( m, 0.0f, 1.0f );
+      _this->vertices[ 3 ][ 2 ] = m->Z * 240.0f;
     }
 
     ViewsWarpView_calculateLight( _this );
@@ -2933,18 +2975,9 @@ void ViewsWarpView_update( ViewsWarpView _this, XObject sender )
 }
 
 /* Wrapper function for the virtual method : 'Views::WarpView.update()' */
-__declspec( naked ) void ViewsWarpView__update( void* _this, XObject sender )
+void ViewsWarpView__update( void* _this, XObject sender )
 {
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( sender );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 108 ]
-  }
+  ((ViewsWarpView)_this)->_.VMT->update((ViewsWarpView)_this, sender );
 }
 
 /* 'C' function for method : 'Views::WarpView.OnSetQuality()' */
@@ -2992,6 +3025,7 @@ EW_DEFINE_CLASS( ViewsWarpView, CoreQuadView, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT,
   CoreView_Draw,
   CoreView_HandleEvent,
   CoreView_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreQuadView_ArrangeView,
   CoreQuadView_MoveView,
   CoreQuadView_GetExtent,
@@ -3016,9 +3050,9 @@ void ViewsWarpGroup__Init( ViewsWarpGroup _this, XObject aLink, XHandle aArg )
   _this->_.VMT = EW_CLASS( ViewsWarpGroup );
 
   /* ... and initialize objects, variables, properties, etc. */
-  _this->i11 = 1.000000f;
-  _this->i22 = 1.000000f;
-  _this->i33 = 1.000000f;
+  _this->i11 = 1.0f;
+  _this->i22 = 1.0f;
+  _this->i33 = 1.0f;
   _this->Opacity = 255;
 }
 
@@ -3042,7 +3076,7 @@ void ViewsWarpGroup__Done( ViewsWarpGroup _this )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -3194,6 +3228,9 @@ XObject ViewsWarpGroup_HandleEvent( ViewsWarpGroup _this, CoreEvent aEvent )
    The parameter aDedicatedView, if it is not 'null', restricts the event to be 
    handled by this view only. If aDedicatedView == null, no special restriction 
    exists.
+   The parameter aStartView, if it is not 'null', restricts the event to be handled 
+   by the specified view or another view lying behind it. In other words, views 
+   found in front of aStartView are not taken in account during the hit-test operation.
    This method is also invoked if during an existing grab cycle the current target 
    view has decided to resign and deflect the cursor events to another view. This 
    is usually the case after the user has performed a gesture the current target 
@@ -3208,11 +3245,15 @@ XObject ViewsWarpGroup_HandleEvent( ViewsWarpGroup _this, CoreEvent aEvent )
    The proper processing of events should take place in the @HandleEvent() method 
    by reacting to Core::CursorEvent and Core::DragEvent events. */
 CoreCursorHit ViewsWarpGroup_CursorHitTest( ViewsWarpGroup _this, XRect aArea, XInt32 
-  aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+  aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, XSet 
+  aRetargetReason )
 {
   XPoint pos;
   XRect srcArea;
   CoreCursorHit hit;
+
+  /* Dummy expressions to avoid the 'C' warning 'unused argument'. */
+  EW_UNUSED_ARG( aStartView );
 
   if (( _this->Group == 0 ) || !(( _this->Group->Super2.viewState & ( CoreViewStateEnabled 
       | CoreViewStateTouchable )) == ( CoreViewStateEnabled | CoreViewStateTouchable )))
@@ -3228,7 +3269,7 @@ CoreCursorHit ViewsWarpGroup_CursorHitTest( ViewsWarpGroup _this, XRect aArea, X
 
   hit = CoreView__CursorHitTest( _this->Group, EwMoveRectPos( EwMoveRectPos( EwGetRectORect( 
   aArea ), pos ), _this->Group->Super1.Bounds.Point1 ), aFinger, aStrikeCount, aDedicatedView, 
-  aRetargetReason );
+  0, aRetargetReason );
 
   if ( hit != 0 )
     _this->cursorTargetView = hit->View;
@@ -3276,7 +3317,7 @@ void ViewsWarpGroup_updateInvMatrix( ViewsWarpGroup _this )
   XFloat e;
   XFloat f;
 
-  if ( det == 0.000000f )
+  if ( det == 0.0f )
     return;
 
   g = (( sumX * deltaY2 ) - ( sumY * deltaX2 )) / det;
@@ -3318,7 +3359,7 @@ XPoint ViewsWarpGroup_mapPosition( ViewsWarpGroup _this, XPoint aPos )
   ys = (( xd * _this->i21 ) + ( yd * _this->i22 )) + _this->i23;
   qs = (( xd * _this->i31 ) + ( yd * _this->i32 )) + _this->i33;
 
-  if ( qs != 0.000000f )
+  if ( qs != 0.0f )
   {
     xs = xs / qs;
     ys = ys / qs;
@@ -3413,13 +3454,14 @@ EW_DEFINE_CLASS_VARIANTS( ViewsWarpGroup )
 EW_END_OF_CLASS_VARIANTS( ViewsWarpGroup )
 
 /* Virtual Method Table (VMT) for the class : 'Views::WarpGroup' */
-EW_DEFINE_CLASS( ViewsWarpGroup, ViewsWarpView, cursorTargetView, i11, i11, i11, 
-                 i11, i11, "Views::WarpGroup" )
+EW_DEFINE_CLASS( ViewsWarpGroup, ViewsWarpView, cursorTargetView, cursorTargetView, 
+                 i11, i11, i11, i11, "Views::WarpGroup" )
   CoreQuadView_initLayoutContext,
   CoreView_GetRoot,
   ViewsWarpGroup_Draw,
   ViewsWarpGroup_HandleEvent,
   ViewsWarpGroup_CursorHitTest,
+  CoreView_AdjustDrawingArea,
   CoreQuadView_ArrangeView,
   CoreQuadView_MoveView,
   CoreQuadView_GetExtent,

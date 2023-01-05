@@ -18,16 +18,16 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
 /* The medium version of the default font resource. The resource is using 'Roboto' 
    TrueType font with 24 pixel height. */
-EW_DEFINE_FONT_RES( ResourcesFontMedium, 19, 5, 0, 16, 0x0001, 0x00C0 )
-  EW_GLYPH( 0x0001, 1, -14, 7, 14, 9, 0x00000000 ),
+EW_DEFINE_FONT_RES( ResourcesFontMedium, 19, 5, 0, 16, 0x00C0, 0x00C0 )
+  EW_GLYPH( 0x0000, 1, -14, 7, 14, 9, 0x00000000 ),
   EW_GLYPH( 0x0020, 0, 0, 0, 0, 5, 0x00000144 ),                /* ' ' */
   EW_GLYPH( 0x0021, 1, -14, 3, 14, 5, 0x00000144 ),             /* '!' */
   EW_GLYPH( 0x0022, 1, -15, 5, 5, 6, 0x000001A6 ),              /* '"' */

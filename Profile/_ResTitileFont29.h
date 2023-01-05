@@ -18,15 +18,15 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
 /* Font resource : 'Res::TitileFont29' */
-EW_DEFINE_FONT_RES( ResTitileFont29, 28, 7, 0, 16, 0x0001, 0x00C0 )
-  EW_GLYPH( 0x0001, 1, -21, 11, 21, 13, 0x00000000 ),
+EW_DEFINE_FONT_RES( ResTitileFont29, 28, 7, 0, 16, 0x00C0, 0x00C0 )
+  EW_GLYPH( 0x0000, 1, -21, 11, 21, 13, 0x00000000 ),
   EW_GLYPH( 0x0020, 0, 0, 0, 0, 7, 0x00000279 ),                /* ' ' */
   EW_GLYPH( 0x0021, 2, -21, 4, 21, 7, 0x00000279 ),             /* '!' */
   EW_GLYPH( 0x0022, 1, -22, 7, 7, 9, 0x00000325 ),              /* '"' */

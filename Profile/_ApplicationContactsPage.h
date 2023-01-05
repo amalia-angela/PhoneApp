@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,41 +33,41 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
+#include "_ApplicationContactsInsideSearch.h"
 #include "_ApplicationMyCardItem.h"
 #include "_ComponentsInputBtnEtxt.h"
 #include "_ComponentsSButton25x25.h"
 #include "_CoreGroup.h"
 #include "_CoreSlideTouchHandler.h"
 #include "_CoreVerticalList.h"
-#include "_TemplatesTextEditor.h"
 #include "_ViewsRectangle.h"
 #include "_ViewsText.h"
 
-/* Forward declaration of the class Application::ContactAddPage */
-#ifndef _ApplicationContactAddPage_
-  EW_DECLARE_CLASS( ApplicationContactAddPage )
-#define _ApplicationContactAddPage_
-#endif
-
-/* Forward declaration of the class Application::ContactDetailsPage */
-#ifndef _ApplicationContactDetailsPage_
-  EW_DECLARE_CLASS( ApplicationContactDetailsPage )
-#define _ApplicationContactDetailsPage_
+/* Forward declaration of the class Application::AddContactPage */
+#ifndef _ApplicationAddContactPage_
+  EW_DECLARE_CLASS( ApplicationAddContactPage )
+#define _ApplicationAddContactPage_
 #endif
 
 /* Forward declaration of the class Application::ContactsPage */
 #ifndef _ApplicationContactsPage_
   EW_DECLARE_CLASS( ApplicationContactsPage )
 #define _ApplicationContactsPage_
+#endif
+
+/* Forward declaration of the class Application::DetailsPage */
+#ifndef _ApplicationDetailsPage_
+  EW_DECLARE_CLASS( ApplicationDetailsPage )
+#define _ApplicationDetailsPage_
 #endif
 
 /* Forward declaration of the class Core::DialogContext */
@@ -115,8 +115,6 @@
 
 /* Deklaration of class : 'Application::ContactsPage' */
 EW_DEFINE_FIELDS( ApplicationContactsPage, CoreGroup )
-  EW_VARIABLE( addContact,      ApplicationContactAddPage )
-  EW_VARIABLE( detailsPage,     ApplicationContactDetailsPage )
   EW_OBJECT  ( Background,      ViewsRectangle )
   EW_OBJECT  ( VerticalList,    CoreVerticalList )
   EW_OBJECT  ( SlideTouchHandler, CoreSlideTouchHandler )
@@ -125,8 +123,10 @@ EW_DEFINE_FIELDS( ApplicationContactsPage, CoreGroup )
   EW_OBJECT  ( SearchExt,       ComponentsInputBtnEtxt )
   EW_OBJECT  ( TitleTxt,        ViewsText )
   EW_OBJECT  ( PlusButton,      ComponentsSButton25x25 )
-  EW_OBJECT  ( TextEditor1,     TemplatesTextEditor )
   EW_OBJECT  ( MyCardItem,      ApplicationMyCardItem )
+  EW_OBJECT  ( ContactsInsideSearch, ApplicationContactsInsideSearch )
+  EW_VARIABLE( createContact,   ApplicationAddContactPage )
+  EW_VARIABLE( detailsPage,     ApplicationDetailsPage )
 EW_END_OF_FIELDS( ApplicationContactsPage )
 
 /* Virtual Method Table (VMT) for the class : 'Application::ContactsPage' */
@@ -138,7 +138,9 @@ EW_DEFINE_METHODS( ApplicationContactsPage, CoreGroup )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreGroup _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -149,6 +151,21 @@ EW_DEFINE_METHODS( ApplicationContactsPage, CoreGroup )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
   EW_METHOD( OnSetBuffered,     void )( CoreGroup _this, XBool value )
   EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
+  EW_METHOD( SwitchToDialog,    void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( DismissDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( PresentDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+    XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -157,14 +174,15 @@ EW_DEFINE_METHODS( ApplicationContactsPage, CoreGroup )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
+  EW_METHOD( FadeGroup,         void )( CoreGroup _this, CoreGroup aGroup, EffectsFader 
+    aFader, XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( RestackTop,        void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
   EW_METHOD( Remove,            void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Add,               void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
-  EW_METHOD( onContactActivated, void )( ApplicationContactsPage _this, XObject 
-    sender )
+  EW_METHOD( onContactPressed,  void )( ApplicationContactsPage _this, XObject sender )
 EW_END_OF_METHODS( ApplicationContactsPage )
 
 /* The method Init() is invoked automatically after the component has been created. 
@@ -172,9 +190,9 @@ EW_END_OF_METHODS( ApplicationContactsPage )
    statements. */
 void ApplicationContactsPage_Init( ApplicationContactsPage _this, XHandle aArg );
 
-/* 'C' function for method : 'Application::ContactsPage.onAddPress()' */
-void ApplicationContactsPage_onAddPress( ApplicationContactsPage _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::ContactsPage.onCreateContactPressed()' */
+void ApplicationContactsPage_onCreateContactPressed( ApplicationContactsPage _this, 
+  XObject sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onSaveAdd()' */
 void ApplicationContactsPage_onSaveAdd( ApplicationContactsPage _this, XObject sender );
@@ -183,16 +201,14 @@ void ApplicationContactsPage_onSaveAdd( ApplicationContactsPage _this, XObject s
 void ApplicationContactsPage_onCancelAdd( ApplicationContactsPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::ContactsPage.onDeleteContact()' */
-void ApplicationContactsPage_onDeleteContact( ApplicationContactsPage _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::ContactsPage.onDelete()' */
+void ApplicationContactsPage_onDelete( ApplicationContactsPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onSearch()' */
 void ApplicationContactsPage_onSearch( ApplicationContactsPage _this, XObject sender );
 
-/* 'C' function for method : 'Application::ContactsPage.onCloseContact()' */
-void ApplicationContactsPage_onCloseContact( ApplicationContactsPage _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::ContactsPage.onClose()' */
+void ApplicationContactsPage_onClose( ApplicationContactsPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onUpPress()' */
 void ApplicationContactsPage_onUpPress( ApplicationContactsPage _this, XObject sender );
@@ -206,28 +222,27 @@ void ApplicationContactsPage_onDownPress( ApplicationContactsPage _this, XObject
 void ApplicationContactsPage_OnLoadItem( ApplicationContactsPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::ContactsPage.onNoOfContactsChanged()' */
-void ApplicationContactsPage_onNoOfContactsChanged( ApplicationContactsPage _this, 
-  XObject sender );
-
-/* 'C' function for method : 'Application::ContactsPage.onListUpdate()' */
-void ApplicationContactsPage_onListUpdate( ApplicationContactsPage _this, XObject 
+/* 'C' function for method : 'Application::ContactsPage.onContactPressed()' */
+void ApplicationContactsPage_onContactPressed( ApplicationContactsPage _this, XObject 
   sender );
 
-/* 'C' function for method : 'Application::ContactsPage.onContactActivated()' */
-void ApplicationContactsPage_onContactActivated( ApplicationContactsPage _this, 
-  XObject sender );
+/* Wrapper function for the virtual method : 'Application::ContactsPage.onContactPressed()' */
+void ApplicationContactsPage__onContactPressed( void* _this, XObject sender );
 
-/* Wrapper function for the virtual method : 'Application::ContactsPage.onContactActivated()' */
-void ApplicationContactsPage__onContactActivated( void* _this, XObject sender );
-
-/* 'C' function for method : 'Application::ContactsPage.onMYCardUpdate()' */
-void ApplicationContactsPage_onMYCardUpdate( ApplicationContactsPage _this, XObject 
-  sender );
+/* 'C' function for method : 'Application::ContactsPage.onUpdate()' */
+void ApplicationContactsPage_onUpdate( ApplicationContactsPage _this, XObject sender );
 
 /* 'C' function for method : 'Application::ContactsPage.onMyCardPress()' */
 void ApplicationContactsPage_onMyCardPress( ApplicationContactsPage _this, XObject 
   sender );
+
+/* 'C' function for method : 'Application::ContactsPage.onCancelSearch()' */
+void ApplicationContactsPage_onCancelSearch( ApplicationContactsPage _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::ContactsPage.onFilteredContactPressed()' */
+void ApplicationContactsPage_onFilteredContactPressed( ApplicationContactsPage _this, 
+  XObject sender );
 
 #ifdef __cplusplus
   }

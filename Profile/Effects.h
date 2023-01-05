@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -62,50 +62,48 @@
    animation effects. Except the 'Custom' item, all items of this definition represent 
    build-in timing functions. These can be simply selected in the effect property 
    Timing. */
-typedef enum
-{
-  EffectsTimingLinear                   = 0,
-  EffectsTimingPower_In                 = 1,
-  EffectsTimingPower_Out                = 2,
-  EffectsTimingPower_InOut              = 3,
-  EffectsTimingExp_In                   = 4,
-  EffectsTimingExp_Out                  = 5,
-  EffectsTimingExp_InOut                = 6,
-  EffectsTimingSine_In                  = 7,
-  EffectsTimingSine_Out                 = 8,
-  EffectsTimingSine_InOut               = 9,
-  EffectsTimingCircle_In                = 10,
-  EffectsTimingCircle_Out               = 11,
-  EffectsTimingCircle_InOut             = 12,
-  EffectsTimingBack_In                  = 13,
-  EffectsTimingBack_Out                 = 14,
-  EffectsTimingBack_InOut               = 15,
-  EffectsTimingElastic_In               = 16,
-  EffectsTimingElastic_Out              = 17,
-  EffectsTimingElastic_InOut            = 18,
-  EffectsTimingBounce_In                = 19,
-  EffectsTimingBounce_Out               = 20,
-  EffectsTimingBounce_InOut             = 21,
-  EffectsTimingEaseIn_FastOut           = 22,
-  EffectsTimingFastIn_EaseOut           = 23,
-  EffectsTimingEaseIn_EaseOut           = 24,
-  EffectsTimingFastIn_FastOut           = 25,
-  EffectsTimingCustom                   = 26
-} EffectsTiming;
+typedef XEnum EffectsTiming;
+
+#define EffectsTimingLinear                                 0
+#define EffectsTimingPower_In                               1
+#define EffectsTimingPower_Out                              2
+#define EffectsTimingPower_InOut                            3
+#define EffectsTimingExp_In                                 4
+#define EffectsTimingExp_Out                                5
+#define EffectsTimingExp_InOut                              6
+#define EffectsTimingSine_In                                7
+#define EffectsTimingSine_Out                               8
+#define EffectsTimingSine_InOut                             9
+#define EffectsTimingCircle_In                              10
+#define EffectsTimingCircle_Out                             11
+#define EffectsTimingCircle_InOut                           12
+#define EffectsTimingBack_In                                13
+#define EffectsTimingBack_Out                               14
+#define EffectsTimingBack_InOut                             15
+#define EffectsTimingElastic_In                             16
+#define EffectsTimingElastic_Out                            17
+#define EffectsTimingElastic_InOut                          18
+#define EffectsTimingBounce_In                              19
+#define EffectsTimingBounce_Out                             20
+#define EffectsTimingBounce_InOut                           21
+#define EffectsTimingEaseIn_FastOut                         22
+#define EffectsTimingFastIn_EaseOut                         23
+#define EffectsTimingEaseIn_EaseOut                         24
+#define EffectsTimingFastIn_FastOut                         25
+#define EffectsTimingCustom                                 26
 
 /* The definition Effects::DialogAlignment determines the set of constraints to 
    control how dialog components are aligned within the boundary area of their owners 
    when the dialogs are presented. See also Effects::FadeInOutTransition, Effects::ScaleTransition, 
    Effects::ShowHideTransition and Effects::SlideTransition. */
-typedef enum
-{
-  EffectsDialogAlignmentAlignHorzLeft   = 0x00000001,
-  EffectsDialogAlignmentAlignHorzCenter = 0x00000002,
-  EffectsDialogAlignmentAlignHorzRight  = 0x00000004,
-  EffectsDialogAlignmentAlignVertTop    = 0x00000008,
-  EffectsDialogAlignmentAlignVertCenter = 0x00000010,
-  EffectsDialogAlignmentAlignVertBottom = 0x00000020
-} EffectsDialogAlignment;
+typedef XSet EffectsDialogAlignment;
+
+#define EffectsDialogAlignmentAlignHorzLeft                 0x00000001
+#define EffectsDialogAlignmentAlignHorzCenter               0x00000002
+#define EffectsDialogAlignmentAlignHorzRight                0x00000004
+#define EffectsDialogAlignmentAlignVertTop                  0x00000008
+#define EffectsDialogAlignmentAlignVertCenter               0x00000010
+#define EffectsDialogAlignmentAlignVertBottom               0x00000020
 
 /* The global autoobject Effects::EffectTimer triggers all actually active animation 
    effects. In this way all effects will run simultanously. Per default the timer 

@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -101,12 +101,12 @@ void EffectsEffect__Init( EffectsEffect _this, XObject aLink, XHandle aArg )
   _this->_.VMT = EW_CLASS( EffectsEffect );
 
   /* ... and initialize objects, variables, properties, etc. */
-  _this->invCycleDuration = 0.001000f;
-  _this->Elasticity = 0.500000f;
+  _this->invCycleDuration = 0.001f;
+  _this->Elasticity = 0.5f;
   _this->Bounces = 3;
   _this->Oscillations = 3;
-  _this->Amplitude = 0.500000f;
-  _this->Exponent = 3.000000f;
+  _this->Amplitude = 0.5f;
+  _this->Exponent = 3.0f;
   _this->Timing = EffectsTimingLinear;
   _this->CycleDuration = 1000;
 }
@@ -149,7 +149,7 @@ void EffectsEffect_timerSlot( EffectsEffect _this, XObject sender )
     _this->direction = _this->startDirection;
     _this->startTime = _this->timer->Time;
     _this->cycleCounter = 0;
-    _this->lastFrame = -1.000000f;
+    _this->lastFrame = -1.0f;
   }
 
   if (( _this->startDirection > 0 ) && ( _this->direction > 0 ))
@@ -178,12 +178,12 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
   {
     XInt32 bounces = _this->Bounces + 1;
     XFloat elasticity = EwMathSqrt( _this->Elasticity );
-    XFloat sum = 0.500000f;
+    XFloat sum = 0.5f;
     XInt32 i;
     XFloat invSum;
     _this->timingList = EwNewObject( EffectsTimingList, 0 );
-    _this->timingList->spans[ 0 ] = 1.000000f;
-    _this->timingList->amps[ 0 ] = 1.000000f;
+    _this->timingList->spans[ 0 ] = 1.0f;
+    _this->timingList->amps[ 0 ] = 1.0f;
 
     for ( i = 1; i < bounces; i = i + 1 )
     {
@@ -194,9 +194,9 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
       sum = sum + _this->timingList->spans[ EwCheckIndex( i, 12 )];
     }
 
-    invSum = 1.000000f / sum;
-    _this->timingList->spans[ 0 ] = 0.500000f;
-    sum = 0.000000f;
+    invSum = 1.0f / sum;
+    _this->timingList->spans[ 0 ] = 0.5f;
+    sum = 0.0f;
 
     for ( i = 0; i < bounces; i = i + 1 )
     {
@@ -206,7 +206,7 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
     }
 
     _this->timingList->spans[ EwCheckIndex( bounces, 12 )] = _this->timingList->spans[ 
-    EwCheckIndex( bounces, 12 )] + ( 1.000000f - sum );
+    EwCheckIndex( bounces, 12 )] + ( 1.0f - sum );
   }
 
   switch ( _this->Timing )
@@ -217,173 +217,172 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
 
     case EffectsTimingPower_Out :
     {
-      aFrame = 1.000000f - aFrame;
-      aFrame = 1.000000f - EwMathPow( aFrame, _this->Exponent );
+      aFrame = 1.0f - aFrame;
+      aFrame = 1.0f - EwMathPow( aFrame, _this->Exponent );
     }
     break;
 
     case EffectsTimingPower_InOut :
     {
-      aFrame = aFrame * 2.000000f;
+      aFrame = aFrame * 2.0f;
 
-      if ( aFrame < 1.000000f )
-        aFrame = EwMathPow( aFrame, _this->Exponent ) / 2.000000f;
+      if ( aFrame < 1.0f )
+        aFrame = EwMathPow( aFrame, _this->Exponent ) / 2.0f;
       else
       {
-        aFrame = 2.000000f - aFrame;
-        aFrame = ( 2.000000f - EwMathPow( aFrame, _this->Exponent )) * 0.500000f;
+        aFrame = 2.0f - aFrame;
+        aFrame = ( 2.0f - EwMathPow( aFrame, _this->Exponent )) * 0.5f;
       }
     }
     break;
 
     case EffectsTimingExp_In :
-      aFrame = ( EwMathPow( 2.718000f, _this->Exponent * aFrame ) - 1.000000f ) 
-      / ( EwMathPow( 2.718000f, _this->Exponent ) - 1.000000f );
+      aFrame = ( EwMathPow( 2.718f, _this->Exponent * aFrame ) - 1.0f ) / ( EwMathPow( 
+      2.718f, _this->Exponent ) - 1.0f );
     break;
 
     case EffectsTimingExp_Out :
     {
-      aFrame = 1.000000f - aFrame;
-      aFrame = 1.000000f - (( EwMathPow( 2.718000f, _this->Exponent * aFrame ) - 
-      1.000000f ) / ( EwMathPow( 2.718000f, _this->Exponent ) - 1.000000f ));
+      aFrame = 1.0f - aFrame;
+      aFrame = 1.0f - (( EwMathPow( 2.718f, _this->Exponent * aFrame ) - 1.0f ) 
+      / ( EwMathPow( 2.718f, _this->Exponent ) - 1.0f ));
     }
     break;
 
     case EffectsTimingExp_InOut :
     {
-      aFrame = aFrame * 2.000000f;
+      aFrame = aFrame * 2.0f;
 
-      if ( aFrame < 1.000000f )
-        aFrame = (( EwMathPow( 2.718000f, _this->Exponent * aFrame ) - 1.000000f ) 
-        / ( EwMathPow( 2.718000f, _this->Exponent ) - 1.000000f )) / 2.000000f;
+      if ( aFrame < 1.0f )
+        aFrame = (( EwMathPow( 2.718f, _this->Exponent * aFrame ) - 1.0f ) / ( EwMathPow( 
+        2.718f, _this->Exponent ) - 1.0f )) / 2.0f;
       else
       {
-        aFrame = 2.000000f - aFrame;
-        aFrame = ( 2.000000f - (( EwMathPow( 2.718000f, _this->Exponent * aFrame ) 
-        - 1.000000f ) / ( EwMathPow( 2.718000f, _this->Exponent ) - 1.000000f ))) 
-        * 0.500000f;
+        aFrame = 2.0f - aFrame;
+        aFrame = ( 2.0f - (( EwMathPow( 2.718f, _this->Exponent * aFrame ) - 1.0f ) 
+        / ( EwMathPow( 2.718f, _this->Exponent ) - 1.0f ))) * 0.5f;
       }
     }
     break;
 
     case EffectsTimingSine_In :
-      aFrame = 1.000000f - EwMathCos( aFrame * 90.000000f );
+      aFrame = 1.0f - EwMathCos( aFrame * 90.0f );
     break;
 
     case EffectsTimingSine_Out :
-      aFrame = EwMathSin( aFrame * 90.000000f );
+      aFrame = EwMathSin( aFrame * 90.0f );
     break;
 
     case EffectsTimingSine_InOut :
     {
-      aFrame = aFrame * 2.000000f;
+      aFrame = aFrame * 2.0f;
 
-      if ( aFrame < 1.000000f )
+      if ( aFrame < 1.0f )
       {
-        aFrame = 1.000000f - EwMathCos( aFrame * 90.000000f );
-        aFrame = aFrame * 0.500000f;
+        aFrame = 1.0f - EwMathCos( aFrame * 90.0f );
+        aFrame = aFrame * 0.5f;
       }
       else
       {
-        aFrame = 2.000000f - aFrame;
-        aFrame = 1.000000f - EwMathCos( aFrame * 90.000000f );
-        aFrame = ( 2.000000f - aFrame ) * 0.500000f;
+        aFrame = 2.0f - aFrame;
+        aFrame = 1.0f - EwMathCos( aFrame * 90.0f );
+        aFrame = ( 2.0f - aFrame ) * 0.5f;
       }
     }
     break;
 
     case EffectsTimingCircle_In :
-      aFrame = 1.000000f - EwMathSqrt( 1.000000f - ( aFrame * aFrame ));
+      aFrame = 1.0f - EwMathSqrt( 1.0f - ( aFrame * aFrame ));
     break;
 
     case EffectsTimingCircle_Out :
     {
-      aFrame = 1.000000f - aFrame;
-      aFrame = EwMathSqrt( 1.000000f - ( aFrame * aFrame ));
+      aFrame = 1.0f - aFrame;
+      aFrame = EwMathSqrt( 1.0f - ( aFrame * aFrame ));
     }
     break;
 
     case EffectsTimingCircle_InOut :
     {
-      aFrame = aFrame * 2.000000f;
+      aFrame = aFrame * 2.0f;
 
-      if ( aFrame < 1.000000f )
+      if ( aFrame < 1.0f )
       {
-        aFrame = 1.000000f - EwMathSqrt( 1.000000f - ( aFrame * aFrame ));
-        aFrame = aFrame * 0.500000f;
+        aFrame = 1.0f - EwMathSqrt( 1.0f - ( aFrame * aFrame ));
+        aFrame = aFrame * 0.5f;
       }
       else
       {
-        aFrame = 2.000000f - aFrame;
-        aFrame = 1.000000f - EwMathSqrt( 1.000000f - ( aFrame * aFrame ));
-        aFrame = ( 2.000000f - aFrame ) * 0.500000f;
+        aFrame = 2.0f - aFrame;
+        aFrame = 1.0f - EwMathSqrt( 1.0f - ( aFrame * aFrame ));
+        aFrame = ( 2.0f - aFrame ) * 0.5f;
       }
     }
     break;
 
     case EffectsTimingBack_In :
       aFrame = (( aFrame * aFrame ) * aFrame ) - (( aFrame * _this->Amplitude ) 
-      * EwMathSin( aFrame * 180.000000f ));
+      * EwMathSin( aFrame * 180.0f ));
     break;
 
     case EffectsTimingBack_Out :
     {
-      aFrame = 1.000000f - aFrame;
+      aFrame = 1.0f - aFrame;
       aFrame = (( aFrame * aFrame ) * aFrame ) - (( aFrame * _this->Amplitude ) 
-      * EwMathSin( aFrame * 180.000000f ));
-      aFrame = 1.000000f - aFrame;
+      * EwMathSin( aFrame * 180.0f ));
+      aFrame = 1.0f - aFrame;
     }
     break;
 
     case EffectsTimingBack_InOut :
     {
-      aFrame = aFrame * 2.000000f;
+      aFrame = aFrame * 2.0f;
 
-      if ( aFrame < 1.000000f )
+      if ( aFrame < 1.0f )
       {
         aFrame = (( aFrame * aFrame ) * aFrame ) - (( aFrame * _this->Amplitude ) 
-        * EwMathSin( aFrame * 180.000000f ));
-        aFrame = aFrame * 0.500000f;
+        * EwMathSin( aFrame * 180.0f ));
+        aFrame = aFrame * 0.5f;
       }
       else
       {
-        aFrame = 2.000000f - aFrame;
+        aFrame = 2.0f - aFrame;
         aFrame = (( aFrame * aFrame ) * aFrame ) - (( aFrame * _this->Amplitude ) 
-        * EwMathSin( aFrame * 180.000000f ));
-        aFrame = ( 2.000000f - aFrame ) * 0.500000f;
+        * EwMathSin( aFrame * 180.0f ));
+        aFrame = ( 2.0f - aFrame ) * 0.5f;
       }
     }
     break;
 
     case EffectsTimingElastic_In :
-      aFrame = (( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.000000f ) 
-      * (XFloat)( 1 + ( 4 * _this->Oscillations )));
+      aFrame = (( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.0f ) * 
+      (XFloat)( 1 + ( 4 * _this->Oscillations )));
     break;
 
     case EffectsTimingElastic_Out :
     {
-      aFrame = 1.000000f - aFrame;
-      aFrame = 1.000000f - ((( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame 
-      * 90.000000f ) * (XFloat)( 1 + ( 4 * _this->Oscillations ))));
+      aFrame = 1.0f - aFrame;
+      aFrame = 1.0f - ((( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.0f ) 
+      * (XFloat)( 1 + ( 4 * _this->Oscillations ))));
     }
     break;
 
     case EffectsTimingElastic_InOut :
     {
-      aFrame = aFrame * 2.000000f;
+      aFrame = aFrame * 2.0f;
 
-      if ( aFrame < 1.000000f )
+      if ( aFrame < 1.0f )
       {
-        aFrame = (( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.000000f ) 
+        aFrame = (( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.0f ) 
         * (XFloat)( 1 + ( 4 * _this->Oscillations )));
-        aFrame = aFrame * 0.500000f;
+        aFrame = aFrame * 0.5f;
       }
       else
       {
-        aFrame = 2.000000f - aFrame;
-        aFrame = (( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.000000f ) 
+        aFrame = 2.0f - aFrame;
+        aFrame = (( aFrame * aFrame ) * aFrame ) * EwMathSin(( aFrame * 90.0f ) 
         * (XFloat)( 1 + ( 4 * _this->Oscillations )));
-        aFrame = ( 2.000000f - aFrame ) * 0.500000f;
+        aFrame = ( 2.0f - aFrame ) * 0.5f;
       }
     }
     break;
@@ -392,9 +391,9 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
     {
       EffectsTimingList list = _this->timingList;
       XInt32 i = 0;
-      XFloat t1 = 0.000000f;
+      XFloat t1 = 0.0f;
       XFloat t2 = list->spans[ 0 ];
-      XFloat t = 1.000000f - aFrame;
+      XFloat t = 1.0f - aFrame;
 
       while ( t > t2 )
       {
@@ -406,11 +405,11 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
       aFrame = ( t - t1 ) / ( t2 - t1 );
 
       if ( i == 0 )
-        aFrame = 1.000000f - ( aFrame * aFrame );
+        aFrame = 1.0f - ( aFrame * aFrame );
       else
       {
-        aFrame = ( 2.000000f * aFrame ) - 1.000000f;
-        aFrame = list->amps[ EwCheckIndex( i, 12 )] * ( 1.000000f - ( aFrame * aFrame ));
+        aFrame = ( 2.0f * aFrame ) - 1.0f;
+        aFrame = list->amps[ EwCheckIndex( i, 12 )] * ( 1.0f - ( aFrame * aFrame ));
       }
     }
     break;
@@ -419,7 +418,7 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
     {
       EffectsTimingList list = _this->timingList;
       XInt32 i = 0;
-      XFloat t1 = 0.000000f;
+      XFloat t1 = 0.0f;
       XFloat t2 = list->spans[ 0 ];
 
       while ( aFrame > t2 )
@@ -435,9 +434,9 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
         aFrame = aFrame * aFrame;
       else
       {
-        aFrame = ( 2.000000f * aFrame ) - 1.000000f;
-        aFrame = 1.000000f - ( list->amps[ EwCheckIndex( i, 12 )] * ( 1.000000f 
-        - ( aFrame * aFrame )));
+        aFrame = ( 2.0f * aFrame ) - 1.0f;
+        aFrame = 1.0f - ( list->amps[ EwCheckIndex( i, 12 )] * ( 1.0f - ( aFrame 
+        * aFrame )));
       }
     }
     break;
@@ -446,12 +445,12 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
     {
       EffectsTimingList list = _this->timingList;
       XInt32 i = 0;
-      XFloat t1 = 0.000000f;
+      XFloat t1 = 0.0f;
       XFloat t2 = list->spans[ 0 ];
-      XFloat f = aFrame * 2.000000f;
-      XFloat t = f - 1.000000f;
+      XFloat f = aFrame * 2.0f;
+      XFloat t = f - 1.0f;
 
-      if ( f < 1.000000f )
+      if ( f < 1.0f )
         t = -t;
 
       while ( t > t2 )
@@ -467,15 +466,14 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
         t = t * t;
       else
       {
-        t = ( 2.000000f * t ) - 1.000000f;
-        t = 1.000000f - ( list->amps[ EwCheckIndex( i, 12 )] * ( 1.000000f - ( t 
-        * t )));
+        t = ( 2.0f * t ) - 1.0f;
+        t = 1.0f - ( list->amps[ EwCheckIndex( i, 12 )] * ( 1.0f - ( t * t )));
       }
 
-      if ( f < 1.000000f )
-        aFrame = 0.500000f * ( 1.000000f - t );
+      if ( f < 1.0f )
+        aFrame = 0.5f * ( 1.0f - t );
       else
-        aFrame = 0.500000f * ( 1.000000f + t );
+        aFrame = 0.5f * ( 1.0f + t );
     }
     break;
 
@@ -483,18 +481,18 @@ void EffectsEffect_run( EffectsEffect _this, XFloat aFrame )
       if ( _this->useBezier2 )
       {
         XFloat f = aFrame;
-        XFloat nf = 1.000000f - f;
-        aFrame = (( nf * f ) * ( _this->curveFactor1 + 1.000000f )) + ( f * f );
+        XFloat nf = 1.0f - f;
+        aFrame = (( nf * f ) * ( _this->curveFactor1 + 1.0f )) + ( f * f );
       }
       else
         if ( _this->useBezier3 )
         {
           XFloat f = aFrame;
-          XFloat nf = 1.000000f - f;
+          XFloat nf = 1.0f - f;
           XFloat f2 = f * f;
           XFloat nf2 = nf * nf;
-          aFrame = ((( nf2 * f ) * ( _this->curveFactor1 + 1.000000f )) + (( nf 
-          * f2 ) * ( _this->curveFactor2 + 2.000000f ))) + ( f2 * f );
+          aFrame = ((( nf2 * f ) * ( _this->curveFactor1 + 1.0f )) + (( nf * f2 ) 
+          * ( _this->curveFactor2 + 2.0f ))) + ( f2 * f );
         }
   }
 
@@ -545,14 +543,14 @@ XBool EffectsEffect_runRevRev( EffectsEffect _this )
   if (( _this->cycleCounter >= _this->NoOfCycles ) && ( _this->NoOfCycles > 0 ))
   {
     done = 1;
-    frame = 0.000000f;
+    frame = 0.0f;
   }
   else
     if ( time >= delay )
-      frame = 1.000000f - ((XFloat)( time - delay ) * _this->invCycleDuration );
+      frame = 1.0f - ((XFloat)( time - delay ) * _this->invCycleDuration );
     else
-      if ( frame >= 0.000000f )
-        frame = 0.000000f;
+      if ( frame >= 0.0f )
+        frame = 0.0f;
 
   if ( frame != _this->lastFrame )
   {
@@ -605,14 +603,14 @@ XBool EffectsEffect_runRevFwd( EffectsEffect _this )
   if ( time < 0 )
   {
     done = 1;
-    frame = 1.000000f;
+    frame = 1.0f;
   }
   else
     if ( time >= delay )
-      frame = 1.000000f - ((XFloat)( time - delay ) * _this->invCycleDuration );
+      frame = 1.0f - ((XFloat)( time - delay ) * _this->invCycleDuration );
     else
-      if ( frame >= 0.000000f )
-        frame = 1.000000f;
+      if ( frame >= 0.0f )
+        frame = 1.0f;
 
   if ( frame != _this->lastFrame )
   {
@@ -665,14 +663,14 @@ XBool EffectsEffect_runFwdRev( EffectsEffect _this )
   if ( time < 0 )
   {
     done = 1;
-    frame = 0.000000f;
+    frame = 0.0f;
   }
   else
     if ( time >= delay )
       frame = (XFloat)( time - delay ) * _this->invCycleDuration;
     else
-      if ( frame >= 0.000000f )
-        frame = 0.000000f;
+      if ( frame >= 0.0f )
+        frame = 0.0f;
 
   if ( frame != _this->lastFrame )
   {
@@ -726,14 +724,14 @@ XBool EffectsEffect_runFwdFwd( EffectsEffect _this )
   if (( _this->cycleCounter >= _this->NoOfCycles ) && ( _this->NoOfCycles > 0 ))
   {
     done = 1;
-    frame = 1.000000f;
+    frame = 1.0f;
   }
   else
     if ( time >= delay )
       frame = (XFloat)( time - delay ) * _this->invCycleDuration;
     else
-      if ( frame >= 0.000000f )
-        frame = 1.000000f;
+      if ( frame >= 0.0f )
+        frame = 1.0f;
 
   if ( frame != _this->lastFrame )
   {
@@ -766,11 +764,11 @@ void EffectsEffect_OnSetReversed( EffectsEffect _this, XBool value )
 /* 'C' function for method : 'Effects::Effect.OnSetElasticity()' */
 void EffectsEffect_OnSetElasticity( EffectsEffect _this, XFloat value )
 {
-  if ( value < 0.000000f )
-    value = 0.000000f;
+  if ( value < 0.0f )
+    value = 0.0f;
 
-  if ( value > 1.000000f )
-    value = 1.000000f;
+  if ( value > 1.0f )
+    value = 1.0f;
 
   _this->Elasticity = value;
 }
@@ -803,11 +801,11 @@ void EffectsEffect_OnSetOscillations( EffectsEffect _this, XInt32 value )
 /* 'C' function for method : 'Effects::Effect.OnSetAmplitude()' */
 void EffectsEffect_OnSetAmplitude( EffectsEffect _this, XFloat value )
 {
-  if ( value < 0.000000f )
-    value = 0.000000f;
+  if ( value < 0.0f )
+    value = 0.0f;
 
-  if ( value > 10.000000f )
-    value = 10.000000f;
+  if ( value > 10.0f )
+    value = 10.0f;
 
   _this->Amplitude = value;
 }
@@ -815,11 +813,11 @@ void EffectsEffect_OnSetAmplitude( EffectsEffect _this, XFloat value )
 /* 'C' function for method : 'Effects::Effect.OnSetExponent()' */
 void EffectsEffect_OnSetExponent( EffectsEffect _this, XFloat value )
 {
-  if ( value < 1.000000f )
-    value = 1.000000f;
+  if ( value < 1.0f )
+    value = 1.0f;
 
-  if ( value > 100.000000f )
-    value = 100.000000f;
+  if ( value > 100.0f )
+    value = 100.0f;
 
   _this->Exponent = value;
 }
@@ -836,7 +834,7 @@ void EffectsEffect_OnSetTimingCustom2( EffectsEffect _this, XFloat value )
   {
     _this->curveFactor2 = value;
     _this->useBezier2 = (XBool)(( _this->curveFactor1 == _this->curveFactor2 ) && 
-    ( _this->curveFactor1 != 0.000000f ));
+    ( _this->curveFactor1 != 0.0f ));
     _this->useBezier3 = (XBool)( !_this->useBezier2 && ( _this->curveFactor1 != 
     _this->curveFactor2 ));
   }
@@ -854,7 +852,7 @@ void EffectsEffect_OnSetTimingCustom1( EffectsEffect _this, XFloat value )
   {
     _this->curveFactor1 = value;
     _this->useBezier2 = (XBool)(( _this->curveFactor1 == _this->curveFactor2 ) && 
-    ( _this->curveFactor1 != 0.000000f ));
+    ( _this->curveFactor1 != 0.0f ));
     _this->useBezier3 = (XBool)( !_this->useBezier2 && ( _this->curveFactor1 != 
     _this->curveFactor2 ));
   }
@@ -873,36 +871,36 @@ void EffectsEffect_OnSetTiming( EffectsEffect _this, XEnum value )
   {
     case EffectsTimingEaseIn_EaseOut :
     {
-      _this->curveFactor1 = -1.100000f;
-      _this->curveFactor2 = 1.100000f;
+      _this->curveFactor1 = -1.1f;
+      _this->curveFactor2 = 1.1f;
     }
     break;
 
     case EffectsTimingEaseIn_FastOut :
     {
-      _this->curveFactor1 = -1.000000f;
-      _this->curveFactor2 = -2.000000f;
+      _this->curveFactor1 = -1.0f;
+      _this->curveFactor2 = -2.0f;
     }
     break;
 
     case EffectsTimingFastIn_EaseOut :
     {
-      _this->curveFactor1 = 2.000000f;
-      _this->curveFactor2 = 1.000000f;
+      _this->curveFactor1 = 2.0f;
+      _this->curveFactor2 = 1.0f;
     }
     break;
 
     case EffectsTimingFastIn_FastOut :
     {
-      _this->curveFactor1 = 1.100000f;
-      _this->curveFactor2 = -1.100000f;
+      _this->curveFactor1 = 1.1f;
+      _this->curveFactor2 = -1.1f;
     }
     break;
 
     case EffectsTimingLinear :
     {
-      _this->curveFactor1 = 0.000000f;
-      _this->curveFactor2 = 0.000000f;
+      _this->curveFactor1 = 0.0f;
+      _this->curveFactor2 = 0.0f;
     }
     break;
 
@@ -914,7 +912,7 @@ void EffectsEffect_OnSetTiming( EffectsEffect _this, XEnum value )
   }
 
   _this->useBezier2 = (XBool)(( _this->curveFactor1 == _this->curveFactor2 ) && 
-  ( _this->curveFactor1 != 0.000000f ));
+  ( _this->curveFactor1 != 0.0f ));
   _this->useBezier3 = (XBool)( !_this->useBezier2 && ( _this->curveFactor1 != _this->curveFactor2 ));
 }
 
@@ -934,7 +932,7 @@ void EffectsEffect_OnSetCycleDuration( EffectsEffect _this, XInt32 value )
     value = 15;
 
   _this->CycleDuration = value;
-  _this->invCycleDuration = 1.000000f / (XFloat)value;
+  _this->invCycleDuration = 1.0f / (XFloat)value;
 }
 
 /* 'C' function for method : 'Effects::Effect.OnSetInitialDelay()' */
@@ -980,18 +978,9 @@ void EffectsEffect_Animate( EffectsEffect _this, XFloat aProgress )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Effect.Animate()' */
-__declspec( naked ) void EffectsEffect__Animate( void* _this, XFloat aProgress )
+void EffectsEffect__Animate( void* _this, XFloat aProgress )
 {
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( aProgress );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 56 ]
-  }
+  ((EffectsEffect)_this)->_.VMT->Animate((EffectsEffect)_this, aProgress );
 }
 
 /* The slot method 'StartEffect' re-starts the effect if a signal is sent to this 
@@ -1012,7 +1001,7 @@ EW_DEFINE_CLASS_VARIANTS( EffectsEffect )
 EW_END_OF_CLASS_VARIANTS( EffectsEffect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::Effect' */
-EW_DEFINE_CLASS( EffectsEffect, XObject, timingList, OnFinished, direction, direction, 
+EW_DEFINE_CLASS( EffectsEffect, XObject, timingList, timingList, OnFinished, direction, 
                  direction, direction, "Effects::Effect" )
   EffectsEffect_Animate,
 EW_END_OF_CLASS( EffectsEffect )
@@ -1065,7 +1054,7 @@ EW_DEFINE_CLASS_VARIANTS( EffectsInt32Effect )
 EW_END_OF_CLASS_VARIANTS( EffectsInt32Effect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::Int32Effect' */
-EW_DEFINE_CLASS( EffectsInt32Effect, EffectsEffect, Outlet, Outlet, Outlet, Value, 
+EW_DEFINE_CLASS( EffectsInt32Effect, EffectsEffect, Outlet, Outlet, Outlet, Outlet, 
                  Value, Value, "Effects::Int32Effect" )
   EffectsInt32Effect_Animate,
 EW_END_OF_CLASS( EffectsInt32Effect )
@@ -1268,8 +1257,8 @@ EW_DEFINE_CLASS_VARIANTS( EffectsBoolEffect )
 EW_END_OF_CLASS_VARIANTS( EffectsBoolEffect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::BoolEffect' */
-EW_DEFINE_CLASS( EffectsBoolEffect, XObject, timer, Outlet, Outlet, cycleCounter, 
-                 cycleCounter, cycleCounter, "Effects::BoolEffect" )
+EW_DEFINE_CLASS( EffectsBoolEffect, XObject, timer, timer, Outlet, Outlet, cycleCounter, 
+                 cycleCounter, "Effects::BoolEffect" )
 EW_END_OF_CLASS( EffectsBoolEffect )
 
 /* Initializer for the class 'Effects::Fader' */
@@ -1333,17 +1322,9 @@ XBool EffectsFader_IsFinished( EffectsFader _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Fader.IsFinished()' */
-__declspec( naked ) XBool EffectsFader__IsFinished( void* _this )
+XBool EffectsFader__IsFinished( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 56 ]
-  }
+  return ((EffectsFader)_this)->_.VMT->IsFinished((EffectsFader)_this );
 }
 
 /* The method OnEnd() is invoked automatically just in the moment, when this fader 
@@ -1363,17 +1344,9 @@ void EffectsFader_OnEnd( EffectsFader _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Fader.OnEnd()' */
-__declspec( naked ) void EffectsFader__OnEnd( void* _this )
+void EffectsFader__OnEnd( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 60 ]
-  }
+  ((EffectsFader)_this)->_.VMT->OnEnd((EffectsFader)_this );
 }
 
 /* The method OnStart() is invoked automatically just in the moment, when the fader 
@@ -1400,17 +1373,9 @@ void EffectsFader_OnStart( EffectsFader _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Fader.OnStart()' */
-__declspec( naked ) void EffectsFader__OnStart( void* _this )
+void EffectsFader__OnStart( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 64 ]
-  }
+  ((EffectsFader)_this)->_.VMT->OnStart((EffectsFader)_this );
 }
 
 /* Variants derived from the class : 'Effects::Fader' */
@@ -1418,8 +1383,8 @@ EW_DEFINE_CLASS_VARIANTS( EffectsFader )
 EW_END_OF_CLASS_VARIANTS( EffectsFader )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::Fader' */
-EW_DEFINE_CLASS( EffectsFader, XObject, task, onCancel, Visible, Visible, Visible, 
-                 Visible, "Effects::Fader" )
+EW_DEFINE_CLASS( EffectsFader, XObject, task, task, onCancel, RemoveIfHidden, RemoveIfHidden, 
+                 RemoveIfHidden, "Effects::Fader" )
   EffectsFader_IsFinished,
   EffectsFader_OnEnd,
   EffectsFader_OnStart,
@@ -1753,8 +1718,8 @@ EW_DEFINE_CLASS_VARIANTS( EffectsOpacityFader )
 EW_END_OF_CLASS_VARIANTS( EffectsOpacityFader )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::OpacityFader' */
-EW_DEFINE_CLASS( EffectsOpacityFader, EffectsFader, Effect, Effect, Effect, Effect, 
-                 finished, finished, "Effects::OpacityFader" )
+EW_DEFINE_CLASS( EffectsOpacityFader, EffectsFader, Effect, wasBuffered, wasBuffered, 
+                 wasBuffered, wasBuffered, wasBuffered, "Effects::OpacityFader" )
   EffectsOpacityFader_IsFinished,
   EffectsOpacityFader_OnEnd,
   EffectsOpacityFader_OnStart,
@@ -1997,8 +1962,8 @@ EW_DEFINE_CLASS_VARIANTS( EffectsPositionFader )
 EW_END_OF_CLASS_VARIANTS( EffectsPositionFader )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::PositionFader' */
-EW_DEFINE_CLASS( EffectsPositionFader, EffectsFader, OpacityEffect, OpacityEffect, 
-                 OpacityEffect, OpacityEffect, finished, finished, "Effects::PositionFader" )
+EW_DEFINE_CLASS( EffectsPositionFader, EffectsFader, OpacityEffect, wasBuffered, 
+                 wasBuffered, wasBuffered, wasBuffered, wasBuffered, "Effects::PositionFader" )
   EffectsPositionFader_IsFinished,
   EffectsPositionFader_OnEnd,
   EffectsPositionFader_OnStart,
@@ -2049,17 +2014,9 @@ EffectsFader EffectsTransition_CreatePresentFader( EffectsTransition _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Transition.CreatePresentFader()' */
-__declspec( naked ) EffectsFader EffectsTransition__CreatePresentFader( void* _this )
+EffectsFader EffectsTransition__CreatePresentFader( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 56 ]
-  }
+  return ((EffectsTransition)_this)->_.VMT->CreatePresentFader((EffectsTransition)_this );
 }
 
 /* The method CreateDismissFader() creates an object of one of the classes descending 
@@ -2078,17 +2035,9 @@ EffectsFader EffectsTransition_CreateDismissFader( EffectsTransition _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Transition.CreateDismissFader()' */
-__declspec( naked ) EffectsFader EffectsTransition__CreateDismissFader( void* _this )
+EffectsFader EffectsTransition__CreateDismissFader( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 60 ]
-  }
+  return ((EffectsTransition)_this)->_.VMT->CreateDismissFader((EffectsTransition)_this );
 }
 
 /* The method CreateRestoreFader() creates an object of one of the classes descending 
@@ -2105,17 +2054,9 @@ EffectsFader EffectsTransition_CreateRestoreFader( EffectsTransition _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Transition.CreateRestoreFader()' */
-__declspec( naked ) EffectsFader EffectsTransition__CreateRestoreFader( void* _this )
+EffectsFader EffectsTransition__CreateRestoreFader( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 64 ]
-  }
+  return ((EffectsTransition)_this)->_.VMT->CreateRestoreFader((EffectsTransition)_this );
 }
 
 /* The method CreateOverlayFader() creates an object of one of the classes descending 
@@ -2131,17 +2072,9 @@ EffectsFader EffectsTransition_CreateOverlayFader( EffectsTransition _this )
 }
 
 /* Wrapper function for the virtual method : 'Effects::Transition.CreateOverlayFader()' */
-__declspec( naked ) EffectsFader EffectsTransition__CreateOverlayFader( void* _this )
+EffectsFader EffectsTransition__CreateOverlayFader( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 68 ]
-  }
+  return ((EffectsTransition)_this)->_.VMT->CreateOverlayFader((EffectsTransition)_this );
 }
 
 /* Variants derived from the class : 'Effects::Transition' */
@@ -2519,13 +2452,13 @@ EffectsFader EffectsSlideTransition_CreatePresentFader( EffectsSlideTransition _
   fader->OpacityEffect.Value2 = 255;
   EffectsEffect_OnSetCycleDuration((EffectsEffect)&fader->PositionEffect, _this->Duration );
   EffectsEffect_OnSetTiming((EffectsEffect)&fader->PositionEffect, EffectsTimingFastIn_EaseOut );
-  EffectsEffect_OnSetTimingCustom1((EffectsEffect)&fader->PositionEffect, 0.000000f );
-  EffectsEffect_OnSetTimingCustom2((EffectsEffect)&fader->PositionEffect, 0.000000f );
-  EffectsEffect_OnSetExponent((EffectsEffect)&fader->PositionEffect, 3.000000f );
-  EffectsEffect_OnSetAmplitude((EffectsEffect)&fader->PositionEffect, 0.500000f );
+  EffectsEffect_OnSetTimingCustom1((EffectsEffect)&fader->PositionEffect, 0.0f );
+  EffectsEffect_OnSetTimingCustom2((EffectsEffect)&fader->PositionEffect, 0.0f );
+  EffectsEffect_OnSetExponent((EffectsEffect)&fader->PositionEffect, 3.0f );
+  EffectsEffect_OnSetAmplitude((EffectsEffect)&fader->PositionEffect, 0.5f );
   EffectsEffect_OnSetOscillations((EffectsEffect)&fader->PositionEffect, 3 );
   EffectsEffect_OnSetBounces((EffectsEffect)&fader->PositionEffect, 3 );
-  EffectsEffect_OnSetElasticity((EffectsEffect)&fader->PositionEffect, 0.500000f );
+  EffectsEffect_OnSetElasticity((EffectsEffect)&fader->PositionEffect, 0.5f );
   return ((EffectsFader)fader );
 }
 
@@ -2551,13 +2484,13 @@ EffectsFader EffectsSlideTransition_CreateDismissFader( EffectsSlideTransition _
   EffectsEffect_OnSetInitialDelay((EffectsEffect)&fader->OpacityEffect, 0 );
   EffectsEffect_OnSetCycleDuration((EffectsEffect)&fader->PositionEffect, _this->Duration );
   EffectsEffect_OnSetTiming((EffectsEffect)&fader->PositionEffect, EffectsTimingFastIn_EaseOut );
-  EffectsEffect_OnSetTimingCustom1((EffectsEffect)&fader->PositionEffect, 0.000000f );
-  EffectsEffect_OnSetTimingCustom2((EffectsEffect)&fader->PositionEffect, 0.000000f );
-  EffectsEffect_OnSetExponent((EffectsEffect)&fader->PositionEffect, 3.000000f );
-  EffectsEffect_OnSetAmplitude((EffectsEffect)&fader->PositionEffect, 0.500000f );
+  EffectsEffect_OnSetTimingCustom1((EffectsEffect)&fader->PositionEffect, 0.0f );
+  EffectsEffect_OnSetTimingCustom2((EffectsEffect)&fader->PositionEffect, 0.0f );
+  EffectsEffect_OnSetExponent((EffectsEffect)&fader->PositionEffect, 3.0f );
+  EffectsEffect_OnSetAmplitude((EffectsEffect)&fader->PositionEffect, 0.5f );
   EffectsEffect_OnSetOscillations((EffectsEffect)&fader->PositionEffect, 3 );
   EffectsEffect_OnSetBounces((EffectsEffect)&fader->PositionEffect, 3 );
-  EffectsEffect_OnSetElasticity((EffectsEffect)&fader->PositionEffect, 0.500000f );
+  EffectsEffect_OnSetElasticity((EffectsEffect)&fader->PositionEffect, 0.5f );
   return ((EffectsFader)fader );
 }
 
@@ -3088,7 +3021,7 @@ EW_DEFINE_CLASS_VARIANTS( EffectsFaderTask )
 EW_END_OF_CLASS_VARIANTS( EffectsFaderTask )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::FaderTask' */
-EW_DEFINE_CLASS( EffectsFaderTask, CoreTask, last, _.VMT, _.VMT, _.VMT, _.VMT, _.VMT, 
+EW_DEFINE_CLASS( EffectsFaderTask, CoreTask, last, last, _.VMT, _.VMT, _.VMT, _.VMT, 
                  "Effects::FaderTask" )
   EffectsFaderTask_OnComplete,
   EffectsFaderTask_OnCancel,

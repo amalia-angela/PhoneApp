@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -102,7 +102,15 @@
    - The property @Formation allows more sophisticated arrangement of embedded views 
    in columns and rows. Even table-like grid is possible. It is useful to create 
    scrollable menus or lists. With the properties @SpaceHorz, @SpaceVert and @Space 
-   the padding between the automatically arranged views is controlled.
+   additional gaps between the automatically arranged views can be added. The property 
+   @WrapSize determines the maximim width of the resulting row or maximum height 
+   of the resulting column (depending on the configured fomration). It can be used 
+   to control the wrap (break) position in long sequences of views.
+   - The properties @Padding, @PaddingLeft, @PaddingRight, @PaddingTop and @PaddingBottom 
+   permit to reserve additional space around the content controlled by the Outline. 
+   This space is taken in account when scrolling the Outline content or when the 
+   Outline is configured with its @Formation property to arrange the views in rows 
+   and/or columns.
    - To find and enumerate the embedded views, the methods like @FindNextView(), 
    @FindPrevView(), @FindViewAtPosition, @FindViewInDirection() or @GetViewAtIndex() 
    are available. 
@@ -129,7 +137,9 @@ EW_DEFINE_METHODS( CoreOutline, CoreRectView )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreView _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -142,7 +152,7 @@ EW_END_OF_METHODS( CoreOutline )
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.
@@ -209,6 +219,9 @@ CoreView CoreOutline_FindNextView( CoreOutline _this, CoreView aView, XSet aFilt
    Please note, this method is limited to the views embedded within the outline. 
    Other sibling views not belonging to the outline are simply ignored. */
 XRect CoreOutline_GetContentArea( CoreOutline _this, XSet aFilter );
+
+/* 'C' function for method : 'Core::Outline.performPendingUpdate()' */
+void CoreOutline_performPendingUpdate( CoreOutline _this );
 
 #ifdef __cplusplus
   }

@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -219,11 +219,9 @@ GraphicsCanvas GraphicsCanvas_DetachBitmap( GraphicsCanvas _this )
 }
 
 /* Wrapper function for the non virtual method : 'Graphics::Canvas.DetachBitmap()' */
-__declspec( naked ) GraphicsCanvas GraphicsCanvas__DetachBitmap( void* _this )
+GraphicsCanvas GraphicsCanvas__DetachBitmap( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm jmp GraphicsCanvas_DetachBitmap
+  return GraphicsCanvas_DetachBitmap((GraphicsCanvas)_this );
 }
 
 /* The method AttachBitmap() exists for the integration purpose with the underlying 
@@ -266,13 +264,9 @@ GraphicsCanvas GraphicsCanvas_AttachBitmap( GraphicsCanvas _this, XHandle aBitma
 }
 
 /* Wrapper function for the non virtual method : 'Graphics::Canvas.AttachBitmap()' */
-__declspec( naked ) GraphicsCanvas GraphicsCanvas__AttachBitmap( void* _this, XHandle 
-  aBitmap )
+GraphicsCanvas GraphicsCanvas__AttachBitmap( void* _this, XHandle aBitmap )
 {
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( aBitmap );
-
-  __asm jmp GraphicsCanvas_AttachBitmap
+  return GraphicsCanvas_AttachBitmap((GraphicsCanvas)_this, aBitmap );
 }
 
 /* The method DrawText() draws the text row passed in the parameter aString into 
@@ -483,8 +477,8 @@ void GraphicsCanvas_WarpBitmap( GraphicsCanvas _this, XRect aClip, ResourcesBitm
   if ( aDstY4 > y2 )
     y2 = aDstY4;
 
-  if ((((( x2 - x1 ) > 4096.000000f ) || (( x2 - x1 ) < -4096.000000f )) || (( y2 
-      - y1 ) > 4096.000000f )) || (( y2 - y1 ) < -4096.000000f ))
+  if ((((( x2 - x1 ) > 4096.0f ) || (( x2 - x1 ) < -4096.0f )) || (( y2 - y1 ) > 
+      4096.0f )) || (( y2 - y1 ) < -4096.0f ))
   {
     EwTrace( "%s", EwLoadString( &_Const0006 ));
     return;
@@ -542,8 +536,8 @@ void GraphicsCanvas_ScaleBitmap( GraphicsCanvas _this, XRect aClip, ResourcesBit
   right = (XFloat)aDstRect.Point2.X;
   bottom = (XFloat)aDstRect.Point2.Y;
 
-  if ((((( right - left ) > 4096.000000f ) || (( right - left ) < -4096.000000f )) 
-      || (( bottom - top ) > 4096.000000f )) || (( bottom - top ) < -4096.000000f ))
+  if ((((( right - left ) > 4096.0f ) || (( right - left ) < -4096.0f )) || (( bottom 
+      - top ) > 4096.0f )) || (( bottom - top ) < -4096.0f ))
   {
     EwTrace( "%s", EwLoadString( &_Const0007 ));
     return;
@@ -680,8 +674,8 @@ void GraphicsCanvas_DrawThickLine( GraphicsCanvas _this, XRect aClip, XPoint aDs
   if ( w2 <= 1 )
     w2 = 1;
 
-  fw1 = (XFloat)w1 / 2.000000f;
-  fw2 = (XFloat)w2 / 2.000000f;
+  fw1 = (XFloat)w1 / 2.0f;
+  fw2 = (XFloat)w2 / 2.0f;
   fp1X = (XFloat)p1.X;
   fp1Y = (XFloat)p1.Y;
   fp2X = (XFloat)p2.X;
@@ -690,7 +684,7 @@ void GraphicsCanvas_DrawThickLine( GraphicsCanvas _this, XRect aClip, XPoint aDs
   dirY = fp2Y - fp1Y;
   len = EwMathSqrt(( dirX * dirX ) + ( dirY * dirY ));
 
-  if ((( w1 > 4096 ) || ( w2 > 4096 )) || ( len > 4096.000000f ))
+  if ((( w1 > 4096 ) || ( w2 > 4096 )) || ( len > 4096.0f ))
   {
     EwTrace( "%s", EwLoadString( &_Const0008 ));
     return;
@@ -714,7 +708,7 @@ void GraphicsCanvas_DrawThickLine( GraphicsCanvas _this, XRect aClip, XPoint aDs
   srcBitmap = opaqueBitmap->bitmap;
   {
     EwWarpBitmap((XBitmap*)dstBitmap, (XBitmap*)srcBitmap, dstFrameNo, 0, aClip,
-                  x1, y1, 1.0, x2, y2, 1.0, x3, y3, 1.0, x4, y4, 1.0, 
+                  x1, y1, 1.0f, x2, y2, 1.0f, x3, y3, 1.0f, x4, y4, 1.0f, 
                   srcRect, aColor1, aColor2, aColor2, aColor1, aBlend, 0 );
   }
 }
@@ -751,7 +745,7 @@ EW_DEFINE_CLASS_VARIANTS( GraphicsCanvas )
 EW_END_OF_CLASS_VARIANTS( GraphicsCanvas )
 
 /* Virtual Method Table (VMT) for the class : 'Graphics::Canvas' */
-EW_DEFINE_CLASS( GraphicsCanvas, ResourcesBitmap, OnDraw, OnDraw, InvalidArea, InvalidArea, 
+EW_DEFINE_CLASS( GraphicsCanvas, ResourcesBitmap, group, group, OnDraw, InvalidArea, 
                  InvalidArea, InvalidArea, "Graphics::Canvas" )
   GraphicsCanvas_OnSetFrameSize,
   GraphicsCanvas_Update,
@@ -771,9 +765,9 @@ void GraphicsWarpMatrix__Init( GraphicsWarpMatrix _this, XObject aLink, XHandle 
 
   /* ... and initialize objects, variables, properties, etc. */
   _this->isIdentity = 1;
-  _this->M11 = 1.000000f;
-  _this->M22 = 1.000000f;
-  _this->M33 = 1.000000f;
+  _this->M11 = 1.0f;
+  _this->M22 = 1.0f;
+  _this->M33 = 1.0f;
 }
 
 /* Re-Initializer for the class 'Graphics::WarpMatrix' */
@@ -816,13 +810,13 @@ GraphicsWarpMatrix GraphicsWarpMatrix_DeriveFromQuad( GraphicsWarpMatrix _this,
   XFloat sumY = (( aY1 - aY2 ) + aY3 ) - aY4;
   XFloat det = ( deltaX1 * deltaY2 ) - ( deltaY1 * deltaX2 );
 
-  if ( det == 0.000000f )
+  if ( det == 0.0f )
     return 0;
 
   _this->M31 = (( sumX * deltaY2 ) - ( sumY * deltaX2 )) / det;
   _this->M32 = (( deltaX1 * sumY ) - ( deltaY1 * sumX )) / det;
-  _this->M33 = 0.000000f;
-  _this->M34 = 1.000000f;
+  _this->M33 = 0.0f;
+  _this->M34 = 1.0f;
   _this->M11 = ( aX2 - aX1 ) + ( _this->M31 * aX2 );
   _this->M12 = ( aX4 - aX1 ) + ( _this->M32 * aX4 );
   _this->M14 = aX1;

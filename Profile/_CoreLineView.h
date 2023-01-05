@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -88,7 +88,9 @@ EW_DEFINE_METHODS( CoreLineView, CoreView )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreView _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreLineView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreLineView _this, XPoint aOffset, XBool 
@@ -101,22 +103,7 @@ EW_END_OF_METHODS( CoreLineView )
 void CoreLineView_initLayoutContext( CoreLineView _this, XRect aBounds, CoreOutline 
   aOutline );
 
-/* The method ArrangeView() is invoked automatically if the superior @Owner group 
-   needs to re-arrange its views. For example, the changing of the owners size can 
-   cause the enclosed views to adapt their position and size, so all views still 
-   fit within the new owners area. This method provides the core functionality for 
-   the automatic GUI layout mechanism.
-   The arrangement is controlled primarily by the @Layout property of the view. 
-   It specifies a set of alignment constraints and determines whether the view can 
-   change its size. The bounds area where the view should be arranged, is passed 
-   in the parameter aBounds. This is usually the current area of the views owner.
-   The parameter aFormation defines the desired arrangement mode. Depending on the 
-   value of this parameter, the views can be arranged in rows or columns. If aFormation 
-   == Core::Formation.None, no automatic row/column arrangement is performed and 
-   the view is moved and scaled only to fit inside the aBounds area.
-   ArrangeView() is invoked automatically by the framework, so you never should 
-   need to invoke it directly.
-   The method returns the size of the view after it has been arranged. */
+/* 'C' function for method : 'Core::LineView.ArrangeView()' */
 XPoint CoreLineView_ArrangeView( CoreLineView _this, XRect aBounds, XEnum aFormation );
 
 /* The method MoveView() changes the position of the view by adding the value aOffset 

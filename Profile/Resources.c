@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -160,18 +160,9 @@ void ResourcesBitmap_OnSetFrameSize( ResourcesBitmap _this, XPoint value )
 }
 
 /* Wrapper function for the virtual method : 'Resources::Bitmap.OnSetFrameSize()' */
-__declspec( naked ) void ResourcesBitmap__OnSetFrameSize( void* _this, XPoint value )
+void ResourcesBitmap__OnSetFrameSize( void* _this, XPoint value )
 {
-  EW_UNUSED_ARG( _this );
-  EW_UNUSED_ARG( value );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 56 ]
-  }
+  ((ResourcesBitmap)_this)->_.VMT->OnSetFrameSize((ResourcesBitmap)_this, value );
 }
 
 /* 'C' function for method : 'Resources::Bitmap.Update()' */
@@ -182,17 +173,9 @@ void ResourcesBitmap_Update( ResourcesBitmap _this )
 }
 
 /* Wrapper function for the virtual method : 'Resources::Bitmap.Update()' */
-__declspec( naked ) void ResourcesBitmap__Update( void* _this )
+void ResourcesBitmap__Update( void* _this )
 {
-  EW_UNUSED_ARG( _this );
-
-  __asm
-  {
-    /* Call the method via _this->VMT */
-    mov eax, DWORD PTR [ esp + 4 ]
-    mov eax, DWORD PTR [ eax ]
-    jmp      DWORD PTR [ eax + 60 ]
-  }
+  ((ResourcesBitmap)_this)->_.VMT->Update((ResourcesBitmap)_this );
 }
 
 /* Variants derived from the class : 'Resources::Bitmap' */

@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -79,9 +79,9 @@ EW_DEFINE_FIELDS( EffectsBoolEffect, XObject )
   EW_VARIABLE( startTime,       XUInt32 )
   EW_PROPERTY( CycleDuration,   XInt32 )
   EW_PROPERTY( InterCycleDelay, XInt32 )
-  EW_PROPERTY( Enabled,         XBool )
-  EW_PROPERTY( Value1,          XBool )
   EW_PROPERTY( Value2,          XBool )
+  EW_PROPERTY( Value1,          XBool )
+  EW_PROPERTY( Enabled,         XBool )
 EW_END_OF_FIELDS( EffectsBoolEffect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::BoolEffect' */

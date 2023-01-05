@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -107,10 +107,13 @@
    position and the size of the area where the text is drawn is determined by the 
    property @Bounds. If the size of this area differs from the size of the text, 
    the text can be aligned. This is controlled by the property @Alignment. With 
-   the property @Orientation the displayed content can be rotated. The color to 
-   print the text is defined by the property @Color. Alternatively, the text can 
-   be drawn with a color gradient specified by the properties @ColorTL, @ColorTR, 
-   @ColorBL and @ColorBR. For each view's corner different color can be set.
+   the property @Orientation the displayed content can be rotated. With the property 
+   @Ellipsis the text view can be configured to replace the text fragments lying 
+   outside the view's boundary area by the ellipsis sign.
+   The color to print the text is defined by the property @Color. Alternatively, 
+   the text can be drawn with a color gradient specified by the properties @ColorTL, 
+   @ColorTR, @ColorBL and @ColorBR. For each view's corner different color can be 
+   set.
    The property @SlideHandler permits the text view to be connected together with 
    an interactive Core::SlideTouchHandler. In this manner the user can scroll the 
    displayed text by simply touching the slide handler on the screen. Alternatively, 
@@ -146,11 +149,11 @@ EW_DEFINE_FIELDS( ViewsText, CoreRectView )
   EW_PROPERTY( ScrollOffset,    XPoint )
   EW_PROPERTY( Alignment,       XSet )
   EW_PROPERTY( Color,           XColor )
-  EW_PROPERTY( WrapText,        XBool )
-  EW_PROPERTY( AutoSize,        XBool )
-  EW_PROPERTY( Ellipsis,        XBool )
-  EW_PROPERTY( EnableBidiText,  XBool )
   EW_VARIABLE( reparsed,        XBool )
+  EW_PROPERTY( EnableBidiText,  XBool )
+  EW_PROPERTY( Ellipsis,        XBool )
+  EW_PROPERTY( AutoSize,        XBool )
+  EW_PROPERTY( WrapText,        XBool )
 EW_END_OF_FIELDS( ViewsText )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Text' */
@@ -162,7 +165,9 @@ EW_DEFINE_METHODS( ViewsText, CoreRectView )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreView _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -178,7 +183,7 @@ void ViewsText_Done( ViewsText _this );
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
    of the view has changed before.
-   Draw() is invoked automatically by the framework, you never will need to invoke 
+   Draw() is invoked automatically by the framework, you will never need to invoke 
    this method directly. However you can request an invocation of this method by 
    calling the method InvalidateArea() of the views @Owner. Usually this is also 
    unnecessary unless you are developing your own view.

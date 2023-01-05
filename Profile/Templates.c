@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -73,6 +73,7 @@ EW_DEFINE_CLASS( TemplatesPushButton, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _.V
   CoreGroup_Draw,
   CoreView_HandleEvent,
   CoreGroup_CursorHitTest,
+  CoreGroup_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -81,12 +82,16 @@ EW_DEFINE_CLASS( TemplatesPushButton, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _.V
   CoreGroup_OnSetFocus,
   CoreGroup_OnSetBuffered,
   CoreGroup_OnSetOpacity,
+  CoreGroup_SwitchToDialog,
+  CoreGroup_DismissDialog,
+  CoreGroup_PresentDialog,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
   CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
+  CoreGroup_FadeGroup,
   CoreGroup_RestackTop,
   CoreGroup_Restack,
   CoreGroup_Remove,
@@ -135,6 +140,7 @@ EW_DEFINE_CLASS( TemplatesToggleButton, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _
   CoreGroup_Draw,
   CoreView_HandleEvent,
   CoreGroup_CursorHitTest,
+  CoreGroup_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -143,12 +149,16 @@ EW_DEFINE_CLASS( TemplatesToggleButton, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _
   CoreGroup_OnSetFocus,
   CoreGroup_OnSetBuffered,
   CoreGroup_OnSetOpacity,
+  CoreGroup_SwitchToDialog,
+  CoreGroup_DismissDialog,
+  CoreGroup_PresentDialog,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
   CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
+  CoreGroup_FadeGroup,
   CoreGroup_RestackTop,
   CoreGroup_Restack,
   CoreGroup_Remove,
@@ -197,6 +207,7 @@ EW_DEFINE_CLASS( TemplatesTextEditor, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _.V
   CoreGroup_Draw,
   CoreView_HandleEvent,
   CoreGroup_CursorHitTest,
+  CoreGroup_AdjustDrawingArea,
   CoreRectView_ArrangeView,
   CoreRectView_MoveView,
   CoreRectView_GetExtent,
@@ -205,12 +216,16 @@ EW_DEFINE_CLASS( TemplatesTextEditor, CoreGroup, _.VMT, _.VMT, _.VMT, _.VMT, _.V
   CoreGroup_OnSetFocus,
   CoreGroup_OnSetBuffered,
   CoreGroup_OnSetOpacity,
+  CoreGroup_SwitchToDialog,
+  CoreGroup_DismissDialog,
+  CoreGroup_PresentDialog,
   CoreGroup_DispatchEvent,
   CoreGroup_BroadcastEvent,
   CoreGroup_UpdateLayout,
   CoreGroup_UpdateViewState,
   CoreGroup_InvalidateArea,
   CoreGroup_FindSiblingView,
+  CoreGroup_FadeGroup,
   CoreGroup_RestackTop,
   CoreGroup_Restack,
   CoreGroup_Remove,

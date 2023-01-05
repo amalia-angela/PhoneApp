@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -227,7 +227,9 @@ EW_DEFINE_METHODS( CoreGroup, CoreRectView )
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
-    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason )
+    aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
+    XSet aRetargetReason )
+  EW_METHOD( AdjustDrawingArea, XRect )( CoreGroup _this, XRect aArea )
   EW_METHOD( ArrangeView,       XPoint )( CoreRectView _this, XRect aBounds, XEnum 
     aFormation )
   EW_METHOD( MoveView,          void )( CoreRectView _this, XPoint aOffset, XBool 
@@ -238,6 +240,21 @@ EW_DEFINE_METHODS( CoreGroup, CoreRectView )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
   EW_METHOD( OnSetBuffered,     void )( CoreGroup _this, XBool value )
   EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
+  EW_METHOD( SwitchToDialog,    void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( DismissDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, 
+    EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+    XBool aCombine )
+  EW_METHOD( PresentDialog,     void )( CoreGroup _this, CoreGroup aDialogGroup, 
+    EffectsTransition aPresentTransition, EffectsTransition aDismissTransition, 
+    EffectsTransition aOverlayTransition, EffectsTransition aRestoreTransition, 
+    EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+    XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
@@ -246,6 +263,8 @@ EW_DEFINE_METHODS( CoreGroup, CoreRectView )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
   EW_METHOD( FindSiblingView,   CoreView )( CoreGroup _this, CoreView aView, XSet 
     aFilter )
+  EW_METHOD( FadeGroup,         void )( CoreGroup _this, CoreGroup aGroup, EffectsFader 
+    aFader, XSlot aComplete, XSlot aCancel, XBool aCombine )
   EW_METHOD( RestackTop,        void )( CoreGroup _this, CoreView aView )
   EW_METHOD( Restack,           void )( CoreGroup _this, CoreView aView, XInt32 
     aOrder )
@@ -281,6 +300,9 @@ void CoreGroup_Draw( CoreGroup _this, GraphicsCanvas aCanvas, XRect aClip, XPoin
    The parameter aDedicatedView, if it is not 'null', restricts the event to be 
    handled by this view only. If aDedicatedView == null, no special restriction 
    exists.
+   The parameter aStartView, if it is not 'null', restricts the event to be handled 
+   by the specified view or another view lying behind it. In other words, views 
+   found in front of aStartView are not taken in account during the hit-test operation.
    This method is also invoked if during an existing grab cycle the current target 
    view has decided to resign and deflect the cursor events to another view. This 
    is usually the case after the user has performed a gesture the current target 
@@ -295,7 +317,10 @@ void CoreGroup_Draw( CoreGroup _this, GraphicsCanvas aCanvas, XRect aClip, XPoin
    The proper processing of events should take place in the @HandleEvent() method 
    by reacting to Core::CursorEvent and Core::DragEvent events. */
 CoreCursorHit CoreGroup_CursorHitTest( CoreGroup _this, XRect aArea, XInt32 aFinger, 
-  XInt32 aStrikeCount, CoreView aDedicatedView, XSet aRetargetReason );
+  XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, XSet aRetargetReason );
+
+/* 'C' function for method : 'Core::Group.AdjustDrawingArea()' */
+XRect CoreGroup_AdjustDrawingArea( CoreGroup _this, XRect aArea );
 
 /* The method ChangeViewState() modifies the current state of the view. The state 
    is a set of switches determining whether a view is visible, whether it can react 
@@ -376,7 +401,7 @@ void CoreGroup_OnSetVisible( CoreGroup _this, XBool value );
    are drawn. Thus it can be used to implement sophisticated foreground drawing 
    operations. By overriding this method in a descending class the desired drawing 
    operations can be implemented individually.
-   This method is invoked by the framework, so you never will need to invoke this 
+   This method is invoked by the framework, so you will never need to invoke this 
    method directly. However you can request an invocation of this method by calling 
    the method @InvalidateArea().
    The passed parameters determine the drawing destination aCanvas and the area 
@@ -404,7 +429,7 @@ void CoreGroup_DrawForeground( CoreGroup _this, GraphicsCanvas aCanvas, XRect aC
    are drawn. Thus it can be used to implement sophisticated background filling 
    operations. By overriding this method in a descending class the desired drawing 
    operations can be implemented individually.
-   This method is invoked by the framework, so you never will need to invoke this 
+   This method is invoked by the framework, so you will never need to invoke this 
    method directly. However you can request an invocation of this method by calling 
    the method @InvalidateArea().
    The passed parameters determine the drawing destination aCanvas and the area 
@@ -507,6 +532,13 @@ void CoreGroup_SwitchToDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsT
   EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
   XSlot aComplete, XSlot aCancel, XBool aCombine );
 
+/* Wrapper function for the virtual method : 'Core::Group.SwitchToDialog()' */
+void CoreGroup__SwitchToDialog( void* _this, CoreGroup aDialogGroup, EffectsTransition 
+  aPresentTransition, EffectsTransition aDismissTransition, EffectsTransition aOverlayTransition, 
+  EffectsTransition aRestoreTransition, EffectsTransition aOverrideDismissTransition, 
+  EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+  XSlot aComplete, XSlot aCancel, XBool aCombine );
+
 /* The method DismissDialog() schedules an operation to hide again the component 
    passed in the parameter aDialogGroup. The component has to be presented by a 
    preceding @PresentDialog() or @SwitchToDialog() method invocation. Calling the 
@@ -546,6 +578,11 @@ void CoreGroup_SwitchToDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsT
    with last prepared but not yet started operation. In this manner several independent 
    transitions can run simultaneously. */
 void CoreGroup_DismissDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsTransition 
+  aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, EffectsTransition 
+  aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, XBool aCombine );
+
+/* Wrapper function for the virtual method : 'Core::Group.DismissDialog()' */
+void CoreGroup__DismissDialog( void* _this, CoreGroup aDialogGroup, EffectsTransition 
   aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, EffectsTransition 
   aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, XBool aCombine );
 
@@ -595,6 +632,13 @@ void CoreGroup_DismissDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsTr
    with last prepared but not yet started operation. In this manner several independent 
    transitions can run simultaneously. */
 void CoreGroup_PresentDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsTransition 
+  aPresentTransition, EffectsTransition aDismissTransition, EffectsTransition aOverlayTransition, 
+  EffectsTransition aRestoreTransition, EffectsTransition aOverrideOverlayTransition, 
+  EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+  XBool aCombine );
+
+/* Wrapper function for the virtual method : 'Core::Group.PresentDialog()' */
+void CoreGroup__PresentDialog( void* _this, CoreGroup aDialogGroup, EffectsTransition 
   aPresentTransition, EffectsTransition aDismissTransition, EffectsTransition aOverlayTransition, 
   EffectsTransition aRestoreTransition, EffectsTransition aOverrideOverlayTransition, 
   EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
@@ -758,6 +802,10 @@ CoreView CoreGroup__FindSiblingView( void* _this, CoreView aView, XSet aFilter )
    for the same GUI component aGroup. */
 void CoreGroup_FadeGroup( CoreGroup _this, CoreGroup aGroup, EffectsFader aFader, 
   XSlot aComplete, XSlot aCancel, XBool aCombine );
+
+/* Wrapper function for the virtual method : 'Core::Group.FadeGroup()' */
+void CoreGroup__FadeGroup( void* _this, CoreGroup aGroup, EffectsFader aFader, XSlot 
+  aComplete, XSlot aCancel, XBool aCombine );
 
 /* The method RestackTop() elevates the view aView to the top of its component. 
    After this operation the view is usually not covered by any sibling views. This 

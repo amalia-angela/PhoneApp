@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,16 +33,22 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
 #include "_ResourcesBitmap.h"
+
+/* Forward declaration of the class Core::Group */
+#ifndef _CoreGroup_
+  EW_DECLARE_CLASS( CoreGroup )
+#define _CoreGroup_
+#endif
 
 /* Forward declaration of the class Graphics::Canvas */
 #ifndef _GraphicsCanvas_
@@ -67,6 +73,7 @@
    as an ordinary bitmap. It can e.g. be assigned to a Views::Image view and thus 
    be displayed on the screen. */
 EW_DEFINE_FIELDS( GraphicsCanvas, ResourcesBitmap )
+  EW_VARIABLE( group,           CoreGroup )
   EW_VARIABLE( OnDraw,          XSlot )
   EW_VARIABLE( InvalidArea,     XRect )
   EW_VARIABLE( DstFrameNr,      XInt32 )

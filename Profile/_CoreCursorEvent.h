@@ -18,9 +18,9 @@
 * project directory and edit the copy only. Please avoid any modifications of
 * the original template file!
 *
-* Version  : 11.00
+* Version  : 12.00
 * Profile  : Profile
-* Platform : Tara.Win32.RGBA8888
+* Platform : Windows.Software.RGBA8888
 *
 *******************************************************************************/
 
@@ -33,12 +33,12 @@
 #endif
 
 #include "ewrte.h"
-#if EW_RTE_VERSION != 0x000B0000
+#if ( EW_RTE_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Runtime Environment.
 #endif
 
 #include "ewgfx.h"
-#if EW_GFX_VERSION != 0x000B0000
+#if ( EW_GFX_VERSION >> 16 ) != 12
   #error Wrong version of Embedded Wizard Graphics Engine.
 #endif
 
@@ -85,8 +85,8 @@ EW_DEFINE_FIELDS( CoreCursorEvent, CoreEvent )
   EW_VARIABLE( HittingPos,      XPoint )
   EW_VARIABLE( CurrentPos,      XPoint )
   EW_VARIABLE( Finger,          XInt32 )
-  EW_VARIABLE( Down,            XBool )
   EW_VARIABLE( AutoDeflected,   XBool )
+  EW_VARIABLE( Down,            XBool )
 EW_END_OF_FIELDS( CoreCursorEvent )
 
 /* Virtual Method Table (VMT) for the class : 'Core::CursorEvent' */
