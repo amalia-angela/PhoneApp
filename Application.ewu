@@ -2,6 +2,7 @@
 
 $rect <40,300,220,340>
 $output false
+$multilingual true
 class ContactsPage : Core::Group
 {
   $rect <310,40,480,80>
@@ -225,7 +226,7 @@ class ContactsPage : Core::Group
     preset OnChange = onSearch;
     preset String = "";
     preset Color = Res::Black;
-    preset Placeholder = "Type..";
+    preset Placeholder = Strings::SearchTxt;
     preset OnIcon = onCancelSearch;
   }
 
@@ -361,6 +362,7 @@ note group Note
 
 $rect <51,340,220,379>
 $output false
+$multilingual true
 class ContactItem : Core::Group
 {
   $rect <503,147,683,187>
@@ -815,6 +817,7 @@ class ContactItem : Core::Group
 
 $rect <50,421,220,460>
 $output false
+$multilingual true
 class DetailsPage : Core::Group
 {
   $rect <-10,510,190,550>
@@ -901,7 +904,6 @@ class DetailsPage : Core::Group
   $rect <790,90,980,130>
   onset Contact
   {
-
     if ( pure Contact == value )
       return;
 
@@ -1103,6 +1105,7 @@ class DetailsPage : Core::Group
 
 $rect <50,501,220,540>
 $output false
+$multilingual true
 class AddContactPage : Core::Group
 {
   $rect <0,450,200,490>
@@ -1237,7 +1240,7 @@ class AddContactPage : Core::Group
     preset OnChange = onFieldChanged;
     preset String = "";
     preset Color = Res::Blue;
-    preset Placeholder = "Mobile number";
+    preset Placeholder = Strings::MobilenumberTxt;
   }
 
   $rect <20,20,160,60>
@@ -1256,7 +1259,7 @@ class AddContactPage : Core::Group
     preset OnChange = onFieldChanged;
     preset String = "";
     preset Color = Res::Black;
-    preset Placeholder = "First Name";
+    preset Placeholder = Strings::FirstNameTxt;
   }
 
   $rect <20,20,160,60>
@@ -1276,7 +1279,7 @@ class AddContactPage : Core::Group
     preset Alignment = Views::TextAlignment[];
     preset String = "";
     preset Color = Res::Black;
-    preset Placeholder = "Last Name";
+    preset Placeholder = Strings::LastNameTxt;
   }
 
   $rect <20,20,160,60>
@@ -1349,6 +1352,7 @@ class AddContactPage : Core::Group
 
 $rect <50,461,220,500>
 $output false
+$multilingual true
 class EditPage : Core::Group
 {
   $rect <0,490,200,530>
@@ -1529,9 +1533,9 @@ class EditPage : Core::Group
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <2,174,268,206>;
     preset OnChange = onFieldModified;
-    preset String = "First name";
+    preset String = Strings::FirstNameTxt;
     preset Color = Res::Black;
-    preset Placeholder = "First name";
+    preset Placeholder = Strings::FirstNameTxt;
   }
 
   $rect <20,20,160,60>
@@ -1548,9 +1552,9 @@ class EditPage : Core::Group
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <2,141,268,173>;
     preset OnChange = onFieldModified;
-    preset String = "Last name";
+    preset String = Strings::LastNameTxt;
     preset Color = Res::Black;
-    preset Placeholder = "Last name";
+    preset Placeholder = Strings::LastNameTxt;
   }
 
   $rect <20,20,160,60>
@@ -1615,6 +1619,7 @@ class EditPage : Core::Group
 
 $rect <240,560,410,600>
 $output false
+$multilingual true
 class OngoingCall : Application::CallBase
 {
   $rect <310,40,510,80>
@@ -1879,6 +1884,7 @@ class OngoingCall : Application::CallBase
 
 $rect <240,640,410,680>
 $output false
+$multilingual true
 class DetailsInsideCall : Application::DetailsPage
 {
   $rect <0,490,200,530>
@@ -1984,6 +1990,7 @@ class DetailsInsideCall : Application::DetailsPage
 
 $rect <230,431,410,471>
 $output false
+$multilingual true
 class KeypadPage : Core::Group
 {
   $rect <0,490,200,530>
@@ -2363,6 +2370,7 @@ class KeypadPage : Core::Group
 // This is the root component of the entire GUI application.
 $rect <20,255,220,295>
 $output false
+$multilingual true
 class PhoneApp : Core::Group
 {
   $rect <300,40,480,80>
@@ -2498,6 +2506,7 @@ class PhoneApp : Core::Group
 
 $rect <240,680,410,720>
 $output false
+$multilingual true
 class KeypadInsideCall : Application::KeypadPage
 {
   $rect <20,20,160,60>
@@ -2591,6 +2600,7 @@ class KeypadInsideCall : Application::KeypadPage
 
 $rect <240,600,410,640>
 $output false
+$multilingual true
 class ContactsInsideCall : Application::ContactsPage
 {
   $rect <290,110,490,150>
@@ -2701,6 +2711,7 @@ class ContactsInsideCall : Application::ContactsPage
 }
 
 $rect <460,50,660,87>
+$multilingual true
 $variant Simulation
 vclass ApplicationSimulation : Application::Application
 {
@@ -2744,6 +2755,7 @@ note group Note4
 
 $rect <240,520,410,560>
 $output false
+$multilingual true
 class IncomingCall : Application::CallBase
 {
   $rect <300,40,500,80>
@@ -2808,6 +2820,7 @@ class IncomingCall : Application::CallBase
 
 $rect <229,300,409,340>
 $output false
+$multilingual true
 class FavoritesPage : Core::Group
 {
   $rect <290,50,470,90>
@@ -2962,7 +2975,7 @@ class FavoritesPage : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton TextButton
   {
-    preset Bounds = <228,12,263,37>;
+    preset Bounds = <177,12,263,37>;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -3027,7 +3040,7 @@ class FavoritesPage : Core::Group
   {
     EditMode = !EditMode;
 
-    TextButton.Text = EditMode == false ?  "Edit" : "Done" ;
+    TextButton.Text = EditMode == false ?  Strings::EditTxt : Strings::DoneTxt;
 
     postsignal onListItemsUpdated;
   }
@@ -3047,6 +3060,7 @@ class FavoritesPage : Core::Group
 
 $rect <40,550,220,590>
 $output false
+$multilingual true
 class RecentPage : Core::Group
 {
   $rect <290,40,480,80>
@@ -3206,8 +3220,7 @@ class RecentPage : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton TextButton
   {
-    preset Layout = Core::Layout[AlignToRight, ResizeVert];
-    preset Bounds = <226,12,261,37>;
+    preset Bounds = <164,12,261,37>;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -3281,7 +3294,7 @@ class RecentPage : Core::Group
   {
     EditMode = !EditMode;
 
-    TextButton.Text = EditMode == false ? "Edit" : "Done";
+    TextButton.Text = EditMode == false ?  Strings::EditTxt : Strings::DoneTxt;
 
     postsignal onListItemsUpdated;
   }
@@ -3371,6 +3384,7 @@ class RecentPage : Core::Group
 
 $rect <239,380,409,420>
 $output false
+$multilingual true
 class ContactsList : Application::ContactsInsideCall
 {
   $rect <20,20,160,60>
@@ -3502,6 +3516,7 @@ class ContactsList : Application::ContactsInsideCall
 
 $rect <239,340,408,380>
 $output false
+$multilingual true
 class FavContactItem : Application::ContactItem
 {
   $rect <360,0,560,40>
@@ -3735,6 +3750,7 @@ class FavContactItem : Application::ContactItem
 
 $rect <50,590,219,630>
 $output false
+$multilingual true
 class RecentItm : Core::Group
 {
   $rect <30,450,230,490>
@@ -3743,7 +3759,6 @@ class RecentItm : Core::Group
   $rect <580,110,780,150>
   inherited method UpdateViewState()
   {
-
     super( aState );
     var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
     var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
@@ -4407,6 +4422,7 @@ class RecentItm : Core::Group
 
 $rect <50,630,220,670>
 $output false
+$multilingual true
 class RecentDetailsPage : Application::DetailsPage
 {
   $rect <320,130,520,170>
@@ -4546,6 +4562,7 @@ class RecentDetailsPage : Application::DetailsPage
 
 $rect <230,480,410,520>
 $output false
+$multilingual true
 class CallBase : Core::Group
 {
   $rect <0,500,200,540>
@@ -4624,9 +4641,9 @@ class CallBase : Core::Group
   object Views::Text TimeTxt
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <18,73,91,103>;
+    preset Bounds = <18,73,73,103>;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
-    preset String = "calling...";
+    preset String = Strings::CallingTxt;
     preset Font = Res::ContactFont12;
     preset Color = Res::White;
   }
@@ -4635,9 +4652,10 @@ class CallBase : Core::Group
   object Views::Text ContactNameTxt
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <18,42,171,72>;
+    preset Bounds = <18,42,180,72>;
     preset EnableBidiText = false;
-    preset AutoSize = true;
+    preset Ellipsis = true;
+    preset AutoSize = false;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = "Contact name";
     preset Font = Res::TitileFont25;
@@ -4684,6 +4702,7 @@ class CallBase : Core::Group
 
 $rect <240,720,410,760>
 $output false
+$multilingual true
 class ContactsAppInsideCall : Application::PhoneApp
 {
   $rect <290,-10,490,30>
@@ -4739,6 +4758,7 @@ class ContactsAppInsideCall : Application::PhoneApp
 
 $rect <50,380,219,419>
 $output false
+$multilingual true
 class MyCardItem : Core::Group
 {
   $rect <230,100,430,140>
@@ -4755,7 +4775,6 @@ class MyCardItem : Core::Group
   $rect <10,100,210,140>
   inherited method UpdateViewState()
   {
-
     super( aState );
 
     var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
@@ -4776,10 +4795,9 @@ class MyCardItem : Core::Group
 
     else if ( isSelected )
     {
-      Background.Color =  Res::GreyLight;
+      Background.Color =  ButtonColor;
       }
 
-    // Enabled but not pressed nor selected.
     else
     {
       Background.Color = ButtonColor;
@@ -5072,9 +5090,6 @@ class MyCardItem : Core::Group
   object Views::Rectangle Background
   {
     preset Bounds = <0,0,260,45>;
-    preset ColorBL = #FDFDFDC8;
-    preset ColorBR = #FDFDFDC8;
-    preset Color = #FFFFFFFF;
   }
 
   $rect <20,20,160,60>
@@ -5119,6 +5134,7 @@ note group Note1
 
 $rect <460,260,660,300>
 $output false
+$multilingual true
 class MessagesApp : Core::Group
 {
   $rect <310,30,520,70>
@@ -5164,7 +5180,7 @@ class MessagesApp : Core::Group
   {
     EditMode = !EditMode;
 
-    editBtn.Text      = !EditMode ? "Edit" : "Cancel";
+    editBtn.Text      = !EditMode ? Strings::EditTxt : Strings::CancelTxt;
     deleteBtn.Visible = !EditMode ? false : true;
 
     VerticalList.InvalidateItems( 0, VerticalList.NoOfItems -1 );
@@ -5298,7 +5314,7 @@ class MessagesApp : Core::Group
     preset OnChange = onSearch;
     preset String = "";
     preset Color = Res::Grey;
-    preset Placeholder = "Type..";
+    preset Placeholder = Strings::SearchTxt;
     preset OnIcon = onCancelSearch;
   }
 
@@ -5328,7 +5344,8 @@ class MessagesApp : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton editBtn
   {
-    preset Bounds = <11,15,59,40>;
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <11,0,73,40>;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -5336,9 +5353,9 @@ class MessagesApp : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton deleteBtn
   {
-    preset Bounds = <62,15,109,40>;
+    preset Bounds = <73,8,124,33>;
     preset Visible = false;
-    preset Text = Strings::DeleteContactTxt;
+    preset Text = Strings::deleteTxt;
     preset OnActivate = onDelete;
   }
 
@@ -5419,6 +5436,7 @@ class MessagesApp : Core::Group
 
 $rect <480,306,660,346>
 $output false
+$multilingual true
 class MessegeItem : Core::Group
 {
   $rect <750,290,950,330>
@@ -5974,6 +5992,7 @@ class MessegeItem : Core::Group
 
 $rect <480,346,660,386>
 $output false
+$multilingual true
 class ContactsListInsideMessages : Application::ContactsList
 {
   $rect <20,20,160,60>
@@ -6011,10 +6030,17 @@ class ContactsListInsideMessages : Application::ContactsList
     postsignal OnAddFav; 
   }
 
+  $rect <20,20,160,60>
+  inherited object SearchExt
+  {
+    preset Placeholder = Strings::SearchTxt;
+  }
+
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
   // and the expected order of the members don't depend. Merging of changes in the 
   // project files is simplified.
+  $member SearchExt
   $member TitleTxt
   $member onContactPressed
   $member Text
@@ -6024,6 +6050,7 @@ class ContactsListInsideMessages : Application::ContactsList
 
 $rect <480,386,660,426>
 $output false
+$multilingual true
 class ChatPage : Core::Group
 {
   $rect <300,40,500,80>
@@ -6192,7 +6219,7 @@ class ChatPage : Core::Group
     preset Bounds = <3,441,269,473>;
     preset String = "";
     preset Color = Res::Black;
-    preset Placeholder = "Type...";
+    preset Placeholder = Strings::TypeTxt;
     preset Icon = Res::SendIcon;
     preset OnIcon = onSend;
   }
@@ -6336,6 +6363,7 @@ note group Note2
 
 $rect <500,426,660,466>
 $output false
+$multilingual true
 class ChatItem : Core::Group
 {
   $rect <90,120,290,160>
@@ -6539,6 +6567,7 @@ class ChatItem : Core::Group
 
 $rect <30,720,210,760>
 $output false
+$multilingual true
 class ContactsInsideSearch : Core::Group
 {
   $rect <280,0,480,40>
@@ -6650,6 +6679,7 @@ class ContactsInsideSearch : Core::Group
 
 $rect <10,40,210,80>
 $output false
+$multilingual true
 class Application : Core::Root
 {
   $rect <310,40,510,80>
@@ -6815,6 +6845,7 @@ class Application : Core::Root
 
 $rect <31,121,231,161>
 $output false
+$multilingual true
 class HomePage : Core::Group
 {
   $rect <320,30,530,70>
@@ -6828,7 +6859,7 @@ class HomePage : Core::Group
   $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
 
-  $rect <300,377,500,417>
+  $rect <300,300,500,340>
   slot onPhoneAppPressed
   {
     phoneApp = new Application::PhoneApp;
@@ -6836,7 +6867,7 @@ class HomePage : Core::Group
     PresentDialog( phoneApp, null, null, null, null, null, null, null, null, false );
   }
 
-  $rect <300,425,500,465>
+  $rect <300,348,500,388>
   slot onMessagesAppPressed
   {
     messageApp = new Application::MessagesApp;
@@ -6844,50 +6875,22 @@ class HomePage : Core::Group
     PresentDialog( messageApp, null, null, null, null, null, null, null, null, false );
   }
 
-  $rect <500,377,700,417>
+  $rect <500,300,700,340>
   var Application::PhoneApp phoneApp;
 
-  $rect <500,425,700,465>
+  $rect <500,348,700,388>
   var Application::MessagesApp messageApp;
 
   $rect <300,250,500,290>
   slot onSettingsAppPressed
   {
-    settingsApp = new Application::EditPage;
-
-    settingsApp.Bounds.h = 480;
-    settingsApp.DeleteBtn.Enabled = false;
-
-    if ( Device::Device.MyContact )
-      settingsApp.Contact = Device::Device.MyContact;
-    else
-      settingsApp.Contact = new Device::Contact;
-      
-    settingsApp.OnClose = onClose;
-    settingsApp.OnSave  = onSave;
+    settingsApp = new Application::SettingsApp;
 
     PresentDialog( settingsApp, null, null, null, null, null, null, null, null, false );
   }
 
   $rect <500,250,700,290>
-  var Application::EditPage settingsApp = null;
-
-  $rect <320,290,500,330>
-  slot onClose
-  {
-    DismissDialog( settingsApp, null, null, null, null, null, false );
-
-    settingsApp = null;
-  }
-
-  $rect <320,330,500,370>
-  slot onSave
-  {
-    Device::Device.MyContact = settingsApp.Contact;
-    Device::Device.Contacts.AddLast( settingsApp.Contact );
-
-    postsignal onClose;
-  }
+  var Application::SettingsApp settingsApp = null;
 
   $rect <20,20,160,60>
   object Views::Image Image
@@ -6903,7 +6906,7 @@ class HomePage : Core::Group
     preset Bounds = <3,4,53,79>;
     preset Icon = Res::SettingsIcon;
     preset OnActivate = onSettingsAppPressed;
-    preset Descript = "Settings";
+    preset Descript = Strings::SettingsTxt;
     preset DescriptColor = Res::Grey;
     preset BackgoundColorPressed = #AAAAAAFF;
     preset DescriptFont = Res::ContactFont12;
@@ -7001,6 +7004,7 @@ class HomePage : Core::Group
 
 $rect <31,81,231,121>
 $output false
+$multilingual true
 class SplashScreen : Core::Group
 {
   $rect <320,460,520,500>
@@ -7073,4 +7077,1648 @@ class SplashScreen : Core::Group
 
   $rect <490,10,690,50>
   var slot OnStart;
+}
+
+$rect <470,610,670,650>
+$output false
+$multilingual true
+class SettingsApp : Core::Group
+{
+  $rect <0,500,200,540>
+  inherited property Bounds = <0,0,272,480>;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Rectangle
+  {
+    preset Bounds = <0,0,272,480>;
+    preset Color = #F5F5F5FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text TitleTxt
+  {
+    preset Bounds = <11,40,264,80>;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = Strings::SettingsTxt;
+    preset Font = Res::TitileFont32;
+    preset Color = Res::Black;
+  }
+
+  $rect <20,20,160,60>
+  object Application::MyCardItem MyCardItem
+  {
+    preset Bounds = <7,116,267,161>;
+    preset IconColor = Res::GreyLight;
+    preset OnActivate = onSettingsAppPressed;
+    preset TextColor = Res::Blue;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ComboBox ComboBox
+  {
+    preset Bounds = <6,182,266,217>;
+    preset OnSelect = OnSelect;
+    preset OnLoadItem = OnLoadItem;
+    preset SelectedItem = -1;
+    preset NoOfItems = 2;
+  }
+
+  $rect <290,190,490,230>
+  slot OnLoadItem
+  {
+    var string name;
+
+    // Which item should be loaded?
+    switch ( ComboBox.View.Item )
+    {
+      case  0 : name = Strings::Englisg;
+      case  1 : name = Strings::Hungarian;
+      default : name = Strings::LanguageTxt;
+    }
+
+    // Initialize the item
+    ComboBox.View.String = name;
+  }
+
+  $rect <290,230,490,270>
+  slot OnSelect
+  {
+    switch ( ComboBox.SelectedItem )
+    {
+      case  0 : language = Default;
+      case  1 : language = Magyar;
+      default : language = Default;
+    }
+
+    ComboBox.InvalidateItems( 0, ComboBox.NoOfItems );
+  }
+
+  $rect <300,60,500,100>
+  slot onSettingsAppPressed
+  {
+    settingsApp = new Application::EditPage;
+
+    settingsApp.Bounds.h = 480;
+    settingsApp.DeleteBtn.Enabled = false;
+
+    if ( Device::Device.MyContact )
+      settingsApp.Contact = Device::Device.MyContact;
+    else
+      settingsApp.Contact = new Device::Contact;
+      
+    settingsApp.OnClose = onClose;
+    settingsApp.OnSave  = onSave;
+
+    PresentDialog( settingsApp, null, null, null, null, null, null, null, null, false );
+  }
+
+  $rect <500,60,700,100>
+  var Application::EditPage settingsApp = null;
+
+  $rect <320,100,500,140>
+  slot onClose
+  {
+    DismissDialog( settingsApp, null, null, null, null, null, false );
+
+    settingsApp = null;
+  }
+
+  $rect <320,140,500,180>
+  slot onSave
+  {
+    Device::Device.MyContact = settingsApp.Contact;
+    Device::Device.Contacts.AddLast( settingsApp.Contact );
+
+    postsignal onClose;
+  }
+}
+
+// This component shows an example how to use ComboBox widgets.
+$rect <470,810,670,850>
+$output false
+class Example : Core::Group
+{
+  $rect <350,140,550,180>
+  inherited property Bounds = <0,0,320,240>;
+
+  $rect <20,560,220,600>
+  inherited method UpdateLayout()
+  {
+    / Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  // This example demonstrates the usage of the ComboBox:
+  // 
+  // - The ComboBox is connected to the both slot methods OnLoadItem and OnSelect.
+  // 
+  // - OnLoadItem will be called by the ComboBox to load the content of an item. \
+  // Within the method you can initialize the item consequently.
+  // 
+  // - OnSelect will be called when the user has made a selection. Within the method \
+  // you can evaluate which item has been selected.
+  // 
+  // Just press F5 to test the ComboBox.
+  note legend Note1
+  {
+    attr Bounds = <10,270,860,430>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Bounds = <0,0,320,240>;
+  }
+
+  $rect <20,20,160,60>
+  object Application::ComboBox ComboBox
+  {
+    preset Bounds = <35,57,285,107>;
+    preset OnSelect = OnSelect;
+    preset OnLoadItem = OnLoadItem;
+    preset SelectedItem = 0;
+    preset NoOfItems = 10;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Bounds = <35,2,285,57>;
+    preset String = "";
+    preset Font = Resources::FontLarge;
+    preset Color = #C85C49FF;
+  }
+
+  $rect <350,30,550,70>
+  slot OnLoadItem
+  {
+    var string name;
+
+    // Which item should be loaded?
+    switch ( ComboBox.View.Item )
+    {
+      case  0 : name = "Banana";
+      case  1 : name = "Apple";
+      case  2 : name = "Cherry";
+      case  3 : name = "Strawberry";
+      case  4 : name = "Pineapple";
+      case  5 : name = "Orange";
+      case  6 : name = "Kiwi";
+      case  7 : name = "Blueberry";
+      case  8 : name = "Melon";
+      case  9 : name = "Mango";
+      default : name = "???";
+    }
+
+    // Initialize the item
+    ComboBox.View.String = name;
+  }
+
+  $rect <350,70,550,110>
+  slot OnSelect
+  {
+    // The user has selected an item. Display its number.
+    Text.String = "Selected option #" + string( ComboBox.SelectedItem );
+
+
+  }
+}
+
+// This class implements the item component for the Application::ComboBox widget. \
+// This class is used internally within Application::ComboBox widget and the associated \
+// Application::ComboBoxList component. You will probably never need to directly \
+// instantiate and control this item component.
+$rect <470,740,670,780>
+$output false
+class ComboBoxItem : Templates::ListItem
+{
+  $rect <250,270,450,310>
+  inherited property Bounds = <0,0,200,40>;
+
+  $rect <710,160,910,200>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the Item
+    //
+    // isMarked  --> the item is selected within the corresponding list.
+    // isFocused --> the user has navigated to the item. The item can
+    //               receive keyboard events.
+    // isPressed --> the user presses the item actively.
+    //
+    //
+    var bool isMarked  = Marked;
+    var bool isFocused = aState.contains( Core::ViewState[ Focused ]);
+    var bool isPressed = TouchHandler.Down || FlashTimer.Enabled;
+
+
+    if ( isPressed )
+    {
+      Background.Color = Res::GreyLight;
+      Text.Color       = Res::Grey;
+      Border.Visible   = true;
+      Border.Width     = 1;
+    }
+
+    else if ( isFocused && isMarked )
+    {
+      Background.Color = Res::PressColor;
+      Text.Color       = Res::Grey;
+      Border.Visible   = true;
+      Border.Width     = 1;
+    }
+
+    else if ( isFocused )
+    {
+      Background.Color = Res::PressColor;
+      Text.Color       = Res::Grey;
+      Border.Visible   = true;
+      Border.Width     = 1;
+    }
+
+    else if ( isMarked )
+    {
+      Background.Color = Res::White;
+      Text.Color       = Res::Black;
+      Border.Visible   = false;
+    }
+
+    // Not marked nor selected.
+    else
+    {
+      Background.Color = Res::White;
+      Text.Color       = Res::Black;
+      Border.Visible   = false;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.
+    focused = isFocused;
+    marked  = isMarked;
+    pressed = isPressed;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your item (the thick blue border). This will be \
+  // the item's default size.
+  // - Resize the member 'TouchHandler' so it still fills the items's new area.
+  // - Remove the 'Background' and 'Border' members if you want other views to be \
+  // shown instead these in your item.
+  // - Remove the 'Text' view, 'String' property and the associated onset method \
+  // if you don't want to display text.
+  // - According to your desired item design add and configure new views (e.g. an \
+  // image view to show an icon or a further text view to show additional text, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the item's current state.
+  // - You can also add and configure animation effects to your item. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your item.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the item itself is resized.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // item to be activated with key other than the 'Enter' key.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your item. One property \
+  // for every item specific setting (e.g. 'Icon', 'Color', 'Font', ...).
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your item where \
+  // the icon is shown).
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  note legend Note5
+  {
+    attr Bounds = <10,340,1010,710>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,120,920,330>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,120,690,250>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,120,460,250>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,120,230,250>;
+  }
+
+  // This variable stores the current state of the item.
+  $rect <710,280,910,320>
+  var bool pressed;
+
+  // This variable stores the current state of the item.
+  $rect <710,240,910,280>
+  var bool focused;
+
+  // This variable stores the current state of the item.
+  $rect <710,200,910,240>
+  var bool marked;
+
+  // This timer object is used to flash the item when the user has tapped it very \
+  // quickly or the item has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,160,680,200>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,160,450,200>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,200,680,240>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the item to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the item is activated.
+    postsignal OnSelect;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,200,450,240>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the item via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
+    if ( KeyHandler.Repetition )
+      return;
+
+    // Pressing the key flashes the item for a short period. This is a kind of 
+    // feedback effect. Request the item to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the item. This only updates the item to appear pressed or released.
+  $rect <20,200,220,240>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the item or drags the finger inside/outside
+    // the item's area request the item update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the item's area. This activates the item.
+  $rect <20,160,220,200>
+  slot onReleaseTouch
+  {
+    // Every time the user releases the item, request an update. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The user interaction has been passed over to the another touch handler
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the item for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The item can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnSelect;
+
+    // The user has tapped the item very quickly. Defer the item activation
+    // to give the user first a short visual feedback that the item has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  $rect <240,50,440,90>
+  onset String
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure String == value )
+      return;
+
+    // Remember the property's new value.
+    pure String = value;
+
+    // ... and update the Text view.
+    Text.String = value;
+  }
+
+  $rect <440,50,640,90>
+  onset Marked
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Marked == value )
+      return;
+
+    // Remember the property's new value.
+    pure Marked = value;
+
+    // Request the view to update its state
+    InvalidateViewState();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,200,40>;
+    preset Color = Res::Transparent;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,200,40>;
+    preset Color = #000000FF;
+    preset Visible = false;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text Text
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <5,5,195,35>;
+    preset Ellipsis = true;
+    preset Alignment = Views::TextAlignment[AlignHorzAuto, AlignVertCenter];
+    preset String = "Text";
+    preset Font = Res::ContactFont15;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,40>;
+    preset Point3 = <200,40>;
+    preset Point2 = <200,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  // The property 'OnSelect' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated the item (selected the item). Thereupon the \
+  // method's logic will be executed.
+  $rect <640,50,840,90>
+  property slot OnSelect = null;
+
+  // The property 'Item' stores the number of the item within the ComboBox. The first \
+  // item has the number 0. The second 1, and so far.
+  $rect <640,10,840,50>
+  property int32 Item = -1;
+
+  // The property 'Marked' stores the state of the item. If this property is 'true', \
+  // the item appears as selected.
+  $rect <440,10,640,50>
+  property bool Marked = false;
+
+  // The property 'String' stores the text to display in the item.
+  $rect <240,10,440,50>
+  property string String = "Text";
+}
+
+// This class implements the list component for the Application::ComboBox widget. \
+// When the user activates the ComboBox, the list component is shown displaying all \
+// available options and permitting the user to select the desired option.
+// The class Application::ComboBoxList is used internally within Application::ComboBox \
+// widget. You will probably never need to directly instantiate and control this \
+// list component.
+$rect <470,700,670,740>
+$output false
+class ComboBoxList : Templates::List
+{
+  $rect <700,220,900,260>
+  inherited method CursorHitTest()
+  {
+    // First perform the cursor-hit test as usual.
+    var Core::CursorHit hit = super( aArea, aFinger, aStrikeCount, aDedicatedView, aStartView,
+                                     aRetargetReason );
+
+    // Now, has the user tapped outside the list component? This can cause the list to disappear.
+    // Inform the ComboBox in such case.
+    if ( !hit && !aDedicatedView && ( aArea & Bounds ).isempty )
+      postsignal onCloseList;
+
+    return hit;
+  }
+
+  $rect <10,270,210,310>
+  inherited property Bounds = <0,0,200,200>;
+
+  $rect <240,280,440,320>
+  inherited method UpdateLayout()
+  {
+    super( aSize );
+
+    // Just in the moment when the List appears or its size changes, 
+    // ensure that there is no empty space in the list.
+    VerticalList.AdjustList( null, null );
+
+    // Then eventually scroll the list so the actually selected item
+    // is fully visible.
+    VerticalList.EnsureVisible( selectedItem, true, null, null );
+
+    // The following operation additionally adjusts the scrolling so
+    // the list snaps at the edge of the first visible item.
+    var int32 firstVisibleItem = VerticalList.GetItemAtPosition( VerticalList.Bounds.origin );
+    VerticalList.EnsureVisible( firstVisibleItem, true, null, null );
+  }
+
+  // To do:
+  // 
+  // - Remove the 'Background' and 'Border' members if you want other views to be \
+  // shown instead these in your list.
+  // - According to your desired list design add and configure new views (e.g. a \
+  // bitmap frame view to show the list border being composed of images, etc.).
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your list.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the list itself is resized.
+  // - Eventually move/resize the 'VerticalList' and the 'SlideTouchHandler' members \
+  // if you want larger/smaller borders.
+  // - Configure the property 'Filter' of the 'KeyUpHandler', 'KeyDownHandler' and \
+  // 'KeyEscapeHandler' members if you want the list to be controlled by other keys \
+  // than the 'UP', 'DOWN', 'ESCAPE' keys.
+  // - Alternatively remove all key handlers and 'onKey' slot methods if you don't \
+  // want any keyboard handling.
+  // - Adapt the method Initialize(). It calculates the size and position of the \
+  // list depending on the position  of the ComboBox.
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  note legend Note5
+  {
+    attr Bounds = <10,340,990,590>;
+  }
+
+  // Touch Handling
+  note group Note4
+  {
+    attr Bounds = <690,170,910,280>;
+  }
+
+  // List functionality
+  note group Note3
+  {
+    attr Bounds = <460,170,680,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <460,20,1080,160>;
+  }
+
+  // Initialization
+  note group Note1
+  {
+    attr Bounds = <230,20,450,330>;
+  }
+
+  // This variable refers to a slot method in the ComboBox to invoke when the user \
+  // has decided to close the List without making any selection.
+  $rect <240,230,440,270>
+  var slot onCloseList;
+
+  // This variable refers to a slot method in the ComboBox to invoke when the user \
+  // has made a selection within the List.
+  $rect <240,190,440,230>
+  var slot onSelectItem;
+
+  // This variable refers to a slot method in the ComboBox the List component will \
+  // invoke in order to load an item with its appropriate content. In such case the \
+  // sender of the signal will refer the item in question.
+  $rect <240,150,440,190>
+  var slot onLoadItem;
+
+  // This variable stores which item was selected just in the moment when the user \
+  // has activated the ComboBox List. This item will consequently appear as selected \
+  // within the List.
+  $rect <240,110,440,150>
+  var int32 selectedItem;
+
+  // This internal slot method is called by the embedded 'VerticalList' in order \
+  // to load a list item with its appropriate content. The invocation is relayed \
+  // to the ComboBox.
+  $rect <470,220,670,260>
+  slot onLoadItemSlot
+  {
+    // Access the item view intended to be loaded now.
+    var Application::ComboBoxItem view = (Application::ComboBoxItem)VerticalList.View;
+
+    // Ensure, the item view is correctly connected with the ComboBox.
+    view.OnSelect = onSelectItem;
+
+    // Which number has the item and is the item the originally 'selected' one?
+    view.Item   = VerticalList.Item;
+    view.Marked = view.Item == selectedItem;
+
+    // Also ensure that the item fills the list horizontally.
+    view.Bounds.size = VerticalList.ViewSize;
+
+    // Forward the signal to the ComboBox's OnLoadItem slot method. This method is then
+    // responsible for the proper initialization of the item's content. Use the item 
+    // view as 'sender' of the signal.
+    signal onLoadItem, view;
+  }
+
+  // This internal slot method is called when the '@KeyEscapeHandler' is activated \
+  // (when the user has pressed the key specified in the property 'Filter' of the \
+  // key handler).
+  $rect <870,100,1070,140>
+  slot onKeyEscape
+  {
+    // The user has pressed the ESCAPE key. Inform the ComboBox about the close operation.
+    postsignal onCloseList;
+  }
+
+  // This internal slot method is called when the '@KeyDownHandler' is activated \
+  // (when the user has pressed the key specified in the property 'Filter' of the \
+  // key handler).
+  $rect <670,100,870,140>
+  slot onKeyDown
+  {
+    // No more following items?
+    if ( VerticalList.SelectedItem >= ( VerticalList.NoOfItems - 1 ))
+      return;
+
+    // Select the next following item and ensure it is visible.
+    VerticalList.SelectedItem++;
+    VerticalList.EnsureVisible( VerticalList.SelectedItem, true, null, null );
+  }
+
+  // This internal slot method is called when the '@KeyUpHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <470,100,670,140>
+  slot onKeyUp
+  {
+    // No more preceding items
+    if ( VerticalList.SelectedItem <= 0 )
+      return;
+
+    // Select the preceding item and ensure it is visible.
+    VerticalList.SelectedItem--;
+    VerticalList.EnsureVisible( VerticalList.SelectedItem, true, null, null );
+  }
+
+  // This key handler reacts to key ESCAPE events. When the user presses the key \
+  // ESCAPE (specified in the property 'Filter' of the key handler), the handler \
+  // is activated and the method '@onKeyEscape' is called.
+  $rect <870,60,1070,100>
+  object Core::KeyPressHandler KeyEscapeHandler
+  {
+    preset OnPress = onKeyEscape;
+    preset Filter = Core::KeyCode.Escape;
+  }
+
+  // This key handler reacts to key DOWN events. When the user presses the key DOWN \
+  // (specified in the property 'Filter' of the key handler), the handler is activated \
+  // and the method '@onKeyDown' is called.
+  $rect <670,60,870,100>
+  object Core::KeyPressHandler KeyDownHandler
+  {
+    preset OnPress = onKeyDown;
+    preset Filter = Core::KeyCode.Down;
+    preset OnHold = onKeyDown;
+  }
+
+  // This key handler reacts to key UP events. When the user presses the key UP (specified \
+  // in the property 'Filter' of the key handler), the handler is activated and the \
+  // method '@onKeyUp' is called.
+  $rect <470,60,670,100>
+  object Core::KeyPressHandler KeyUpHandler
+  {
+    preset OnPress = onKeyUp;
+    preset Filter = Core::KeyCode.Up;
+    preset OnHold = onKeyUp;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,200,200>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,200,200>;
+    preset Width = 3;
+    preset Color = #444444FF;
+    preset Visible = false;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <5,5,195,195>;
+  }
+
+  $rect <20,20,160,60>
+  object Core::VerticalList VerticalList
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <5,5,195,195>;
+    preset OnLoadItem = onLoadItemSlot;
+    preset SlideHandler = SlideTouchHandler;
+    preset ItemClass = Application::ComboBoxItem;
+  }
+
+  // This method is called just in the moment when the user activates the ComboBox. \
+  // Its task is to initialize the List component according to the parameters found \
+  // in the ComboBox. It also calculates the optimal size/position for the list and \
+  // connects the List to the ComboBox.
+  $rect <240,60,440,100>
+  method void Initialize( arg rect aComboBoxArea, arg point aScreenSize, arg int32 aNoOfItems, arg int32 aSelectedItem, arg slot aOnLoadItem, arg slot aOnSelectItem, arg slot aOnCloseList )
+  {
+    // Remember 'callbacks' the list should use to communicate with the ComboBox.
+    onLoadItem   = aOnLoadItem;
+    onSelectItem = aOnSelectItem;
+    onCloseList  = aOnCloseList;
+
+    // Initialize the list according to the passed parameters.
+    VerticalList.NoOfItems    = aNoOfItems;
+    VerticalList.SelectedItem = aSelectedItem;
+
+    // Also remember which item was originally selected.
+    selectedItem = aSelectedItem;
+
+    // To get the item height, create temporarily a new instance of the associated 
+    // item class and query its default size.
+    VerticalList.ItemHeight = ((Core::RectView)new VerticalList.ItemClass ).Bounds.h;
+
+    // Also the Slide Touch Handler should be configure to snap at item edges.
+    SlideTouchHandler.SnapNext.y = VerticalList.ItemHeight;
+
+    // Now estimate the width of the list. Usually, the width of the list should 
+    // correspond to the width of the ComboBox. The list should also be aligned at
+    // the left edge of the ComboBox.
+    var int32 w = aComboBoxArea.w;
+    var int32 x = aComboBoxArea.x1;
+
+    // Now estimate the height of the list. Let's assume, the list is large enough
+    // to display all items at once. The list should also appear just below the
+    // ComboBox.
+    var int32 h = VerticalList.NoOfItems * VerticalList.ItemHeight;
+    var int32 y = aComboBoxArea.y2;
+
+    // Ensure the list is not too large. Here, we limit the list to 1/3 of the entire
+    // screen height.
+    h = math_min( h, aScreenSize.y / 3 );
+
+    // Adjust the height so that it is a multiple of the height of a single item.
+    h -= h % VerticalList.ItemHeight;
+
+    // Take in account the evtl. existing decorations or borders around the list, etc.
+    h += Bounds.h - VerticalList.Bounds.h;
+
+    // Now verify, whether there is sufficient space below the ComboBox to display
+    // the list. If not, the list will appear above the ComboBox.
+    if (( aScreenSize.y - aComboBoxArea.y2 ) < h )
+      y = aComboBoxArea.y1 - h;
+
+    // Adjust the size and position of the list.
+    Bounds = rect( x, y, x + w, y + h );
+  }
+}
+
+// This class implements a 'combo box' widget. When the user activates the box, an \
+// associated Application::ComboBoxList component is shown displaying all available \
+// options and permitting the user to select the desired option. Selecting the option \
+// sends a signal to the slot method stored in the property @OnSelect.
+// Alternatively the property @Outlet can refer to any other 'int32' property the \
+// widget should remain synchronized with. When the user selects an option, the affected \
+// property is automatically updated to reflect the number of the selected option. \
+// On the other hand, when the referred property is modified by another one, the \
+// ComboBox is automatically notified to remain in sync with the property.
+// The total number of available ComboBox items (the number of options) is determined \
+// by the property @NoOfItems. Which option is actually selected is controlled by \
+// the property @SelectedItem.
+// The items are loaded dynamically at the runtime. For this purpose a slot method \
+// has to be implemented and assigned to the @OnLoadItem property. The ComboBox will \
+// invoke the slot method automatically each time it needs an item to be loaded. \
+// Within the slot method the implementation can access and initialize the affected \
+// item by using the variable @View.
+// In order to trigger the combo box to reload one or more items, invoke the method \
+// @InvalidateItems(). The box will thereupon schedule the necessary loading steps \
+// automatically.
+$rect <470,660,670,700>
+$output false
+class ComboBox : Templates::ComboBox
+{
+  $rect <20,370,220,410>
+  inherited property Bounds = <0,0,260,35>;
+
+  $rect <710,230,910,270>
+  inherited method UpdateViewState()
+  {
+    super( aState );
+
+    if ( !previewItem )
+    {
+      // Create a new item view
+      previewItem = new Application::ComboBoxItem;
+
+      previewItem.Enabled = false;
+      previewItem.Item    = SelectedItem;
+      previewItem.Layout  = Core::Layout[ AlignToLeft, AlignToRight, AlignToTop,
+                                          AlignToBottom, ResizeHorz ]; 
+
+      // Load the item view with data corresponding to the actually selected
+      // item.
+      View = previewItem;
+      signal OnLoadItem;
+      View = null;
+
+      // Query the default size of an item
+      var point size = previewItem.Bounds.size;
+
+      // Arrange the item view so that it fills the ComboBox area excepting
+      // the arrow image on the right of the ComboBox. The height of the item
+      // should not change.
+      previewItem.Bounds = rect( 3, Bounds.h / 2 - size.y / 2, Image.Bounds.x1,
+                                 Bounds.h / 2 + size.y / 2 );
+
+      // Finally adding the view to the ComboBox makes it visible
+      Add( previewItem, 0 );
+
+      // Avoid that the view appears selected as selected views do within the
+      // list.
+      Focus = null;
+    }
+
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+    var bool isOpened   = list != null;
+
+    if ( !isEnabled )
+    {
+      Background1.Color   = Res::White;
+      Image.FrameNumber   = 1;
+      Image.Color         = Res::Grey;
+      previewItem.Opacity = 128;
+    }
+
+    else if ( isOpened )
+    {
+      Background1.Color   = Res::White;
+      Image.FrameNumber   = 0;
+      Image.Color         = Res::Grey;
+      previewItem.Opacity = 255;
+    }
+
+    else if ( isPressed )
+    {
+      Background1.Color   = Res::White;
+      Image.FrameNumber   = 1;
+      Image.Color         = Res::PressColor;
+      previewItem.Opacity = 255;
+    }
+
+    else if ( isSelected )
+    {
+      Background1.Color   = Res::White;
+      Image.FrameNumber   = 1;
+      Image.Color         = Res::Grey;
+      previewItem.Opacity = 255;
+    }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background1.Color   = Res::White;
+      Image.FrameNumber   = 1;
+      Image.Color         = Res::Grey;
+      previewItem.Opacity = 255;
+    }
+
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+    opened   = isOpened;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your ComboBox (the thick blue border). This will \
+  // be the widget's default size.
+  // - Resize the member 'TouchHandler' so it still fills the widget's new area.
+  // - Remove the 'Background1', 'Background2' and/or 'Border' members if you want \
+  // other views to be shown instead these in your ComboBox.
+  // - According to your desired ComboBox design add and configure new views (e.g. \
+  // an image view to show the icon or a text view to show a caption, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the widget's current state.
+  // - You can also add and configure animation effects to your ComboBox. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your ComboBox.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the widget itself is resized.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // ComboBox to be activated with key other than the 'Enter' key.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard handling.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your ComboBox. One property \
+  // for every specific setting (e.g. 'Caption', 'Icon', 'Color', 'Font', ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your ComboBox where \
+  // the icon is shown).
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  note legend Note7
+  {
+    attr Bounds = <10,570,990,950>;
+  }
+
+  // List Functionality
+  note group Note6
+  {
+    attr Bounds = <930,190,1150,560>;
+  }
+
+  // Controller events
+  note group Note5
+  {
+    attr Bounds = <240,330,460,420>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,190,920,480>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,190,690,320>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,190,460,320>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,190,230,320>;
+  }
+
+  // This variable stores an animation effect used to show/hide the list.
+  $rect <940,510,1140,550>
+  var Effects::Effect effect;
+
+  // This variable stores the List component if its is visible actually.
+  $rect <940,470,1140,510>
+  var Application::ComboBoxList list;
+
+  // This variable stores an item instance used in the ComboBox to show the actual \
+  // selection.
+  $rect <710,430,910,470>
+  var Application::ComboBoxItem previewItem;
+
+  // This variable stores the current state of the ComboBox.
+  $rect <710,390,910,430>
+  var bool opened;
+
+  // This variable stores the current state of the ComboBox.
+  $rect <710,350,910,390>
+  var bool pressed;
+
+  // This variable stores the current state of the ComboBox.
+  $rect <710,310,910,350>
+  var bool selected;
+
+  // This variable stores the current state of the ComboBox.
+  $rect <710,270,910,310>
+  var bool enabled;
+
+  // This timer object is used to flash the ComboBox when the user has tapped it \
+  // very quickly or the ComboBox has been activated with the keyboard. This is just \
+  // a visual feedback effect.
+  $rect <480,230,680,270>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,230,450,270>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the list has finished its fade-in/out \
+  // animation.
+  $rect <940,430,1140,470>
+  slot onEndFadeOutEffect
+  {
+    var Core::Root root = (Core::Root)list.Owner;
+
+    // End the modal state of the list and remove it from the application.
+    root.Remove( list );
+    root.EndModal( list );
+    list = null;
+
+    // Release the effect object
+    effect = null;
+
+    // Trigger an update in the ComboBox to reflect the new state.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the list has finished its fade-in/out \
+  // animation.
+  $rect <940,390,1140,430>
+  slot onEndFadeInEffect
+  {
+    // Release the effect object
+    effect = null;
+  }
+
+  // This internal slot method is called when the user has made a selection in the \
+  // List or decided to close the list without any selection. Thereupon the list \
+  // disappears.
+  $rect <940,350,1140,390>
+  slot onCloseList
+  {
+    // The list is already closed.
+    if ( !list )
+      return;
+
+    /*
+
+      HINT :
+
+      Following code uses an animation effect to fade-out the list when it closed.
+      If you don't want such animation, you can remove the code till the end of
+      the method and replace it by following code:
+
+      var Core::Root root = GetRoot();
+
+      root.Remove( list );
+      root.EndModal( list );
+      list = null;
+
+      InvalidateViewState();
+
+    */
+
+    // If there is already an effect running, stop it first.
+    if ( effect )
+      effect.Enabled = false;
+
+    // Create a new effect object to animate the list when it is hidden. In this
+    // template the animation modulates the opacity of the list.
+    var Effects::Int32Effect int32Effect = new Effects::Int32Effect;
+
+    // Configure the animation and start it
+    int32Effect.Value1        = list.Opacity;
+    int32Effect.Value2        = 0;
+    int32Effect.CycleDuration = 150;
+    int32Effect.NoOfCycles    = 1;
+    int32Effect.Outlet        = ^list.Opacity;
+    int32Effect.OnFinished    = onEndFadeOutEffect;
+    int32Effect.Enabled       = true;
+    effect                    = int32Effect;
+  }
+
+  // This internal slot method is called when the user has made a selection within \
+  // the List component. Thereupon the ComboBox is updated and the List is hidden.
+  $rect <940,310,1140,350>
+  slot onSelectItem
+  {
+    // The list is already closed.
+    if ( !list )
+      return;
+
+    // Making a selection within the ComboBox closes the list.
+    postsignal onCloseList;
+
+    // Obtain access to the just selected item
+    var Application::ComboBoxItem item = (Application::ComboBoxItem)sender;
+
+    // If the selection did not change?
+    if ( SelectedItem == item.Item )
+      return;
+
+    // Update the ComboBox to reflect the new selection
+    SelectedItem = item.Item;
+
+    // Inform the owner of the ComboBox about the made selection.
+    postsignal OnSelect;
+
+    // ... and if there is an associated Outlet, update it too
+    if ( Outlet )
+      Outlet^ = item.Item;
+  }
+
+  // This internal slot method is called when the actually displayed List component \
+  // needs to update an item. The invocation is relayed to the slot method stored \
+  // in the property @OnLoadItem.
+  $rect <940,270,1140,310>
+  slot onLoadItem
+  {
+    // Obtain access to the item for which the load operation is performed
+    var Application::ComboBoxItem item = (Application::ComboBoxItem)sender;
+
+    // ...and forward the signal to the OnLoadItem slot method. This method is then
+    // responsible for the proper initialization of the item.
+    View = item;
+    signal OnLoadItem;
+    View = null;
+  }
+
+  // This internal slot method is called when the user has activated the ComboBox. \
+  // It creates a new instance of the respective List component and displays it.
+  $rect <940,230,1140,270>
+  slot onShowList
+  {
+    // Avoid race conditions caused by the delay of 'FlashTimer'. Due to the delay
+    // the method 'onShowList' may become invoked twice. Thus ignore the second
+    // invocation if there is already a list visible.
+    if ( list )
+      return;
+
+    var Core::Root root   = GetRoot();
+    var rect       bounds = Bounds;
+
+    // Calculate the screen global position of the ComboBox
+    bounds.origin = Owner.GlobalPosition( bounds.origin );
+
+    // Create a new instance of the ComboBox List component and ...
+    list = new Application::ComboBoxList;
+
+    // ... initialize it, calculate its optimal size and position, etc.
+    list.Initialize( bounds, root.Bounds.size, NoOfItems, SelectedItem, onLoadItem, 
+                     onSelectItem, onCloseList );
+
+    /*
+
+      HINT :
+
+      Following code uses an animation effect to fade-in the list when it shown.
+      If you don't want such animation, you can remove the code till the end of
+      the method and replace it by following code:
+
+      root.Add( list, 0 );
+      root.BeginModal( list );
+
+      InvalidateViewState();
+
+    */
+
+    // If there is already an effect running, stop it first.
+    if ( effect )
+      effect.Enabled = false;
+
+    // Create a new effect object to animate the list when it is shown. In this
+    // template the animation changes the size of the list.
+    var Effects::RectEffect rectEffect = new Effects::RectEffect;
+
+    // Configure the animation. 
+    rectEffect.Value1        = list.Bounds;
+    rectEffect.Value2        = list.Bounds;
+    rectEffect.CycleDuration = 150;
+    rectEffect.Timing        = Effects::Timing.FastIn_EaseOut;
+    rectEffect.NoOfCycles    = 1;
+    rectEffect.Outlet        = ^list.Bounds;
+    rectEffect.OnFinished    = onEndFadeInEffect;
+
+    // Adjust the animation for the case, when the list should appear below the
+    // combo box
+    if ( list.Bounds.y1 > bounds.y1 )
+      rectEffect.Value1.y2 = rectEffect.Value1.y1;
+
+    // ... or above the combo box
+    else
+      rectEffect.Value1.y1 = rectEffect.Value1.y2;
+
+    // ... and start the animation
+    rectEffect.Enabled = true;
+    effect             = rectEffect;
+
+    // Make the list visible and modal
+    root.Add( list, 0 );
+    root.BeginModal( list );
+
+    // Trigger the ComboBox to eventually adapt its appearance after the list is shown.
+    InvalidateViewState();
+  }
+
+  // This slot method will receive a signal, if the value of the property assigned \
+  // to @Outlet has been changed by another widget or by the application logic. In \
+  // response to this notification, the widget will update itself.
+  $rect <250,370,450,410>
+  slot onOutlet
+  {
+    // Read the current value of the associated property and update accordingly
+    // the state of the ComboBox.
+    if ( Outlet != null )
+      SelectedItem = Outlet^;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,270,680,310>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the ComboBox to update
+    // its appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the associated list is shown
+    postsignal onShowList;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,270,450,310>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the ComboBox via
+    // the touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Ignore repetitions of key events (e.g. when the user holds the key pressed)
+    if ( KeyHandler.Repetition )
+      return;
+
+    // Pressing the key flashes the ComboBox for a short period. This is a kind
+    // of feedback effect. Request the ComboBox to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The ComboBox is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the box or presses the key in
+    // a very rapid succession. Thus ignore this new interaction.
+    if ( FlashTimer.Enabled )
+      return;
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the ComboBox. This only updates the box to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the ComboBox or drags the finger inside/outside
+    // the box's area request the ComboBox update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the ComboBox's area. This activates the ComboBox.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the ComboBox area? In such case
+    // the ComboBox is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The user interaction has been passed over to the another touch handler
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the ComboBox for longer time. This was 
+    // enough long to give a visual 'press' feedback to the user. The box can
+    // be activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal onShowList;
+
+    // The user has tapped the ComboBox very quickly. Defer the box activation
+    // to give the user first a short visual feedback that the ComboBox has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background1
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,260,35>;
+    preset Color = Res::White;
+  }
+
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,35>;
+    preset Point3 = <260,35>;
+    preset Point2 = <260,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToRight, AlignToTop, ResizeVert];
+    preset Bounds = <210,0,260,35>;
+    preset Color = Res::Grey;
+    preset FrameNumber = 1;
+    preset Bitmap = Resources::NavigationIconsSmall;
+  }
+
+  $rect <690,50,890,90>
+  onset Outlet
+  {
+    // Check if the new outlet differs from the currently used outlet
+    if ( pure Outlet == value )
+      return;
+
+    // Detach from the previous outlet
+    if ( pure Outlet != null )
+      detachobserver onOutlet, pure Outlet;
+
+    // Store the new outlet ...
+    pure Outlet = value;
+
+    // ... and attach to the new one
+    if ( value != null )
+      attachobserver onOutlet, value;
+
+    // Finally, retrieve the current state of the property associated via 'Outlet'.
+    if ( value != null )
+      postsignal onOutlet;
+  }
+
+  $rect <490,50,690,90>
+  onset SelectedItem
+  {
+    // Ensure the index of the selected item is valid
+    if ( value < 0 )
+      value = -1;
+
+    // No changes - nothing to do
+    if ( value == pure SelectedItem )
+      return;
+
+    // Remember the new item
+    pure SelectedItem = value;
+
+    // Changing the selection at the runtime forces the ComboBox to recreate
+    // its preview item.
+    if ( previewItem )
+    {
+      Remove( previewItem );
+      previewItem = null;
+    }
+
+    // Request an update
+    InvalidateViewState();
+  }
+
+  $rect <290,50,490,90>
+  onset NoOfItems
+  {
+    // Ensure the given number of items is valid
+    if ( value < 0 )
+      value = 0;
+
+    // No changes - nothing to do
+    if ( value == pure NoOfItems )
+      return;
+
+    // Remember the new number of items
+    pure NoOfItems = value;
+
+    // Changing the number of items may affect the actually selected item.
+    // Therefore recreate the preview item of the ComboBox.
+    if ( previewItem )
+    {
+      Remove( previewItem );
+      previewItem = null;
+    }
+
+    // Request an update
+    InvalidateViewState();
+  }
+
+  // The method InvalidateItems() forces the combo box to reload one or more items. \
+  // The index of the item to start the reload operation is specified in the parameter \
+  // aFirstItem. The parameter aLastItem specifies the index of the last affected \
+  // item. The first item has the index 0, the second 1, and so far. The operation \
+  // can cause the combo box to invoke the external @OnLoadItem slot method for each \
+  // affected item.
+  $rect <490,100,690,140>
+  method void InvalidateItems( arg int32 aFirstItem, arg int32 aLastItem )
+  {
+    // If there is actually a list box displayed, forward the request to its
+    // embedded vertical list.
+    if ( list )
+      list.VerticalList.InvalidateItems( aFirstItem, aLastItem );
+
+    // The request also forces the ComboBox to recreate its preview item if the
+    // invalidated items affect the actually selected item.
+    if ( previewItem && ( SelectedItem >= aFirstItem ) && ( SelectedItem <= aLastItem ))
+    {
+      Remove( previewItem );
+      previewItem = null;
+
+      // Request an update
+      InvalidateViewState();
+    }
+  }
+
+  // The variable 'View' refers to the item which is about to be loaded by the external \
+  // slot method @OnLoadItem. In this manner the slot method can directly access \
+  // and modify the item's properties.
+  $rect <290,140,490,180>
+  var Application::ComboBoxItem View;
+
+  // The property 'OnSelect' can refer to a slot method, which will receive a signal \
+  // each time the user has selected an item within the ComboBox. Thereupon the method's \
+  // logic will be executed. In the associated slot method you can evaluate @SelectedItem \
+  // to process the selection.
+  $rect <690,100,890,140>
+  property slot OnSelect = null;
+
+  // The property 'OnLoadItem' should refer to a slot method, which will be invoked \
+  // by the ComboBox in order to load an item with its corresponding content. Within \
+  // the slot method the affected item can be accessed via variable @View.
+  $rect <290,100,490,140>
+  property slot OnLoadItem = null;
+
+  // The property 'Outlet' can refer to any other 'int32' property the widget should \
+  // remain synchronized with. When the user selects an item, the affected property \
+  // is automatically updated to reflect the item's number. On the other hand, when \
+  // the referred property is modified by another one, the ComboBox is automatically \
+  // notified to remain in sync with the property.
+  // This approach follows the Model-View-Controller (MVC) programming paradigm. \
+  // Here the ComboBox represents the 'View' and 'Controller' and the property referred \
+  // via 'Outlet' can be seen as a part of the 'Model'.
+  $rect <690,10,890,50>
+  property ^int32 Outlet = null;
+
+  // The property 'SelectedItem' stores the index of the currently selected item \
+  // or -1 if no item is selected. The first item has the index 0, the second 1, \
+  // and so far.
+  $rect <490,10,690,50>
+  property int32 SelectedItem = -1;
+
+  // The property 'NoOfItems' stores how many items are currently managed within \
+  // the ComboBox. This value should correspond to the number of options the ComboBox \
+  // offers to the user.
+  $rect <290,10,490,50>
+  property int32 NoOfItems = 0;
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background2
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <210,0,260,35>;
+    preset Color = Res::White;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Bounds
+  $member UpdateViewState
+  $member Note7
+  $member Note6
+  $member Note5
+  $member Note4
+  $member Note3
+  $member Note2
+  $member Note1
+  $member effect
+  $member list
+  $member previewItem
+  $member opened
+  $member pressed
+  $member selected
+  $member enabled
+  $member FlashTimer
+  $member KeyHandler
+  $member onEndFadeOutEffect
+  $member onEndFadeInEffect
+  $member onCloseList
+  $member onSelectItem
+  $member onLoadItem
+  $member onShowList
+  $member onOutlet
+  $member onFlashTimer
+  $member onPressKey
+  $member onEnterLeaveTouch
+  $member onReleaseTouch
+  $member OnSetOutlet
+  $member OnSetSelectedItem
+  $member OnSetNoOfItems
+  $member InvalidateItems
+  $member View
+  $member OnSelect
+  $member OnLoadItem
+  $member Outlet
+  $member SelectedItem
+  $member NoOfItems
+  $member Background1
+  $member TouchHandler
+  $member Background2
+  $member Image
+}
+
+// Settings
+
+note group Note3
+{
+  attr Bounds = <440,570,920,910>;
 }

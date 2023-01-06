@@ -539,6 +539,7 @@ class ButtonBase70x90 : Templates::PushButton
   {
     preset Bounds = <0,70,70,91>;
     preset AutoSize = true;
+    preset WrapText = true;
     preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
     preset String = "";
     preset Font = Res::ContactFontBold15;
@@ -909,22 +910,14 @@ class TextButton : Templates::PushButton
   $rect <710,190,910,230>
   inherited method UpdateViewState()
   {
-    // Always invoke the inherited method.
     super( aState );
 
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
     var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
     var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
     var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
                             FlashTimer.Enabled;
 
 
-    // Update the parameters of the text view (label)
     if ( TextTxt != null )
     {
       var color clr = TextColor; 
@@ -950,17 +943,10 @@ class TextButton : Templates::PushButton
       Background.Color = BackgoundColor;
       }
 
-    // Enabled but not pressed nor selected.
     else
     {
       Background.Color = BackgoundColor;
     }
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
 
     enabled  = isEnabled;
     selected = isSelected;
@@ -1147,7 +1133,7 @@ class TextButton : Templates::PushButton
   // can modify the alignment of the label as well as its margins by specifying them \
   // in the configuration object.
   $rect <280,0,480,40>
-  property string Text = "";
+  property string Text = "Text";
 
   $rect <710,350,910,390>
   var Views::Text textView;
@@ -1260,9 +1246,11 @@ class TextButton : Templates::PushButton
   $rect <20,20,160,60>
   object Views::Text TextTxt
   {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
-    preset Bounds = <0,0,66,25>;
-    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset Layout = Core::Layout[AlignToLeft];
+    preset Bounds = <0,3,66,21>;
+    preset Ellipsis = true;
+    preset WrapText = true;
+    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
     preset String = "";
     preset Font = Res::IconsFont25;
     preset Color = #FFFFFFFF;
