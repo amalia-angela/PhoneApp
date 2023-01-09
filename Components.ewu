@@ -322,7 +322,7 @@ class ButtonBase70x90 : Templates::PushButton
   }
 
   $rect <450,90,650,130>
-  property color IconColor = Res::White;
+  property color IconColor = Res::WhiteComponents;
 
   $rect <450,130,650,170>
   onset IconColor
@@ -505,7 +505,7 @@ class ButtonBase70x90 : Templates::PushButton
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,0,70,70>;
-    preset Color = #FFFFFFFF;
+    preset Color = Res::WhiteComponents;
   }
 
   $rect <20,20,160,60>
@@ -824,7 +824,7 @@ class Button265x470 : Templates::PushButton
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,0,258,33>;
-    preset Color = #FFFFFFFF;
+    preset Color = Res::WhiteComponents;
   }
 
   $rect <20,20,160,60>
@@ -2454,6 +2454,8 @@ class Button40x55 : Components::ButtonBase70x90
   inherited object DescripTxt
   {
     preset Bounds = <0,40,92,55>;
+    preset Ellipsis = true;
+    preset WrapText = false;
   }
 }
 
@@ -4337,7 +4339,7 @@ class InputBtnEtxt : Templates::TextEditor
   {
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,0, 268, 32>;
-    preset Color = #F0F0F0FD;
+    preset Color = Res::WhiteBackgound;
     preset Bitmap = Res::SearchButton;
   }
 

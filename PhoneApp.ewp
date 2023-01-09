@@ -1,4 +1,4 @@
-﻿$version 11.00
+﻿$version 12.00
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
 $rect <780,60,980,100>
@@ -74,7 +74,7 @@ note group Note5
 // This is a profile member for the project. This profile controls the code generation \
 // for the target system.
 $rect <280,60,480,100>
-profile Profile : Tara.Win32.RGBA8888
+profile Profile : Windows.Software.RGBA8888
 {
   attr Verbose = false;
   attr ScreenSize = <272,480>;
@@ -83,6 +83,7 @@ profile Profile : Tara.Win32.RGBA8888
   attr CleanOutputDirectories = false;
   attr FontConversion = Windows;
   attr OutputFileNameExtension = c;
+  attr ScreenOrientation = Normal;
 
   $rect <10,10,170,50>
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
@@ -106,7 +107,7 @@ unit Res
 // This is a profile member for the project. This profile controls the code generation \
 // for the target system.
 $rect <280,100,480,140>
-profile Simulation : Tara.WebGL.RGBA8888
+profile Simulation : Web.WebGL.RGBA8888
 {
   attr Verbose = false;
   attr ScreenSize = <315,630>;
@@ -149,4 +150,18 @@ $rect <30,100,230,140>
 unit Device
 {
   attr Directory = .\;
+}
+
+$rect <530,240,730,280>
+style DarkMode;
+
+$rect <530,290,730,330>
+style LightMode;
+
+// Styles
+// 
+
+note group Note4
+{
+  attr Bounds = <510,190,750,360>;
 }

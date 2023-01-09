@@ -5,7 +5,7 @@ $output false
 const string MissedTxt =
 (
   Default = "Missed Call";
-  Magyar = "Nem fogadott hivas";
+  Magyar = "Nem fogadott hívas";
 );
 
 $rect <20,150,220,190>
@@ -13,7 +13,7 @@ $output false
 const string IncomingTxt =
 (
   Default = "Incoming Call";
-  Magyar = "Bejovo hivas";
+  Magyar = "Bejovo hívas";
 );
 
 $rect <20,110,220,150>
@@ -21,7 +21,7 @@ $output false
 const string CancelledTxt =
 (
   Default = "Cancelled Call";
-  Magyar = "Megszakitott hivas";
+  Magyar = "Megszakitott hívas";
 );
 
 $rect <20,70,220,110>
@@ -29,7 +29,7 @@ $output false
 const string RejectedTxt =
 (
   Default = "Rejected Call";
-  Magyar = "Megszakitott hivas";
+  Magyar = "Megszakitott hívas";
 );
 
 $rect <20,190,220,230>
@@ -37,7 +37,7 @@ $output false
 const string OutgoingTxt =
 (
   Default = "Outgoing Call";
-  Magyar = "Kimeno hivas";
+  Magyar = "Kimeno hívas";
 );
 
 $rect <20,250,220,290>
@@ -149,7 +149,7 @@ $output false
 const string callTxt =
 (
   Default = "call";
-  Magyar = "hivás";
+  Magyar = "hívás";
 );
 
 $rect <640,160,840,200>
@@ -172,8 +172,8 @@ $rect <430,160,630,200>
 $output false
 const string deleteTxt =
 (
-  Default = "Delete";
-  Magyar = "Törlés";
+  Default = "Delete ";
+  Magyar = "Törlés ";
 );
 
 $rect <20,310,220,350>
@@ -189,7 +189,7 @@ $output false
 const string declineTxt =
 (
   Default = "Decline";
-  Magyar = "Elutasit";
+  Magyar = "Elutasít";
 );
 
 $rect <20,400,220,440>
@@ -197,7 +197,7 @@ $output false
 const string muteTxt =
 (
   Default = "mute";
-  Magyar = "némitás";
+  Magyar = "némítás";
 );
 
 $rect <20,480,220,520>
@@ -229,7 +229,7 @@ $output false
 const string addcallTxt =
 (
   Default = "add call";
-  Magyar = "hivás hozzáadás";
+  Magyar = "hívás hozzáadás";
 );
 
 $rect <20,600,220,640>
@@ -237,7 +237,7 @@ $output false
 const string videocallTxt =
 (
   Default = "VideoCall";
-  Magyar = "VideóHivás";
+  Magyar = "VideóHívás";
 );
 
 $rect <260,250,460,290>
@@ -269,7 +269,7 @@ $output false
 const string SettingsTxt =
 (
   Default = "Settings";
-  Magyar = "Beállitások";
+  Magyar = "Beállítások";
 );
 
 $rect <260,350,460,390>
@@ -325,10 +325,10 @@ $output false
 const string CallingTxt =
 (
   Default = "calling...";
-  Magyar = "hivás...";
+  Magyar = "hívás...";
 );
 
-$rect <690,310,890,350>
+$rect <480,530,680,570>
 $output false
 const string LanguageTxt =
 (
@@ -336,18 +336,42 @@ const string LanguageTxt =
   Magyar = "Nyelv";
 );
 
-$rect <690,360,890,400>
+$rect <480,490,680,530>
 $output false
-const string Hungarian =
+const string HungarianTxt =
 (
   Default = "Hungarian";
   Magyar = "Magyar";
 );
 
-$rect <690,410,890,450>
+$rect <480,450,680,490>
 $output false
-const string Englisg =
+const string EnglishTxt =
 (
   Default = "English";
   Magyar = "Angol";
+);
+
+$rect <260,450,460,490>
+$output false
+const string DarkModeTxt =
+(
+  Default = "Dark mode";
+  Magyar = "Sötét mód";
+);
+
+$rect <260,490,460,530>
+$output false
+const string LightModeTxt =
+(
+  Default = "Light mode";
+  Magyar = "Világos mód";
+);
+
+$rect <260,530,460,570>
+$output false
+const string StylesTxt =
+(
+  Default = "Styles";
+  Magyar = "Stílus";
 );
