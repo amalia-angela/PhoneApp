@@ -107,7 +107,7 @@ unit Res
 // This is a profile member for the project. This profile controls the code generation \
 // for the target system.
 $rect <280,100,480,140>
-profile Simulation : Web.WebGL.RGBA8888
+profile WebGlLocalhost : Web.WebGL.RGBA8888
 {
   attr Verbose = false;
   attr ScreenSize = <315,630>;
@@ -119,10 +119,10 @@ profile Simulation : Web.WebGL.RGBA8888
   attr OutputDirectory = C:\xampp\htdocs\test;
 
   $rect <10,10,170,50>
-  macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
+  macro SimulateData = true;
 
   $rect <10,50,170,90>
-  macro SimulateData = true;
+  macro RestApiUrl = "http://localhost/php-files/phoneServer/";
 }
 
 $rect <780,300,980,340>
@@ -155,13 +155,33 @@ unit Device
 $rect <530,240,730,280>
 style DarkMode;
 
-$rect <530,290,730,330>
+$rect <530,280,730,320>
 style LightMode;
 
 // Styles
-// 
 
 note group Note4
 {
   attr Bounds = <510,190,750,360>;
+}
+
+// This is a profile member for the project. This profile controls the code generation \
+// for the target system.
+$rect <280,140,480,180>
+profile WebGlMindware : Web.WebGL.RGBA8888
+{
+  attr Verbose = false;
+  attr ScreenSize = <315,630>;
+  attr Optimization = High;
+  attr ApplicationClass = Application::Application;
+  attr CleanOutputDirectories = false;
+  attr FontConversion = Windows;
+  attr Obfuscation = false;
+  attr OutputDirectory = C:\xampp\htdocs\test;
+
+  $rect <10,10,170,50>
+  macro SimulateData = true;
+
+  $rect <10,50,170,90>
+  macro RestApiUrl = "https://mindware-solutions.com/phoneapp/php-files/phoneServer/";
 }

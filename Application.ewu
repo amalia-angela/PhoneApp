@@ -122,6 +122,7 @@ class ContactsPage : Core::Group
   slot onUpPress
   {
     Device::Device.Contacts.Sorting = Device::Sorting.Ascending;
+    postsignal onListItemsUpdate;
 
 
   }
@@ -130,6 +131,7 @@ class ContactsPage : Core::Group
   slot onDownPress
   {
     Device::Device.Contacts.Sorting = Device::Sorting.Descending;
+    postsignal onListItemsUpdate;
 
   }
 
@@ -388,17 +390,10 @@ class ContactItem : Core::Group
     // Always invoke the inherited method.
     super( aState );
 
-    // Determine the new state of the push button.
-    //
-    // isEnabled  --> the button can react to user inputs.
-    // isSelected --> the button can receive keyboard events.
-    // isPressed  --> the button should appear pressed.
-    //
     var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
     var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
     var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
                             FlashTimer.Enabled;
-
 
     if ( !isEnabled )
     {
@@ -406,6 +401,7 @@ class ContactItem : Core::Group
       LastNameTxt.Color = Res::Grey;
       FirstNameTxt.Color = Res::Grey;
       MeTxt.Color = Res::Transparent;
+      MeTxt.String = MeText;
     }
 
     else if ( isPressed )
@@ -424,16 +420,10 @@ class ContactItem : Core::Group
       Background.Color = ButtonColor;
       LastNameTxt.Color = TextColor;
       FirstNameTxt.Color = TextColor;
+      MeTxt.String = MeText;
       MeTxt.Color = Res::Transparent;
     }
 
-
-
-
-    // Remember the current state. Next time when the UpdateViewState() is called
-    // you can compare the 'old' state with the 'new' state and perform more
-    // sophisticated update, e.g. you can start an animation effect for the
-    // pressed <<-->> not pressed transition.  
 
     enabled  = isEnabled;
     selected = isSelected;
@@ -489,6 +479,8 @@ class ContactItem : Core::Group
       if ( pure Contact.ID == Device::Device.MyContact.ID ){
         MeTxt.Color = Res::Grey;
         }
+      else
+        MeText = "";
       }
     }
   }
@@ -532,17 +524,17 @@ class ContactItem : Core::Group
   property string Icon;
 
   $rect <790,0,990,40>
-  property string Text = "";
+  property string MeText = Strings::meTxt;
 
   $rect <790,40,990,80>
-  onset Text
+  onset MeText
   {
     // The value doesn't change - nothing to do.
-    if ( pure Text == value )
+    if ( pure MeText == value )
       return;
 
     // Remember the property's new value.
-    pure Text = value;
+    pure MeText = value;
 
     // ... and trigger the component to update its actual state.
     InvalidateViewState();
@@ -809,7 +801,6 @@ class ContactItem : Core::Group
     preset Bounds = <231,10,244,22>;
     preset AutoSize = true;
     preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
-    preset String = "me";
     preset Font = Resources::DefaultFont;
     preset Color = Res::Transparent;
     preset Visible = true;
@@ -2458,7 +2449,7 @@ class PhoneApp : Core::Group
   {
     preset Point2 = <270,440>;
     preset Point1 = <0,440>;
-    preset Color = Res::Grey;
+    preset Color = Res::GreyLight;
   }
 
   $rect <300,90,500,130>
@@ -2732,7 +2723,7 @@ class ContactsInsideCall : Application::ContactsPage
 
 $rect <460,50,660,87>
 $multilingual true
-$variant Simulation
+$variant WebGlLocalhost
 vclass ApplicationSimulation : Application::Application
 {
   $rect <920,20,1120,60>
@@ -4801,7 +4792,7 @@ class MyCardItem : Core::Group
 
   }
 
-  $rect <10,500,210,540>
+  $rect <240,460,440,500>
   inherited property Bounds = <0,0,260,45>;
 
   $rect <10,100,210,140>
@@ -4818,21 +4809,29 @@ class MyCardItem : Core::Group
     if ( !isEnabled )
     {
       Background.Color = ButtonColor;
+      NameTxt.Color = TextColor;
+      PushButtonSmall1.IconColor = IconColor;
     }
 
     else if ( isPressed )
     {
       Background.Color = Res::PressColor;
+      NameTxt.Color = TextColor;
+      PushButtonSmall1.IconColor = IconColor;
     }
 
     else if ( isSelected )
     {
       Background.Color =  ButtonColor;
+      NameTxt.Color = TextColor;
+      PushButtonSmall1.IconColor = IconColor;
       }
 
     else
     {
       Background.Color = ButtonColor;
+      NameTxt.Color = TextColor;
+      PushButtonSmall1.IconColor = IconColor;
     }
 
     enabled  = isEnabled;
@@ -4854,7 +4853,7 @@ class MyCardItem : Core::Group
   property string Icon;
 
   $rect <790,0,990,40>
-  property string Text = "";
+  property string Text = Strings::MyCardTxt;
 
   $rect <790,40,990,80>
   onset Text
@@ -4964,7 +4963,7 @@ class MyCardItem : Core::Group
   // Touch screen events
   note group Note1
   {
-    attr Bounds = <0,320,220,490>;
+    attr Bounds = <0,320,220,540>;
   }
 
   // This timer object is used to flash the button when the user has tapped it very \
@@ -5097,7 +5096,7 @@ class MyCardItem : Core::Group
     }
     else
     {
-      NameTxt.String  = "";
+      NameTxt.String  = Text;
       PushButtonSmall1.Icon  =  "";
     }
   }
@@ -5162,7 +5161,7 @@ class MyCardItem : Core::Group
 // Messages
 note group Note1
 {
-  attr Bounds = <439,219,919,559>;
+  attr Bounds = <439,220,910,559>;
 }
 
 $rect <460,260,660,300>
@@ -7114,7 +7113,7 @@ class SplashScreen : Core::Group
   $rect <20,20,160,60>
   object Views::Image Image
   {
-    preset Bounds = <82,188,191,293>;
+    preset Bounds = <45,198,227,283>;
     preset Bitmap = Res::Logo;
   }
 }
@@ -7145,15 +7144,6 @@ class SettingsApp : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Application::MyCardItem MyCardItem
-  {
-    preset Bounds = <7,116,267,161>;
-    preset IconColor = Res::GreyLight;
-    preset OnActivate = onSettingsAppPressed;
-    preset TextColor = Res::Blue;
-  }
-
-  $rect <20,20,160,60>
   object Application::ComboBox Language
   {
     preset Bounds = <6,182,266,217>;
@@ -7163,7 +7153,7 @@ class SettingsApp : Core::Group
     preset NoOfItems = 2;
   }
 
-  $rect <290,190,490,230>
+  $rect <290,180,490,220>
   slot onLoadLanguage
   {
     var string name;
@@ -7180,7 +7170,7 @@ class SettingsApp : Core::Group
     Language.View.String = name;
   }
 
-  $rect <290,230,490,270>
+  $rect <280,230,480,270>
   slot onSelectLanguage
   {
     switch ( Language.SelectedItem )
@@ -7193,7 +7183,7 @@ class SettingsApp : Core::Group
     Language.InvalidateItems( 0, Language.NoOfItems );
   }
 
-  $rect <300,60,500,100>
+  $rect <280,60,480,100>
   slot onSettingsAppPressed
   {
     settingsApp = new Application::EditPage;
@@ -7212,10 +7202,10 @@ class SettingsApp : Core::Group
     PresentDialog( settingsApp, null, null, null, null, null, null, null, null, false );
   }
 
-  $rect <500,60,700,100>
+  $rect <480,60,680,100>
   var Application::EditPage settingsApp = null;
 
-  $rect <320,100,500,140>
+  $rect <300,100,480,140>
   slot onClose
   {
     DismissDialog( settingsApp, null, null, null, null, null, false );
@@ -7223,7 +7213,7 @@ class SettingsApp : Core::Group
     settingsApp = null;
   }
 
-  $rect <320,140,500,180>
+  $rect <300,140,480,180>
   slot onSave
   {
     Device::Device.MyContact = settingsApp.Contact;
@@ -7241,7 +7231,7 @@ class SettingsApp : Core::Group
     preset NoOfItems = 2;
   }
 
-  $rect <290,290,490,330>
+  $rect <280,290,480,330>
   slot onLoadStyle
   {
     var string name;
@@ -7258,7 +7248,7 @@ class SettingsApp : Core::Group
      Style.View.String = name;
   }
 
-  $rect <290,330,490,370>
+  $rect <280,330,480,370>
   slot onSelectStyle
   {
     var styles tmp = styles;
@@ -7269,10 +7259,57 @@ class SettingsApp : Core::Group
     else
       tmp = tmp + [ DarkMode ];
 
-    styles = tmp;
-
-    Style.InvalidateItems( 0, Language.NoOfItems );
+    //styles = tmp;
+    GetRoot().Styles = tmp;
   }
+
+  $rect <620,300,820,340>
+  inherited method HandleEvent()
+  {
+    var Core::StylesEvent stylesEvent = (Core::StylesEvent)aEvent;
+
+    if ( stylesEvent != null )
+    {
+      Rectangle.Color = Res::WhiteBackgound;
+      TitleTxt.Color = Res::BlackComponents;
+
+      MyCardItem.ButtonColor = Res::WhiteComponents;
+      MyCardItem.TextColor = Res::BlackComponents;
+      MyCardItem.IconColor = Res::WhiteComponents;
+
+      Language.ButtonColor = Res::WhiteComponents;
+      Style.ButtonColor = Res::WhiteComponents;
+    }
+
+    return super( aEvent );
+  }
+
+  $rect <20,20,160,60>
+  object Application::MyCardItem MyCardItem
+  {
+    preset Bounds = <6,99,266,144>;
+    preset OnActivate = onSettingsAppPressed;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member HandleEvent
+  $member Bounds
+  $member Rectangle
+  $member TitleTxt
+  $member Language
+  $member onLoadLanguage
+  $member onSelectLanguage
+  $member onSettingsAppPressed
+  $member settingsApp
+  $member onClose
+  $member onSave
+  $member Style
+  $member onLoadStyle
+  $member onSelectStyle
+  $member MyCardItem
 }
 
 // This class implements the item component for the Application::ComboBox widget. \
@@ -7555,6 +7592,7 @@ class ComboBoxItem : Templates::ListItem
     preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,0,200,40>;
     preset Color = Res::Transparent;
+    preset Visible = false;
   }
 
   $rect <20,20,160,60>
@@ -7575,6 +7613,7 @@ class ComboBoxItem : Templates::ListItem
     preset Alignment = Views::TextAlignment[AlignHorzAuto, AlignVertCenter];
     preset String = "Text";
     preset Font = Res::ContactFont15;
+    preset Color = Res::BlackComponents;
   }
 
   $rect <20,20,160,60>
@@ -7658,32 +7697,6 @@ class ComboBoxList : Templates::List
     // the list snaps at the edge of the first visible item.
     var int32 firstVisibleItem = VerticalList.GetItemAtPosition( VerticalList.Bounds.origin );
     VerticalList.EnsureVisible( firstVisibleItem, true, null, null );
-  }
-
-  // To do:
-  // 
-  // - Remove the 'Background' and 'Border' members if you want other views to be \
-  // shown instead these in your list.
-  // - According to your desired list design add and configure new views (e.g. a \
-  // bitmap frame view to show the list border being composed of images, etc.).
-  // - Arrange and resize the views so they appear correctly within the visible area \
-  // of your list.
-  // - Configure the property 'Layout' of the views. In this manner you can determine \
-  // for every view how it should move/resize when the list itself is resized.
-  // - Eventually move/resize the 'VerticalList' and the 'SlideTouchHandler' members \
-  // if you want larger/smaller borders.
-  // - Configure the property 'Filter' of the 'KeyUpHandler', 'KeyDownHandler' and \
-  // 'KeyEscapeHandler' members if you want the list to be controlled by other keys \
-  // than the 'UP', 'DOWN', 'ESCAPE' keys.
-  // - Alternatively remove all key handlers and 'onKey' slot methods if you don't \
-  // want any keyboard handling.
-  // - Adapt the method Initialize(). It calculates the size and position of the \
-  // list depending on the position  of the ComboBox.
-  // - Feel free to modify any other member in this component accordingly your needs. \
-  // Please note the member description and inline comments within methods.
-  note legend Note5
-  {
-    attr Bounds = <10,340,990,590>;
   }
 
   // Touch Handling
@@ -7963,6 +7976,7 @@ class ComboBox : Templates::ComboBox
       previewItem.Layout  = Core::Layout[ AlignToLeft, AlignToRight, AlignToTop,
                                           AlignToBottom, ResizeHorz ]; 
 
+
       // Load the item view with data corresponding to the actually selected
       // item.
       View = previewItem;
@@ -7994,43 +8008,48 @@ class ComboBox : Templates::ComboBox
 
     if ( !isEnabled )
     {
-      Background1.Color   = Res::WhiteComponents;
+      Background1.Color   = ButtonColor;
       Image.FrameNumber   = 1;
       Image.Color         = Res::Grey;
       previewItem.Opacity = 128;
+      previewItem.Text.Color = Res::BlackComponents;
     }
 
     else if ( isOpened )
     {
-      Background1.Color   = Res::WhiteComponents;
+      Background1.Color   = ButtonColor;
       Image.FrameNumber   = 0;
       Image.Color         = Res::Grey;
       previewItem.Opacity = 255;
+      previewItem.Text.Color = Res::BlackComponents;
     }
 
     else if ( isPressed )
     {
-      Background1.Color   = Res::WhiteComponents;
+      Background1.Color   = ButtonColor;
       Image.FrameNumber   = 1;
       Image.Color         = Res::PressColor;
       previewItem.Opacity = 255;
+      previewItem.Text.Color = Res::BlackComponents;
     }
 
     else if ( isSelected )
     {
-      Background1.Color   = Res::WhiteComponents;
+      Background1.Color   = ButtonColor;
       Image.FrameNumber   = 1;
       Image.Color         = Res::Grey;
       previewItem.Opacity = 255;
+      previewItem.Text.Color = Res::BlackComponents;
     }
 
     // Enabled but not pressed nor selected.
     else
     {
-      Background1.Color   = Res::WhiteComponents;
+      Background1.Color   =ButtonColor;
       Image.FrameNumber   = 1;
       Image.Color         = Res::Grey;
       previewItem.Opacity = 255;
+      previewItem.Text.Color = Res::BlackComponents;
     }
 
     enabled  = isEnabled;
@@ -8092,7 +8111,7 @@ class ComboBox : Templates::ComboBox
   // State management
   note group Note4
   {
-    attr Bounds = <700,190,920,480>;
+    attr Bounds = <700,190,920,560>;
   }
 
   // Feedback flash effect
@@ -8629,10 +8648,42 @@ class ComboBox : Templates::ComboBox
   $rect <290,10,490,50>
   property int32 NoOfItems = 0;
 
+  $rect <710,490,910,530>
+  inherited method HandleEvent()
+  {
+    var Core::StylesEvent stylesEvent = (Core::StylesEvent)aEvent;
+
+    if ( stylesEvent != null )
+    {
+      trace "style event";
+      Background1.Color = Res::WhiteBackgound;
+    }
+
+    return super( aEvent );
+  }
+
+  $rect <890,10,1090,50>
+  property color ButtonColor = Res::WhiteComponents;
+
+  $rect <890,50,1090,90>
+  onset ButtonColor
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure ButtonColor == value )
+      return;
+
+    // Remember the property's new value.
+    pure ButtonColor = value;
+
+    // ... and trigger the component to update its actual state.
+    InvalidateViewState();
+  }
+
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
   // and the expected order of the members don't depend. Merging of changes in the 
   // project files is simplified.
+  $member HandleEvent
   $member Bounds
   $member UpdateViewState
   $member Note7
@@ -8675,6 +8726,8 @@ class ComboBox : Templates::ComboBox
   $member Background1
   $member TouchHandler
   $member Image
+  $member ButtonColor
+  $member OnSetButtonColor
 }
 
 // Settings

@@ -1249,7 +1249,7 @@ class TextButton : Templates::PushButton
     preset Layout = Core::Layout[AlignToLeft];
     preset Bounds = <0,3,66,21>;
     preset Ellipsis = true;
-    preset WrapText = true;
+    preset WrapText = false;
     preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
     preset String = "";
     preset Font = Res::IconsFont25;

@@ -138,7 +138,7 @@ resource Resources::Font TitileFont32
   attr fontheight Height = 32;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0x20-0xFF;
+  attr fontranges Ranges = 0x20-0xFF, 0x151;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -352,7 +352,7 @@ resource Resources::Font ContactFont12
   attr fontheight Height = 12;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0x20-0xFF;
+  attr fontranges Ranges = 0x20-0xFF, 0x151;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -712,7 +712,7 @@ $rect <210,190,410,230>
 $output false
 resource Resources::Bitmap Logo
 {
-  attr bitmapfile FileName = .\Res\Logo.jpeg;
+  attr bitmapfile FileName = .\Res\logoandtext.png;
   attr bitmapdithering Dithering = Auto;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -809,6 +809,7 @@ $rect <220,760,420,800>
 vconst White2 : Res::White = #FBFBFBFF;
 
 $rect <10,800,210,840>
+$variant DarkMode
 vconst WhiteBackgound1 : Res::WhiteBackgound =
 (
   Default = #222222FF;

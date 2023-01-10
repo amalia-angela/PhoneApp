@@ -1848,7 +1848,7 @@ class PhoneServerClass : Templates::DeviceClass
   }
 
   $rect <40,140,240,180>
-  var string URLpath = "http://localhost/php-files/contacts/";
+  var string URLpath = $RestApiUrl;
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
