@@ -1,3 +1,4 @@
+![GitHub watchers](https://img.shields.io/github/watchers/amalia-angela/PhoneApp?style=plastic)
 # PhoneApp
 
 ## Description
