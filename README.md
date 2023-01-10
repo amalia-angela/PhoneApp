@@ -1,4 +1,4 @@
-![GitHub watchers](https://img.shields.io/github/watchers/amalia-angela/PhoneApp?style=plastic)
+![GitHub watchers](https://img.shields.io/github/watchers/amalia-angela/PhoneApp?style=plastic) ![GitHub all releases](https://img.shields.io/github/downloads/amalia-angela/PhoneApp/total?style=plastic)
 # PhoneApp
 
 ## Description
