@@ -1,6 +1,12 @@
 # PhoneApp
 
-Description here... 
+## Description
+
+PhoneApp is an application developed in Embedded Wizard. It is a phone that has three applications: phone, messages and settings. 
+- The phone application allows users to engage into phone conversations, to add contacts to the device, add them to favorites, format a number using the keyboard and a page that shows the user's call history.
+- The Messages application allows the user to chat with other users from their contact list.
+- The settings application allows the device owner to set its card id (phone number), set the language and the  theme of the device.
+
 ## Demo
 A demo video kerul ide beiilesztesre
 
