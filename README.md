@@ -1,7 +1,7 @@
 # PhoneApp
 
 ![GitHub watchers](https://img.shields.io/github/watchers/amalia-angela/PhoneApp?color=green) ![GitHub all releases](https://img.shields.io/github/downloads/amalia-angela/PhoneApp/total?style=plastic) ![GitHub Repo stars](https://img.shields.io/github/stars/amalia-angela/PhoneApp) ![GitHub forks](https://img.shields.io/github/forks/amalia-angela/PhoneApp) ![GitHub contributors](https://img.shields.io/github/contributors/amalia-angela/PhoneApp?color=purple)
-![GitHub last commit](https://img.shields.io/github/last-commit/amalia-angela/PhoneApp?color=%23ffff0f) 
+![GitHub last commit](https://img.shields.io/github/last-commit/amalia-angela/PhoneApp?color=%23ffff0f)
 ![GitHub repo file count](https://img.shields.io/github/directory-file-count/amalia-angela/PhoneApp?color=pink) 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/amalia-angela/PhoneApp?color=aqua)
 
