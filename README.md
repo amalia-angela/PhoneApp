@@ -13,7 +13,7 @@ PhoneApp is an application developed in Embedded Wizard. It is a phone graphical
 - The settings application allows the device owner to set its card id (phone number), set the language and the  theme of the device.
 
 ## Demo
-A demo video kerul ide beiilesztesre
+A demo video kerul ide beiilesztesre....
 
 ## Installation
 
@@ -21,13 +21,11 @@ Go to [Embedded Wizard](https://www.embedded-wizard.de/) official page and downl
 
 
 ## Usage
-- Get the code:
+1. Get the code:
 ```
 git clone https://github.com/amalia-angela/PhoneApp.git
 ```
-
-
-- Open Embedded Wizard, go to *Project -> Open -> PhoneApp\PhoneApp* and start prototyper (▷) or press Ctrl+F5.
+2. Open Embedded Wizard, go to *Project -> Open -> PhoneApp\PhoneApp* and start prototyper (▷) or press Ctrl+F5.
 
 The application WebGL form runs using a server. In this case before going any further, go to the next [repository](https://github.com/amalia-angela/PhpServer) and follow the instructions written in the [README.md](https://github.com/amalia-angela/PhpServer/blob/main/README.md). 
 
@@ -46,7 +44,9 @@ EmWiApp.Application.Application.SetMyNumber(+value);
 </SCRIPT>
 ```
 3. Open a web browser and type [http://localhost/phoneapp/?myID=2](http://localhost/phoneapp/?myID=2). You can also give other values ​​to the myID parameter.
-4. Test the applicaton 😀.
+4. Test the application 😀.
+
+❗ If you have any difficulties understanding the code, the [documentation](https://doc.embedded-wizard.de/) will help.
 
 
 ## Future development
