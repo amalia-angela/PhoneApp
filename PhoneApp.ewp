@@ -116,7 +116,7 @@ profile WebGlLocalhost : Web.WebGL.RGBA8888
   attr CleanOutputDirectories = false;
   attr FontConversion = Windows;
   attr Obfuscation = false;
-  attr OutputDirectory = C:\xampp\htdocs\test;
+  attr OutputDirectory = C:\xampp\htdocs\phoneapp;
 
   $rect <10,10,170,50>
   macro SimulateData = true;
@@ -159,7 +159,6 @@ $rect <530,280,730,320>
 style LightMode;
 
 // Styles
-
 note group Note4
 {
   attr Bounds = <510,190,750,360>;

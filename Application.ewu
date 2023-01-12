@@ -288,6 +288,7 @@ class ContactsPage : Core::Group
   object Application::MyCardItem MyCardItem
   {
     preset Bounds = <6,99,266,144>;
+    preset Text = "";
     preset OnActivate = onMyCardPress;
   }
 
@@ -801,7 +802,7 @@ class ContactItem : Core::Group
     preset Bounds = <231,10,244,22>;
     preset AutoSize = true;
     preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
-    preset Font = Resources::DefaultFont;
+    preset Font = Res::ContactFont12;
     preset Color = Res::Transparent;
     preset Visible = true;
   }
@@ -1890,6 +1891,46 @@ class OngoingCall : Application::CallBase
       TimeTxt.String = Contact.GetDuration();
     }
   }
+
+  $rect <20,20,160,60>
+  inherited object TimeTxt
+  {
+    preset Bounds = <18,73,104,103>;
+    preset AutoSize = true;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Init
+  $member Bounds
+  $member onContactUpdated
+  $member DesclineButton
+  $member TimeTxt
+  $member onSpeakerPress
+  $member onMicPress
+  $member Note
+  $member onKeypadPress
+  $member onAddCallPress
+  $member onVideoCallPress
+  $member onContactsPress
+  $member ContactsBtn
+  $member VideoCallBtn
+  $member AddCallBtn
+  $member SpeakerBtn
+  $member KeyPadBtn
+  $member MuteBtn
+  $member contactsPage
+  $member onCancelContacts
+  $member onHide
+  $member Keypad
+  $member onKeypadEdit
+  $member Note2
+  $member addCall
+  $member onCancelAddCall
+  $member Stoper
+  $member upDateTalkDuration
 }
 
 $rect <240,640,410,680>
@@ -2341,6 +2382,7 @@ class KeypadPage : Core::Group
   object Components::TextButton HideBtn
   {
     preset Bounds = <39,360,101,385>;
+    preset Embedded = true;
     preset Text = Strings::HideTxt;
     preset OnActivate = onHide;
     preset TextColor = Res::BlackComponents;
@@ -2375,6 +2417,51 @@ class KeypadPage : Core::Group
     preset Backgound = Res::ButtonRoundMedium1;
     preset IconColorPressed = Res::BlackComponents;
   }
+
+  $rect <20,20,160,60>
+  object Core::Outline Outline
+  {
+    preset Bounds = <4,340,104,405>;
+    preset Formation = Core::Formation.RightToLeft;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Bounds
+  $member UpdateViewState
+  $member OnHide
+  $member onHide
+  $member BackgoundColor
+  $member OnSetBackgoundColor
+  $member inHideTextVisible
+  $member OnSetinHideTextVisible
+  $member onButtonsPress
+  $member IsCallButtonVisible
+  $member OnSetIsCallButtonVisible
+  $member onCallPress
+  $member OnEditTextChanged
+  $member Background
+  $member callbtn
+  $member btn1
+  $member btn3
+  $member btn2
+  $member btn4
+  $member btn6
+  $member btn5
+  $member btn7
+  $member btn9
+  $member btn8
+  $member btnstar
+  $member btnDiez
+  $member btn0
+  $member InputEtxt
+  $member Note4
+  $member Note
+  $member BtnErase
+  $member Outline
+  $member HideBtn
 }
 
 // This is the root component of the entire GUI application.
@@ -2586,13 +2673,14 @@ class KeypadInsideCall : Application::KeypadPage
   inherited object InputEtxt
   {
     preset Bounds = <39,32,234,64>;
-    preset Color = Res::WhiteComponents;
+    preset Color = Res::White;
   }
 
   $rect <20,20,160,60>
   inherited object HideBtn
   {
-    preset TextColor = Res::WhiteComponents;
+    preset Bounds = <59,360,104,385>;
+    preset TextColor = Res::White;
   }
 
   $rect <20,20,160,60>
@@ -2600,6 +2688,36 @@ class KeypadInsideCall : Application::KeypadPage
   {
     preset IconColor = Res::WhiteComponents;
   }
+
+  $rect <20,20,160,60>
+  inherited object Outline
+  {
+    preset Bounds = <4,362,104,403>;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Background
+  $member callbtn
+  $member BackgroundSmall
+  $member btn1
+  $member btn3
+  $member btn2
+  $member btn4
+  $member btn6
+  $member btn5
+  $member btn7
+  $member btn9
+  $member btn8
+  $member btnstar
+  $member btnDiez
+  $member btn0
+  $member InputEtxt
+  $member BtnErase
+  $member Outline
+  $member HideBtn
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
@@ -2657,7 +2775,7 @@ class ContactsInsideCall : Application::ContactsPage
   $rect <20,20,160,60>
   inherited object PlusButton
   {
-    preset Bounds = <180,15,210,45>;
+    preset Bounds = <241,12,271,42>;
   }
 
   $rect <20,20,160,60>
@@ -2669,7 +2787,8 @@ class ContactsInsideCall : Application::ContactsPage
   $rect <20,20,160,60>
   object Components::TextButton TextButton
   {
-    preset Bounds = <216,15,282,40>;
+    preset Bounds = <182,16,238,41>;
+    preset Embedded = true;
     preset Text = Strings::CancelTxt;
     preset OnActivate = onCancel;
   }
@@ -2701,6 +2820,13 @@ class ContactsInsideCall : Application::ContactsPage
 
   }
 
+  $rect <20,20,160,60>
+  object Core::Outline Outline1
+  {
+    preset Bounds = <67,15,237,46>;
+    preset Formation = Core::Formation.RightToLeft;
+  }
+
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
   // and the expected order of the members don't depend. Merging of changes in the 
@@ -2716,9 +2842,10 @@ class ContactsInsideCall : Application::ContactsPage
   $member PlusButton
   $member onContactPressed
   $member MyCardItem
-  $member TextButton
   $member OnCancel
   $member onCancel
+  $member Outline1
+  $member TextButton
 }
 
 $rect <460,50,660,87>
@@ -2988,9 +3115,10 @@ class FavoritesPage : Core::Group
   }
 
   $rect <20,20,160,60>
-  object Components::TextButton TextButton
+  object Components::TextButton EditButton
   {
-    preset Bounds = <177,12,263,37>;
+    preset Bounds = <225,15,261,38>;
+    preset Embedded = true;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -3055,7 +3183,7 @@ class FavoritesPage : Core::Group
   {
     EditMode = !EditMode;
 
-    TextButton.Text = EditMode == false ?  Strings::EditTxt : Strings::DoneTxt;
+    EditButton.Text = EditMode == false ?  Strings::EditTxt : Strings::DoneTxt;
 
     postsignal onListItemsUpdated;
   }
@@ -3071,6 +3199,46 @@ class FavoritesPage : Core::Group
     addFav = null;
 
   }
+
+  $rect <20,20,160,60>
+  object Core::Outline Outline
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <41,15,261,45>;
+    preset Formation = Core::Formation.RightToLeft;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Init
+  $member Bounds
+  $member onAddPress
+  $member addFav
+  $member OnLoadItem
+  $member onPressedContact
+  $member onClose
+  $member onListItemsUpdated
+  $member Contact
+  $member OnSetContact
+  $member Note
+  $member Background
+  $member VerticalList
+  $member SlideTouchHandler
+  $member TitleTxt1
+  $member PlusButton
+  $member detailsPage
+  $member onInfoContact
+  $member onDeleteContact
+  $member onCloseDetailsPage
+  $member Note2
+  $member Note3
+  $member EditMode
+  $member onEdit
+  $member onAdd
+  $member Outline
+  $member EditButton
 }
 
 $rect <40,550,220,590>
@@ -3236,7 +3404,8 @@ class RecentPage : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton TextButton
   {
-    preset Bounds = <164,12,261,37>;
+    preset Bounds = <225,15,261,38>;
+    preset Embedded = true;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -3396,6 +3565,43 @@ class RecentPage : Core::Group
     VerticalList.InvalidateItems ( 0, VerticalList.NoOfItems -1 );
 
   }
+
+  $rect <20,20,160,60>
+  object Core::Outline Outline
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
+    preset Bounds = <52,15,261,42>;
+    preset Formation = Core::Formation.RightToLeft;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Init
+  $member Bounds
+  $member UpdateLayout
+  $member UpdateViewState
+  $member OnLoadItem
+  $member SelectedContact
+  $member OnSetSelectedContact
+  $member EditMode
+  $member onEdit
+  $member Note
+  $member Note2
+  $member Note3
+  $member onPressedContact
+  $member detailsPage
+  $member onInfoContact
+  $member onDeleteContact
+  $member onCloseDetailsPage
+  $member onListItemsUpdated
+  $member Background
+  $member TitleTxt1
+  $member VerticalList
+  $member SlideTouchHandler
+  $member Outline
+  $member TextButton
 }
 
 $rect <239,380,409,420>
@@ -4663,9 +4869,9 @@ class CallBase : Core::Group
   $rect <20,20,160,60>
   object Views::Text TimeTxt
   {
-    preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <18,73,73,103>;
-    preset Alignment = Views::TextAlignment[AlignHorzCenter, AlignVertCenter];
+    preset Bounds = <18,73,99,103>;
+    preset Padding = 5;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
     preset String = Strings::CallingTxt;
     preset Font = Res::ContactFont12;
     preset Color = Res::White;
@@ -4764,7 +4970,8 @@ class ContactsAppInsideCall : Application::PhoneApp
   $rect <20,20,160,60>
   object Components::TextButton TextButton
   {
-    preset Bounds = <170,14,236,39>;
+    preset Bounds = <182,16,238,41>;
+    preset Embedded = true;
     preset Text = Strings::CancelTxt;
     preset OnActivate = onCancel;
   }
@@ -4777,6 +4984,28 @@ class ContactsAppInsideCall : Application::PhoneApp
   {
     postsignal OnCancel;
   }
+
+  $rect <20,20,160,60>
+  object Core::Outline Outline1
+  {
+    preset Bounds = <67,14,237,45>;
+    preset Formation = Core::Formation.RightToLeft;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Bounds
+  $member Rectangle
+  $member NavBarButtons
+  $member NavBarButtons1
+  $member NavBarButtons2
+  $member NavBarButtons3
+  $member OnCancel
+  $member onCancel
+  $member Outline1
+  $member TextButton
 }
 
 $rect <70,380,219,420>
@@ -5129,7 +5358,6 @@ class MyCardItem : Core::Group
   {
     preset Bounds = <59,2,255,32>;
     preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
-    preset String = Strings::MyCardTxt;
     preset Font = Res::ContactFontBold15;
     preset Color = Res::BlackComponents;
   }
@@ -5378,7 +5606,8 @@ class MessagesApp : Core::Group
   object Components::TextButton editBtn
   {
     preset Layout = Core::Layout[AlignToLeft, AlignToTop];
-    preset Bounds = <11,0,73,40>;
+    preset Bounds = <11,8,47,28>;
+    preset Embedded = true;
     preset Text = Strings::EditTxt;
     preset OnActivate = onEdit;
   }
@@ -5386,7 +5615,8 @@ class MessagesApp : Core::Group
   $rect <20,20,160,60>
   object Components::TextButton deleteBtn
   {
-    preset Bounds = <73,8,124,33>;
+    preset Bounds = <47,8,104,28>;
+    preset Embedded = true;
     preset Visible = false;
     preset Text = Strings::deleteTxt;
     preset OnActivate = onDelete;
@@ -5465,6 +5695,51 @@ class MessagesApp : Core::Group
   {
     attr Bounds = <289,189,709,489>;
   }
+
+  $rect <20,20,160,60>
+  object Core::Outline Outline
+  {
+    preset Bounds = <11,8,227,40>;
+    preset Space = 3;
+    preset Formation = Core::Formation.LeftToRight;
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Init
+  $member Bounds
+  $member OnLoadItem
+  $member EditMode
+  $member onEdit
+  $member onAddChat
+  $member addNewChat
+  $member onCloseAdd
+  $member onAdd
+  $member Note
+  $member Note2
+  $member chat
+  $member onBack
+  $member onSelectedChats
+  $member onDelete
+  $member onUpdateList
+  $member onSearch
+  $member onCancelSearch
+  $member Note3
+  $member onOpenChat
+  $member Note4
+  $member Rectangle
+  $member VerticalList
+  $member SearchExt
+  $member TitleTxt
+  $member createBtn
+  $member SelectedContacts
+  $member SlideTouchHandler
+  $member ContactsInsideSearch
+  $member Outline
+  $member editBtn
+  $member deleteBtn
 }
 
 $rect <480,306,660,346>
@@ -6276,11 +6551,11 @@ class ChatPage : Core::Group
     preset Bounds = <90,5,182,60>;
     preset OnActivate = onUser;
     preset Descript = "name";
-    preset DescriptColor = Res::White;
-    preset IconColor = Res::White;
+    preset DescriptColor = Res::BlackComponents;
+    preset IconColor = Res::WhiteComponents;
     preset Backgound = Res::ButtonRoundMedium;
-    preset DescriptColorPressed = Res::White;
-    preset IconColorPressed = Res::White;
+    preset DescriptColorPressed = Res::Grey;
+    preset IconColorPressed = Res::Grey;
   }
 
   $rect <300,90,500,130>
@@ -7288,6 +7563,7 @@ class SettingsApp : Core::Group
   object Application::MyCardItem MyCardItem
   {
     preset Bounds = <6,99,266,144>;
+    preset Text = "";
     preset OnActivate = onSettingsAppPressed;
   }
 
@@ -8655,7 +8931,6 @@ class ComboBox : Templates::ComboBox
 
     if ( stylesEvent != null )
     {
-      trace "style event";
       Background1.Color = Res::WhiteBackgound;
     }
 

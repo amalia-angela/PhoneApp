@@ -154,7 +154,7 @@ resource Resources::Font ContactFont15
   attr fontheight Height = 15;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0x20-0xFF;
+  attr fontranges Ranges = 0x20-0xFF,0xE9;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;
@@ -170,7 +170,7 @@ resource Resources::Font ContactFontBold15
   attr fontheight Height = 15;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0x20-0xFF;
+  attr fontranges Ranges = 0x20-0xFF,0xE9;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = true;
   attr fontitalic Italic = false;
@@ -352,7 +352,7 @@ resource Resources::Font ContactFont12
   attr fontheight Height = 12;
   attr fontheightmode HeightMode = Popular;
   attr fontquality Quality = High;
-  attr fontranges Ranges = 0x20-0xFF, 0x151;
+  attr fontranges Ranges = 0x20-0xFF, 0x151, 0xE9;
   attr fontaspectratio AspectRatio = 1.0;
   attr fontbold Bold = false;
   attr fontitalic Italic = false;

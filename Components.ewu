@@ -1075,6 +1075,7 @@ class TextButton : Templates::PushButton
   {
     // Did the user moved the finger outside the button's area? In such case
     // the button is not activated.
+    trace "here";
     if ( !TouchHandler.Inside )
       return;
 
@@ -1222,7 +1223,7 @@ class TextButton : Templates::PushButton
   $rect <20,20,160,60>
   object Views::Rectangle Background
   {
-    preset Layout = Core::Layout[ResizeHorz, ResizeVert];
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,-4,66,28>;
     preset Color = #FFFFFF00;
   }
@@ -1230,7 +1231,7 @@ class TextButton : Templates::PushButton
   $rect <20,20,160,60>
   object Core::SimpleTouchHandler TouchHandler
   {
-    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset StackingPriority = 3;
     preset Point4 = <0,25>;
     preset Point3 = <66,25>;
     preset Point2 = <66,0>;
@@ -1246,117 +1247,195 @@ class TextButton : Templates::PushButton
   $rect <20,20,160,60>
   object Views::Text TextTxt
   {
-    preset Layout = Core::Layout[AlignToLeft];
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
     preset Bounds = <0,3,66,21>;
+    preset Padding = 5;
     preset Ellipsis = true;
+    preset OnUpdate = onTextUpdate;
+    preset AutoSize = true;
     preset WrapText = false;
-    preset Alignment = Views::TextAlignment[AlignHorzRight, AlignVertCenter];
+    preset Alignment = Views::TextAlignment[AlignHorzRight];
     preset String = "";
     preset Font = Res::IconsFont25;
-    preset Color = #FFFFFFFF;
   }
+
+  $rect <1080,0,1280,40>
+  property int32 Property;
+
+  $rect <1080,40,1280,80>
+  onset Property
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Property == value )
+      return;
+
+    // Remember the property's new value.
+    pure Property = value;
+
+    // TO DO:
+    // 
+    // Now you can handle the alternation of the property.
+  }
+
+  $rect <280,80,480,120>
+  slot onTextUpdate
+  {
+    Bounds.w = TextTxt.Bounds.w;
+
+    TouchHandler.Point1 = point(Bounds.orect.x1, Bounds.orect.y1);
+    TouchHandler.Point2 = point(Bounds.orect.x2, Bounds.orect.y1);
+    TouchHandler.Point3 = point(Bounds.orect.x2, Bounds.orect.y2);
+    TouchHandler.Point4 = point(Bounds.orect.x1, Bounds.orect.y2);
+
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member UpdateLayout
+  $member UpdateViewState
+  $member Note4
+  $member Note3
+  $member Note2
+  $member Note1
+  $member pressed
+  $member selected
+  $member enabled
+  $member FlashTimer
+  $member KeyHandler
+  $member onFlashTimer
+  $member onPressKey
+  $member onEnterLeaveTouch
+  $member onReleaseTouch
+  $member onPressTouch
+  $member OnSetText
+  $member Text
+  $member textView
+  $member OnActivate
+  $member OnSetTextColor
+  $member TextColor
+  $member OnSetTextColorPress
+  $member TextColorPress
+  $member OnSetBackgoundColor
+  $member BackgoundColor
+  $member Property
+  $member OnSetProperty
+  $member onTextUpdate
+  $member Bounds
+  $member Background
+  $member TextTxt
+  $member TouchHandler
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
   // classes. The numbers indicate the order-displacement to apply on the respective 
   // member once all members have been loaded and combined with members from the 
   // ancestor classes.
-  $reorder Bounds 1
-  $reorder first 1
-  $reorder last 1
-  $reorder keyHandlers 1
-  $reorder buffer 1
-  $reorder dialogStack 1
-  $reorder fadersQueue 1
-  $reorder pendingFader 1
-  $reorder processKeyHandlers 1
-  $reorder updateBufferSlot 1
-  $reorder drawContent 1
-  $reorder recalculateLayout 1
-  $reorder updateComponent 1
-  $reorder OnSetFocus 1
-  $reorder OnGetBuffered 1
-  $reorder OnSetBuffered 1
-  $reorder OnGetEnabled 1
-  $reorder OnSetEnabled 1
-  $reorder OnSetOpacity 1
-  $reorder OnGetEmbedded 1
-  $reorder OnSetEmbedded 1
-  $reorder OnGetAlphaBlended 1
-  $reorder OnSetAlphaBlended 1
-  $reorder OnGetVisible 1
-  $reorder OnSetVisible 1
-  $reorder DrawForeground 1
-  $reorder DrawBackground 1
-  $reorder GetMinimalSize 1
-  $reorder FindActiveDialogByClass 1
-  $reorder FindDialogByClass 1
-  $reorder FindCurrentDialog 1
-  $reorder IsCurrentDialog 1
-  $reorder IsActiveDialog 1
-  $reorder IsDialog 1
-  $reorder GetIndexOfDialog 1
-  $reorder GetDialogAtIndex 1
-  $reorder CountDialogs 1
-  $reorder SwitchToDialog 1
-  $reorder DismissDialog 1
-  $reorder PresentDialog 1
-  $reorder ObtainFocus 1
-  $reorder HasViewState 1
-  $reorder LocalPosition 1
-  $reorder GlobalPosition 1
-  $reorder DispatchEvent 1
-  $reorder BroadcastEventAtPosition 1
-  $reorder BroadcastEvent 1
-  $reorder UpdateLayout 1
-  $reorder UpdateViewState 1
-  $reorder InvalidateLayout 1
-  $reorder InvalidateViewState 1
-  $reorder InvalidateArea 1
-  $reorder GetIndexOfView 1
-  $reorder GetViewAtIndex 1
-  $reorder CountViews 1
-  $reorder FindViewInDirection 1
-  $reorder FindViewWithinArea 1
-  $reorder FindViewAtPosition 1
-  $reorder FindPrevView 1
-  $reorder FindNextView 1
-  $reorder FindSiblingView 1
-  $reorder GetContentArea 1
-  $reorder FadeGroup 1
-  $reorder RestackBehind 1
-  $reorder RestackBack 1
-  $reorder RestackTop 1
-  $reorder Restack 1
-  $reorder RemoveAll 1
-  $reorder Remove 1
-  $reorder AddBehind 1
-  $reorder Add 1
-  $reorder Focus 1
-  $reorder Buffered 1
-  $reorder Enabled 1
-  $reorder Opacity 1
-  $reorder Embedded 1
-  $reorder AlphaBlended 1
-  $reorder Visible 1
-  $reorder Note4 1
-  $reorder Note3 1
-  $reorder Note2 1
-  $reorder Note1 1
-  $reorder pressed 1
-  $reorder selected 1
-  $reorder enabled 1
-  $reorder FlashTimer 1
-  $reorder KeyHandler 1
-  $reorder onFlashTimer 1
-  $reorder onPressKey 1
-  $reorder onEnterLeaveTouch 1
-  $reorder onReleaseTouch 1
-  $reorder onPressTouch 1
-  $reorder OnSetText 1
-  $reorder Text 1
-  $reorder textView 1
-  $reorder OnActivate 1
+  $reorder first 2
+  $reorder last 2
+  $reorder keyHandlers 2
+  $reorder buffer 2
+  $reorder dialogStack 2
+  $reorder fadersQueue 2
+  $reorder pendingFader 2
+  $reorder processKeyHandlers 2
+  $reorder updateBufferSlot 2
+  $reorder drawContent 2
+  $reorder recalculateLayout 2
+  $reorder updateComponent 2
+  $reorder OnSetFocus 2
+  $reorder OnGetBuffered 2
+  $reorder OnSetBuffered 2
+  $reorder OnGetEnabled 2
+  $reorder OnSetEnabled 2
+  $reorder OnSetOpacity 2
+  $reorder OnGetEmbedded 2
+  $reorder OnSetEmbedded 2
+  $reorder OnGetAlphaBlended 2
+  $reorder OnSetAlphaBlended 2
+  $reorder OnGetVisible 2
+  $reorder OnSetVisible 2
+  $reorder DrawForeground 2
+  $reorder DrawBackground 2
+  $reorder GetMinimalSize 2
+  $reorder FindActiveDialogByClass 2
+  $reorder FindDialogByClass 2
+  $reorder FindCurrentDialog 2
+  $reorder IsCurrentDialog 2
+  $reorder IsActiveDialog 2
+  $reorder IsDialog 2
+  $reorder GetIndexOfDialog 2
+  $reorder GetDialogAtIndex 2
+  $reorder CountDialogs 2
+  $reorder SwitchToDialog 2
+  $reorder DismissDialog 2
+  $reorder PresentDialog 2
+  $reorder ObtainFocus 2
+  $reorder HasViewState 2
+  $reorder LocalPosition 2
+  $reorder GlobalPosition 2
+  $reorder DispatchEvent 2
+  $reorder BroadcastEventAtPosition 2
+  $reorder BroadcastEvent 2
+  $reorder UpdateLayout 2
+  $reorder UpdateViewState 2
+  $reorder InvalidateLayout 2
+  $reorder InvalidateViewState 2
+  $reorder InvalidateArea 2
+  $reorder GetIndexOfView 2
+  $reorder GetViewAtIndex 2
+  $reorder CountViews 2
+  $reorder FindViewInDirection 2
+  $reorder FindViewWithinArea 2
+  $reorder FindViewAtPosition 2
+  $reorder FindPrevView 2
+  $reorder FindNextView 2
+  $reorder FindSiblingView 2
+  $reorder GetContentArea 2
+  $reorder FadeGroup 2
+  $reorder RestackBehind 2
+  $reorder RestackBack 2
+  $reorder RestackTop 2
+  $reorder Restack 2
+  $reorder RemoveAll 2
+  $reorder Remove 2
+  $reorder AddBehind 2
+  $reorder Add 2
+  $reorder Focus 2
+  $reorder Buffered 2
+  $reorder Enabled 2
+  $reorder Opacity 2
+  $reorder Embedded 2
+  $reorder AlphaBlended 2
+  $reorder Visible 2
+  $reorder Note4 2
+  $reorder Note3 2
+  $reorder Note2 2
+  $reorder Note1 2
+  $reorder pressed 2
+  $reorder selected 2
+  $reorder enabled 2
+  $reorder FlashTimer 2
+  $reorder KeyHandler 2
+  $reorder onFlashTimer 2
+  $reorder onPressKey 2
+  $reorder onEnterLeaveTouch 2
+  $reorder onReleaseTouch 2
+  $reorder onPressTouch 2
+  $reorder OnSetText 2
+  $reorder Text 2
+  $reorder textView 2
+  $reorder OnActivate 2
+  $reorder OnSetTextColor 1
+  $reorder TextColor 1
+  $reorder OnSetTextColorPress 1
+  $reorder TextColorPress 1
+  $reorder OnSetBackgoundColor 1
+  $reorder BackgoundColor 1
+  $reorder Property 1
+  $reorder OnSetProperty 1
+  $reorder onTextUpdate 1
 }
 
 // This class implements a 'push button' widget. When the user presses the button, \
