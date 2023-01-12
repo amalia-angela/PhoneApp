@@ -21,6 +21,11 @@ Go to [Embedded Wizard](https://www.embedded-wizard.de/) official page and downl
 
 
 ## Usage
+- Get the code:
+```
+git clone https://github.com/amalia-angela/PhoneApp.git
+```
+
 
 - Open Embedded Wizard, go to *Project -> Open -> PhoneApp\PhoneApp* and start prototyper (▷) or press Ctrl+F5.
 
