@@ -13,7 +13,10 @@ PhoneApp is an application developed in Embedded Wizard. It is a phone graphical
 - The settings application allows the device owner to set its card id (phone number), set the language and the  theme of the device.
 
 ## Demo
-A demo video kerul ide beiilesztesre....
+
+
+https://user-images.githubusercontent.com/79534873/212681889-ba6ea038-1ded-4080-a776-4e51bb83ac3a.mov
+
 
 ## Installation
 
