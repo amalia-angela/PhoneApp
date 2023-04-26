@@ -2850,16 +2850,16 @@ class ContactsInsideCall : Application::ContactsPage
 
 $rect <460,50,660,87>
 $multilingual true
-$variant WebGlLocalhost
+$variant WebGlLocalhost, WebGlMindware
 vclass ApplicationSimulation : Application::Application
 {
   $rect <920,20,1120,60>
-  inherited property Bounds = <0,0,315,630>;
+  inherited property Bounds = <0,0,400,630>;
 
   $rect <20,20,160,60>
   object Views::Image Image
   {
-    preset Bounds = <-264,-113,576,746>;
+    preset Bounds = <-110,-31,552,661>;
     preset ColorBL = #A8A8A8FF;
     preset ColorBR = #E0E0E0FF;
     preset ColorTR = #C7C7C7FF;
@@ -2870,10 +2870,10 @@ vclass ApplicationSimulation : Application::Application
   $rect <20,20,160,60>
   object Core::SimpleTouchHandler SimpleTouchHandler
   {
-    preset Point4 = <122,556>;
-    preset Point3 = <189,556>;
-    preset Point2 = <189,612>;
-    preset Point1 = <122,612>;
+    preset Point4 = <161,610>;
+    preset Point3 = <228,610>;
+    preset Point2 = <227,548>;
+    preset Point1 = <161,548>;
     preset OnPress = onHomeBtnPressed;
   }
 
@@ -7007,7 +7007,7 @@ class Application : Core::Root
 
   }
 
-  $rect <-10,500,190,540>
+  $rect <0,500,200,540>
   inherited property Bounds = <0,0,272,480>;
 
   $rect <530,60,730,100>

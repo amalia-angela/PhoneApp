@@ -63,9 +63,9 @@ $output false
 autoobject Effects::SlideTransition SlideDownCentered
 {
   preset MarginBottom = 75;
-  preset MarginRight = 21;
+  preset MarginRight = 64;
   preset MarginTop = 75;
-  preset MarginLeft = 21;
+  preset MarginLeft = 64;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Bottom;
@@ -92,7 +92,7 @@ $output false
 autoobject Effects::SlideTransition SlideUpCentered
 {
   preset MarginBottom = 75;
-  preset MarginRight = 21;
+  preset MarginRight = 64;
   preset MarginTop = 75;
   preset MarginLeft = 0;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
@@ -124,7 +124,7 @@ autoobject Effects::SlideTransition SlideRightCentered
   preset MarginBottom = 75;
   preset MarginRight = 0;
   preset MarginTop = 75;
-  preset MarginLeft = 21;
+  preset MarginLeft = 64;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
   preset Direction = Core::Direction.Right;
@@ -449,7 +449,7 @@ $rect <880,670,1080,710>
 $output false
 autoobject Effects::FadeInOutTransition FadeInOutCentered
 {
-  preset MarginLeft = 21;
+  preset MarginLeft = 64;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
   preset Duration = 200;
 }
@@ -476,7 +476,7 @@ $output false
 autoobject Effects::SlideTransition SlideLeftCentered
 {
   preset MarginBottom = 75;
-  preset MarginRight = 21;
+  preset MarginRight = 64;
   preset MarginTop = 75;
   preset MarginLeft = 0;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
@@ -544,7 +544,7 @@ $rect <880,870,1080,910>
 $output false
 autoobject Effects::SlideTransition SlideUpCenteredLimit
 {
-  preset MarginRight = 21;
+  preset MarginRight = 64;
   preset MarginTop = 40;
   preset MarginLeft = 0;
   preset Alignment = Effects::DialogAlignment[AlignHorzLeft, AlignVertCenter];
@@ -640,7 +640,7 @@ $rect <210,50,410,90>
 $output false
 resource Resources::Bitmap iphoneCase
 {
-  attr bitmapfile FileName = .\Res\pinkIphone.png;
+  attr bitmapfile FileName = .\Res\phoneOutline.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
