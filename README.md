@@ -14,6 +14,8 @@ PhoneApp is an application developed in Embedded Wizard. It is a phone graphical
 
 ## Demo
 
+### You want to test it?
+Go to [https://mindware-solutions.com/portfolio.html](https://mindware-solutions.com/portfolio.html), Internship section and scroll down to Phone Application and press DEMO
 
 https://user-images.githubusercontent.com/79534873/212681889-ba6ea038-1ded-4080-a776-4e51bb83ac3a.mov
 
@@ -63,3 +65,5 @@ to discuss what you would like to change. Contributors are welcome to help with 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+
